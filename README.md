@@ -3,7 +3,6 @@
 * Here you can look at the slides for the ECON 4050 course at Clemson University.
 * This repo is frequently updated, so check back often.
 
-
 ## Slides
 
 | Lecture | HTML | Tasks |

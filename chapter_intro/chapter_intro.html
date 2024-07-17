@@ -3,7 +3,7 @@
   <head>
     <title>ECON 4050: Introduction to Econometrics</title>
     <meta charset="utf-8" />
-    <meta name="author" content="Adam Soliman" />
+    <meta name="author" content="Adam Soliman, PhD" />
     <script src="libs/header-attrs/header-attrs.js"></script>
     <link href="libs/remark-css/default.css" rel="stylesheet" />
     <link href="libs/countdown/countdown.css" rel="stylesheet" />
@@ -22,10 +22,10 @@ class: center, middle, inverse, title-slide
 ## Introduction to R
 ]
 .author[
-### Adam Soliman
+### Adam Soliman, PhD
 ]
 .date[
-### Clemson University | Fall 2024
+### Clemson University
 ]
 
 ---
@@ -114,7 +114,7 @@ class: title-slide-section-red, middle
 
 .pull-left[
 
-```r
+``` r
 # load gapminder package
 library(gapminder)
 # load the dataset from the gapminder package
@@ -183,7 +183,7 @@ head(gapminder_dplyr, n = 5)
 * Nothing beats a picture, though:
 
 
-```r
+``` r
 ggplot(data = gapminder_dplyr, 
        mapping = aes(x = mean_lifeexp,
                      y = mean_gdppercap,

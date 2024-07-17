@@ -1,8 +1,8 @@
 ---
 title: "ECON 4050: Introduction to Econometrics"
 subtitle: "Regression Inference"
-author: "Adam Soliman"
-date: "Clemson University | Fall 2024"
+author: "Adam Soliman, PhD"
+date: "Clemson University"
 output:
   xaringan::moon_reader:
     lib_dir: libs

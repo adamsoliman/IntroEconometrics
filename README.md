@@ -1,11 +1,11 @@
-# Econometrics Slide Host
+# Introduction to Econometrics
 
-* Here you can look at the slides for the ECON 4050 course at Clemson University.
-* This repo is frequently updated, so check back often.
+* Here you can look at the slides for ECON 4050 at Clemson University.
+* This repository is updated frequently, so check back often.
 
 ## Slides
 
-| Lecture | HTML | Tasks (Answer Keys) |
+| Lecture | HTML | Tasks |
 |---------|:----:|:----:|
 | Introduction | [HTML](https://raw.githack.com/adamsoliman/IntroEconometrics/master/chapter_intro/chapter_intro.html) |  [HTML](https://raw.githack.com/adamsoliman/IntroEconometrics/master/chapter_intro/tasks/intro_tasks.html) |
 | Simple Linear Regression | [HTML](https://raw.githack.com/adamsoliman/IntroEconometrics/master/chapter_slr/chapter_slr.html) |  [HTML](https://raw.githack.com/adamsoliman/IntroEconometrics/master/chapter_slr/tasks/slr_tasks.html) |
@@ -16,7 +16,7 @@
 | Confidence Intervals and Hypothesis Testing | [HTML](https://raw.githack.com/adamsoliman/IntroEconometrics/master/chapter_ci_hyptest/chapter_ci_hyptest.html) | 
 | Regression Inference | [HTML](https://raw.githack.com/adamsoliman/IntroEconometrics/master/chapter_reginference/reg_inference.html) |  [HTML](https://raw.githack.com/adamsoliman/IntroEconometrics/master/chapter_reginference/tasks/reginference_tasks.html) |
 | Regression Discontinuity | [HTML](https://raw.githack.com/adamsoliman/IntroEconometrics/master/chapter-RDD/RDD.html) | 
-| Instrumental Variables | [HTML](https://raw.githack.com/adamsoliman/IntroEconometrics/master/04-IV/04-IV.html) |
+| Instrumental Variables | [HTML](https://raw.githack.com/adamsoliman/IntroEconometrics/master/chapter_IV/04-IV.html) |
 | Difference-in-Differences | [HTML](https://raw.githack.com/adamsoliman/IntroEconometrics/master/chapter_did/chapter_did.html) | 
 | Panel Data | Soon |
 
@@ -24,7 +24,7 @@
 
 1. The suggested reading list can be found [here](https://github.com/adamsoliman/IntroEconometrics/blob/master/readings.md)
 
-1. Some background on R programming can be found [here](https://raw.githack.com/adamsoliman/IntroEconometrics/master/chapter_tidy_programming/chapter_tidy.html)
+1. Some details on R programming can be found [here](https://raw.githack.com/adamsoliman/IntroEconometrics/master/chapter_tidy_programming/chapter_tidy.html)
 
 ## Legal
 

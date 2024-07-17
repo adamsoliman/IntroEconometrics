@@ -8,7 +8,7 @@
 
 | Lecture | HTML | Tasks |
 |---------|:----:|:----:|
-| Introduction | [HTML](https://raw.githack.com/ScPoEcon/ScPoEconometrics-Slides/master/chapter_intro/chapter_intro.html) |  [HTML](https://raw.githack.com/ScPoEcon/ScPoEconometrics-Slides/master/chapter_intro/tasks/intro_tasks.html) |
+| Introduction | [HTML](https://github.com/adamsoliman/Econometrics-Slides/blob/master/chapter_intro/chapter_intro.html) |  [HTML](https://raw.githack.com/ScPoEcon/ScPoEconometrics-Slides/master/chapter_intro/tasks/intro_tasks.html) |
 | Simple Linear Regression | [HTML](https://raw.githack.com/ScPoEcon/ScPoEconometrics-Slides/master/chapter_slr/chapter_slr.html) |  [HTML](https://raw.githack.com/ScPoEcon/ScPoEconometrics-Slides/master/chapter_slr/tasks/slr_tasks.html) |
 | Introduction to Causality | [HTML](https://raw.githack.com/ScPoEcon/ScPoEconometrics-Slides/master/chapter_causality/chapter_causality.html) |  [HTML](https://raw.githack.com/ScPoEcon/ScPoEconometrics-Slides/master/chapter_causality/tasks/causality_tasks.html) |
 | Multiple Linear Regression | [HTML](https://raw.githack.com/ScPoEcon/ScPoEconometrics-Slides/master/chapter_mlr/chapter_mlr.html) |  [HTML](https://raw.githack.com/ScPoEcon/ScPoEconometrics-Slides/master/chapter_mlr/tasks/mlr_tasks.html) |

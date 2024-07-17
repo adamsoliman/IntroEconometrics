@@ -1,13 +1,13 @@
 ---
-title: "ScPoProgramming"
+title: "Programming"
 subtitle: "`R` Tidyverse"
-author: "Florian Oswald"
-date: "SciencesPo Paris </br> `r Sys.Date()`"
+author: "Adam Soliman"
+date: "Clemson University | Fall 2024"
 output:
   xaringan::moon_reader:
     chakra: "https://cdnjs.cloudflare.com/ajax/libs/remark/0.14.0/remark.min.js"
     lib_dir: libs
-    css: [default, "../css/scpo.css", "../css/scpo-fonts.css"]
+    css: [default, "../css/scpo-fonts.css"] #"../css/scpo.css"   
     nature:
       beforeInit: ["./ru_xaringan.js"]
       highlightStyle: github
@@ -16,12 +16,6 @@ output:
       ratio: "16:9"
     includes:
       in_header: "../libs/partials/header.html"
----
-
-layout: true
-
-<div class="my-footer"><img src="../img/logo/ScPo-shield.png" style="height: 60px;"/></div> 
-
 ---
 
 ```{r setup, include=FALSE,warning=FALSE,message=FALSE}
@@ -58,17 +52,6 @@ countdown(
 ```
 
 
-# Due Credit
-
-1. The first part of those slides were developed jointly with 
-    - [Gustave Kenedi](https://gustavekenedi.github.io/)
-    - [Mylène Feuillade](https://github.com/mylenefeuillade)
-    - [Pierre Vielledieu](https://github.com/pvielledieu)
-    
-2. The second part is copied from [Grant McDermott's](https://grantmcdermott.com/) amazing data science lectures.
-
----
-  
 # Working With Data
 
 * Economists work with `data`.
@@ -89,11 +72,6 @@ layout: false
 class: title-slide-section-red, middle
 
 # Tidying Data
-
----
-layout: true
-
-<div class="my-footer"><img src="../img/logo/ScPo-shield.png" style="height: 60px;"/></div> 
 
 ---
 
@@ -203,10 +181,6 @@ str(polls_us_election_2016)
 
 
 ---
-
-layout: true
-
-<div class="my-footer"><img src="../img/logo/ScPo-shield.png" style="height: 60px;"/></div> 
 
 # `dplyr` Verbs
 
@@ -330,10 +304,6 @@ polls_us_election_2016 %>%
 
 ---
 
-layout: true
-
-<div class="my-footer"><img src="../img/logo/ScPo-shield.png" style="height: 60px;"/></div> 
-
 # `dplyr` Verbs
 
 .left-thin[
@@ -422,9 +392,8 @@ polls_us_election_2016 %>%
 
 ---
 
-layout: true
 
-<div class="my-footer"><img src="../img/logo/ScPo-shield.png" style="height: 60px;"/></div> 
+
 
 # `dplyr` Verbs
 
@@ -504,10 +473,6 @@ polls_us_election_2016 %>%
 
 ---
 
-layout: true
-
-<div class="my-footer"><img src="../img/logo/ScPo-shield.png" style="height: 60px;"/></div> 
-
 # `dplyr` Verbs
 
 .left-thin[
@@ -568,9 +533,9 @@ polls_us_election_2016 %>%
 
 ---
 
-layout: true
 
-<div class="my-footer"><img src="../img/logo/ScPo-shield.png" style="height: 60px;"/></div> 
+
+
 
 # `dplyr` Verbs
 
@@ -691,9 +656,9 @@ polls_us_election_2016 %>%
 ]
 
 ---
-layout: true
 
-<div class="my-footer"><img src="../img/logo/ScPo-shield.png" style="height: 60px;"/></div> 
+
+
 
 # Chaining ⛓ Commands Together
 
@@ -850,14 +815,6 @@ polls_us_election_2016 %>% count()
 polls_us_election_2016$samplesize |> mean(na.rm = T)
 ```
 
-
-
----
-
-layout: true
-
-<div class="my-footer"><img src="../img/logo/ScPo-shield.png" style="height: 60px;"/></div> 
-
 ---
 
 # Missing Values: `NA`
@@ -903,8 +860,6 @@ layout: true
 
 ---
 
-class: inverse
-
 # Task 1: Data wrangling
 
 `r countdown(minutes = 10, top = 0)`
@@ -930,11 +885,6 @@ layout: false
 class: title-slide-section-red, middle
 
 # Visualising Data
-
----
-layout: true
-
-<div class="my-footer"><img src="../img/logo/ScPo-shield.png" style="height: 60px;"/></div> 
 
 ---
 
@@ -974,7 +924,7 @@ background-size: 150px
 
 ---
 
-class: inverse
+
 
 # Task 2: Understanding the data
 
@@ -1015,13 +965,8 @@ gapminder_2015 <- gapminder %>%
 ### Data
 
 ```r
-data %>%
-  ggplot()
-```
-
-or 
-
-```r
+data %>% ggplot()
+or
 ggplot(data)
 ```
 ]
@@ -1050,9 +995,9 @@ ggplot(data)
 ]
 
 ---
-layout: true
 
-<div class="my-footer"><img src="../img/logo/ScPo-shield.png" style="height: 60px;"/></div> 
+
+
 
 # gg is for Grammar of Graphics
 
@@ -1104,9 +1049,9 @@ aes(
 ]
 
 ---
-layout: true
 
-<div class="my-footer"><img src="../img/logo/ScPo-shield.png" style="height: 60px;"/></div> 
+
+
 
 # gg is for Grammar of Graphics
 
@@ -1186,10 +1131,6 @@ Just start typing `geom_` in `RStudio` to see all the options
 ]
 
 ---
-
-layout: true
-
-<div class="my-footer"><img src="../img/logo/ScPo-shield.png" style="height: 60px;"/></div> 
 
 # (Y)Our first plot!
 ---
@@ -1331,9 +1272,6 @@ g
 ]
 
 ---
-layout: true
-
-<div class="my-footer"><img src="../img/logo/ScPo-shield.png" style="height: 60px;"/></div> 
 
 # gg is for Grammar of Graphics
 
@@ -1374,10 +1312,6 @@ g + facet_grid(~ continent)
 ]
 
 ---
-layout: true
-
-<div class="my-footer"><img src="../img/logo/ScPo-shield.png" style="height: 60px;"/></div> 
-
 # gg is for Grammar of Graphics
 
 .left-thin[
@@ -1400,9 +1334,6 @@ g + labs(x = "Year", y = "Average Population", color = "Continent")
 ]
 
 ---
-layout: true
-
-<div class="my-footer"><img src="../img/logo/ScPo-shield.png" style="height: 60px;"/></div> 
 
 # gg is for Grammar of Graphics
 
@@ -1457,9 +1388,6 @@ g + scale_x_continuous(breaks = seq(1950, 2020, 10))
 ]
 
 ---
-layout: true
-
-<div class="my-footer"><img src="../img/logo/ScPo-shield.png" style="height: 60px;"/></div> 
 
 # gg is for Grammar of Graphics
 
@@ -1470,12 +1398,7 @@ layout: true
 ### Facet
 ### Labels
 ### Scales
-
----
-
-layout:true
-
-<div class="my-footer"><img src="../img/logo/ScPo-shield.png" style="height: 60px;"/></div> 
+]
 
 ---
 
@@ -1519,7 +1442,7 @@ knitr::include_graphics("chapter_tidy_files/figure-html/boxplot_explanation.png"
 
 ---
 
-class: inverse
+
 
 # Task 3: Visualising data
 
@@ -1542,11 +1465,6 @@ class: title-slide-section-red, middle
 
 ---
 
-layout: true
-
-<div class="my-footer"><img src="../img/logo/ScPo-shield.png" style="height: 60px;"/></div> 
-
----
 
 # Summarising Data
 
@@ -1767,7 +1685,7 @@ knitr::include_graphics("chapter_tidy_files/figure-html/correlation.svg")
 
 ---
 
-class: inverse
+
 
 # Task 4: Summarising data
 
@@ -1789,8 +1707,6 @@ library(ScPoApps) # this may take a while to install
 runTutorial('chapter2')
 ```
 
-
-
 ---
 
 layout: false
@@ -1799,13 +1715,6 @@ class: title-slide-section-red, middle
 # `joins`: Merging Datasets
 
 ### The remainder of those slides come from [Grant McDermott's](https://github.com/uo-ec607/lectures/) great course
-
----
-
-layout: true
-
-<div class="my-footer"><img src="../img/logo/ScPo-shield.png" style="height: 60px;"/></div>
-
 
 ---
 name: joins
@@ -1919,13 +1828,6 @@ class: title-slide-section-red, middle
 # `tidyr`: Reshaping Datasets
 
 ### By [Grant McDermott](https://github.com/uo-ec607/lectures/).
-
----
-
-layout: true
-
-<div class="my-footer"><img src="../img/logo/ScPo-shield.png" style="height: 60px;"/></div>
-
 
 
 ---
@@ -2104,7 +2006,7 @@ See `?expand` and `?complete` for more specialised functions that allow you to f
 - You'll encounter this during your next assignment.
 
 ---
-class: inverse, center, middle
+, center, middle
 name: summary
 
 # Summary
@@ -2130,25 +2032,3 @@ name: summary
 --
 
 Other useful items include: pipes (`%>%`), grouping (`group_by`), joining functions (`left_join`, `inner_join`, etc.).
----
-
-class: title-slide-final, middle
-background-image: url(../img/logo/ScPo-econ.png)
-background-size: 250px
-background-position: 9% 19%
-
-# Next Week: `data.table`
-
-
-
-
-|                                                                                                            |                                   |
-| :--------------------------------------------------------------------------------------------------------- | :-------------------------------- |
-| <a href="https://floswald.github.io/ScPoProgramming">.ScPored[<i class="fa fa-link fa-fw"></i>] | Course Website |
-| <a href="http://twitter.com/ScPoEcon">.ScPored[<i class="fa fa-twitter fa-fw"></i>]                          | @ScPoEcon                         |
-| <a href="http://github.com/floswald">.ScPored[<i class="fa fa-github fa-fw"></i>]                          | @floswald                       |
-
-```{r gen_pdf, include = FALSE, cache = FALSE, eval = FALSE}
-infile = list.files(pattern = '.html')
-pagedown::chrome_print(input = infile, timeout = 100)
-```

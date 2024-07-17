@@ -16,11 +16,15 @@
 | Confidence Intervals and Hypothesis Testing | [HTML](https://raw.githack.com/adamsoliman/IntroEconometrics/master/chapter_ci_hyptest/chapter_ci_hyptest.html) | 
 | Regression Inference | [HTML](https://raw.githack.com/adamsoliman/IntroEconometrics/master/chapter_reginference/reg_inference.html) |  [HTML](https://raw.githack.com/adamsoliman/IntroEconometrics/master/chapter_reginference/tasks/reginference_tasks.html) |
 | Regression Discontinuity | [HTML](https://raw.githack.com/adamsoliman/IntroEconometrics/master/chapter-RDD/RDD.html) | 
-| Instrumental Variables | Soon |
+| Instrumental Variables | [HTML](https://raw.githack.com/adamsoliman/IntroEconometrics/master/04-IV/04-IV.html) |
 | Difference-in-Differences | [HTML](https://raw.githack.com/adamsoliman/IntroEconometrics/master/chapter_did/chapter_did.html) | 
 | Panel Data | Soon |
 
-The suggested reading list can be found [here](https://github.com/adamsoliman/IntroEconometrics/blob/master/readings.md).
+## Additional Resources 
+
+1. The suggested reading list can be found [here](https://github.com/adamsoliman/IntroEconometrics/blob/master/readings.md)
+
+1. Some background on R programming can be found [here](https://raw.githack.com/adamsoliman/IntroEconometrics/master/chapter_tidy_programming/chapter_tidy.html)
 
 ## Legal
 

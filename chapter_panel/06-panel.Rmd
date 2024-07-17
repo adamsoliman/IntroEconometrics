@@ -1,26 +1,20 @@
 ---
-title: "ScPoEconometrics: Advanced"
+title: "ECON 4050: Introduction to Econometrics"
 subtitle: "Panel Data"
-author: "Florian Oswald"
-date: "SciencesPo Paris </br> `r Sys.Date()`"
+author: "Adam Soliman, PhD"
+date: "Clemson University"
 output:
   xaringan::moon_reader:
     lib_dir: libs
-    css: [default, "../../css/scpo.css", "../../css/scpo-fonts.css"]
+    css: [default, "../css/scpo-fonts.css"] #"../css/scpo.css"   
     nature:
-      beforeInit: ["../../js/ru_xaringan.js"]
+      beforeInit: ["../js/ru_xaringan.js"]
       highlightStyle: github
       highlightLines: true
       countIncrementalSlides: false
       ratio: "16:9"
     includes:
-      in_header: ["../../libs/partials/header.html"]
----
-
-layout: true
-
-<div class="my-footer"><img src="../../img/logo/ScPo-shield.png" style="height: 60px;"/></div> 
-
+      in_header: ["../libs/partials/header.html"]
 ---
 
 ```{r setup, include=FALSE,warning=FALSE,message=FALSE}
@@ -46,33 +40,6 @@ gofmap[,omit := TRUE]
 gofmap[clean == "R2", omit := FALSE]
 
 ```
-
-# Where Did We Stop Last Time?
-
-.pull-left[
-* **IV** estimation
-
-* Some important applications
-
-* Some pitfalls
-
-]
-
---
-
-.pull-right[
-**Today**
-
-1. Talk about Mid-Term Exam! 😬
-
-2. Revisit the Ability Bias [in an App](https://floswald.shinyapps.io/ScPoMetrics-ability-bias/) 😎
-
-3. Introduce Panel Data
-
-]
-
-
----
 
 # Cross-Sectional Data
 
@@ -202,24 +169,12 @@ crime &= \beta_0 + \beta_1 police
 
 .left-thin[
 
-1. Subset data to 4 counties
-
-2. plot probability of arrest vs crime rate.
+*What to do*: subset data to 4 counties, then plot probability of arrest vs crime rate
 
 ```{r crime1,echo = TRUE, eval = FALSE}
-css = crime4 %>% 
-  filter(county %in% 
-           c(1,3,145, 23))  
-
-ggplot(css,
-       aes(x = prbarr, 
-           y = crmrte)) + 
-  geom_point() + 
-  geom_smooth(method="lm",
-              se=FALSE) + 
-  theme_bw() +
-  labs(x = 'Probability of Arrest', 
-       y = 'Crime Rate')
+css = crime4 %>% filter(county %in%  c(1,3,145, 23))  
+ggplot(css, aes(x = prbarr, y = crmrte)) + geom_point() + geom_smooth(method="lm", se=FALSE) + 
+  theme_bw() + labs(x = 'Probability of Arrest', y = 'Crime Rate')
 ```
 ]
 
@@ -330,29 +285,23 @@ dagify(CrimeRate ~ ProbArrest,
 ```
 
 ---
-background-image: url(../../img/crime-dag.png)
+background-image: url(../img/crime-dag.png)
 background-size: 400px
-background-position: 93% 10%
-
-
+background-position: 50% 100%
 
 
 # Crime in a DAG
 
 .left-wide[
 **Fixed Characteristics**: vary by county
-
 * `LocalStuff` are things that describe the County, like geography, and other persistent features.
 * `LawAndOrder`: commitment to *law and order politics* of local politicians
 * `CivilRights`: how many civil rights you have
 
 
 **Time-varying Characteristics**: vary by county and by year
-
 * `Police` budget: an elected politician has some discretion over police spending
-
-* `Poverty` level varies with the national/global state of the economy.
-
+* `Poverty` varies with economy
 ] 
 
 .right-thin[
@@ -398,7 +347,7 @@ You will often hear the terms *within* and *between* variation in panel data con
 
 ---
 background-image: url("https://media.giphy.com/media/3oKIPlLZEbEbacWqOc/giphy.gif")
-background-position: 90% 50%
+background-position: 95% 50%
 background-size: 300px
 
 # Within and Between Variation: Give us a Plot.
@@ -439,7 +388,7 @@ pcolor
 --
 
 
-```{r,echo = FALSE,fig.height = 4,warning = FALSE,message = FALSE,fig.width=8}
+```{r,echo = FALSE,fig.height = 6,warning = FALSE,message = FALSE,fig.width=10}
 p1 = css %>% 
   group_by(county) %>%
   mutate(label = case_when(
@@ -489,7 +438,7 @@ cowplot::plot_grid(p1,p2,align = "v")
 # Accounting for Grouped Data: Introducing the *Fixed Effect*
 
 .left-wide[
-```{r cri-dag2,echo = FALSE,message = FALSE,fig.height = 5}
+```{r cri-dag2,echo = FALSE,message = FALSE,fig.height = 4.5}
 coords <- list(
     x = c(ProbArrest = 1,Poverty = 1, Police = 1.5, County = 3, CrimeRate = 4),
     y = c(ProbArrest = 1,Police = 2.5, Poverty = 4, CrimeRate = 1, County = 4)
@@ -609,7 +558,7 @@ broom::tidy(mod$dummy)
 # Dummy Variable Regression
 
 .left-wide[
-```{r dummy,echo = FALSE,message = FALSE,fig.height = 5}
+```{r dummy,echo = FALSE,message = FALSE,fig.height = 4.5}
 # not sure that's helpful
 css$pred <- predict(mod$dummy)  # get predicted line
 pcolor = css %>% 
@@ -654,7 +603,7 @@ lm(deltay ~ deltax, diff_data)
     
     
 ---
-background-image: url(../../img/crime-dag2.png)
+background-image: url(../img/crime-dag2.png)
 background-size: 300px
 background-position: 20% 99%
 
@@ -717,8 +666,6 @@ mod$demeaned <- lm(demeaned_crime ~ demeaned_prob, data = cdata)
 
 
 .left-wide[
-We get this table:
-
 ```{r tab1,echo = FALSE}
 library(huxtable)
 ht = modelsummary::modelsummary(mod[c("xsect","dummy","demeaned")],
@@ -738,7 +685,7 @@ ht %>%
 
 * ...either by including an intercept for each $i$ or by time-demeaning the data
 
-* we obtain: `r round(coef(mod$demeaned)[2],3)` .
+* we obtain: `r round(coef(mod$demeaned)[2],3)`
 
 ]
 
@@ -757,7 +704,7 @@ panel_p = round(predict(mod$dummy,newdata = data.frame(prbarr = c(0.2,0.3), coun
 
 > if the arrest probability in $i$ increases by 10 percentage points (i.e. from 0.2 to 0.3) from year $t$ to $t+1$, we expect crimes per person to fall from `r panel_p[1]` to `r panel_p[2]`, or by `r round(100 * diff(panel_p) / panel_p[1],2)` percent (in the reference county number 1).
 
-```{r,echo = FALSE,fig.height = 3}
+```{r,echo = FALSE,fig.height = 4.5}
 pcolor
 ```
 
@@ -802,13 +749,8 @@ ht %>%
 <br>
 
 * Same estimates! 😅
-
-* Notice the standard errors: *robust*?!
-
-* `fixest` computes **cluster-robust** se's. 
-
+* Notice the standard errors: *robust*?! `fixest` computes **cluster-robust** se's. 
 * We suspect there is strong correlation in residuals *within* each county (over time).
-
 ]
 
 
@@ -819,38 +761,16 @@ ht %>%
 .left-wide[
 
 ```{r,echo = FALSE}
-knitr::include_graphics("../../img/gifs/panel.gif")
+knitr::include_graphics("../img/gifs/panel.gif")
 ```
 ]
 
-.right-thin[
-
-* The within transformation **centers** the data!
-
-* By time-demeaning $y$ and $x$, we *project out* the fixed factors related to *county*
-
-* Only *within* county variation is left.
-
-* Made by [Nick C Huntington-Klein](http://nickchk.com).  🙏
-
-]
 ---
 
-class: title-slide-final, middle
-background-image: url(../../img/logo/ScPo-econ.png)
-background-size: 250px
-background-position: 9% 19%
+# Within Transformation Animated
 
-# END
-
-
-
-
-|                                                                                                            |                                   |
-| :--------------------------------------------------------------------------------------------------------- | :-------------------------------- |
-| <a href="mailto:florian.oswald@sciencespo.fr">.ScPored[<i class="fa fa-paper-plane fa-fw"></i>]               | florian.oswald@sciencespo.fr       |
-| <a href="https://github.com/ScPoEcon/Advanced-Metrics-slides">.ScPored[<i class="fa fa-link fa-fw"></i>] | Slides |
-| <a href="https://scpoecon.github.io/ScPoEconometrics">.ScPored[<i class="fa fa-link fa-fw"></i>] | Book |
-| <a href="http://twitter.com/ScPoEcon">.ScPored[<i class="fa fa-twitter fa-fw"></i>]                          | @ScPoEcon                         |
-| <a href="http://github.com/ScPoEcon">.ScPored[<i class="fa fa-github fa-fw"></i>]                          | @ScPoEcon                       |
-
+.right-thin[
+* The within transformation **centers** the data!
+* By time-demeaning $y$ and $x$, we *project out* the fixed factors related to *county*
+* Only *within* county variation is left.
+]

@@ -18,7 +18,7 @@
 | Regression Discontinuity | [HTML](https://raw.githack.com/adamsoliman/IntroEconometrics/master/chapter-RDD/RDD.html) | 
 | Instrumental Variables | [HTML](https://raw.githack.com/adamsoliman/IntroEconometrics/master/chapter_IV/04-IV.html) |
 | Difference-in-Differences | [HTML](https://raw.githack.com/adamsoliman/IntroEconometrics/master/chapter_did/chapter_did.html) | 
-| Panel Data | Soon |
+| Panel Data | https://raw.githack.com/adamsoliman/IntroEconometrics/master/chapter_panel/06-panel.html |
 
 ## Additional Resources 
 

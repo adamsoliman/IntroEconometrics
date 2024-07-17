@@ -1,12 +1,12 @@
 ---
-title: "ScPoEconometrics"
+title: "ECON 4050: Introduction to Econometrics"
 subtitle: "Regression Inference"
-author: "Florian Oswald, Mylene Feuillade, Gustave Kenedi and Pierre Villedieu"
-date: "SciencesPo Paris </br> `r Sys.Date()`"
+author: "Adam Soliman"
+date: "Clemson University | Fall 2024"
 output:
   xaringan::moon_reader:
     lib_dir: libs
-    css: [default, "../css/scpo.css", "../css/scpo-fonts.css"]
+    css: [default, "../css/scpo-fonts.css"] #"../css/scpo.css"   
     nature:
       beforeInit: ["../js/ru_xaringan.js"]
       highlightStyle: github
@@ -15,12 +15,6 @@ output:
       ratio: "16:9"
     includes:
       in_header: "../libs/partials/header.html"
----
-
-layout: true
-
-<div class="my-footer"><img src="../img/logo/ScPo-shield.png" style="height: 60px;"/></div> 
-
 ---
 
 ```{r setup, include=FALSE,warning=FALSE,message=FALSE}
@@ -65,26 +59,6 @@ countdown(
 
 library(jtools)
 ```
-
-layout: true
-
-<div class="my-footer"><img src="../img/logo/ScPo-shield.png" style="height: 60px;"/></div> 
-
----
-
-# Quick "Quiz" on Last Week's Material
-
-1\. From your ***computer*** `r emo::ji("backhand_index_pointing_right")` connect to [***www.wooclap.com/SCPOCIHT***](https://app.wooclap.com/SCPOCIHT)
-
-&nbsp; &nbsp; &nbsp; ***OR***
-
-2\. From your ***phone*** `r emo::ji("backhand_index_pointing_right")` flash QR code below
-
-```{r, echo = F, out.width = "300px"}
-knitr::include_graphics("reg_inference_files/figure-html/qr_code_quiz.png")
-```
-
----
 
 # Today - Statistical inference in the regression framework
 
@@ -238,8 +212,6 @@ Let's imagine we could redo the experiment 1,000 times on 1,000 different sample
 * Let's simulate the sampling distribution of $b_\textrm{small}$ to see where it comes from.
     
 ---
-
-class:inverse
 
 # Task 1
 
@@ -523,12 +495,6 @@ class: title-slide-section-red, middle
 
 ---
 
-layout: true
-
-<div class="my-footer"><img src="../img/logo/ScPo-shield.png" style="height: 60px;"/></div> 
-
----
-
 # Regression Inference: Theory
 
 * Up to now we presented simulation-based inference.
@@ -621,8 +587,6 @@ bootstrap_distrib %>%
 * This can easily be generalized to any confidence level by taking the appropriate quantile of the normal distribution.
 
 ---
-
-class:inverse
 
 # Task 2
 
@@ -972,8 +936,6 @@ The CRM assumption #1 is also know as the (strict) **exogeneity assumption**.
 
 ---
 
-class:inverse
-
 # Task 3.1
 
 `r countdown(minutes = 10, top = 0)`
@@ -997,8 +959,6 @@ Let's go back to our question of returns to education and gender.
   * Can we reject the nullity of this coefficient at the 5% level? At 10%?  
   
 ---
-
-class:inverse
 
 # Task 3.2
 
@@ -1133,24 +1093,4 @@ class: title-slide-final, middle
 To the amazing [moderndive](https://moderndive.com/) team!
 
 Big Thanks `r emo::ji("tada")` to [ungeviz](https://github.com/wilkelab/ungeviz) and `r emo::ji("confetti")` [gganimate](https://github.com/thomasp85/gganimate) for their awesome packages!
-
----
-
-class: title-slide-final, middle
-background-image: url(../img/logo/ScPo-econ.png)
-background-size: 250px
-background-position: 9% 19%
-
-# SEE YOU NEXT WEEK!
-
-
-
-
-|                                                                                                            |                                   |
-| :--------------------------------------------------------------------------------------------------------- | :-------------------------------- |
-| <a href="mailto:florian.oswald@sciencespo.fr">.ScPored[<i class="fa fa-paper-plane fa-fw"></i>]               | florian.oswald@sciencespo.fr       |
-| <a href="https://github.com/ScPoEcon/ScPoEconometrics-Slides">.ScPored[<i class="fa fa-link fa-fw"></i>] | Slides |
-| <a href="https://scpoecon.github.io/ScPoEconometrics">.ScPored[<i class="fa fa-link fa-fw"></i>] | Book |
-| <a href="http://twitter.com/ScPoEcon">.ScPored[<i class="fa fa-twitter fa-fw"></i>]                          | @ScPoEcon                         |
-| <a href="http://github.com/ScPoEcon">.ScPored[<i class="fa fa-github fa-fw"></i>]                          | @ScPoEcon                       |
 

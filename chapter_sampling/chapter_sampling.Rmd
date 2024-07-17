@@ -1,12 +1,13 @@
 ---
-title: "ScPoEconometrics"
+title: "ECON 4050: Introduction to Econometrics"
 subtitle: "Sampling"
-author: "Florian Oswald, Mylène Feuillade, Gustave Kenedi and Junnan He"
-date: "SciencesPo Paris </br> `r Sys.Date()`"
+author: "Adam Soliman"
+date: "Clemson University | Fall 2024"
 output:
   xaringan::moon_reader:
+    chakra: "https://cdnjs.cloudflare.com/ajax/libs/remark/0.14.0/remark.min.js"
     lib_dir: libs
-    css: [default, "../css/scpo.css", "../css/scpo-fonts.css"]
+    css: [default, "../css/scpo-fonts.css"] #"../css/scpo.css"    
     nature:
       beforeInit: ["../js/ru_xaringan.js"]
       highlightStyle: github
@@ -15,12 +16,6 @@ output:
       ratio: "16:9"
     includes:
       in_header: "../libs/partials/header.html"
----
-
-layout: true
-
-<div class="my-footer"><img src="../img/logo/ScPo-shield.png" style="height: 60px;"/></div> 
-
 ---
 
 ```{r setup, include=FALSE,warning=FALSE,message=FALSE}
@@ -178,8 +173,6 @@ Sample # | Count | Proportion
 
 ---
 
-class: inverse
-
 # Task 1
 
 `r countdown(minutes = 5, top = 0)`
@@ -318,7 +311,6 @@ nrow(bowl)
 ```{r}
 #load moderndive package
 library(moderndive)
-
 virtual_shovel <- bowl %>% # notice that moderndive functions can be "pipped"
   rep_sample_n(size = 50) # take a sample of 50 pasta
 ```
@@ -397,8 +389,7 @@ Compute the proportion of green pasta in each sample.
 ```{r}
 virtual_prop_green <- virtual_samples %>% 
   group_by(replicate) %>% # calculate stat by sample
-  summarize(
-    num_green = sum(color == "green"),
+  summarize(num_green = sum(color == "green"),
     sample_n = n()) %>% 
   mutate(prop_green = num_green / sample_n)
 virtual_prop_green
@@ -449,8 +440,6 @@ ggplot(virtual_prop_green, aes(x = prop_green)) +
 ]
 
 ---
-
-class: inverse
 
 # Task 2
 
@@ -852,24 +841,3 @@ class: title-slide-final, middle
 # THANKS
 
 To the amazing [moderndive](https://moderndive.com/) team!
-
----
-
-class: title-slide-final, middle
-background-image: url(../img/logo/ScPo-econ.png)
-background-size: 250px
-background-position: 9% 19%
-
-# SEE YOU NEXT WEEK!
-
-
-
-
-|                                                                                                            |                                   |
-| :--------------------------------------------------------------------------------------------------------- | :-------------------------------- |
-| <a href="mailto:florian.oswald@sciencespo.fr">.ScPored[<i class="fa fa-paper-plane fa-fw"></i>]               | florian.oswald@sciencespo.fr       |
-| <a href="https://github.com/ScPoEcon/ScPoEconometrics-Slides">.ScPored[<i class="fa fa-link fa-fw"></i>] | Slides |
-| <a href="https://scpoecon.github.io/ScPoEconometrics">.ScPored[<i class="fa fa-link fa-fw"></i>] | Book |
-| <a href="http://twitter.com/ScPoEcon">.ScPored[<i class="fa fa-twitter fa-fw"></i>]                          | @ScPoEcon                         |
-| <a href="http://github.com/ScPoEcon">.ScPored[<i class="fa fa-github fa-fw"></i>]                          | @ScPoEcon                       |
-

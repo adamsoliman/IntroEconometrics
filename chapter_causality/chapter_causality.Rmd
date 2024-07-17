@@ -547,8 +547,6 @@ And because $ATE = \mathop{\mathbb{E}}(\delta_i) = \mathop{\mathbb{E}}(\delta) =
 
 ---
 
-class:inverse
-
 # Task 1: SDO, ATE and Randomization
 
 `r countdown(minutes = 10, top = 0)`
@@ -689,8 +687,6 @@ Tennessee **S**tudent/**T**eacher **A**chievement **R**atio Experiment (see [Kru
 * There was a problem of ***non-random attrition*** but we will ignore it.
 
 ---
-
-class:inverse
 
 # Task 2: STAR data
 
@@ -986,8 +982,6 @@ $\begin{align} ATE &= \mathbb{E}[\textrm{math score} | \text{small}_i = 1] - \ma
 We knew this already but we now understand why this is true `r emo::ji("v")`
 
 ---
-
-class:inverse
 
 # Task 3: Your Turn!
 

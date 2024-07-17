@@ -1,13 +1,13 @@
 ---
-title: "ScPoEconometrics"
-subtitle: "Multiple Regression Model"
-author: "Florian Oswald, Gustave Kenedi, Mylène Feuillade and Junnan He"
-date: "SciencesPo Paris </br> `r Sys.Date()`"
+title: "ECON 4050: Introduction to Econometrics"
+subtitle: "Multiple Linear Regression"
+author: "Adam Soliman"
+date: "Clemson University | Fall 2024"
 output:
   xaringan::moon_reader:
     chakra: "https://cdnjs.cloudflare.com/ajax/libs/remark/0.14.0/remark.min.js"
     lib_dir: libs
-    css: [default, "../css/scpo.css", "../css/scpo-fonts.css"]
+    css: [default, "../css/scpo-fonts.css"] #"../css/scpo.css"
     nature:
       beforeInit: ["../js/ru_xaringan.js"]
       highlightStyle: github
@@ -16,13 +16,6 @@ output:
       ratio: "16:9"
     includes:
       in_header: "../libs/partials/header.html"
----
-
-
-layout: true
-
-<div class="my-footer"><img src="../img/logo/ScPo-shield.png" style="height: 60px;"/></div> 
-
 ---
 
 ```{r setup, include=FALSE,warning=FALSE,message=FALSE}
@@ -423,8 +416,6 @@ You ***need*** to pay attention to whether you are talking about ***percentage p
 
 ---
 
-class:inverse
-
 # Task 1
 
 `r countdown(minutes = 10, top = 0)`
@@ -778,8 +769,6 @@ This applies to cases when you have more than 2 categories. You don't need to cr
 
 ---
 
-class: inverse
-
 # Task 2: Dummy Variable Trap
 
 `r countdown(minutes = 10, top = 0)`
@@ -903,8 +892,6 @@ We obtain: $$b_1 = `r round(reg1$coefficients[2],3)` = \underbrace{`r round(reg2
 
 ---
 
-class: inverse
-
 # Task 3: Recap
 
 `r countdown(minutes = 10, top = 0)`
@@ -946,22 +933,3 @@ Let's use the *STAR* data (used in the previous task) to review the main concept
 knitr::include_graphics("../img/photos/confounding_variables_funny.png")
 ```
 ]
-
----
-
-class: title-slide-final, middle
-background-image: url(../img/logo/ScPo-econ.png)
-background-size: 250px
-background-position: 9% 19%
-
-# SEE YOU NEXT WEEK!
-
-
-|                                                                                                            |                                   |
-| :--------------------------------------------------------------------------------------------------------- | :-------------------------------- |
-| <a href="mailto:florian.oswald@sciencespo.fr">.ScPored[<i class="fa fa-paper-plane fa-fw"></i>]               | florian.oswald@sciencespo.fr       |
-| <a href="https://github.com/ScPoEcon/ScPoEconometrics-Slides">.ScPored[<i class="fa fa-link fa-fw"></i>] | Slides |
-| <a href="https://scpoecon.github.io/ScPoEconometrics">.ScPored[<i class="fa fa-link fa-fw"></i>] | Book |
-| <a href="http://twitter.com/ScPoEcon">.ScPored[<i class="fa fa-twitter fa-fw"></i>]                          | @ScPoEcon                         |
-| <a href="http://github.com/ScPoEcon">.ScPored[<i class="fa fa-github fa-fw"></i>]                          | @ScPoEcon                       |
-

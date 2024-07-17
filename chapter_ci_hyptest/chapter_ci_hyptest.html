@@ -1,13 +1,12 @@
 <!DOCTYPE html>
 <html lang="" xml:lang="">
   <head>
-    <title>ScPoEconometrics</title>
+    <title>ECON 4050: Introduction to Econometrics</title>
     <meta charset="utf-8" />
-    <meta name="author" content="Florian Oswald, Gustave Kenedi, Pierre Villedieu and Mylène Feuillade, Junnan He" />
+    <meta name="author" content="Adam Soliman" />
     <script src="libs/header-attrs/header-attrs.js"></script>
     <link href="libs/remark-css/default.css" rel="stylesheet" />
     <script src="https://use.fontawesome.com/5235085b15.js"></script>
-    <link rel="stylesheet" href="../css/scpo.css" type="text/css" />
     <link rel="stylesheet" href="../css/scpo-fonts.css" type="text/css" />
   </head>
   <body>
@@ -15,26 +14,20 @@
 class: center, middle, inverse, title-slide
 
 .title[
-# ScPoEconometrics
+# ECON 4050: Introduction to Econometrics
 ]
 .subtitle[
 ## Confidence Intervals and Hypothesis Testing
 ]
 .author[
-### Florian Oswald, Gustave Kenedi, Pierre Villedieu and Mylène Feuillade, Junnan He
+### Adam Soliman
 ]
 .date[
-### SciencesPo Paris </br> 2022-11-22
+### Clemson University | Fall 2024
 ]
 
 ---
 
-
-layout: true
-
-&lt;div class="my-footer"&gt;&lt;img src="../img/logo/ScPo-shield.png" style="height: 60px;"/&gt;&lt;/div&gt; 
-
----
 
 
 
@@ -81,12 +74,6 @@ layout: false
 class: title-slide-section-red, middle
 
 # Confidence Intervals
-
----
-
-layout: true
-
-&lt;div class="my-footer"&gt;&lt;img src="../img/logo/ScPo-shield.png" style="height: 60px;"/&gt;&lt;/div&gt; 
 
 ---
 
@@ -146,12 +133,8 @@ In practice, you ***don't*** need to compute your confidence intervals using *bo
 ```r
 library(tidyverse)
 bowl &lt;- read.csv("https://www.dropbox.com/s/qpjsk0rfgc0gx80/pasta.csv?dl=1")
-
-my_sample = bowl %&gt;%
-  mutate(color = ifelse(color == "green","green","non-green")) %&gt;%
-  rep_sample_n(size = 50) %&gt;%
-  ungroup() %&gt;%
-  select(pasta_ID, color)
+my_sample = bowl %&gt;% mutate(color = ifelse(color == "green","green","non-green")) %&gt;%
+  rep_sample_n(size = 50) %&gt;% ungroup() %&gt;% select(pasta_ID, color)
 ```
 
 .pull-left[
@@ -226,9 +209,8 @@ Here is one bootstrap sample:
 
 ```r
 one_bootstrap = my_sample %&gt;%
-  rep_sample_n(size = 50, replace = TRUE) %&gt;%
+  rep_sample_n(size = 50, replace = TRUE) %&gt;% 
   arrange(pasta_ID)
-
 head(one_bootstrap, 8)
 ```
 
@@ -543,11 +525,6 @@ layout: false
 class: title-slide-section-red, middle
 
 # Hypothesis Testing
-
----
-layout: true
-
-&lt;div class="my-footer"&gt;&lt;img src="../img/logo/ScPo-shield.png" style="height: 60px;"/&gt;&lt;/div&gt; 
 
 ---
 
@@ -1059,31 +1036,9 @@ visualize(null_distribution,
 .pull-right[
 &lt;img src="chapter_ci_hyptest_files/figure-html/unnamed-chunk-31-1.svg" style="display: block; margin: auto;" /&gt;
 ]
-
-
----
-
-class: title-slide-final, middle
-background-image: url(../img/logo/ScPo-econ.png)
-background-size: 250px
-background-position: 9% 19%
-
-# END
-
-
-
-
-|                                                                                                            |                                   |
-| :--------------------------------------------------------------------------------------------------------- | :-------------------------------- |
-| &lt;a href="mailto:florian.oswald@sciencespo.fr"&gt;.ScPored[&lt;i class="fa fa-paper-plane fa-fw"&gt;&lt;/i&gt;]               | florian.oswald@sciencespo.fr       |
-| &lt;a href="https://github.com/ScPoEcon/ScPoEconometrics-Slides"&gt;.ScPored[&lt;i class="fa fa-link fa-fw"&gt;&lt;/i&gt;] | Slides |
-| &lt;a href="https://scpoecon.github.io/ScPoEconometrics"&gt;.ScPored[&lt;i class="fa fa-link fa-fw"&gt;&lt;/i&gt;] | Book |
-| &lt;a href="http://twitter.com/ScPoEcon"&gt;.ScPored[&lt;i class="fa fa-twitter fa-fw"&gt;&lt;/i&gt;]                          | @ScPoEcon                         |
-| &lt;a href="http://github.com/ScPoEcon"&gt;.ScPored[&lt;i class="fa fa-github fa-fw"&gt;&lt;/i&gt;]                          | @ScPoEcon                       |
-
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
-<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/remark/0.14.0/remark.min.js"></script>
 <script src="../js/ru_xaringan.js"></script>
 <script>var slideshow = remark.create({
 "highlightStyle": "github",

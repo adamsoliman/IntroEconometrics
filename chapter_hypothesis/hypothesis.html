@@ -1,50 +1,35 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<html lang="" xml:lang="">
   <head>
-    <title>ScPoEconometrics</title>
+    <title>ECON 4050: Introduction to Econometrics</title>
     <meta charset="utf-8" />
-    <meta name="author" content="Florian Oswald" />
+    <meta name="author" content="Adam Soliman" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
     <link href="libs/remark-css/default.css" rel="stylesheet" />
     <script src="https://use.fontawesome.com/5235085b15.js"></script>
-    <link rel="stylesheet" href="../css/scpo.css" type="text/css" />
     <link rel="stylesheet" href="../css/scpo-fonts.css" type="text/css" />
   </head>
   <body>
     <textarea id="source">
 class: center, middle, inverse, title-slide
 
-# ScPoEconometrics
+.title[
+# ECON 4050: Introduction to Econometrics
+]
+.subtitle[
 ## Hypothesis Testing
-### Florian Oswald
-### SciencesPo Paris </br> 2019-10-23
+]
+.author[
+### Adam Soliman
+]
+.date[
+### Clemson University | Fall 2024
+]
 
 ---
 
 
-layout: true
 
-&lt;div class="my-footer"&gt;&lt;img src="../img/logo/ScPo-shield.png" style="height: 60px;"/&gt;&lt;/div&gt; 
-
----
-
-
-
-layout: true
-
-&lt;div class="my-footer"&gt;&lt;img src="../img/logo/ScPo-shield.png" style="height: 60px;"/&gt;&lt;/div&gt; 
-
----
-
-# Packages used in this set of slides
-
-
-```r
-library(tidyverse)
-library(infer)
-library(moderndive)
-```
-
----
 
 # Is There Gender Discrimination In Promotions?
 
@@ -69,7 +54,7 @@ promotions
 ```
 
 ```
-## # A tibble: 48 x 3
+## # A tibble: 48 × 3
 ##       id decision gender
 ##    &lt;int&gt; &lt;fct&gt;    &lt;fct&gt; 
 ##  1     1 promoted male  
@@ -82,7 +67,7 @@ promotions
 ##  8     8 promoted male  
 ##  9     9 promoted male  
 ## 10    10 promoted male  
-## # … with 38 more rows
+## # ℹ 38 more rows
 ```
 ]
 
@@ -91,7 +76,7 @@ promotions
 # Looking At Promotions
 
 .pull-left[
-&lt;img src="hypothesis_files/figure-html/unnamed-chunk-3-1.svg" style="display: block; margin: auto;" /&gt;
+&lt;img src="hypothesis_files/figure-html/unnamed-chunk-2-1.svg" style="display: block; margin: auto;" /&gt;
 ]
 
 .pull-right[
@@ -104,7 +89,7 @@ promotions %&gt;%
 ```
 
 ```
-## # A tibble: 4 x 4
+## # A tibble: 4 × 4
 ## # Groups:   gender [2]
 ##   gender decision     n proportion
 ##   &lt;fct&gt;  &lt;fct&gt;    &lt;int&gt;      &lt;dbl&gt;
@@ -148,20 +133,20 @@ bind_cols(promotions, promotions_shuffled)
 ```
 
 ```
-## # A tibble: 48 x 6
-##       id decision gender   id1 decision1 gender1
-##    &lt;int&gt; &lt;fct&gt;    &lt;fct&gt;  &lt;int&gt; &lt;fct&gt;     &lt;fct&gt;  
-##  1     1 promoted male       1 promoted  female 
-##  2     2 promoted male       2 promoted  female 
-##  3     3 promoted male       3 promoted  male   
-##  4     4 promoted male       4 promoted  female 
-##  5     5 promoted male       5 promoted  male   
-##  6     6 promoted male       6 promoted  male   
-##  7     7 promoted male       7 promoted  male   
-##  8     8 promoted male       8 promoted  female 
-##  9     9 promoted male       9 promoted  male   
-## 10    10 promoted male      10 promoted  female 
-## # … with 38 more rows
+## # A tibble: 48 × 6
+##    id...1 decision...2 gender...3 id...4 decision...5 gender...6
+##     &lt;int&gt; &lt;fct&gt;        &lt;fct&gt;       &lt;int&gt; &lt;fct&gt;        &lt;fct&gt;     
+##  1      1 promoted     male            1 promoted     female    
+##  2      2 promoted     male            2 promoted     female    
+##  3      3 promoted     male            3 promoted     male      
+##  4      4 promoted     male            4 promoted     female    
+##  5      5 promoted     male            5 promoted     male      
+##  6      6 promoted     male            6 promoted     male      
+##  7      7 promoted     male            7 promoted     male      
+##  8      8 promoted     male            8 promoted     female    
+##  9      9 promoted     male            9 promoted     male      
+## 10     10 promoted     male           10 promoted     female    
+## # ℹ 38 more rows
 ```
 
 * Observe how in `promotions_shuffled` we randomly assigned `gender1`.
@@ -176,21 +161,19 @@ bind_cols(promotions, promotions_shuffled)
 # Reshuffled Promotions
 
 .pull-left[
-&lt;img src="hypothesis_files/figure-html/unnamed-chunk-6-1.svg" style="display: block; margin: auto;" /&gt;
+&lt;img src="hypothesis_files/figure-html/unnamed-chunk-5-1.svg" style="display: block; margin: auto;" /&gt;
 
 ]
 
 .pull-right[
 
 ```r
-promotions %&gt;% 
-  group_by(gender, decision) %&gt;% 
-  summarize(n = n()) %&gt;%
-  mutate(proportion = n / sum(n))
+promotions %&gt;% group_by(gender, decision) %&gt;% 
+  summarize(n = n()) %&gt;% mutate(proportion = n / sum(n))
 ```
 
 ```
-## # A tibble: 4 x 4
+## # A tibble: 4 × 4
 ## # Groups:   gender [2]
 ##   gender decision     n proportion
 ##   &lt;fct&gt;  &lt;fct&gt;    &lt;int&gt;      &lt;dbl&gt;
@@ -202,14 +185,12 @@ promotions %&gt;%
 
 
 ```r
-promotions_shuffled %&gt;% 
-  group_by(gender, decision) %&gt;% 
-  summarize(n = n()) %&gt;%
-  mutate(proportion = n / sum(n))
+promotions_shuffled %&gt;% group_by(gender, decision) %&gt;% 
+  summarize(n = n()) %&gt;% mutate(proportion = n / sum(n))
 ```
 
 ```
-## # A tibble: 4 x 4
+## # A tibble: 4 × 4
 ## # Groups:   gender [2]
 ##   gender decision     n proportion
 ##   &lt;fct&gt;  &lt;fct&gt;    &lt;int&gt;      &lt;dbl&gt;
@@ -250,7 +231,7 @@ promotions_shuffled %&gt;%
 # Sampling Variation in Reshuffling
 
 .pull-left[
-&lt;img src="hypothesis_files/figure-html/unnamed-chunk-9-1.svg" style="display: block; margin: auto;" /&gt;
+&lt;img src="hypothesis_files/figure-html/unnamed-chunk-8-1.svg" style="display: block; margin: auto;" /&gt;
 ]
 
 .pull-right[
@@ -297,13 +278,6 @@ class: title-slide-section-red, middle
 
 # Hypothesis Testing Setup
 
-
-
----
-layout: true
-
-&lt;div class="my-footer"&gt;&lt;img src="../img/logo/ScPo-shield.png" style="height: 60px;"/&gt;&lt;/div&gt; 
-
 ---
 
 # Hypothesis Test Notation and Definitions
@@ -336,7 +310,7 @@ layout: true
 # Null Distribution
 
 .left-wide[
-&lt;img src="hypothesis_files/figure-html/unnamed-chunk-10-1.svg" style="display: block; margin: auto;" /&gt;
+&lt;img src="hypothesis_files/figure-html/unnamed-chunk-9-1.svg" style="display: block; margin: auto;" /&gt;
 ]
 
 .right-thin[
@@ -377,13 +351,6 @@ layout: false
 class: title-slide-section-red, middle
 
 # Conducting Hypothesis Tests
-
-
-
----
-layout: true
-
-&lt;div class="my-footer"&gt;&lt;img src="../img/logo/ScPo-shield.png" style="height: 60px;"/&gt;&lt;/div&gt; 
 
 ---
 background-image: url(../img/photos/ht.png)
@@ -428,20 +395,23 @@ null_distribution
 ```
 
 ```
-## # A tibble: 1,000 x 2
+## Response: decision (factor)
+## Explanatory: gender (factor)
+## Null Hypothesis: independence
+## # A tibble: 1,000 × 2
 ##    replicate    stat
 ##        &lt;int&gt;   &lt;dbl&gt;
-##  1         1  0.0417
-##  2         2 -0.0417
-##  3         3 -0.0417
-##  4         4  0.0417
-##  5         5  0.125 
-##  6         6 -0.208 
-##  7         7  0.0417
-##  8         8 -0.125 
-##  9         9  0.0417
-## 10        10  0.0417
-## # … with 990 more rows
+##  1         1 -0.0417
+##  2         2  0.0417
+##  3         3  0.125 
+##  4         4 -0.0417
+##  5         5  0.0417
+##  6         6 -0.125 
+##  7         7 -0.125 
+##  8         8  0.0417
+##  9         9 -0.0417
+## 10        10 -0.0417
+## # ℹ 990 more rows
 ```
 ]
 
@@ -462,7 +432,9 @@ obs_diff_prop
 ```
 
 ```
-## # A tibble: 1 x 1
+## Response: decision (factor)
+## Explanatory: gender (factor)
+## # A tibble: 1 × 1
 ##    stat
 ##   &lt;dbl&gt;
 ## 1 0.292
@@ -487,7 +459,7 @@ obs_diff_prop
 visualize(null_distribution, bins = 10)
 ```
 
-&lt;img src="hypothesis_files/figure-html/unnamed-chunk-13-1.svg" style="display: block; margin: auto;" /&gt;
+&lt;img src="hypothesis_files/figure-html/unnamed-chunk-12-1.svg" style="display: block; margin: auto;" /&gt;
 ]
 
 .right-thin[
@@ -508,7 +480,7 @@ visualize(null_distribution, bins = 10) +
                 direction = "right")
 ```
 
-&lt;img src="hypothesis_files/figure-html/unnamed-chunk-14-1.svg" style="display: block; margin: auto;" /&gt;
+&lt;img src="hypothesis_files/figure-html/unnamed-chunk-13-1.svg" style="display: block; margin: auto;" /&gt;
 ]
 
 .pull-right[
@@ -539,13 +511,13 @@ visualize(null_distribution, bins = 10) +
     ```
     
     ```
-    ## # A tibble: 1 x 1
+    ## # A tibble: 1 × 1
     ##   p_value
     ##     &lt;dbl&gt;
-    ## 1   0.033
+    ## 1   0.021
     ```
     
-* So, the probability of observing a 29% difference in a world with no discrimination is only 3.3%. That probability is due to sampling variation.
+* So, the probability of observing a 29% difference in a world with no discrimination is only 2.1%. That probability is due to sampling variation.
 ]
 
 --
@@ -554,7 +526,7 @@ visualize(null_distribution, bins = 10) +
 * Suppose we had set `\(\alpha = 0.001 = 0.1\%\)`
 
 * Given that the p-value is *greater* than `\(\alpha\)`, 
-    * i.e. 3.3% &gt; 0.1%,
+    * i.e. 2.1% &gt; 0.1%,
     * we would **fail to reject** the null `\(H_0:p_m - p_f = 0\)`. 
 
 * The p-value was not sufficiently small to convince us in this case.
@@ -624,13 +596,7 @@ visualize(null_distribution, bins = 10) +
 ]
 
 .right-thin[
-* `\(\hat{\theta}\)` is *some* test statistic.
-
-* `\(f(\hat{\theta}|\theta_0)\)` and `\(f(\hat{\theta}|\theta_A)\)` are Null and Alternative distributions.
-
-* Changing `\(\alpha\)` moves critical value `\(\hat{\theta}_c\)`.
-
-* This example is fully worked out [here](https://scpoecon.github.io/ScPoEconometrics/images/hypothesis.pdf)
+* `\(\hat{\theta}\)` is *some* test statistic. `\(f(\hat{\theta}|\theta_0)\)` and `\(f(\hat{\theta}|\theta_A)\)` are Null and Alternative distributions. Changing `\(\alpha\)` moves critical value `\(\hat{\theta}_c\)`. This example is fully worked out [here](https://scpoecon.github.io/ScPoEconometrics/images/hypothesis.pdf)
 ]
 
 
@@ -642,26 +608,6 @@ class: title-slide-final, middle
 # THANKS
 
 To the amazing [moderndive](https://moderndive.com/) team!
-
----
-
-class: title-slide-final, middle
-background-image: url(../img/logo/ScPo-econ.png)
-background-size: 250px
-background-position: 9% 19%
-
-# END
-
-
-
-
-|                                                                                                            |                                   |
-| :--------------------------------------------------------------------------------------------------------- | :-------------------------------- |
-| &lt;a href="mailto:florian.oswald@sciencespo.fr"&gt;.ScPored[&lt;i class="fa fa-paper-plane fa-fw"&gt;&lt;/i&gt;]               | florian.oswald@sciencespo.fr       |
-| &lt;a href="https://github.com/ScPoEcon/ScPoEconometrics-Slides"&gt;.ScPored[&lt;i class="fa fa-link fa-fw"&gt;&lt;/i&gt;] | Slides |
-| &lt;a href="https://scpoecon.github.io/ScPoEconometrics"&gt;.ScPored[&lt;i class="fa fa-link fa-fw"&gt;&lt;/i&gt;] | Book |
-| &lt;a href="http://twitter.com/ScPoEcon"&gt;.ScPored[&lt;i class="fa fa-twitter fa-fw"&gt;&lt;/i&gt;]                          | @ScPoEcon                         |
-| &lt;a href="http://github.com/ScPoEcon"&gt;.ScPored[&lt;i class="fa fa-github fa-fw"&gt;&lt;/i&gt;]                          | @ScPoEcon                       |
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
@@ -710,9 +656,38 @@ if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
     }
     deleted = true;
   });
-})();</script>
-
-<script>
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
 (function() {
   var links = document.getElementsByTagName('a');
   for (var i = 0; i < links.length; i++) {
@@ -721,7 +696,23 @@ if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
     }
   }
 })();
-</script>
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
 
 <script>
 slideshow._releaseMath = function(el) {

@@ -76,8 +76,6 @@ countdown(
 
 ---
 
-class:: inverse
-
 # Task 1: Getting to know the data
 
 `r countdown(minutes = 7, top = 0)`
@@ -651,8 +649,6 @@ $$
 $$
 ---
 
-class: inverse
-
 # Task 2: OLS Regression
 
 `r countdown(minutes = 10, top = 0)`
@@ -837,8 +833,6 @@ $$
 * `r emo::ji("warning")` The $R^2$ is __NOT__ an indicator of whether a relationship is causal!
 
 ---
-
-class: inverse
 
 # Task 3: $R^2$ and goodness of fit
 

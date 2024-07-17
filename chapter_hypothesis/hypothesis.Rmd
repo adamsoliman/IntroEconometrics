@@ -1,12 +1,12 @@
 ---
-title: "ScPoEconometrics"
+title: "ECON 4050: Introduction to Econometrics"
 subtitle: "Hypothesis Testing"
-author: "Florian Oswald"
-date: "SciencesPo Paris </br> `r Sys.Date()`"
+author: "Adam Soliman"
+date: "Clemson University | Fall 2024"
 output:
   xaringan::moon_reader:
     lib_dir: libs
-    css: [default, "../css/scpo.css", "../css/scpo-fonts.css"]
+    css: [default, "../css/scpo-fonts.css"] #"../css/scpo.css"   
     nature:
       beforeInit: ["../js/ru_xaringan.js"]
       highlightStyle: github
@@ -15,12 +15,6 @@ output:
       ratio: "16:9"
     includes:
       in_header: "../libs/partials/header.html"
----
-
-layout: true
-
-<div class="my-footer"><img src="../img/logo/ScPo-shield.png" style="height: 60px;"/></div> 
-
 ---
 
 ```{r setup, include=FALSE,warning=FALSE,message=FALSE}
@@ -42,22 +36,6 @@ lowtop = c(om[1],om[2],0.1,om[4])
 overwrite = FALSE
 
 ```
-
-layout: true
-
-<div class="my-footer"><img src="../img/logo/ScPo-shield.png" style="height: 60px;"/></div> 
-
----
-
-# Packages used in this set of slides
-
-```{r}
-library(tidyverse)
-library(infer)
-library(moderndive)
-```
-
----
 
 # Is There Gender Discrimination In Promotions?
 
@@ -160,17 +138,13 @@ cowplot::plot_grid(p1,p2,rel_widths = c(1,1.4))
 
 .pull-right[
 ```{r}
-promotions %>% 
-  group_by(gender, decision) %>% 
-  summarize(n = n()) %>%
-  mutate(proportion = n / sum(n))
+promotions %>% group_by(gender, decision) %>% 
+  summarize(n = n()) %>% mutate(proportion = n / sum(n))
 ```
 
 ```{r}
-promotions_shuffled %>% 
-  group_by(gender, decision) %>% 
-  summarize(n = n()) %>%
-  mutate(proportion = n / sum(n))
+promotions_shuffled %>% group_by(gender, decision) %>% 
+  summarize(n = n()) %>% mutate(proportion = n / sum(n))
 ```
 ]
 
@@ -287,13 +261,6 @@ class: title-slide-section-red, middle
 
 # Hypothesis Testing Setup
 
-
-
----
-layout: true
-
-<div class="my-footer"><img src="../img/logo/ScPo-shield.png" style="height: 60px;"/></div> 
-
 ---
 
 # Hypothesis Test Notation and Definitions
@@ -369,13 +336,6 @@ layout: false
 class: title-slide-section-red, middle
 
 # Conducting Hypothesis Tests
-
-
-
----
-layout: true
-
-<div class="my-footer"><img src="../img/logo/ScPo-shield.png" style="height: 60px;"/></div> 
 
 ---
 background-image: url(../img/photos/ht.png)
@@ -576,13 +536,7 @@ visualize(null_distribution, bins = 10) +
 ]
 
 .right-thin[
-* $\hat{\theta}$ is *some* test statistic.
-
-* $f(\hat{\theta}|\theta_0)$ and $f(\hat{\theta}|\theta_A)$ are Null and Alternative distributions.
-
-* Changing $\alpha$ moves critical value $\hat{\theta}_c$.
-
-* This example is fully worked out [here](https://scpoecon.github.io/ScPoEconometrics/images/hypothesis.pdf)
+* $\hat{\theta}$ is *some* test statistic. $f(\hat{\theta}|\theta_0)$ and $f(\hat{\theta}|\theta_A)$ are Null and Alternative distributions. Changing $\alpha$ moves critical value $\hat{\theta}_c$. This example is fully worked out [here](https://scpoecon.github.io/ScPoEconometrics/images/hypothesis.pdf)
 ]
 
 
@@ -594,24 +548,3 @@ class: title-slide-final, middle
 # THANKS
 
 To the amazing [moderndive](https://moderndive.com/) team!
-
----
-
-class: title-slide-final, middle
-background-image: url(../img/logo/ScPo-econ.png)
-background-size: 250px
-background-position: 9% 19%
-
-# END
-
-
-
-
-|                                                                                                            |                                   |
-| :--------------------------------------------------------------------------------------------------------- | :-------------------------------- |
-| <a href="mailto:florian.oswald@sciencespo.fr">.ScPored[<i class="fa fa-paper-plane fa-fw"></i>]               | florian.oswald@sciencespo.fr       |
-| <a href="https://github.com/ScPoEcon/ScPoEconometrics-Slides">.ScPored[<i class="fa fa-link fa-fw"></i>] | Slides |
-| <a href="https://scpoecon.github.io/ScPoEconometrics">.ScPored[<i class="fa fa-link fa-fw"></i>] | Book |
-| <a href="http://twitter.com/ScPoEcon">.ScPored[<i class="fa fa-twitter fa-fw"></i>]                          | @ScPoEcon                         |
-| <a href="http://github.com/ScPoEcon">.ScPored[<i class="fa fa-github fa-fw"></i>]                          | @ScPoEcon                       |
-

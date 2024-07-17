@@ -1,50 +1,49 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<html lang="" xml:lang="">
   <head>
-    <title>ScPoEconometrics</title>
+    <title>ECON 4050: Introduction to Econometrics</title>
     <meta charset="utf-8" />
-    <meta name="author" content="Florian Oswald, Gustave Kenedi and Pierre Villedieu" />
+    <meta name="author" content="Adam Soliman" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
     <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link href="libs/countdown/countdown.css" rel="stylesheet" />
+    <script src="libs/countdown/countdown.js"></script>
     <script src="https://use.fontawesome.com/5235085b15.js"></script>
-    <link rel="stylesheet" href="../css/scpo.css" type="text/css" />
     <link rel="stylesheet" href="../css/scpo-fonts.css" type="text/css" />
   </head>
   <body>
     <textarea id="source">
 class: center, middle, inverse, title-slide
 
-# ScPoEconometrics
+.title[
+# ECON 4050: Introduction to Econometrics
+]
+.subtitle[
 ## Regression Discontinuity Design
-### Florian Oswald, Gustave Kenedi and Pierre Villedieu
-### SciencesPo Paris </br> 2020-04-21
+]
+.author[
+### Adam Soliman
+]
+.date[
+### Clemson University | Fall 2024
+]
 
 ---
 
 
-layout: true
 
-&lt;div class="my-footer"&gt;&lt;img src="../img/logo/ScPo-shield.png" style="height: 60px;"/&gt;&lt;/div&gt; 
+
+## Course Transition: ***Research Methods***
+
+* Three main causal evaluation methods used in economics:
+  
+  - ***regression discontinuity designs (RDD)***.
+  - ***instrumental variables (IV)***, and
+  - ***differences-in-differences (DiD)***
+
+* These methods are used to identify __causal relationships__ between treatments and outcomes.
 
 ---
-
-
-
-layout: true
-
-&lt;div class="my-footer"&gt;&lt;img src="../img/logo/ScPo-shield.png" style="height: 60px;"/&gt;&lt;/div&gt; 
-
----
-
-# Recap from last week
-
-* ***Differences-in-differences*** policy evaluation method
-
-* Main estimation equation:
-`$$Y_{it} = \alpha + \beta TREAT_i + \gamma POST_t + \delta(TREAT_i \times POST_t) + \varepsilon_{it}$$`
-
-* Key assumption: ***parallel trends***
-
---
 
 ## Today: ***Regression Discontinuity Design***
 
@@ -170,7 +169,98 @@ Causal intuition:
 # install package containing data
 devtools::install_github("jrnold/masteringmetrics",
                          subdir = "masteringmetrics")
+```
 
+```
+## rlang        (1.1.3     -&gt; 1.1.4    ) [CRAN]
+## cli          (3.6.2     -&gt; 3.6.3    ) [CRAN]
+## stringi      (1.7.12    -&gt; 1.8.4    ) [CRAN]
+## tidyselect   (1.2.0     -&gt; 1.2.1    ) [CRAN]
+## stringr      (1.5.0     -&gt; 1.5.1    ) [CRAN]
+## purrr        (1.0.1     -&gt; 1.0.2    ) [CRAN]
+## askpass      (1.1       -&gt; 1.2.0    ) [CRAN]
+## openssl      (2.0.6     -&gt; 2.2.0    ) [CRAN]
+## curl         (5.2.0     -&gt; 5.2.1    ) [CRAN]
+## xml2         (1.3.4     -&gt; 1.3.6    ) [CRAN]
+## httr         (1.4.6     -&gt; 1.4.7    ) [CRAN]
+## ps           (1.7.5     -&gt; 1.7.7    ) [CRAN]
+## digest       (0.6.35    -&gt; 0.6.36   ) [CRAN]
+## fastmap      (1.1.1     -&gt; 1.2.0    ) [CRAN]
+## cachem       (1.0.8     -&gt; 1.1.0    ) [CRAN]
+## yaml         (2.3.8     -&gt; 2.3.9    ) [CRAN]
+## xfun         (0.43      -&gt; 0.45     ) [CRAN]
+## highr        (0.10      -&gt; 0.11     ) [CRAN]
+## evaluate     (0.23      -&gt; 0.24.0   ) [CRAN]
+## processx     (3.8.1     -&gt; 3.8.4    ) [CRAN]
+## rstudioapi   (0.14      -&gt; 0.16.0   ) [CRAN]
+## rmarkdown    (2.26      -&gt; 2.27     ) [CRAN]
+## knitr        (1.45      -&gt; 1.48     ) [CRAN]
+## fs           (1.6.3     -&gt; 1.6.4    ) [CRAN]
+## callr        (3.7.3     -&gt; 3.7.6    ) [CRAN]
+## crayon       (1.5.2     -&gt; 1.5.3    ) [CRAN]
+## rematch      (1.0.1     -&gt; 2.0.0    ) [CRAN]
+## vroom        (1.6.3     -&gt; 1.6.5    ) [CRAN]
+## backports    (1.4.1     -&gt; 1.5.0    ) [CRAN]
+## tidyr        (1.3.0     -&gt; 1.3.1    ) [CRAN]
+## broom        (1.0.5     -&gt; 1.0.6    ) [CRAN]
+## timechange   (0.2.0     -&gt; 0.3.0    ) [CRAN]
+## readr        (2.1.4     -&gt; 2.1.5    ) [CRAN]
+## uuid         (1.1-0     -&gt; 1.2-0    ) [CRAN]
+## gargle       (1.5.1     -&gt; 1.5.2    ) [CRAN]
+## farver       (2.1.1     -&gt; 2.1.2    ) [CRAN]
+## gtable       (0.3.3     -&gt; 0.3.5    ) [CRAN]
+## data.table   (1.14.8    -&gt; 1.15.4   ) [CRAN]
+## DBI          (1.1.3     -&gt; 1.2.3    ) [CRAN]
+## microbenc... (NA        -&gt; 1.4.10   ) [CRAN]
+## Deriv        (NA        -&gt; 4.1.3    ) [CRAN]
+## cowplot      (1.1.1     -&gt; 1.1.3    ) [CRAN]
+## MatrixModels (0.5-1     -&gt; 0.5-3    ) [CRAN]
+## SparseM      (1.81      -&gt; 1.84     ) [CRAN]
+## doBy         (NA        -&gt; 4.6.22   ) [CRAN]
+## RcppEigen    (0.3.3.9.4 -&gt; 0.3.4.0.0) [CRAN]
+## nloptr       (2.0.3     -&gt; 2.1.1    ) [CRAN]
+## minqa        (1.2.5     -&gt; 1.2.7    ) [CRAN]
+## lme4         (1.1-35.1  -&gt; 1.1-35.5 ) [CRAN]
+## pbkrtest     (0.5.2     -&gt; 0.5.3    ) [CRAN]
+## rvest        (1.0.3     -&gt; 1.0.4    ) [CRAN]
+## reprex       (2.0.2     -&gt; 2.1.1    ) [CRAN]
+## readxl       (1.4.2     -&gt; 1.4.3    ) [CRAN]
+## ragg         (1.2.5     -&gt; 1.3.2    ) [CRAN]
+## haven        (2.5.2     -&gt; 2.5.4    ) [CRAN]
+## dbplyr       (2.3.2     -&gt; 2.5.0    ) [CRAN]
+## sandwich     (3.0-2     -&gt; 3.1-0    ) [CRAN]
+## clubSandwich (0.5.10    -&gt; 0.5.11   ) [CRAN]
+## 
+## The downloaded binary packages are in
+## 	/var/folders/_9/pld28f515z332p7qy9cl85xw0000gp/T//Rtmp2YE2tm/downloaded_packages
+## ── R CMD build ─────────────────────────────────────────────────────────────────
+##   
+   checking for file ‘/private/var/folders/_9/pld28f515z332p7qy9cl85xw0000gp/T/Rtmp2YE2tm/remotesb607e91ecc1/jrnold-masteringmetrics-70472bd/masteringmetrics/DESCRIPTION’ ...
+  
+✔  checking for file ‘/private/var/folders/_9/pld28f515z332p7qy9cl85xw0000gp/T/Rtmp2YE2tm/remotesb607e91ecc1/jrnold-masteringmetrics-70472bd/masteringmetrics/DESCRIPTION’
+## 
+  
+─  preparing ‘masteringmetrics’:
+##    checking DESCRIPTION meta-information ...
+  
+✔  checking DESCRIPTION meta-information
+## 
+  
+─  checking for LF line-endings in source and make files and shell scripts
+## 
+  
+─  checking for empty or unneeded directories
+## ─  looking to see if a ‘data/datalist’ file should be added
+## 
+  
+─  building ‘masteringmetrics_0.1.tar.gz’ (1.5s)
+## 
+  
+   
+## 
+```
+
+```r
 # load package
 library(masteringmetrics)
 # load data
@@ -183,7 +273,7 @@ data("mlda", package = "masteringmetrics")
 .pull-right[
 
 ```
-## # A tibble: 6 x 7
+## # A tibble: 6 × 7
 ##   agecell   all internal external alcohol homicide suicide
 ##     &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;   &lt;dbl&gt;
 ## 1    19.1  92.8     16.6     76.2   0.639     16.3    11.2
@@ -253,9 +343,13 @@ At the threshold, the probability of being treated jumps from 0 to 1.
 
 ---
 
-class: inverse
+# Task 1 
 
-# Task 1 (10 minutes)
+<div class="countdown" id="timer_6dae9a1b" data-update-every="1" tabindex="0" style="top:0;right:0;">
+<div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
+<code class="countdown-time"><span class="countdown-digits minutes">10</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
+
 
 1. Import the dataset following the code from slide 7. How many age cells are there?
 
@@ -322,12 +416,6 @@ class: title-slide-section-red, middle
 
 ---
 
-layout: true
-
-&lt;div class="my-footer"&gt;&lt;img src="../img/logo/ScPo-shield.png" style="height: 60px;"/&gt;&lt;/div&gt; 
-
----
-
 # Estimation
 
 * *Objective:* measure ***gap*** between the two lines at the cutoff.
@@ -349,9 +437,12 @@ layout: true
 
 ---
 
-class: inverse
+# Task 2 
 
-# Task 2 (5 minutes)
+<div class="countdown" id="timer_f2e8d442" data-update-every="1" tabindex="0" style="top:0;right:0;">
+<div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
+<code class="countdown-time"><span class="countdown-digits minutes">05</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
 
 1. Estimate the following model on all death causes.
 `$$DEATHRATE_a = \alpha + \delta D_a + \beta a + \varepsilon_i,$$`
@@ -370,7 +461,7 @@ class: inverse
 
 .pull-left[
 
-```r
+``` r
 mlda &lt;- mlda %&gt;%
   mutate(over21 = (agecell &gt;= 21),
          agecell_21 = agecell - 21)
@@ -384,7 +475,7 @@ tidy(rdd)
 .pull-right[
 
 ```
-## # A tibble: 3 x 5
+## # A tibble: 3 × 5
 ##   term        estimate std.error statistic  p.value
 ##   &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
 ## 1 (Intercept)   91.8       0.805    114.   4.59e-57
@@ -408,7 +499,7 @@ On average, the MLDA increases death rates from all causes by 7.66 percentage po
 This is a big effect considering the average death rate for individuals between 19 and 22 is:
 
 
-```r
+``` r
 mean(mlda$all, na.rm = TRUE)
 ```
 
@@ -528,9 +619,13 @@ mean(mlda$all, na.rm = TRUE)
 Gap between the lines is roughly the same for both specifications.
 ---
 
-class: inverse
+# Task 3 
 
-# Task 3 (15 minutes)
+<div class="countdown" id="timer_0ecceacb" data-update-every="1" tabindex="0" style="top:0;right:0;">
+<div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
+<code class="countdown-time"><span class="countdown-digits minutes">15</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
+
 
 1. Estimate the following *quadratic* model on all death causes. Does the RDD coefficient differ from the linear model? 
 `$$DEATHRATE_a = \alpha + \delta D_a + \beta a + \beta a^2 + \varepsilon_a,$$`
@@ -583,12 +678,6 @@ layout: false
 class: title-slide-section-red, middle
 
 # Identifying Assumptions
-
----
-
-layout: true
-
-&lt;div class="my-footer"&gt;&lt;img src="../img/logo/ScPo-shield.png" style="height: 60px;"/&gt;&lt;/div&gt; 
 
 ---
 
@@ -704,26 +793,6 @@ What if the running variable does not *fully* determine assignment to treatment?
 --
 
 ### Step #5: ***How big is the gap?***
-
----
-
-class: title-slide-final, middle
-background-image: url(../img/logo/ScPo-econ.png)
-background-size: 250px
-background-position: 9% 19%
-
-# END
-
-
-
-
-|                                                                                                            |                                   |
-| :--------------------------------------------------------------------------------------------------------- | :-------------------------------- |
-| &lt;a href="mailto:florian.oswald@sciencespo.fr"&gt;.ScPored[&lt;i class="fa fa-paper-plane fa-fw"&gt;&lt;/i&gt;]               | florian.oswald@sciencespo.fr       |
-| &lt;a href="https://github.com/ScPoEcon/ScPoEconometrics-Slides"&gt;.ScPored[&lt;i class="fa fa-link fa-fw"&gt;&lt;/i&gt;] | Slides |
-| &lt;a href="https://scpoecon.github.io/ScPoEconometrics"&gt;.ScPored[&lt;i class="fa fa-link fa-fw"&gt;&lt;/i&gt;] | Book |
-| &lt;a href="http://twitter.com/ScPoEcon"&gt;.ScPored[&lt;i class="fa fa-twitter fa-fw"&gt;&lt;/i&gt;]                          | @ScPoEcon                         |
-| &lt;a href="http://github.com/ScPoEcon"&gt;.ScPored[&lt;i class="fa fa-github fa-fw"&gt;&lt;/i&gt;]                          | @ScPoEcon                       |
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/remark/0.14.0/remark.min.js"></script>
@@ -773,6 +842,45 @@ if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
     deleted = true;
   });
 })();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
 // adds .remark-code-has-line-highlighted class to <pre> parent elements
 // of code chunks containing highlighted lines with class .remark-code-line-highlighted
 (function(d) {
@@ -790,17 +898,6 @@ if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
   }
   preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
 })(document);</script>
-
-<script>
-(function() {
-  var links = document.getElementsByTagName('a');
-  for (var i = 0; i < links.length; i++) {
-    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
-      links[i].target = '_blank';
-    }
-  }
-})();
-</script>
 
 <script>
 slideshow._releaseMath = function(el) {

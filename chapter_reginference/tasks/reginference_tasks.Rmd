@@ -1,7 +1,6 @@
 ---
 title: "Regression Inference - Tasks"
-author: "Florian Oswald, Gustave Kenedi and Pierre Villedieu"
-date: "`r Sys.Date()`"
+author: "Adam Soliman"
 output: html_document
 editor_options: 
   chunk_output_type: console

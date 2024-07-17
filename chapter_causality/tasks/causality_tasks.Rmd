@@ -1,7 +1,6 @@
 ---
 title: "Intro to Causality - Tasks"
-author: "Florian Oswald, Gustave Kenedi and Pierre Villedieu"
-date: "`r Sys.Date()`"
+author: "Adam Soliman"
 output: html_document
 ---
 

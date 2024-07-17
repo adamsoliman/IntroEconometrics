@@ -10,13 +10,13 @@
 |---------|:----:|:----:|
 | Introduction | [HTML](https://raw.githack.com/adamsoliman/Econometrics-Slides/master/chapter_intro/chapter_intro.html) |  [HTML](https://raw.githack.com/ScPoEcon/ScPoEconometrics-Slides/master/chapter_intro/tasks/intro_tasks.html) |
 | Simple Linear Regression | [HTML](https://raw.githack.com/adamsoliman/Econometrics-Slides/master/chapter_slr/chapter_slr.html) |  [HTML](https://raw.githack.com/ScPoEcon/ScPoEconometrics-Slides/master/chapter_slr/tasks/slr_tasks.html) |
-| Introduction to Causality | [HTML](https://raw.githack.com/ScPoEcon/ScPoEconometrics-Slides/master/chapter_causality/chapter_causality.html) |  [HTML](https://raw.githack.com/ScPoEcon/ScPoEconometrics-Slides/master/chapter_causality/tasks/causality_tasks.html) |
-| Multiple Linear Regression | [HTML](https://raw.githack.com/ScPoEcon/ScPoEconometrics-Slides/master/chapter_mlr/chapter_mlr.html) |  [HTML](https://raw.githack.com/ScPoEcon/ScPoEconometrics-Slides/master/chapter_mlr/tasks/mlr_tasks.html) |
-| Linear Regression Extensions | [HTML](https://raw.githack.com/ScPoEcon/ScPoEconometrics-Slides/master/chapter_regext/chapter_regext.html) |  [HTML](https://raw.githack.com/ScPoEcon/ScPoEconometrics-Slides/master/chapter_regext/tasks/regext_tasks.html) |
-| Sampling | [HTML](https://raw.githack.com/ScPoEcon/ScPoEconometrics-Slides/master/chapter_sampling/chapter_sampling.html) |  [HTML](https://raw.githack.com/ScPoEcon/ScPoEconometrics-Slides/master/chapter_sampling/tasks/sampling_tasks.html) | 
-| Confidence Intervals and Hypothesis Testing | [HTML](https://raw.githack.com/ScPoEcon/ScPoEconometrics-Slides/master/chapter_ci_hyptest/chapter_ci_hyptest.html) | 
-| Regression Inference | [HTML](https://raw.githack.com/ScPoEcon/ScPoEconometrics-Slides/master/chapter_reginference/reg_inference.html) |  [HTML](https://raw.githack.com/ScPoEcon/ScPoEconometrics-Slides/master/chapter_reginference/tasks/reginference_tasks.html) |
-| Regression Discontinuity | [HTML](https://raw.githack.com/ScPoEcon/ScPoEconometrics-Slides/master/chapter-RDD/RDD.html) | 
+| Introduction to Causality | [HTML](https://raw.githack.com/adamsoliman/Econometrics-Slides/master/chapter_causality/chapter_causality.html) |  [HTML](https://raw.githack.com/ScPoEcon/ScPoEconometrics-Slides/master/chapter_causality/tasks/causality_tasks.html) |
+| Multiple Linear Regression | [HTML](https://raw.githack.com/adamsoliman/Econometrics-Slides/master/chapter_mlr/chapter_mlr.html) |  [HTML](https://raw.githack.com/ScPoEcon/ScPoEconometrics-Slides/master/chapter_mlr/tasks/mlr_tasks.html) |
+| Linear Regression Extensions | [HTML](https://raw.githack.com/adamsoliman/Econometrics-Slides/master/chapter_regext/chapter_regext.html) |  [HTML](https://raw.githack.com/ScPoEcon/ScPoEconometrics-Slides/master/chapter_regext/tasks/regext_tasks.html) |
+| Sampling | [HTML](https://raw.githack.com/adamsoliman/Econometrics-Slides/master/chapter_sampling/chapter_sampling.html) |  [HTML](https://raw.githack.com/ScPoEcon/ScPoEconometrics-Slides/master/chapter_sampling/tasks/sampling_tasks.html) | 
+| Confidence Intervals and Hypothesis Testing | [HTML](https://raw.githack.com/adamsoliman/Econometrics-Slides/master/chapter_ci_hyptest/chapter_ci_hyptest.html) | 
+| Regression Inference | [HTML](https://raw.githack.com/adamsoliman/Econometrics-Slides/master/chapter_reginference/reg_inference.html) |  [HTML](https://raw.githack.com/ScPoEcon/ScPoEconometrics-Slides/master/chapter_reginference/tasks/reginference_tasks.html) |
+| Regression Discontinuity | [HTML](https://raw.githack.com/adamsoliman/Econometrics-Slides/master/chapter-RDD/RDD.html) | 
 
 The suggested reading list can be found [here](https://github.com/adamsoliman/Econometrics-Slides/blob/master/readings.md).
 

@@ -76,10 +76,31 @@ countdown(
 
 ---
 
+class:: inverse
+
+# Task 1: Getting to know the data
+
+`r countdown(minutes = 7, top = 0)`
+ 
+1. Load the data from [here](https://www.dropbox.com/s/wwp2cs9f0dubmhr/grade5.dta?dl=1) as `grades`. *Hint: Use the `read_dta` from the `haven` library to import the file, which has a format .dta.* (FYI: *.dta* is the extension for data files used in [*Stata*](https://www.stata.com/))
+
+1. Describe the dataset:
+
+  * What is the unit of observations, i.e. what does each row correspond to?
+  * How many observations are there?
+  * View the dataset. What variables do we have? What do the variables `avgmath` and `avgverb` correspond to?
+  * Use the `skim` function from the `skimr` package to obtain common summary statistics for the variables `classize`, `avgmath` and `avgverb`. (*Hint: use `dplyr` to `select` the variables and then simply pipe (`%>%`) `skim()`.*)
+
+1. Do you have any priors about the actual (linear) relationship between class size and student achievement? What would you do to get a first insight?
+
+1. Compute the correlation between class size and math and verbal scores. Is the relationship positive/negative, strong/weak?
+
 ```{r, echo=FALSE}
 # import data
 grades = read_dta(file = "https://www.dropbox.com/s/wwp2cs9f0dubmhr/grade5.dta?dl=1")
 ```
+
+---
 
 # Class size and student performance: Scatter plot
 
@@ -628,6 +649,30 @@ $$
 \widehat {\text{average math score}} &= 66.08
 \end{aligned}
 $$
+---
+
+class: inverse
+
+# Task 2: OLS Regression
+
+`r countdown(minutes = 10, top = 0)`
+
+Run the following code to aggregate the data at the class size level:
+
+```{r, eval = F}
+grades_avg_cs <- grades %>%
+  group_by(classize) %>%
+  summarise(avgmath_cs = mean(avgmath),
+            avgverb_cs = mean(avgverb))
+```
+
+1. Regress average verbal score (dependent variable) on class size (independant variable). Interpret the coefficients.
+
+1. Compute the OLS coefficients $b_0$ and $b_1$ of the previous regression using the formulas on slide 27. (*Hint:* you need to use the `cov`, `var`, and `mean` functions.)
+
+1. What is the predicted average verbal score when class size is equal to 0? (Does that even make sense?!)
+
+1. What is the predicted average verbal score when the class size is equal to 30 students?
 
 ---
 
@@ -790,6 +835,24 @@ $$
 --
     
 * `r emo::ji("warning")` The $R^2$ is __NOT__ an indicator of whether a relationship is causal!
+
+---
+
+class: inverse
+
+# Task 3: $R^2$ and goodness of fit
+
+`r countdown(minutes = 10, top = 0)`
+
+1. Regress `avgmath_cs` on `classize`. Assign to an object `math_reg`.
+
+1. Pass `math_reg` in the `summary()` function. What is the (multiple) $R^2$ for this regression? How can you interpret it?
+
+1. Compute the squared correlation between `classize` and `avgmath_cs`. What does this tell you about the relationship between $R^2$ and the correlation in a regression with only one regressor?
+
+1. Repeat steps 1 and 2 for `avgverb_cs`. For which exam does the variance in class size explain more of the variance in students' scores?
+
+1. (Optional) Install and load the `broom` package. Pass `math_reg` in the `augment()` function and assign it to a new object. Use the variance in `avgmath_cs` (SST) and the variance in `.fitted` (predicted values; SSE) to find the $R^2$ using the formula on the previous slide.
 
 ---
 

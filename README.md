@@ -17,6 +17,9 @@
 | Confidence Intervals and Hypothesis Testing | [HTML](https://raw.githack.com/adamsoliman/Econometrics-Slides/master/chapter_ci_hyptest/chapter_ci_hyptest.html) | 
 | Regression Inference | [HTML](https://raw.githack.com/adamsoliman/Econometrics-Slides/master/chapter_reginference/reg_inference.html) |  [HTML](https://raw.githack.com/ScPoEcon/ScPoEconometrics-Slides/master/chapter_reginference/tasks/reginference_tasks.html) |
 | Regression Discontinuity | [HTML](https://raw.githack.com/adamsoliman/Econometrics-Slides/master/chapter-RDD/RDD.html) | 
+| Instrumental Variables | Soon |
+| Difference-in-Differences | [HTML](https://raw.githack.com/adamsoliman/Econometrics-Slides/master/chapter_did/chapter_did.html) | 
+| Panel Data | Soon |
 
 The suggested reading list can be found [here](https://github.com/adamsoliman/Econometrics-Slides/blob/master/readings.md).
 

@@ -18,7 +18,7 @@
 | Regression Inference | [HTML](https://raw.githack.com/ScPoEcon/ScPoEconometrics-Slides/master/chapter_reginference/reg_inference.html) |  [HTML](https://raw.githack.com/ScPoEcon/ScPoEconometrics-Slides/master/chapter_reginference/tasks/reginference_tasks.html) |
 | Regression Discontinuity | [HTML](https://raw.githack.com/ScPoEcon/ScPoEconometrics-Slides/master/chapter-RDD/RDD.html) | 
 
-The suggested reading list can be found [here](https://github.com/ScPoEcon/ScPoEconometrics-Slides/blob/master/syllabus.md).
+The suggested reading list can be found [here](https://github.com/adamsoliman/Econometrics-Slides/blob/master/readings.md).
 
 ## Legal
 

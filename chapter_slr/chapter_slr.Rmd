@@ -1,13 +1,13 @@
 ---
-title: "ScPoEconometrics"
+title: "ECON 4050: Introduction to Econometrics"
 subtitle: "Simple Linear Regression"
-author: "Gustave Kenedi, Mylène Feuillade, Florian Oswald and Junnan He"
-date: "SciencesPo Paris </br> `r Sys.Date()`"
+author: "Adam Soliman"
+date: "Clemson University | Fall 2024"
 output:
   xaringan::moon_reader:
     chakra: "https://cdnjs.cloudflare.com/ajax/libs/remark/0.14.0/remark.min.js"
     lib_dir: libs
-    css: [default, "../css/scpo.css", "../css/scpo-fonts.css"]
+    css: [default, "../css/scpo-fonts.css"] #"../css/scpo.css"
     nature:
       beforeInit: ["../js/ru_xaringan.js"]
       highlightStyle: github
@@ -16,12 +16,6 @@ output:
       ratio: "16:9"
     includes:
       in_header: "../libs/partials/header.html"
----
-
-layout: true
-
-<div class="my-footer"><img src="../img/logo/ScPo-shield.png" style="height: 60px;"/></div> 
-
 ---
 
 ```{r setup, include=FALSE,warning=FALSE,message=FALSE}
@@ -56,7 +50,6 @@ countdown(
 )
 ```
 
-
 # Today - Real 'metrics finally `r emo::ji("v")`
 
 * Introduction to the ***Simple Linear Regression Model*** and ***Ordinary Least Squares (OLS)*** *estimation*.
@@ -83,31 +76,10 @@ countdown(
 
 ---
 
-class:: inverse
-
-# Task 1: Getting to know the data
-
-`r countdown(minutes = 7, top = 0)`
- 
-1. Load the data from [here](https://www.dropbox.com/s/wwp2cs9f0dubmhr/grade5.dta?dl=1) as `grades`. *Hint: Use the `read_dta` from the `haven` library to import the file, which has a format .dta.* (FYI: *.dta* is the extension for data files used in [*Stata*](https://www.stata.com/))
-
-1. Describe the dataset:
-
-  * What is the unit of observations, i.e. what does each row correspond to?
-  * How many observations are there?
-  * View the dataset. What variables do we have? What do the variables `avgmath` and `avgverb` correspond to?
-  * Use the `skim` function from the `skimr` package to obtain common summary statistics for the variables `classize`, `avgmath` and `avgverb`. (*Hint: use `dplyr` to `select` the variables and then simply pipe (`%>%`) `skim()`.*)
-
-1. Do you have any priors about the actual (linear) relationship between class size and student achievement? What would you do to get a first insight?
-
-1. Compute the correlation between class size and math and verbal scores. Is the relationship positive/negative, strong/weak?
-
 ```{r, echo=FALSE}
 # import data
 grades = read_dta(file = "https://www.dropbox.com/s/wwp2cs9f0dubmhr/grade5.dta?dl=1")
 ```
-
----
 
 # Class size and student performance: Scatter plot
 
@@ -465,7 +437,7 @@ g_math_cs +
 # Simple Linear Regression: Graphically
 
 .left-wide[
-```{r, echo = F, out.width = "100%", fig.height = 4.5}
+```{r, echo = F, fig.width = 10, fig.height = 5}
 g_math_cs +
     ylim(50, 80) +
     theme_bw(base_size = 14) +
@@ -479,7 +451,7 @@ g_math_cs +
 .right-thin[
 <br>
 <br>
-<p style="text-align: center; font-weight: bold; font-size: 35px; color: #d90502;">Which "minimisation" criterion should (can) be used?</strong>
+<p style="text-align: center; font-weight: bold; font-size: 35px; color: #d90502;">Which "minimization" criterion should (can) be used?</strong>
 ]
 ---
 
@@ -551,7 +523,7 @@ knitr::include_url("https://gustavek.shinyapps.io/SSR_cone/")
 
 * **OLS**: *estimation* method consisting in minimizing the sum of squared residuals.
 
-* Yields __unique__ solutions to this minization problem.
+* Yields __unique__ solutions to this minimization problem.
 
 * So what are the formulas for $b_0$ (intercept) and $b_1$ (slope)?
 
@@ -564,7 +536,7 @@ knitr::include_url("https://gustavek.shinyapps.io/SSR_cone/")
 --
 
 
-* These formulas do not appear from magic. They can be found by solving the minimisation of squared errors. The maths can be found [here](https://www.youtube.com/watch?v=Hi5EJnBHFB4) for those who are interested.
+* These formulas do not appear from magic. They can be found by solving the minimization of squared errors. The maths can be found [here](https://www.youtube.com/watch?v=Hi5EJnBHFB4) for those who are interested.
 
 ---
 
@@ -659,31 +631,6 @@ $$
 
 ---
 
-class: inverse
-
-# Task 2: OLS Regression
-
-`r countdown(minutes = 10, top = 0)`
-
-Run the following code to aggregate the data at the class size level:
-
-```{r, eval = F}
-grades_avg_cs <- grades %>%
-  group_by(classize) %>%
-  summarise(avgmath_cs = mean(avgmath),
-            avgverb_cs = mean(avgverb))
-```
-
-1. Regress average verbal score (dependent variable) on class size (independant variable). Interpret the coefficients.
-
-1. Compute the OLS coefficients $b_0$ and $b_1$ of the previous regression using the formulas on slide 25. (*Hint:* you need to use the `cov`, `var`, and `mean` functions.)
-
-1. What is the predicted average verbal score when class size is equal to 0? (Does that even make sense?!)
-
-1. What is the predicted average verbal score when the class size is equal to 30 students?
-
----
-
 # Predictions and Residuals: Properties
 
 .pull-left[
@@ -730,7 +677,6 @@ grades_avg_cs <- grades %>%
 * Francis Anscombe (1973) came up with 4 datasets with identical stats. But look!
 
 .left-wide[
-
 ```{r,echo=FALSE,fig.height = 4}
 ##-- now some "magic" to do the 4 regressions in a loop:
 ff <- y ~ x
@@ -757,18 +703,12 @@ par(op)
 ```
 ]
 
---
-
 .right-thin[
-</br>
-</br>
-
 ```{r,echo = FALSE}
 ch = kable(round(covs,3))
 ch %>%
-   kable_styling(bootstrap_options = "striped", font_size = 20)
+   kable_styling(bootstrap_options = "striped", font_size = 15)
 ```
-
 ]
 ---
 
@@ -782,7 +722,7 @@ ch %>%
     y_i = b_0 + b_1 x_i + b_2 x_i^2 + e_i
     $$
     
-* This is __multiple regression__ (in 2 weeks!)
+* This is __multiple regression__ (coming soon!)
 ]
 
 --
@@ -853,24 +793,6 @@ $$
 
 ---
 
-class: inverse
-
-# Task 3: $R^2$ and goodness of fit
-
-`r countdown(minutes = 10, top = 0)`
-
-1. Regress `avgmath_cs` on `classize`. Assign to an object `math_reg`.
-
-1. Pass `math_reg` in the `summary()` function. What is the (multiple) $R^2$ for this regression? How can you interpret it?
-
-1. Compute the squared correlation between `classize` and `avgmath_cs`. What does this tell you about the relationship between $R^2$ and the correlation in a regression with only one regressor?
-
-1. Repeat steps 1 and 2 for `avgverb_cs`. For which exam does the variance in class size explain more of the variance in students' scores?
-
-1. (Optional) Install and load the `broom` package. Pass `math_reg` in the `augment()` function and assign it to a new object. Use the variance in `avgmath_cs` (SST) and the variance in `.fitted` (predicted values; SSE) to find the $R^2$ using the formula on the previous slide.
-
----
-
 # On the way to causality
 
 `r emo::ji("white heavy check mark")` How to manage data? Read it, tidy it, visualise it...
@@ -884,23 +806,3 @@ class: inverse
 `r emo::ji("cross mark")`  Are our findings just due to randomness?
 
 `r emo::ji("cross mark")` How to find exogeneity in practice?
-
-
----
-
-
-class: title-slide-final, middle
-background-image: url(../img/logo/ScPo-econ.png)
-background-size: 250px
-background-position: 9% 19%
-
-# SEE YOU NEXT WEEK!
-
-
-|                                                                                                            |                                   |
-| :--------------------------------------------------------------------------------------------------------- | :-------------------------------- |
-| <a href="mailto:florian.oswald@sciencespo.fr">.ScPored[<i class="fa fa-paper-plane fa-fw"></i>]               | florian.oswald@sciencespo.fr       |
-| <a href="https://github.com/ScPoEcon/ScPoEconometrics-Slides">.ScPored[<i class="fa fa-link fa-fw"></i>] | Slides |
-| <a href="https://scpoecon.github.io/ScPoEconometrics">.ScPored[<i class="fa fa-link fa-fw"></i>] | Book |
-| <a href="http://twitter.com/ScPoEcon">.ScPored[<i class="fa fa-twitter fa-fw"></i>]                          | @ScPoEcon                         |
-| <a href="http://github.com/ScPoEcon">.ScPored[<i class="fa fa-github fa-fw"></i>]                          | @ScPoEcon                       |

@@ -50,7 +50,7 @@ countdown(
 )
 ```
 
-# Today - Real 'metrics finally `r emo::ji("v")`
+# Today - Getting into the good stuff `r emo::ji("v")`
 
 * Introduction to the ***Simple Linear Regression Model*** and ***Ordinary Least Squares (OLS)*** *estimation*.
 
@@ -179,7 +179,7 @@ g_verb_cs
 
 * We'll first focus on the mathematics scores and for visual simplicity we'll zoom in
 
-```{r, echo=FALSE,fig.height=4.75, fig.width = 8}
+```{r, echo=FALSE,fig.height=5, fig.width = 8}
 g_math_cs +
     ylim(50, 80) +
     theme_bw(base_size = 14)
@@ -191,27 +191,18 @@ g_math_cs +
 
 How to visually summarize the relationship: **a line through the scatter plot**
 
---
-
-.left-wide[
-```{r,echo=FALSE,fig.align='left',fig.height=4,fig.width=7}
+```{r,echo=FALSE,fig.align='center',fig.height=5,fig.width=8}
 g_math_cs +
     ylim(50, 80) +
     theme_bw(base_size = 14) +
   geom_hline(yintercept = 65, col = "#d90502")
 ```
-]
 
 --
-
-.right-thin[
-<br>
-
 * A *line*! Great. But **which** line? This one?
 
 * That's a *flat* line. But average mathematics score is somewhat *increasing* with class size `r emo::ji("weary")`
 
-]
 
 ---
 
@@ -219,26 +210,16 @@ g_math_cs +
 
 How to visually summarize the relationship: **a line through the scatter plot**
 
-.left-wide[
-```{r,echo=FALSE,fig.align='left',fig.height=4,fig.width=7}
+```{r,echo=FALSE,fig.align='center',fig.height=5,fig.width=8}
 g_math_cs +
   ylim(50, 80) +
   theme_bw(base_size = 14) +
   geom_abline(intercept = 55,slope = 0.6, col = "#d90502")
 ```
-]
-
-.right-thin[
-<br>
 
 * **That** one?
-
 * Slightly better! Has a **slope** and an **intercept** `r emo::ji("neutral_face")`
-
 * We need a rule to decide! 
-
-]
-
 
 ---
 
@@ -333,7 +314,7 @@ plot_b_0 +
 
 --
 
-```{r, echo = FALSE, fig.height = 4,fig.width=7}
+```{r, echo = FALSE, fig.height = 5,fig.width=8}
 x <- runif(50, min  = 0, max = 1)
 y <- 1 * x
 
@@ -356,7 +337,7 @@ plot_ex
 
 * If all the data points were __on__ the line then $\widehat{y}_i = y_i$.
 
-```{r, echo = FALSE, fig.height = 4,fig.width=7}
+```{r, echo = FALSE, fig.height = 5,fig.width=8}
 plot_ex + geom_line(color = "#d90502")
 ```
 
@@ -476,8 +457,6 @@ g_math_cs +
 
 # **O**rdinary **L**east **S**quares (OLS) Estimation
 
---
-
 * Errors of different sign $(+/-)$ cancel out, so we consider **squared residuals** 
 $$\forall i \in [1,N], e_i^2 = (y_i - \widehat y_i)^2 = (y_i - b_0 - b_1 x_i)^2$$
 
@@ -485,7 +464,7 @@ $$\forall i \in [1,N], e_i^2 = (y_i - \widehat y_i)^2 = (y_i - b_0 - b_1 x_i)^2$
 
 --
 
-```{r, echo=FALSE, message=FALSE, warning=FALSE,fig.width=7,fig.height = 3.5}
+```{r, echo=FALSE, message=FALSE, warning=FALSE,fig.width=8,fig.height = 6}
 g_math_cs +
     ylim(50, 80) +
     xlim(0, 50) +
@@ -503,7 +482,7 @@ $$\forall i \in [1,N], e_i^2 = (y_i - \widehat y_i)^2 = (y_i - b_0 - b_1 x_i)^2$
 
 * Choose $(b_0,b_1)$ such that $\sum_{i = 1}^N e_1^2 + \dots + e_N^2$ is **as small as possible**.
 
-```{r, echo=FALSE, message=FALSE, warning=FALSE,fig.width=7,fig.height = 3.5}
+```{r, echo=FALSE, message=FALSE, warning=FALSE,fig.width=8,fig.height = 6}
 g_math_cs +
     ylim(50, 80) +
     xlim(0, 50) +
@@ -573,7 +552,7 @@ For now assume both the dependent variable $(y)$ and the independent variable $(
 
 --
 
-* `r emo::ji("warning")` Note that we use the term *associated*, **clearly avoiding interpreting $b_1$ as the causal impact of $x$ on $y$**. To make such a claim, we need some specific conditions to be met. (Next week!)
+* `r emo::ji("warning")` Note that we use the term *associated*, **avoiding interpreting $b_1$ as the causal impact of $x$ on $y$**. To make such a claim, we need some specific conditions to be met. (To be discussed soon!)
 
 --
  
@@ -709,7 +688,7 @@ grades_avg_cs <- grades %>%
 --
 
 * Is that even possible?
-<img src="https://media.giphy.com/media/5aLrlDiJPMPFS/giphy.gif" height = "400" align = "middle" />
+<img src="https://media.giphy.com/media/5aLrlDiJPMPFS/giphy.gif" height = "350" align = "middle" />
 
 ---
 

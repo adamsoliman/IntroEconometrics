@@ -94,19 +94,16 @@ __Causality__: what are we talking about?
 --
 
   - if we were to intervene and *change* the value of `X` ***without changing anything else***...
-    
---
 
   - then `Y` would also change ***as a result***.
   
 --
 
-- The key point here is the ***without changing anything else***, often referred as the **ceteris paribus (*all else equal*) assumption**.   
-(*latin* makes things seem more complicated `r emo::ji("nerd_face")`)
+- The key point here is the ***without changing anything else***, often referred as the **ceteris paribus (*all else equal*) assumption**. (*latin* makes things seem more complicated `r emo::ji("nerd_face")`)
 
 --
 
-- `r emo::ji("warning")` It does **NOT** mean that `X` is the only factor that causes `Y`.
+- `r emo::ji("warning")` Note it does **NOT** mean that `X` is the only factor that causes `Y`.
 
 ---
 
@@ -175,7 +172,7 @@ Other macro factors which can cause cancers also changed between 1900 and 1950:
   
   - Inhalation of motor exhausts (leaded gasoline fumes),
   
-  - General greater air pollution.
+  - General greater air pollution
 ]
 
 --
@@ -187,7 +184,7 @@ Smokers and non-smokers may be different in the first place:
   
   - __Selection on observable characteristics__: age, education, income, etc.
   
-  - __Selection on unobservable characteristics__: genes (the hypothetical confounding genome theory of [Fisher](https://en.wikipedia.org/wiki/Ronald_Aylmer_Fisher)). 
+  - __Selection on unobservable characteristics__: genes (the hypothetical confounding genome theory of [Fisher](https://en.wikipedia.org/wiki/Ronald_Aylmer_Fisher))
 ]
 
 ---
@@ -230,7 +227,7 @@ Smokers and non-smokers may be different in the first place:
 
 - How can we make ***causal claims*** then? 
 
-- The ***Potential Outcomes Framework*** will be our guide.
+- The ***Potential Outcomes Framework*** will be our guide
 
 
 
@@ -1065,7 +1062,7 @@ However, they have some shortcomings:
 <br>
 
 .center[
-```{r, echo = FALSE, out.width = "1000px"}
+```{r, echo = FALSE, out.width = "700px"}
 knitr::include_graphics("../img/photos/correlation_funny.png")
 ```
 ]

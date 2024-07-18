@@ -45,10 +45,9 @@ overwrite = FALSE
 ```
 
 
-# Today - Deeper dive into ***statistical inference*** <sup>1</sup>
+# Today - Deeper dive into ***statistical inference*** 
 
-.footnote[
-[1]: This lecture is based on the wonderful [confidence interval](https://moderndive.com/8-confidence-intervals.html) and [hypothesis testing](https://moderndive.com/9-hypothesis-testing.html) chapters of [ModernDive](https://moderndive.com/)]
+.footnote[This lecture is based on the wonderful [confidence interval](https://moderndive.com/8-confidence-intervals.html) and [hypothesis testing](https://moderndive.com/9-hypothesis-testing.html) chapters of [ModernDive](https://moderndive.com/)]
 
 * *Confidence intervals*: providing plausible ***range*** of values
 
@@ -60,7 +59,7 @@ background-image: url(https://media.giphy.com/media/hXG93399r19vi/giphy.gif)
 background-position: 18% 45%
 background-size: 450px
 
-# Back to reality (there goes gravity `r emo::ji("wink")`)
+# Back to reality
 
 .pull-right[
 
@@ -74,6 +73,8 @@ background-size: 450px
 
 --
 
+<br>
+<br>
 <br>
 <br>
 
@@ -120,7 +121,7 @@ There are several approaches to constructing confidence intervals:
     
 --
     
-We'll focus on simulation to give you the intuition and come back to the maths approach next week.
+We'll focus on simulation to give you the intuition and come back to the math approach soon.
 
 --
 
@@ -279,7 +280,7 @@ bootstrap_distrib = my_sample %>%
 Here are the first 6 rows:
 
 ```{r}
-head(bootstrap_distrib)
+head(bootstrap_distrib, 5)
 
 nrow(bootstrap_distrib)
 ```
@@ -292,7 +293,7 @@ Let's visualize this sampling variation!
 
 # Bootstrap Distribution
 
-```{r,echo = FALSE,fig.height = 4.75, fig.width = 8}
+```{r,echo = FALSE,fig.height = 6, fig.width = 10}
 boot_distrib_plot = bootstrap_distrib %>%
   ggplot(aes(x = stat)) +
   geom_histogram(boundary = 0.39, binwidth = 0.02, col = "white", fill = "darkgreen") +
@@ -310,7 +311,7 @@ The ***bootstrap distribution*** is an approximation of the ***sampling distribu
 
 # Bootstrap Distribution with Mean
 
-```{r,echo = FALSE,fig.height = 4.75, fig.width = 8}
+```{r,echo = FALSE,fig.height = 6, fig.width = 10}
 boot_distrib_plot +
   geom_vline(xintercept = mean(bootstrap_distrib$stat), linetype = "dashed", size = 1) +
   annotate("text", x = 0.375, y = 127, label = "bootstrap distribution mean", size = 4)
@@ -324,7 +325,7 @@ The ***bootstrap distribution*** mean is very close to the original sample propo
 
 # Bootstrap Distribution with Mean
 
-```{r,echo = FALSE,fig.height = 4.75, fig.width = 8}
+```{r,echo = FALSE,fig.height = 6, fig.width = 10}
 boot_distrib_plot +
   geom_vline(xintercept = mean(bootstrap_distrib$stat), linetype = "dashed", size = 1) +
   annotate("text", x = 0.375, y = 127, label = "bootstrap distribution mean", size = 4)
@@ -340,27 +341,21 @@ Let's use this ***bootstrap distribution*** to construct confidence intervals!
 
   * *point estimate*: fishing with a spear.
   
---
-  
   * *confidence interval*: fishing with a net.
 
 --
 
 * In our case the fish is the true proportion of pasta in the bowl that are green $(p)$.
 
---
-
 * The *point estimate* would be the proportion of green pasta obtained from a random sample $(\hat{p})$.
 
 --
 
+<br><br>
+
 * The *confidence interval*: from the previous bootstrap distribution, ***where do most proportions lie?***
 
---
-
 * Method for confidence interval construction: ***percentile method***.
-
---
 
 * Requires specifying a ***confidence level***: 90%, 95%, and 99% are the most common. 
 
@@ -593,7 +588,7 @@ class: title-slide-section-red, middle
 .pull-right[
 ```{r}
 library(moderndive)
-head(promotions)
+head(promotions, 5)
 ```
 ]
 
@@ -740,7 +735,7 @@ cowplot::plot_grid(p1,p2,rel_widths = c(1.3,1.3))
 
 # Sampling Distribution with 1000 Reshufflings
 
-```{r,echo = FALSE, fig.height = 4.75, fig.width = 8}
+```{r,echo = FALSE, fig.height = 6, fig.width = 10}
 set.seed(2)
 null_distribution <- promotions %>% 
   # takes formula, defines success
@@ -755,7 +750,7 @@ null_distribution <- promotions %>%
             order = c("male", "female"))
 
 visualize(null_distribution, bins = 10, fill = "darkred") + 
-  labs(title = "Sampling distribution", x = "Difference in promotion rates (male - female)", y = "Frequency") +
+  labs(title = "Sampling Distribution", x = "Difference in promotion rates (male - female)", y = "Frequency") +
   xlim(-0.4, 0.4)+
   theme_bw(base_size = 14)
 ```
@@ -764,7 +759,7 @@ visualize(null_distribution, bins = 10, fill = "darkred") +
 
 # Sampling Distribution with 1000 Reshufflings
 
-```{r,echo = FALSE, fig.height = 4.75, fig.width = 8}
+```{r,echo = FALSE, fig.height = 6, fig.width = 10}
 visualize(null_distribution, bins = 10, fill = "darkred") + 
   geom_vline(xintercept = 0.292, size =1.25) +
   labs(x = "Difference in promotion rates (male - female)", y = "Frequency") +
@@ -788,8 +783,6 @@ How ***likely*** is it to observe a 0.292 difference in a world with no discrimi
 --
 
 * We concluded ***rather not***, i.e. we tended to ***reject*** the no discrimination hypothesis.
-
---
 
 * Let's introduce the formal framework of hypothesis testing now.
 
@@ -847,7 +840,7 @@ where $p_m =$ promotion rate of men, and $p_f =$ promotion rate of women.
 
 # Null Distribution
 
-```{r,echo = FALSE, fig.height = 4.75, fig.width = 8}
+```{r,echo = FALSE, fig.height = 6, fig.width = 10}
 visualize(null_distribution, bins = 10, fill = "red") + 
   geom_vline(xintercept = 0.292, size =1.25) +
   labs(x = "Difference in sample proportions (male - female)", y = "Frequency") +
@@ -913,7 +906,7 @@ visualize(null_distribution, bins = 10, fill = "red") +
 
 # Visualizing the P-value
 
-```{r,fig.height = 4.75, fig.width = 8, echo = FALSE}
+```{r,fig.height = 6, fig.width = 10, echo = FALSE}
 obs_diff_prop <- promotions %>%
   specify(decision ~ gender, success = "promoted") %>%
   calculate(stat = "diff in props", order = c("male", "female"))
@@ -1019,7 +1012,7 @@ In hypothesis testing, there are ***two types of errors***:
 
 --
 
-* The answer in the next episode of *Introduction to Econometrics with R*! `r emo::ji("monkey_face")`
+* The answer in the next episode! `r emo::ji("monkey_face")`
 
 ---
 

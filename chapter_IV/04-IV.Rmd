@@ -46,7 +46,7 @@ gom = "p.value.|se_type|statistic.end|statistic.overid|statistic.weakinst"
 
 ## Today
 
-* we will introduce *instrumental variables* (IV)
+* We will introduce *instrumental variables* (IV)
 
 * To motivate IV, we will look back to London in 1850 and learn about John Snow.
 
@@ -127,9 +127,9 @@ background-image: url(../img/Kensington_slums_large.jpg)
 background-size: cover
 class: middle
 
-# Welcome to London in 1850
+# <span style="color: #FFFFFF;">Welcome to London in 1850</span>
 
-## .white[(Slum in Kensington)]
+## <span style="color: #FFFFFF;">(Slum in Kensington)</span>
 
 ---
 
@@ -154,24 +154,26 @@ background-image: url(../img/slum.jpg)
 background-size: cover
 
 ---
+background-image: url(../img/slum.jpg)
+background-size: cover
+
 .center[
 <br>
 <br>
 <br>
-.white[
-## In 1850:
+
+## <span style="color: #FFFFFF;">In 1850:</span>
 
 
-* Unknown that germs can cause disease.
+### <span style="color: #FFFFFF;">Unknown that germs can cause disease.</span>
 
-* Microscopes exist, but work at rather poor resolution.
+### <span style="color: #FFFFFF;">Microscopes exist, but work at rather poor resolution.</span>
 
-* Most human pathogens are not visible to the naked eye.
+### <span style="color: #FFFFFF;">Most human pathogens are not visible to the naked eye.</span>
 
-* The so-called *infection theory* (i.e. infection via *germs*) has some supporters,
+### <span style="color: #FFFFFF;">The so-called *infection theory* (i.e. infection via *germs*) had some supporters,</span>
 
-* but the dominant idea is that disease, in general, results from [*miasmas*](https://en.wikipedia.org/wiki/Miasma_theory)
-]
+### <span style="color: #FFFFFF;">but the dominant idea was that disease, in general, results from [*miasmas*](https://en.wikipedia.org/wiki/Miasma_theory)</span>
 
 ]
 
@@ -197,11 +199,6 @@ background-size: 800px
 <br>
 <br>
 <br>
-<br>
-<br>
-<br>
-
---
 
 .center[May the force be with you. (click [here!](https://youtu.be/lNjrAXGRda4?si=Oj-MONvr9Exp-2xo))]
 
@@ -333,9 +330,9 @@ knitr::kable(st9)
 layout: false
 class: separator, middle
 
-# We Need A Model.
+# We Need A Model, because...
 
-## Because: *It takes a model to beat a model*. attributed to Thomas L Sargent.
+## *It takes a model to beat a model*, which is attributed to Thomas L Sargent.
 
 ---
 
@@ -364,7 +361,7 @@ $$
 
 * John Snow could have used his data and assess the correlation between drinking pure water and cholera incidence.
 
-* measure $Cor(c_i,w_i)$
+* Measure $Cor(c_i,w_i)$
 
 * Suppose $Cor(c_i,w_i) \approx 0.5$. Does that prove the infection theory?
 ]
@@ -376,8 +373,6 @@ Note quite. Angus Deaton says:
 
 > The people who drank impure water were also more likely to be poor, and to live in an environment contaminated in many ways, not least by the ‘poison miasmas’ that were then thought to be the cause of cholera.
 
-☹️
-
 ]
 
 ---
@@ -385,9 +380,7 @@ Note quite. Angus Deaton says:
 # The Simple Thing
 
 
-* It does not make sense to compare someone who drinks pure water with someone with impure water.
-
-* because *all else is not equal*: pure water is correlated with being poor, living in bad area, bad air quality and so on - all factors that we encounter in $u_i$. 
+* It does not make sense to compare someone who drinks pure water with someone with impure water because *all else is not equal*: pure water is correlated with being poor, living in bad area, bad air quality and so on - all factors that we encounter in $u_i$. 
 
 * This violates the crucial orthogonality assumption for valid OLS estimates, $E[u_i | w_i]=0$ in this context. 
 
@@ -492,10 +485,6 @@ dag %>%
 
 # Defining Snow's IV Formally
 
-
-
---
-
 Here are the conditions for a valid instrument:
 
 1. **Relevance** or **First Stage**: Water purity is indeed a function of supplier identity. We want that $$E[w_i | z_i = 1] \neq E[w_i | z_i = 0]$$ i.e. the average water purity differs across suppliers. We can *verify* this condition with observational data. We want this effect to be reliably causal.
@@ -566,7 +555,7 @@ In this special case where all involved variables $c,w,z$ are binary, the estima
 
 # Applications
 
-* We now look at further IV applications.
+* We now look at more IV applications.
 
 * We introduce an extension called *Two Stage Least Squares*.
 
@@ -611,8 +600,7 @@ meltdeath = reshape2::melt(death, id.vars = "Year")
 meltdeath$age = as.numeric(meltdeath$variable)
 
 # make a ggplot
-deathgg = ggplot(meltdeath) +
-  geom_raster(aes(x=Year,y=age,fill=value)) +
+deathgg = ggplot(meltdeath) + geom_raster(aes(x=Year,y=age,fill=value)) +
   scale_x_continuous("Year",expand=c(0,0),breaks=seq(1900,2010,10)) +
   scale_y_continuous("Age",expand=c(0,0),breaks=seq(0,100,10),limits=c(0,100)) +
   scale_fill_viridis("Death\nProbability\nPer Year",
@@ -646,9 +634,11 @@ class: separator, middle
 * Here's his model:
 
 $$
-\log Y_i = \alpha + \rho S_i + \beta_1 X_i + \beta_2 X_i^2 + e_i
+\log Y_i = \alpha + \rho S_i + \beta_1 X_i + \beta_2 X_i^2 + e_i,
 $$
+where Y is income, S is years of schooling, and X is years of potential labor market experience
 ]
+
 
 
 .pull-right[
@@ -1020,8 +1010,6 @@ ggplot(ak91_age, aes(x = yob + (qob - 1) / 4, y = s )) +
 # AK91 Figure 1: First Stage!
 
 .left-thin[
-<br>
-<br>
 1. The numbers label mean education *by* quarter of birth groups.
 
 1. The 4-th quarters **did** get more education in most years!
@@ -1174,9 +1162,8 @@ mod$`2SLS`  <- iv_robust(lnw ~ s | q4,
 ---
 
 # AK91 Results Table
-
-.left-wide[
-```{r ms1,echo = FALSE}
+.pull-left[
+```{r ms1,echo = FALSE} 
 glance_custom.iv_robust <- function(x){
   f = x$diagnostic_first_stage_fstatistic
   if (is.null(f)) {
@@ -1199,13 +1186,12 @@ tab %>%
 ```
 ]
 
-.right-thin[
-1. OLS likely downward biased (measurement error in schooling)
+.pull-right[
+* OLS likely downward biased (measurement error in schooling)
 
-1. First Stage: IV `q4` is statistically significant, but small effect: born in q4 has 0.092 years of educ. $R^2$ is 0%! But F-stat is large. 😅
+* First Stage: IV `q4` is statistically significant, but small effect: born in q4 has 0.092 years of educ. $R^2$ is 0%! But F-stat is large. 😅
 
-1. Second stage has same point estimate as `2SLS` but different std error (2. stage one is wrong)
-
+* Second stage has same point estimate as `2SLS` but different std error (2. stage one is wrong)
 ]
 
 ---
@@ -1214,11 +1200,7 @@ tab %>%
 
 * We encountered this before: it's useful to test restricted vs unrestricted models against each other.
 
---
-
 * Here, we are interested whether our instruments are *jointly* significant. Of course, with only one IV, that's not more informative than the t-stat of that IV.
-
---
 
 * This F-Stat compares the predictive power of the first stage with and without the IVs. If they have very similar predictive power, the F-stat will be low, and we will not be able to reject the H0 that our IVs are **jointly insignificant** in the first stage model. 😞
 

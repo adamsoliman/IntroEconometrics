@@ -78,9 +78,9 @@ In each case, the way we estimate these coefficients does not change (i.e OLS).
 
 Empirical applications:
 
-  (i) *college tuition* and *earnings potential*,
-  (ii) *wage*, *education* and *gender* ,
-  (iii) *class size* and *student performance*
+  * *college tuition* and *earnings potential*,
+  * *wage*, *education* and *gender*,
+  * *class size* and *student performance*
 
 ---
 
@@ -99,8 +99,6 @@ There are two main "methods":
 
 1. ***Log*** models
 
---
-
 1. ***Polynomial*** models
 
 ---
@@ -108,15 +106,15 @@ There are two main "methods":
 
 # Log Models
 
-* The models we have seen so far can be called ***level-level*** specifications. Both the dependent and the independent variables have been measured in level.
+* The models we have seen so far can be called ***level-level*** specifications. Both the dependent and the independent variables have been measured in levels.
 
 --
 
-  * This *level* can be: euros, years, number of students,... and even percentage.
+  * The *level* can be dollars, years, number of students...even a percentage.
   
 --
 
-* Taking the *natural* logarithm of the dependent and/or the independent variable(s) leads us to define 3 other types of regressions (abuse of notation: $\ln(x) = \log_{e}(x)=\log(x)$):
+* Taking the *natural* logarithm of the dependent and/or the independent variable(s) leads us to define 3 other types of regressions (with a common abuse of notation where $\ln(x) = \log_{e}(x)=\log(x)$):
 
   * ***Log - level***: $\quad \log(y_i) = b_0 + b_1 x_{1,i} + ... + e_i$
 
@@ -141,15 +139,11 @@ data %>%
 
 # The (natural) log Function: A Primer `r emo::ji("winking_face")`
 
-The [natural log function](https://en.wikipedia.org/wiki/Natural_logarithm) is the inverse function of the exponential function. , i.e. $\log(\exp(x))=x$
+* The [natural log function](https://en.wikipedia.org/wiki/Natural_logarithm) is the inverse function of the exponential function, i.e. $\log(\exp(x))=x$
 
---
+* Since for all $x$, $\exp(x)>0 \implies$ natural log function is only defined for ***strictly positive values***! (It is not defined in 0!)
 
-$\rightarrow$ since for all $x$, $\exp(x)>0 \implies$ natural log function is only defined for ***strictly positive values***! (It is not defined in 0!)
-
---
-
-`r emo::ji("warning")` You can only log your variables if they don't take 0 or negative values! Always think about this when taking the log of your dependent or independent variable(s)
+`r emo::ji("warning")` Note you can only log your variables if they don't take 0 or negative values! Always think about this when taking the log of your dependent or independent variable(s)
 
 ---
 
@@ -225,7 +219,7 @@ For ***any increase in $x$, $\Delta x,$ and any $b_1$*** $(\Delta x = 5\% = 0.05
 
 # When Should You Use log Models?
 
-1. If the relationship betwen $x$ and $y$ looks like a log or exponential function. 
+1. If the relationship betwen $x$ and $y$ looks like a log or exponential function
 
 --
 
@@ -271,7 +265,7 @@ gapminder %>%
 
 # When Should You Use log Models?
 
-1. If the relationship betwen $x$ and $y$ looks like a log or exponential function. 
+1. If the relationship betwen $x$ and $y$ looks like a log or exponential function
 
 .pull-left[
 ```{r, echo = FALSE, fig.height = 6}
@@ -303,7 +297,7 @@ gapminder %>%
     geom_smooth(method = "lm", se = FALSE) +
     scale_x_continuous(lim = c(0,8)) +
     labs(x = "Fertility Rate",
-         y = "GDP",
+         y = "Log GDP",
          title = "Relationship between log GDP and Fertility in 2011",
          caption = "Data from gapminder data in dslabs package.") +
     theme_bw(base_size = 20) +
@@ -317,7 +311,7 @@ gapminder %>%
 
 1. If the relationship betwen $x$ and $y$ looks like a log or exponential function. 
 
-1. To easily interpret coefficients as <a href="https://en.wikipedia.org/wiki/Elasticity_(economics)">***elasticities***</a> which play a central role in economic theory.
+1. To easily interpret coefficients as <a href="https://en.wikipedia.org/wiki/Elasticity_(economics)">***elasticities***</a> which play a central role in economic theory
 
 ***Elasticity of $y$ with respect to $x$:*** percent change in $y$ following a 1% increase in $x$.
 
@@ -765,8 +759,8 @@ Intuitively, standardizing ***puts variables on the same scale*** so we can comp
   
 In our class size and student performance example, it will help to interpret: 
 
-  * The **magnitude** of the effects,
-  * The **relative importance of each variable**.
+  * The **magnitude** of the effects
+  * The **relative importance of each variable**
 
 ---
 
@@ -873,7 +867,7 @@ reg_full$coefficients
 
 ---
 
-# Teaser for the Next 3 Lectures
+# Teaser for the Next Few Lectures
 
 * You may have noticed that since the beginning we always work with **samples** drawn from the overall population.
 

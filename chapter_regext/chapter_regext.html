@@ -57,9 +57,9 @@ In each case, the way we estimate these coefficients does not change (i.e OLS).
 
 Empirical applications:
 
-  (i) *college tuition* and *earnings potential*,
-  (ii) *wage*, *education* and *gender* ,
-  (iii) *class size* and *student performance*
+  * *college tuition* and *earnings potential*,
+  * *wage*, *education* and *gender*,
+  * *class size* and *student performance*
 
 ---
 
@@ -78,8 +78,6 @@ There are two main "methods":
 
 1. ***Log*** models
 
---
-
 1. ***Polynomial*** models
 
 ---
@@ -87,15 +85,15 @@ There are two main "methods":
 
 # Log Models
 
-* The models we have seen so far can be called ***level-level*** specifications. Both the dependent and the independent variables have been measured in level.
+* The models we have seen so far can be called ***level-level*** specifications. Both the dependent and the independent variables have been measured in levels.
 
 --
 
-  * This *level* can be: euros, years, number of students,... and even percentage.
+  * The *level* can be dollars, years, number of students...even a percentage.
   
 --
 
-* Taking the *natural* logarithm of the dependent and/or the independent variable(s) leads us to define 3 other types of regressions (abuse of notation: `\(\ln(x) = \log_{e}(x)=\log(x)\)`):
+* Taking the *natural* logarithm of the dependent and/or the independent variable(s) leads us to define 3 other types of regressions (with a common abuse of notation where `\(\ln(x) = \log_{e}(x)=\log(x)\)`):
 
   * ***Log - level***: `\(\quad \log(y_i) = b_0 + b_1 x_{1,i} + ... + e_i\)`
 
@@ -113,15 +111,11 @@ There are two main "methods":
 
 # The (natural) log Function: A Primer 😉
 
-The [natural log function](https://en.wikipedia.org/wiki/Natural_logarithm) is the inverse function of the exponential function. , i.e. `\(\log(\exp(x))=x\)`
+* The [natural log function](https://en.wikipedia.org/wiki/Natural_logarithm) is the inverse function of the exponential function, i.e. `\(\log(\exp(x))=x\)`
 
---
+* Since for all `\(x\)`, `\(\exp(x)&gt;0 \implies\)` natural log function is only defined for ***strictly positive values***! (It is not defined in 0!)
 
-`\(\rightarrow\)` since for all `\(x\)`, `\(\exp(x)&gt;0 \implies\)` natural log function is only defined for ***strictly positive values***! (It is not defined in 0!)
-
---
-
-⚠️ You can only log your variables if they don't take 0 or negative values! Always think about this when taking the log of your dependent or independent variable(s)
+⚠️ Note you can only log your variables if they don't take 0 or negative values! Always think about this when taking the log of your dependent or independent variable(s)
 
 ---
 
@@ -183,7 +177,7 @@ For ***any increase in `\(x\)`, `\(\Delta x,\)` and any `\(b_1\)`*** `\((\Delta 
 
 # When Should You Use log Models?
 
-1. If the relationship betwen `\(x\)` and `\(y\)` looks like a log or exponential function. 
+1. If the relationship betwen `\(x\)` and `\(y\)` looks like a log or exponential function
 
 --
 
@@ -201,7 +195,7 @@ For ***any increase in `\(x\)`, `\(\Delta x,\)` and any `\(b_1\)`*** `\((\Delta 
 
 # When Should You Use log Models?
 
-1. If the relationship betwen `\(x\)` and `\(y\)` looks like a log or exponential function. 
+1. If the relationship betwen `\(x\)` and `\(y\)` looks like a log or exponential function
 
 .pull-left[
 &lt;img src="chapter_regext_files/figure-html/unnamed-chunk-6-1.svg" style="display: block; margin: auto;" /&gt;
@@ -219,7 +213,7 @@ For ***any increase in `\(x\)`, `\(\Delta x,\)` and any `\(b_1\)`*** `\((\Delta 
 
 1. If the relationship betwen `\(x\)` and `\(y\)` looks like a log or exponential function. 
 
-1. To easily interpret coefficients as &lt;a href="https://en.wikipedia.org/wiki/Elasticity_(economics)"&gt;***elasticities***&lt;/a&gt; which play a central role in economic theory.
+1. To easily interpret coefficients as &lt;a href="https://en.wikipedia.org/wiki/Elasticity_(economics)"&gt;***elasticities***&lt;/a&gt; which play a central role in economic theory
 
 ***Elasticity of `\(y\)` with respect to `\(x\)`:*** percent change in `\(y\)` following a 1% increase in `\(x\)`.
 
@@ -307,7 +301,7 @@ lm(y ~ poly(x, 3, raw = TRUE), data)
 
 # Task 1: Non-linear relationships
 
-<div class="countdown" id="timer_d7615701" data-update-every="1" tabindex="0" style="top:0;right:0;">
+<div class="countdown" id="timer_8ef7e85a" data-update-every="1" tabindex="0" style="top:0;right:0;">
 <div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
 <code class="countdown-time"><span class="countdown-digits minutes">10</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
@@ -490,7 +484,7 @@ $$ \textrm{score}_i = \color{#d96502}{b_0} + \color{#027D83}{b_1} \textrm{small}
 
 # Task 2: Wages, education and gender in 1985
 
-<div class="countdown" id="timer_097c12da" data-update-every="1" tabindex="0" style="top:0;right:0;">
+<div class="countdown" id="timer_84b395b9" data-update-every="1" tabindex="0" style="top:0;right:0;">
 <div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
 <code class="countdown-time"><span class="countdown-digits minutes">10</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
@@ -537,8 +531,8 @@ Intuitively, standardizing ***puts variables on the same scale*** so we can comp
   
 In our class size and student performance example, it will help to interpret: 
 
-  * The **magnitude** of the effects,
-  * The **relative importance of each variable**.
+  * The **magnitude** of the effects
+  * The **relative importance of each variable**
 
 ---
 
@@ -582,7 +576,7 @@ If the ***regressor*** `\(x_k\)` is standardized, i.e. the model is `\(y = b_0 +
 
 # Task 3: Standardized regression
 
-<div class="countdown" id="timer_ef9380c6" data-update-every="1" tabindex="0" style="top:0;right:0;">
+<div class="countdown" id="timer_c33044a2" data-update-every="1" tabindex="0" style="top:0;right:0;">
 <div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
 <code class="countdown-time"><span class="countdown-digits minutes">07</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
@@ -608,7 +602,7 @@ Let's go back our [grades](https://www.dropbox.com/s/wwp2cs9f0dubmhr/grade5.dta?
 
 ---
 
-# Teaser for the Next 3 Lectures
+# Teaser for the Next Few Lectures
 
 * You may have noticed that since the beginning we always work with **samples** drawn from the overall population.
 

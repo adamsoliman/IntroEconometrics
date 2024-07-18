@@ -76,30 +76,19 @@ set.seed(1234)
 
 ## DiD Requirements:
 
---
-
 * 2 time periods: before and after treatment.
-
---
 
 * 2 groups:
 
---
   - ***control group:*** never receives treatment,
 
---
-
   - ***treatment group:*** initially untreated and then fully treated.
-  
---
 
 * Under certain assumptions, control group can be used as the counterfactual for treatment group  
 
 ---
 
 # An Example: Minimum Wage and Employment
-
---
 
 * Imagine you are interested in assessing the __causal__ impact of increasing the minimum wage on (un)employment.
 
@@ -150,17 +139,11 @@ Pennsylvania and New Jersey are ***very similar***: similar institutions, simila
 
 * Surveyed 410 fast-food establishments in New Jersey (NJ) and eastern Pennsylvania
 
---
-
 * Timing:
 
---
   - Survey before NJ MW increase: Feb/March 1992
 
---
   - Survey after NJ MW increase: Nov/Dec 1992
-
---
 
 * What comparisons do you think they did?
 
@@ -267,15 +250,11 @@ ck_mw %>%
 
 Differences-in-differences causal estimate: $0.59 - (-2.17) = 2.76$
 
---
-
 Interpretation: the minimum wage increase led to an __increase__ in FTE employment per store of 2.76 on average.
 
 --
 
 Yes the essence of differences-in-differences is _that_ simple! `r emo::ji("grinning")`
-
---
 
 Let's look at these results graphically.
 
@@ -559,8 +538,6 @@ class: title-slide-section-red, middle
 
 3 ingredients:
 
---
-
 1. __Treatment dummy variable__: $TREAT_s$ where the $s$ subscript reminds us that the treatment is at the state level
 
 --
@@ -610,11 +587,8 @@ $$EMP_{st} = \alpha + \beta TREAT_s + \gamma POST_t + \delta(TREAT_s \times POST
 
 $$EMP_{st} = \color{#d96502}\alpha + \color{#027D83}\beta TREAT_s + \color{#02AB0D}\gamma POST_t + \color{#d90502}\delta(TREAT_s \times POST_t) + \varepsilon_{st}$$
 
---
-
 We have the following:
 
---
 
 $\mathbb{E}(EMP_{st} \; | \; TREAT_s = 0, POST_t = 0) = \color{#d96502}\alpha$
 

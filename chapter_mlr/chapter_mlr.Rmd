@@ -654,7 +654,7 @@ $$
 ```{r, echo = FALSE, fig.height=5, fig.width = 10}
 graph_b0_b1 <- graph_reg_b0 + 
     annotate("text", x = 3, y = 34, label = "b[1]", color = "#d90502", hjust = 0,  parse = TRUE, size = 6) +
-  annotate("text", x = 4.5, y = 34, label = "is equal to the slope of these slines", hjust = 0, size = 6)
+  annotate("text", x = 4.5, y = 34, label = "is equal to the slope of these lines", hjust = 0, size = 6)
 graph_b0_b1
 ```
 
@@ -721,11 +721,8 @@ What if I create a `is_religious` and a `is_notreligious` variable and regress `
 What if I create a `is_religious` and a `is_notreligious` variable and regress `avgmath` on both (and `classize`)?
 
 ```{r}
-grades <- grades %>%
-  mutate(is_religious = (religious == 1),
-         is_notreligious = (religious == 0))
-lm(avgmath ~ classize + is_religious + 
-     is_notreligious, grades)
+grades <- grades %>% mutate(is_religious = (religious == 1), is_notreligious = (religious == 0))
+lm(avgmath ~ classize + is_religious + is_notreligious, grades)
 ```
 
 Only one of two has a coefficient! Why?

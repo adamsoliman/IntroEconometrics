@@ -50,10 +50,9 @@ countdown(
 set.seed(1234)
 ```
 
-# Today - Sampling<sup>1</sup>
+# Today - Sampling
 
-.footnote[
-[1]: This lecture is very heavily based on the wonderful [sampling chapter](https://moderndive.com/7-sampling.html) of [ModernDive](https://moderndive.com/)]
+.footnote[This lecture is very heavily based on the wonderful [sampling chapter](https://moderndive.com/7-sampling.html) of [ModernDive](https://moderndive.com/)]
 
 * Fun activity to discover sampling, sampling variation and sampling distributions.
 
@@ -111,8 +110,6 @@ Yellow   |  1    |     `r format(round(1/20,2), nsmall = 2)`
 --
 
 * What if we repeated this activity multiple times?
-
---
 
 * Probably not. The samples will vary from draw to draw.
 
@@ -324,8 +321,6 @@ head(virtual_shovel)
 * Column `replicate` tells us the ID of the sample. Here: `1`.
 ]
 
---
-
 .pull-right[
 ```{r, echo = TRUE}
 # number of observations in sample
@@ -465,7 +460,7 @@ Instead of taking only 33 samples, let's take ***1000***!
 
 # Sampling Distribution of 1000 Samples
 
-```{r, echo = FALSE, eval = TRUE, fig.height = 4.5, fig.width = 7.75}
+```{r, echo = FALSE, eval = TRUE, fig.height = 6, fig.width = 8}
 virtual_samples <- bowl %>% 
   rep_sample_n(size = 50, reps = 1000)
 
@@ -556,7 +551,7 @@ virtual_prop_green_25 <- virtual_samples_25 %>%
 
 # Role of Sample Size
 
-```{r, echo = FALSE, fig.height=5, fig.width=10}
+```{r, echo = FALSE, fig.height=7, fig.width=13}
 
 # Sample size: 50
 virtual_prop_green_50 <- virtual_samples_50 %>% 
@@ -601,15 +596,11 @@ df %>%
 
 * The larger the sample size, the *narrower* the resulting ***sampling distribution***.
 
---
-
 * In other words, there are fewer differences due to ***sampling variation***.
 
 --
 
 * Holding constant the number of replicates (i.e. 1000 in our case), ***bigger samples*** will yield *normal distributions* with ***smaller standard deviations***.
-
---
 
 ```{r, echo = FALSE}
 # n = 25
@@ -635,8 +626,6 @@ Sample Size | Standard Deviation
 
 * Remember that the ***standard deviation*** measures the *spread* of a variable around its mean.
 
---
-
 * So as the sample size increases, our ***estimates*** of the true proportion of the bowl's green pasta get more *precise*.
 
 ---
@@ -644,8 +633,6 @@ Sample Size | Standard Deviation
 # Sampling Framework
 
 * We used sampling for the purpose of ***estimation***.
-
---
 
 * We extracted samples in order to ***estimate*** the proportion of the bowl's pasta that are green.
 
@@ -694,17 +681,13 @@ $N = 713$ pasta.
 
 * We have been estimating $\hat{p}$ all along.
 
---
-
 * We plotted the *sampling distribution* to display the *sampling variation* of the *sample proportion* $\hat{p}$.
-
---
 
 * We computed the *standard deviation* of the *sampling distribution* of $\hat{p}$. This standard deviation has a special name: ***standard error*** of the *point estimate* $\hat{p}$.
 
 --
 
-* Let's reproduce the summary table and labelling properly:
+* Let's reproduce the summary table and labeling properly:
 
 Sample Size $(n)$ | Standard Error of $\hat{p}$
 :---------:|:--------------:
@@ -747,7 +730,7 @@ sum(bowl$color == "green")/nrow(bowl)
 
 # Visualizing Unbiasedness and Sampling Variation
 
-```{r,echo = FALSE,fig.width=10,fig.height=5}
+```{r,echo = FALSE,fig.width=12,fig.height=6}
 p <- bowl %>% 
   summarize(p = mean(color == "green")) %>% 
   pull(p)

@@ -35,7 +35,7 @@ class: center, middle, inverse, title-slide
 
 ## Today
 
-* we will introduce *instrumental variables* (IV)
+* We will introduce *instrumental variables* (IV)
 
 * To motivate IV, we will look back to London in 1850 and learn about John Snow.
 
@@ -98,9 +98,9 @@ background-image: url(../img/Kensington_slums_large.jpg)
 background-size: cover
 class: middle
 
-# Welcome to London in 1850
+# &lt;span style="color: #FFFFFF;"&gt;Welcome to London in 1850&lt;/span&gt;
 
-## .white[(Slum in Kensington)]
+## &lt;span style="color: #FFFFFF;"&gt;(Slum in Kensington)&lt;/span&gt;
 
 ---
 
@@ -123,24 +123,26 @@ background-image: url(../img/slum.jpg)
 background-size: cover
 
 ---
+background-image: url(../img/slum.jpg)
+background-size: cover
+
 .center[
 &lt;br&gt;
 &lt;br&gt;
 &lt;br&gt;
-.white[
-## In 1850:
+
+## &lt;span style="color: #FFFFFF;"&gt;In 1850:&lt;/span&gt;
 
 
-* Unknown that germs can cause disease.
+### &lt;span style="color: #FFFFFF;"&gt;Unknown that germs can cause disease.&lt;/span&gt;
 
-* Microscopes exist, but work at rather poor resolution.
+### &lt;span style="color: #FFFFFF;"&gt;Microscopes exist, but work at rather poor resolution.&lt;/span&gt;
 
-* Most human pathogens are not visible to the naked eye.
+### &lt;span style="color: #FFFFFF;"&gt;Most human pathogens are not visible to the naked eye.&lt;/span&gt;
 
-* The so-called *infection theory* (i.e. infection via *germs*) has some supporters,
+### &lt;span style="color: #FFFFFF;"&gt;The so-called *infection theory* (i.e. infection via *germs*) had some supporters,&lt;/span&gt;
 
-* but the dominant idea is that disease, in general, results from [*miasmas*](https://en.wikipedia.org/wiki/Miasma_theory)
-]
+### &lt;span style="color: #FFFFFF;"&gt;but the dominant idea was that disease, in general, results from [*miasmas*](https://en.wikipedia.org/wiki/Miasma_theory)&lt;/span&gt;
 
 ]
 
@@ -166,11 +168,6 @@ background-size: 800px
 &lt;br&gt;
 &lt;br&gt;
 &lt;br&gt;
-&lt;br&gt;
-&lt;br&gt;
-&lt;br&gt;
-
---
 
 .center[May the force be with you. (click [here!](https://youtu.be/lNjrAXGRda4?si=Oj-MONvr9Exp-2xo))]
 
@@ -287,9 +284,9 @@ cholera::snowMap()
 layout: false
 class: separator, middle
 
-# We Need A Model.
+# We Need A Model, because...
 
-## Because: *It takes a model to beat a model*. attributed to Thomas L Sargent.
+## *It takes a model to beat a model*, which is attributed to Thomas L Sargent.
 
 ---
 
@@ -318,7 +315,7 @@ $$
 
 * John Snow could have used his data and assess the correlation between drinking pure water and cholera incidence.
 
-* measure `\(Cor(c_i,w_i)\)`
+* Measure `\(Cor(c_i,w_i)\)`
 
 * Suppose `\(Cor(c_i,w_i) \approx 0.5\)`. Does that prove the infection theory?
 ]
@@ -330,8 +327,6 @@ Note quite. Angus Deaton says:
 
 &gt; The people who drank impure water were also more likely to be poor, and to live in an environment contaminated in many ways, not least by the ‘poison miasmas’ that were then thought to be the cause of cholera.
 
-☹️
-
 ]
 
 ---
@@ -339,9 +334,7 @@ Note quite. Angus Deaton says:
 # The Simple Thing
 
 
-* It does not make sense to compare someone who drinks pure water with someone with impure water.
-
-* because *all else is not equal*: pure water is correlated with being poor, living in bad area, bad air quality and so on - all factors that we encounter in `\(u_i\)`. 
+* It does not make sense to compare someone who drinks pure water with someone with impure water because *all else is not equal*: pure water is correlated with being poor, living in bad area, bad air quality and so on - all factors that we encounter in `\(u_i\)`. 
 
 * This violates the crucial orthogonality assumption for valid OLS estimates, `\(E[u_i | w_i]=0\)` in this context. 
 
@@ -426,10 +419,6 @@ background-position: 60% 50%
 
 # Defining Snow's IV Formally
 
-
-
---
-
 Here are the conditions for a valid instrument:
 
 1. **Relevance** or **First Stage**: Water purity is indeed a function of supplier identity. We want that `$$E[w_i | z_i = 1] \neq E[w_i | z_i = 0]$$` i.e. the average water purity differs across suppliers. We can *verify* this condition with observational data. We want this effect to be reliably causal.
@@ -500,7 +489,7 @@ In this special case where all involved variables `\(c,w,z\)` are binary, the es
 
 # Applications
 
-* We now look at further IV applications.
+* We now look at more IV applications.
 
 * We introduce an extension called *Two Stage Least Squares*.
 
@@ -546,8 +535,7 @@ meltdeath = reshape2::melt(death, id.vars = "Year")
 meltdeath$age = as.numeric(meltdeath$variable)
 
 # make a ggplot
-deathgg = ggplot(meltdeath) +
-  geom_raster(aes(x=Year,y=age,fill=value)) +
+deathgg = ggplot(meltdeath) + geom_raster(aes(x=Year,y=age,fill=value)) +
   scale_x_continuous("Year",expand=c(0,0),breaks=seq(1900,2010,10)) +
   scale_y_continuous("Age",expand=c(0,0),breaks=seq(0,100,10),limits=c(0,100)) +
   scale_fill_viridis("Death\nProbability\nPer Year",
@@ -581,9 +569,11 @@ class: separator, middle
 * Here's his model:
 
 $$
-\log Y_i = \alpha + \rho S_i + \beta_1 X_i + \beta_2 X_i^2 + e_i
+\log Y_i = \alpha + \rho S_i + \beta_1 X_i + \beta_2 X_i^2 + e_i,
 $$
+where Y is income, S is years of schooling, and X is years of potential labor market experience
 ]
+
 
 
 .pull-right[
@@ -1028,8 +1018,6 @@ ggplot(ak91_age, aes(x = yob + (qob - 1) / 4, y = s )) +
 # AK91 Figure 1: First Stage!
 
 .left-thin[
-&lt;br&gt;
-&lt;br&gt;
 1. The numbers label mean education *by* quarter of birth groups.
 
 1. The 4-th quarters **did** get more education in most years!
@@ -1167,8 +1155,7 @@ mod$`2SLS`  &lt;- iv_robust(lnw ~ s | q4,
 ---
 
 # AK91 Results Table
-
-.left-wide[
+.pull-left[
 <table class="huxtable" data-quarto-disable-processing="true" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:ms1">
 <col><col><col><col><col><tr>
 <th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 0pt 1pt 0pt;    padding: 3.5pt 6pt 3.5pt 6pt; font-weight: normal;"> </th><th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 0pt 1pt 0pt;    padding: 3.5pt 6pt 3.5pt 6pt; font-weight: normal;">ols</th><th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 0pt 1pt 0pt;    padding: 3.5pt 6pt 3.5pt 6pt; font-weight: normal;">1. stage</th><th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 0pt 1pt 0pt;    padding: 3.5pt 6pt 3.5pt 6pt; font-weight: normal;">2. stage</th><th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 0pt 1pt 0pt;    padding: 3.5pt 6pt 3.5pt 6pt; font-weight: normal;">2SLS</th></tr>
@@ -1200,13 +1187,12 @@ mod$`2SLS`  &lt;- iv_robust(lnw ~ s | q4,
 
 ]
 
-.right-thin[
-1. OLS likely downward biased (measurement error in schooling)
+.pull-right[
+* OLS likely downward biased (measurement error in schooling)
 
-1. First Stage: IV `q4` is statistically significant, but small effect: born in q4 has 0.092 years of educ. `\(R^2\)` is 0%! But F-stat is large. 😅
+* First Stage: IV `q4` is statistically significant, but small effect: born in q4 has 0.092 years of educ. `\(R^2\)` is 0%! But F-stat is large. 😅
 
-1. Second stage has same point estimate as `2SLS` but different std error (2. stage one is wrong)
-
+* Second stage has same point estimate as `2SLS` but different std error (2. stage one is wrong)
 ]
 
 ---

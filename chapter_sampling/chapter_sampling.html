@@ -33,10 +33,9 @@ class: center, middle, inverse, title-slide
 
 
 
-# Today - Sampling&lt;sup&gt;1&lt;/sup&gt;
+# Today - Sampling
 
-.footnote[
-[1]: This lecture is very heavily based on the wonderful [sampling chapter](https://moderndive.com/7-sampling.html) of [ModernDive](https://moderndive.com/)]
+.footnote[This lecture is very heavily based on the wonderful [sampling chapter](https://moderndive.com/7-sampling.html) of [ModernDive](https://moderndive.com/)]
 
 * Fun activity to discover sampling, sampling variation and sampling distributions.
 
@@ -92,8 +91,6 @@ Yellow   |  1    |     0.05
 --
 
 * What if we repeated this activity multiple times?
-
---
 
 * Probably not. The samples will vary from draw to draw.
 
@@ -156,7 +153,7 @@ Sample # | Count | Proportion
 
 # Task 1
 
-<div class="countdown" id="timer_adfc923a" data-update-every="1" tabindex="0" style="top:0;right:0;">
+<div class="countdown" id="timer_203179fd" data-update-every="1" tabindex="0" style="top:0;right:0;">
 <div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
 <code class="countdown-time"><span class="countdown-digits minutes">05</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
@@ -295,8 +292,6 @@ head(virtual_shovel)
 
 * Column `replicate` tells us the ID of the sample. Here: `1`.
 ]
-
---
 
 .pull-right[
 
@@ -455,7 +450,7 @@ ggplot(virtual_prop_green, aes(x = prop_green)) +
 
 # Task 2
 
-<div class="countdown" id="timer_d2c60a67" data-update-every="1" tabindex="0" style="top:0;right:0;">
+<div class="countdown" id="timer_dfd8c124" data-update-every="1" tabindex="0" style="top:0;right:0;">
 <div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
 <code class="countdown-time"><span class="countdown-digits minutes">10</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
@@ -560,15 +555,11 @@ virtual_prop_green_25 &lt;- virtual_samples_25 %&gt;%
 
 * The larger the sample size, the *narrower* the resulting ***sampling distribution***.
 
---
-
 * In other words, there are fewer differences due to ***sampling variation***.
 
 --
 
 * Holding constant the number of replicates (i.e. 1000 in our case), ***bigger samples*** will yield *normal distributions* with ***smaller standard deviations***.
-
---
 
 
 
@@ -582,8 +573,6 @@ Sample Size | Standard Deviation
 
 * Remember that the ***standard deviation*** measures the *spread* of a variable around its mean.
 
---
-
 * So as the sample size increases, our ***estimates*** of the true proportion of the bowl's green pasta get more *precise*.
 
 ---
@@ -591,8 +580,6 @@ Sample Size | Standard Deviation
 # Sampling Framework
 
 * We used sampling for the purpose of ***estimation***.
-
---
 
 * We extracted samples in order to ***estimate*** the proportion of the bowl's pasta that are green.
 
@@ -641,17 +628,13 @@ Sample Size | Standard Deviation
 
 * We have been estimating `\(\hat{p}\)` all along.
 
---
-
 * We plotted the *sampling distribution* to display the *sampling variation* of the *sample proportion* `\(\hat{p}\)`.
-
---
 
 * We computed the *standard deviation* of the *sampling distribution* of `\(\hat{p}\)`. This standard deviation has a special name: ***standard error*** of the *point estimate* `\(\hat{p}\)`.
 
 --
 
-* Let's reproduce the summary table and labelling properly:
+* Let's reproduce the summary table and labeling properly:
 
 Sample Size `\((n)\)` | Standard Error of `\(\hat{p}\)`
 :---------:|:--------------:

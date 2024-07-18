@@ -1,16 +1,8 @@
----
-output:
-  pdf_document: default
-  html_document: default
----
-
 # Suggested Readings for ECON 4050
 
-
-The material below is a complement to the lecture slides and should be used as reference. Readings in **bold** are **highly** recommended. 
+The material below is a complement to the lecture slides and should be used as reference. That said, readings in **bold** are **highly** recommended. 
 
 Note: each reading below has an associated link, so click on it to access it. 
-
 
 ## Introduction Lecture
 

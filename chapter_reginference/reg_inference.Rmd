@@ -237,7 +237,7 @@ bootstrap_distrib <- star_df %>%
 
 # Bootstrap Distribution
 
-```{r, echo=FALSE, fig.height = 4.25, fig.width = 8}
+```{r, echo=FALSE, fig.height = 5.5, fig.width = 9.5}
 library(infer)
 bootstrap_distrib = star_df %>% 
     mutate(small=as.numeric(small)) %>% 
@@ -394,7 +394,7 @@ null_distribution <- null_distribution %>%
 # Testing $\beta_\textrm{small} = 0$ vs $\beta_\textrm{small} \neq 0$
 
 
-```{r echo=FALSE, fig.height = 4.75, fig.width = 8}
+```{r echo=FALSE, fig.height = 6, fig.width = 10}
 plot_null_distrib = null_distribution %>%
   ggplot(aes(x = test_stat)) +
   geom_histogram(binwidth = 0.2, col = "white", fill = "#d90502") +
@@ -410,7 +410,7 @@ plot_null_distrib
 # Testing $\beta_\textrm{small} = 0$ vs $\beta_\textrm{small} \neq 0$
 
 
-```{r echo=FALSE, fig.height = 4.75, fig.width = 8}
+```{r echo=FALSE, fig.height = 6, fig.width = 10}
 plot_null_distrib +
   geom_vline(xintercept = observed_stat, size = 1.25) +
   annotate("text", x = 4.1, y = 75, label = "observed test statistic", size = 4)
@@ -432,7 +432,7 @@ Very unlikely to obtain $b_\textrm{small}$ = `r coeff_star[2]` when $H_0$ is tru
 # Testing $\beta_\textrm{small} = 0$ vs $\beta_\textrm{small} \neq 0$
 
 
-```{r echo=FALSE, fig.height = 4.75, fig.width = 8}
+```{r echo=FALSE, fig.height = 6, fig.width = 10}
 plot_null_distrib +
   geom_vline(xintercept = observed_stat, size = 1.25) +
   geom_vline(xintercept = -observed_stat, size = 1.25)
@@ -600,7 +600,7 @@ bootstrap_distrib %>%
 
 # Confidence Intervals: Visually
 
-```{r, echo = FALSE, fig.width = 10, fig.height = 5.5}
+```{r, echo = FALSE, fig.width = 10, fig.height =6}
 ci_pctile = bootstrap_distrib %>%
     summarise(
         lower = quantile(stat, 0.025),
@@ -732,7 +732,7 @@ class: title-slide-section-red, middle
 
 --
 
-* Before delving into these assumptions, let's see the small but important modifications we apply to our model (back to [*lecture SLR*](https://raw.githack.com/ScPoEcon/ScPoEconometrics-Slides/master/chapter_slr/chapter_slr.html)):
+* Before delving into these assumptions, let's see the small but important modifications we apply to our model (back to [*lecture SLR*](https://raw.githack.com/adamsoliman/IntroEconometrics/master/chapter_slr/chapter_slr.html)):
 
 --
 
@@ -764,7 +764,7 @@ class: title-slide-section-red, middle
 
 # Mean Independence of Error: E[u | small] = ?
 
-```{r, echo = FALSE, warning = FALSE, message = FALSE,fig.width=8,fig.height=5}
+```{r, echo = FALSE, warning = FALSE, message = FALSE,fig.width=10,fig.height=6}
 library(ggridges)
 library(ggthemes)
 library(viridis)
@@ -839,7 +839,7 @@ cond_good
 
 # Mean Independence of Error: E[u | small] = ?
 
-```{r, echo = FALSE,fig.width=8,fig.height=5}
+```{r, echo = FALSE,fig.width=10,fig.height=6}
 cond_bad
 ```
 

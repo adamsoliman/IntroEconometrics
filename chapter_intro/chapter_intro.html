@@ -47,43 +47,27 @@ ___
 
 1. `R` is __free__ and __open source__—saving both you and the university 💰💵💰.
 
---
-
 1. `R` is very __flexible and powerful__—adaptable to nearly any task, (data cleaning, data visualization, econometrics, spatial data analysis, machine learning, web scraping, etc.)
-
---
 
 1. `R` has a vibrant, [thriving online community](https://stackoverflow.com/questions/tagged/r) that will (almost) always have a solution to your problem.
 
---
-
 1. If you put in the work, you will come away with a __very valuable and useful__ tool.
 
-&lt;!-- --- --&gt;
+---
 
-&lt;!-- # Why can't we just use Excel? --&gt;
+# Why can't we just use Excel?
 
-&lt;!-- Many reasons but here are just a few: --&gt;
+Many reasons but here are just a few:
 
-&lt;!-- -- --&gt;
+- Not ***reproducible***.
 
-&lt;!-- - Not ***reproducible***. --&gt;
+- Not straightforward to ***merge*** datasets together.
 
-&lt;!-- -- --&gt;
+- Very fastidious to ***clean*** data.
 
-&lt;!-- - Not straightforward to ***merge*** datasets together. --&gt;
+- Limited to ***small datasets***.
 
-&lt;!-- -- --&gt;
-
-&lt;!-- - Very fastidious to ***clean*** data. --&gt;
-
-&lt;!-- -- --&gt;
-
-&lt;!-- - Limited to ***small datasets***. --&gt;
-
-&lt;!-- -- --&gt;
-
-&lt;!-- - Not designed for proper ***econometric analyses***, maps, complex visualisations, etc. --&gt;
+- Not designed for proper ***econometric analyses***, maps, complex visualisations, etc.
 
 ---
 
@@ -105,8 +89,6 @@ class: title-slide-section-red, middle
 * The `gapminder` dataset contains data on life expectancy, GDP per capita and population by country between 1952 and 2007.
 
 * Suppose we want to know the average life expectancy and average GDP per capita for each continent in each year.
-
---
 
 * We need to group the data by continent *and* year, then compute the average life expectancy and average GDP per capita
 
@@ -175,7 +157,7 @@ head(gapminder_dplyr, n = 5)
 
 ---
 
-# Visualisation
+# Visualization
 
 .pull-left[
 * Now we could *look* at the result in `gapminder_dplyr`, or compute some statistics from it. 
@@ -197,6 +179,8 @@ ggplot(data = gapminder_dplyr,
   theme_bw()
 ```
 ]
+
+--
 
 .pull-right[
 &lt;img src="chapter_intro_files/figure-html/gampminder_plot-1.svg" style="display: block; margin: auto;" /&gt;
@@ -227,13 +211,9 @@ class: title-slide-section-red, middle
 
 * `RStudio`: an integrated development environment (IDE) to work with `R`.
 
---
-
 * *command*: user input (text or numbers) that `R` *understands*.
 
 * *script*: a list of commands collected in a text file, each separated by a new line, to be run one after the other.
-
---
 
 * To run a script, you need to highlight the relevant code lines and hit `Ctrl`+`Enter` (Windows) or `Cmd`+`Enter` (Mac).
 
@@ -250,8 +230,6 @@ class: title-slide-section-red, middle
 * You can use the `R` console like a calculator
 
 * Just type an arithmetic operation after `&gt;` and hit `Enter`!
-
---
 
 * Some basic arithmetic first:
 
@@ -300,8 +278,6 @@ help(lm)   # help() is equivalent
 ```
 ]
 
---
-
 .pull-right[
 In practice:
 ![Learning R](chapter_intro_files/figure-html/learning_path.png)
@@ -325,7 +301,7 @@ In practice:
     install.packages("ggplot2")
     ```
 
-* To *use* the contents of a packge, we must load it from our library using `library`:
+* To *use* the contents of a package, we must load it from our library using `library`:
     
     ```r
     library(ggplot2)
@@ -358,8 +334,6 @@ In practice:
     ## [1] "42"         "Statistics" "TRUE"
     ```
 ]
-
---
 
 .pull-right[
 
@@ -441,8 +415,6 @@ names(murders) # column names
 ## [1] "state"      "abb"        "region"     "population" "total"
 ```
 
---
-
 
 ```r
 nrow(murders) # number of rows
@@ -452,8 +424,6 @@ nrow(murders) # number of rows
 ## [1] 51
 ```
 
---
-
 
 ```r
 ncol(murders) # number of columns
@@ -462,7 +432,6 @@ ncol(murders) # number of columns
 ```
 ## [1] 5
 ```
-
 
 ---
 
@@ -509,8 +478,6 @@ ncol(murders) # number of columns
     ```
 ]
 
---
-
 .pull-right[
 * `typeof` gives the R-internal data type:
     
@@ -554,6 +521,18 @@ ncol(murders) # number of columns
     ```
 
 --- 
+
+
+
+---
+
+class: title-slide-final, middle
+
+This was just a brief introduction, so do not worry if it felt like a lot. Not only are there tons of resources online (such as those referenced on the course website and in lecture notes), but you have a weekly lab that is dedicated to R and Econometrics. 
+
+### Moving forward, you will be using R in every class with various tasks (i.e., implementing things you are learning in real time), so bring your laptop AND BEFORE NEXT CLASS, install R and RStudio using instructions from [this link](https://rstudio-education.github.io/hopr/starting.html). 
+
+Note that [Hands-On Programming with R](https://rstudio-education.github.io/hopr/index.html) more generally is another useful resource.
 
 
     </textarea>

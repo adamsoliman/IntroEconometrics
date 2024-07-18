@@ -81,11 +81,7 @@ set.seed(1234)
 
 * Starting point: subjects are ***not*** randomly allocated to treatment `r emo::ji("warning")`
 
---
-
 * RDD can be applied when we have specific information about the rules determining treatment.
-
---
 
 * __RDD__ exploits this precise information about allocation to treatment!
 
@@ -125,8 +121,6 @@ We will focus our analysis on the following discontinuity:
 
 * Imagine you are interested in assessing the __causal__ impact of alcohol consumption by young adults on mortality.
 
---
-
 * Why is this not that straightforward? Why can't you just regress alcohol consumption on dying age and cause of death?
 
 --
@@ -136,8 +130,6 @@ We will focus our analysis on the following discontinuity:
 --
 
 * In the US, alcohol consumption is prohibited before the age of 21.
-
---
 
 * Debate on whether the minimum legal drinking age (MLDA) should be lowered to 18, as was the case in the Vietnam-era.
 
@@ -168,8 +160,6 @@ Causal intuition:
 --
 
 * Around the threshold, allocation to treatment is ***as good as random***.
-
---
 
 * `r emo::ji("point_right")` ***Regression discontinuity design*** exploits this allocation to treatment!
 
@@ -207,7 +197,7 @@ mlda %>%
 
 # Sharp Discontinuity at Cutoff
 
-```{r, echo = FALSE, eval = TRUE, fig.height = 4.75, fig.width = 10}
+```{r, echo = FALSE, eval = TRUE, fig.height = 6, fig.width = 10}
 mlda <- mlda %>%
   mutate(over21 = (agecell >= 21))
 
@@ -215,7 +205,7 @@ rdd_run <- mlda %>%
   ggplot(aes(x = agecell, y = over21, color = over21)) +
   geom_point(size = 4, alpha = 0.8) +
   geom_vline(xintercept = 21, linetype = "longdash") +
-  labs(x = "Age", y = "Above LMDA") +
+  labs(x = "Age", y = "Above MLDA") +
   scale_color_viridis_d() +
   theme_bw(base_size = 14) + theme(legend.position="none")
 rdd_run
@@ -227,7 +217,7 @@ At the threshold, the probability of being treated jumps from 0 to 1.
 
 # Sharp Discontinuity at Cutoff
 
-```{r, echo = FALSE, eval = TRUE, fig.height = 4.75, fig.width = 10}
+```{r, echo = FALSE, eval = TRUE, fig.height = 6, fig.width = 10}
 rdd_run +
   annotate("rect", xmin = 20.5, xmax = 21.5, ymin = -Inf, ymax = Inf, alpha = .2) +
   annotate("rect", xmin = 21 - 1/12, xmax = 21 + 1/12, ymin = -Inf, ymax = Inf, alpha = .4) +
@@ -239,7 +229,7 @@ rdd_run +
 
 # Sharp Discontinuity at Cutoff
 
-```{r, echo = FALSE, eval = TRUE, fig.height = 4.75, fig.width = 10}
+```{r, echo = FALSE, eval = TRUE, fig.height = 6, fig.width = 10}
 rdd_run +
   annotate("rect", xmin = 20.5, xmax = 21.5, ymin = -Inf, ymax = Inf, alpha = .2) +
   annotate("rect", xmin = 21 - 1/12, xmax = 21 + 1/12, ymin = -Inf, ymax = Inf, alpha = .4) +
@@ -304,7 +294,7 @@ rdd_run +
 
 # Graphical Results: All Death Rates
 
-```{r, echo = FALSE, eval = TRUE, fig.height = 5, fig.width = 10}
+```{r, echo = FALSE, eval = TRUE, fig.height = 6, fig.width = 10}
 rdd_plot <- mlda %>%
   ggplot(aes(x = agecell, y = all, color = over21)) +
   geom_point(size = 4) +
@@ -322,7 +312,7 @@ rdd_plot
 
 # Graphical Results: All Death Rates
 
-```{r, echo = FALSE, eval = TRUE, fig.height = 5, fig.width = 10}
+```{r, echo = FALSE, eval = TRUE, fig.height = 6, fig.width = 10}
 library(broom)
 all_fit <- augment(lm(all ~ agecell + over21, mlda))
 
@@ -337,7 +327,7 @@ rdd_plot_line
 
 # Graphical Results: All Death Rates
 
-```{r, echo = FALSE, eval = TRUE, fig.height = 5, fig.width = 10}
+```{r, echo = FALSE, eval = TRUE, fig.height = 6, fig.width = 10}
 bracketsGrob <- function(...){
 l <- list(...)
 e <- new.env()
@@ -360,7 +350,7 @@ rdd_plot_line_brack
 
 # Graphical Results: All Death Rates
 
-```{r, echo = FALSE, eval = TRUE, fig.height = 5, fig.width = 10}
+```{r, echo = FALSE, eval = TRUE, fig.height = 6, fig.width = 10}
 bracketsGrob <- function(...){
 l <- list(...)
 e <- new.env()
@@ -520,7 +510,7 @@ mean(mlda$all, na.rm = TRUE)
 
 # Simulations - Linear Relationship and Clear Discontinuity
 
-```{r, echo = FALSE, fig.height = 4.5, fig.width = 10}
+```{r, echo = FALSE, fig.height = 6, fig.width = 10}
 set.seed(1234)
 
   # parameters
@@ -571,7 +561,7 @@ $$outcome_i = \alpha + \delta treatment_i + \beta running_i + e_i,$$
 
 # Simulations - Linear Relationship and Clear Discontinuity
 
-```{r, echo = FALSE, fig.height = 4.5, fig.width = 10}
+```{r, echo = FALSE, fig.height = 6, fig.width = 10}
 bracketsGrob <- function(...){
 l <- list(...)
 e <- new.env()
@@ -594,7 +584,7 @@ $$outcome_i = \alpha + \color{#d90502}\delta treatment_i + \beta running_i + e_i
 
 # Simulations - Quadratic Relationship and Clear Discontinuity
 
-```{r, echo = FALSE, fig.height = 4.5, fig.width = 10}
+```{r, echo = FALSE, fig.height = 6, fig.width = 10}
 set.seed(1234)
 
   # parameters
@@ -648,7 +638,7 @@ $$outcome_i = \alpha + \delta treatment_i + \beta_1 running_i + \color{#d90502}{
 
 # Simulations - Quadratic Relationship and Clear Discontinuity
 
-```{r, echo = FALSE, fig.height = 4.5, , fig.width = 10}
+```{r, echo = FALSE, fig.height = 6, , fig.width = 10}
 bracketsGrob <- function(...){
 l <- list(...)
 e <- new.env()
@@ -671,7 +661,7 @@ $$outcome_i = \alpha + \color{#d90502}\delta treatment_i + \beta_1 running_i + \
 
 # Simulations - Linear Relationship but NO Discontinuity
 
-```{r, echo = FALSE, fig.height = 4.5, fig.width = 10}
+```{r, echo = FALSE, fig.height = 6, fig.width = 10}
 set.seed(123)
 
   # parameters
@@ -725,7 +715,7 @@ rdd_nodisc
 
 # Simulations - Different Slopes
 
-```{r, echo = FALSE, fig.height = 4.5, fig.width = 10}
+```{r, echo = FALSE, fig.height = 6, fig.width = 10}
 set.seed(1234)
 
   # parameters
@@ -778,7 +768,7 @@ $$outcome_i = \alpha + \delta treatment_i + \beta (running_i - cutoff) + \\ \col
 
 # Simulations - Different (Linear) Slopes
 
-```{r, echo = FALSE, fig.height = 4.5, fig.width = 10}
+```{r, echo = FALSE, fig.height = 6, fig.width = 10}
 bracketsGrob <- function(...){
 l <- list(...)
 e <- new.env()
@@ -820,7 +810,7 @@ $$outcome_i = \alpha + \color{#d90502}\delta treatment_i + \beta (running_i - cu
 
 # Going Back to our Example: Nonlinearities / $\neq$ Slopes?
 
-```{r, echo = FALSE, eval = TRUE, fig.height = 4.5, fig.width = 10}
+```{r, echo = FALSE, eval = TRUE, fig.height = 6, fig.width = 10}
 all_nonlin_fit <- augment(lm(all ~ agecell_21*over21 + I(agecell_21^2)*over21, mlda))
 
 rdd_plot
@@ -830,7 +820,7 @@ rdd_plot
 
 # Going Back to our Example: Nonlinearities / $\neq$ Slopes?
 
-```{r, echo = FALSE, eval = TRUE, fig.height = 4.5, fig.width = 10}
+```{r, echo = FALSE, eval = TRUE, fig.height = 6, fig.width = 10}
 all_nonlin_fit <- augment(lm(all ~ agecell_21*over21 + I(agecell_21^2)*over21, mlda))
 
 rdd_plot_line +
@@ -863,7 +853,7 @@ $$DEATHRATE_a = \alpha + \delta D_a + \beta (a - 21) + \gamma D_a * (a - 21) + \
 
 # Graphical Representation of the Regression Results
 
-```{r, echo = FALSE, eval = TRUE, fig.height = 5, fig.width = 10}
+```{r, echo = FALSE, eval = TRUE, fig.height = 6, fig.width = 10}
 mlda_long <- mlda %>%
     select(-contains("fitted")) %>%        # drop "fitted" variables
     pivot_longer(cols = -c(agecell,over21),          # column to not reshape

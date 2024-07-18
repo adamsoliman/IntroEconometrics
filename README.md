@@ -1,13 +1,13 @@
 # Introduction to Econometrics
 
-* Here you can look at the slides for ECON 4050 at Clemson University.
-* This repository is updated frequently, so check back often.
+* Below are the slides used for ECON 4050 at Clemson University
+* This repository is updated frequently, so check back often
 
-## Slides
+## Course Overview
 
-| Lecture | HTML | Tasks |
+| Topic | Lecture Slides | Tasks |
 |---------|:----:|:----:|
-| Introduction | [HTML](https://raw.githack.com/adamsoliman/IntroEconometrics/master/chapter_intro/chapter_intro.html) |  [HTML](https://raw.githack.com/adamsoliman/IntroEconometrics/master/chapter_intro/tasks/intro_tasks.html) |
+| Intro to R | [HTML](https://raw.githack.com/adamsoliman/IntroEconometrics/master/chapter_intro/chapter_intro.html) |  [HTML](https://raw.githack.com/adamsoliman/IntroEconometrics/master/chapter_intro/tasks/intro_tasks.html) |
 | Simple Linear Regression | [HTML](https://raw.githack.com/adamsoliman/IntroEconometrics/master/chapter_slr/chapter_slr.html) |  [HTML](https://raw.githack.com/adamsoliman/IntroEconometrics/master/chapter_slr/tasks/slr_tasks.html) |
 | Introduction to Causality | [HTML](https://raw.githack.com/adamsoliman/IntroEconometrics/master/chapter_causality/chapter_causality.html) |  [HTML](https://raw.githack.com/adamsoliman/IntroEconometrics/master/chapter_causality/tasks/causality_tasks.html) |
 | Multiple Linear Regression | [HTML](https://raw.githack.com/adamsoliman/IntroEconometrics/master/chapter_mlr/chapter_mlr.html) |  [HTML](https://raw.githack.com/adamsoliman/IntroEconometrics/master/chapter_mlr/tasks/mlr_tasks.html) |
@@ -20,11 +20,13 @@
 | Difference-in-Differences | [HTML](https://raw.githack.com/adamsoliman/IntroEconometrics/master/chapter_did/chapter_did.html) | 
 | Panel Data | [HTML](https://raw.githack.com/adamsoliman/IntroEconometrics/master/chapter_panel/06-panel.html) |
 
-## Additional Resources 
+## Other Materials
 
-1. The suggested reading list can be found [here](https://github.com/adamsoliman/IntroEconometrics/blob/master/readings.md)
+1. The reading list can be found [here](https://github.com/adamsoliman/IntroEconometrics/blob/master/readings.md)
 
-1. Some details on R programming can be found [here](https://raw.githack.com/adamsoliman/IntroEconometrics/master/chapter_tidy_programming/chapter_tidy.html)
+1. A deep dive into R programming [here](https://raw.githack.com/adamsoliman/IntroEconometrics/master/chapter_tidy_programming/chapter_tidy.html)
+
+1. Slides for the first lecture
 
 ## Legal
 

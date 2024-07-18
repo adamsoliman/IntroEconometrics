@@ -181,10 +181,6 @@ Causal intuition:
 
 .pull-left[
 ```{r, echo = TRUE, eval = TRUE}
-# install package containing data
-devtools::install_github("jrnold/masteringmetrics",
-                         subdir = "masteringmetrics")
-
 # load package
 library(masteringmetrics)
 # load data

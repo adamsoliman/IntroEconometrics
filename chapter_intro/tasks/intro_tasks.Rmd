@@ -48,9 +48,7 @@ x_3
 2\. Import [gun_murders.csv](https://www.dropbox.com/s/zuk0qcfm3kyzs4e/gun_murders.csv?dl=1)<sup>1</sup> in a new object `murders`. This file contains data on gun murders by US state in 2010. (Hint: objects are created using `=` or `<-`).
 
 ```{r}
-link <- "https://www.dropbox.com/s/zuk0qcfm3kyzs4e/gun_murders.csv?dl=1"
-
-murders <- read.csv(link)
+murders <- read.csv("https://www.dropbox.com/s/zuk0qcfm3kyzs4e/gun_murders.csv?dl=1")
 ```
 
 3\. Ensure that `murders` is a data.frame by running:

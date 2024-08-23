@@ -60,11 +60,7 @@ countdown(
 knitr::include_graphics("chapter_tidy_files/figure-html/data_science_pipeline.png")
 ```
 
---
-
 * According a to [2014 NYTimes article](https://www.nytimes.com/2014/08/18/technology/for-big-data-scientists-hurdle-to-insights-is-janitor-work.html), "data scientists [...] spend from ***50 percent to 80 percent of their time*** mired in this more mundane labor of collecting and preparing unruly digital data, before it can be explored for useful nuggets."
-
-* In the next two lectures you will learn the basics of ***tidying***, ***visualising*** and ***summarising*** data
 
 ---
 
@@ -75,25 +71,13 @@ class: title-slide-section-red, middle
 
 ---
 
-# Intro to `dplyr`
+# `dplyr` Overview
 
 * [`dplyr`](https://dplyr.tidyverse.org) is part of the [`tidyverse`](https://www.tidyverse.org) package family.
 
-* [`data.table`](https://github.com/Rdatatable/data.table/wiki) is an alternative. Very fast and highly recommended for **big** data. We will dedicate an entire  [lecture](https://raw.githack.com/floswald/lectures/master/05-datatable/05-datatable.html#1)  to it! 💪
-
-* Both have pros and cons. We'll start you off with `dplyr`.
-
----
-
-# `dplyr` Overview
-
 * You are ***highly encouraged*** to read through [Hadley Wickham's chapter on data transforms](https://r4ds.had.co.nz/transform.html). It's clear and concise.
 
---
-
 * Also check out this great "cheatsheet" [here](https://github.com/rstudio/cheatsheets/blob/master/data-transformation.pdf).
-
---
 
 
 * The package is organized around a set of **verbs**, i.e. *actions* to be taken.
@@ -814,49 +798,6 @@ polls_us_election_2016 %>% count()
 ```{r}
 polls_us_election_2016$samplesize |> mean(na.rm = T)
 ```
-
----
-
-# Missing Values: `NA`
-
-.pull-left[
-* Whenever a value is *missing*, we code it as `NA`.
-    ```{r, echo = TRUE}
-    x <- NA
-    ```
-* `R` propagates `NA` through operations:
-    ```{r, echo = TRUE}
-    NA > 5
-    NA + 10
-    ```
-* `is.na(x)` function returns `TRUE` if `x` is an `NA`.
-    ```{r, echo = TRUE}
-    is.na(x)
-    ```
-]
-
---
-
-.pull-right[
-* What is confusing is that 
-    ```{r, echo = TRUE}
-    NA == NA
-    ```
-
-* It's easy to illustrate like that:
-    ```{r, echo = TRUE}
-    # Let x be Mary's age. We don't know how old she is.
-    x <- NA
-    
-    # Let y be John's age. We don't know how old he is.
-    y <- NA
-    
-    # Are John and Mary the same age?
-    x == y
-    #> [1] NA
-    # We don't know!
-    ```
-]
 
 ---
 

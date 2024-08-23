@@ -60,8 +60,6 @@ ___
 
 ## Why are we using `R`?
 
---
-
 1. `R` is __free__ and __open source__—saving both you and the university 💰💵💰.
 
 1. `R` is very __flexible and powerful__—adaptable to nearly any task, (data cleaning, data visualization, econometrics, spatial data analysis, machine learning, web scraping, etc.)
@@ -69,6 +67,10 @@ ___
 1. `R` has a vibrant, [thriving online community](https://stackoverflow.com/questions/tagged/r) that will (almost) always have a solution to your problem.
 
 1. If you put in the work, you will come away with a __very valuable and useful__ tool.
+
+--
+
+### Moving forward, you will be using R in every class with various tasks (i.e., implementing things you are learning in real time), so always bring your laptop (and you should have already installed R and RStudio using instructions from [this link](https://rstudio-education.github.io/hopr/starting.html) from the Canvas message...)
 
 ---
 
@@ -97,8 +99,6 @@ class: title-slide-section-red, middle
 
 # In Practice: Data Wrangling
 
---
-
 * You will spend a lot of time preparing data for further analysis.
 
 --
@@ -119,6 +119,8 @@ library(gapminder)
 data(gapminder, package = "gapminder") 
 # show first 4 lines of this dataframe
 head(gapminder,n = 4)
+# how many rows in the dataset?
+nrow(gapminder)
 ```
 ]
 
@@ -131,22 +133,19 @@ head(gapminder,n = 4)
 
 # In Practice: Data Wrangling
 
-* There are always several ways to achieve a goal. (As in life 😁)
-
-* Here we will only focus on the `dplyr` way:
+* There are always several ways to achieve a goal, as in life 😁, and we only focus on the `dplyr` way:
 
 ```{r}
 # compute the required statistics
-gapminder_dplyr <- gapminder %>% 
-  group_by(continent, year) %>% 
-  summarise(count = n(),
-            mean_lifeexp = mean(lifeExp),
-            mean_gdppercap = mean(gdpPercap))
+gapminder_dplyr <- gapminder %>% group_by(continent, year) %>% 
+  summarise(count = n(), mean_lifeexp = mean(lifeExp), mean_gdppercap = mean(gdpPercap))
 ```
 
 ```{r}
 # show first 5 lines of the new data
 head(gapminder_dplyr, n = 5)
+# how many rows in the dataset
+nrow(gapminder_dplyr)
 ```
 
 ---
@@ -313,38 +312,7 @@ In practice:
 
 ---
 
-# Vectors
-
-
-
-.pull-left[
-* The `c` function creates vectors, i.e. *one-dimensional arrays*.
-    ```{r}
-    c(1, 3, 5, 7, 8, 9)
-    ```
-    
-* Coercion to unique types:
-    ```{r}
-    (v <- c(42, "Statistics", TRUE))
-    ```
-]
-
-.pull-right[
-
-* Creating a *range*
-    ```{r}
-    1:10
-    ```
-
-* get vector elements with square bracket operator `[index]`:
-    ```{r}
-    v[c(1,3)]
-    ```
-]
-
----
-
-# `data.frame`s
+# `data.frame`
 
 `data.frame`s represent **tabular data**. Like spreadsheets.
 
@@ -361,9 +329,7 @@ example_data
 
 ---
 
-# `data.frame`s
-
-Useful functions to describe a dataframe:
+# `data.frame`: useful functions to describe one
 ```{r}
 murders <- read.csv("https://www.dropbox.com/s/zuk0qcfm3kyzs4e/gun_murders.csv?dl=1")
 str(murders) # `str` describes structure of any R object
@@ -377,39 +343,8 @@ names(murders) # column names
 
 ```{r}
 nrow(murders) # number of rows
-```
-
-```{r}
 ncol(murders) # number of columns
 ```
-
----
-
-# Accessing `data.frame` Columns
-    
-* To extract one column **as a vector** we can use the `$` operator (as in `murders$state`), or the square bracket operator `[which_index]` with name or position index:
-    ```{r}
-    first5 <- murders[1:5, ]  # take first 5 states only
-    first5$state  # extract with $ operator
-    first5[ ,"state"]  # extract with column name
-    first5[ ,1] # get first column
-    ```
-
---
-
-.pull-left[
-* Check `class` of an object:
-    ```{r}
-    class(murders)
-    ```
-]
-
-.pull-right[
-* `typeof` gives the R-internal data type:
-    ```{r}
-    typeof(murders)
-    ```
-]
 
 ---
 
@@ -435,8 +370,6 @@ system("decktape chapter1.html chapter1.pdf --chrome-arg=--disable-web-security"
 class: title-slide-final, middle
 
 This was just a brief introduction, so do not worry if it felt like a lot. Not only are there tons of resources online (such as those referenced on the course website and in lecture notes), but you have a weekly lab that is dedicated to R and Econometrics. 
-
-### Moving forward, you will be using R in every class with various tasks (i.e., implementing things you are learning in real time), so bring your laptop AND BEFORE NEXT CLASS, install R and RStudio using instructions from [this link](https://rstudio-education.github.io/hopr/starting.html). 
 
 Note that [Hands-On Programming with R](https://rstudio-education.github.io/hopr/index.html) more generally is another useful resource.
 

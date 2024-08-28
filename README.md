@@ -5,16 +5,16 @@
 
 ## Course Overview
 
-| Topic | Lecture Slides | Tasks |
+| Topic | Lecture Slides |
 |---------|:----:|:----:|
 | Intro to R | [HTML](https://raw.githack.com/adamsoliman/IntroEconometrics/master/chapter_intro/chapter_intro.html) |  
-| Simple Linear Regression | [HTML](https://raw.githack.com/adamsoliman/IntroEconometrics/master/chapter_slr/chapter_slr.html) |  [HTML](https://raw.githack.com/adamsoliman/IntroEconometrics/master/chapter_slr/tasks/slr_tasks.html) |
-| Introduction to Causality | [HTML](https://raw.githack.com/adamsoliman/IntroEconometrics/master/chapter_causality/chapter_causality.html) |  [HTML](https://raw.githack.com/adamsoliman/IntroEconometrics/master/chapter_causality/tasks/causality_tasks.html) |
-| Multiple Linear Regression | [HTML](https://raw.githack.com/adamsoliman/IntroEconometrics/master/chapter_mlr/chapter_mlr.html) |  [HTML](https://raw.githack.com/adamsoliman/IntroEconometrics/master/chapter_mlr/tasks/mlr_tasks.html) |
-| Linear Regression Extensions | [HTML](https://raw.githack.com/adamsoliman/IntroEconometrics/master/chapter_regext/chapter_regext.html) |  [HTML](https://raw.githack.com/adamsoliman/IntroEconometrics/master/chapter_regext/tasks/regext_tasks.html) |
-| Sampling | [HTML](https://raw.githack.com/adamsoliman/IntroEconometrics/master/chapter_sampling/chapter_sampling.html) |  [HTML](https://raw.githack.com/adamsoliman/IntroEconometrics/master/chapter_sampling/tasks/sampling_tasks.html) | 
+| Simple Linear Regression | [HTML](https://raw.githack.com/adamsoliman/IntroEconometrics/master/chapter_slr/chapter_slr.html) |
+| Introduction to Causality | [HTML](https://raw.githack.com/adamsoliman/IntroEconometrics/master/chapter_causality/chapter_causality.html) |
+| Multiple Linear Regression | [HTML](https://raw.githack.com/adamsoliman/IntroEconometrics/master/chapter_mlr/chapter_mlr.html) |
+| Linear Regression Extensions | [HTML](https://raw.githack.com/adamsoliman/IntroEconometrics/master/chapter_regext/chapter_regext.html) |
+| Sampling | [HTML](https://raw.githack.com/adamsoliman/IntroEconometrics/master/chapter_sampling/chapter_sampling.html) | 
 | Confidence Intervals and Hypothesis Testing | [HTML](https://raw.githack.com/adamsoliman/IntroEconometrics/master/chapter_ci_hyptest/chapter_ci_hyptest.html) |
-| Regression Inference | [HTML](https://raw.githack.com/adamsoliman/IntroEconometrics/master/chapter_reginference/reg_inference.html) |  [HTML](https://raw.githack.com/adamsoliman/IntroEconometrics/master/chapter_reginference/tasks/reginference_tasks.html) |
+| Regression Inference | [HTML](https://raw.githack.com/adamsoliman/IntroEconometrics/master/chapter_reginference/reg_inference.html) |
 | Regression Discontinuity | [HTML](https://raw.githack.com/adamsoliman/IntroEconometrics/master/chapter-RDD/RDD.html) | 
 | Instrumental Variables | [HTML](https://raw.githack.com/adamsoliman/IntroEconometrics/master/chapter_IV/04-IV.html) |
 | Difference-in-Differences | [HTML](https://raw.githack.com/adamsoliman/IntroEconometrics/master/chapter_did/chapter_did.html) | 
@@ -27,6 +27,8 @@
 1. Slides for the first lecture can be found [here](https://github.com/adamsoliman/IntroEconometrics/blob/master/Introduction%20Materials/Lecture_Intro_SolimanFall2024.pdf)
 
 1. A deep dive into R programming can be found [here](https://raw.githack.com/adamsoliman/IntroEconometrics/master/chapter_tidy_programming/chapter_tidy.html)
+
+1. More on [simple linear regression](https://raw.githack.com/adamsoliman/IntroEconometrics/master/chapter_slr/tasks/slr_tasks.html), [causality](https://raw.githack.com/adamsoliman/IntroEconometrics/master/chapter_causality/tasks/causality_tasks.html), [multiple linear regression](https://raw.githack.com/adamsoliman/IntroEconometrics/master/chapter_mlr/tasks/mlr_tasks.html), [linear regression extensions](https://raw.githack.com/adamsoliman/IntroEconometrics/master/chapter_regext/tasks/regext_tasks.html), [sampling](https://raw.githack.com/adamsoliman/IntroEconometrics/master/chapter_sampling/tasks/sampling_tasks.html), and [regression inference](https://raw.githack.com/adamsoliman/IntroEconometrics/master/chapter_reginference/tasks/reginference_tasks.html).
 
 ## Legal
 

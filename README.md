@@ -1,12 +1,12 @@
 # Introduction to Econometrics
 
-* Below are the slides used for ECON 4050 at Clemson University
+* Below are the slides used for ECON 4050 at Clemson University (Fall 2024)
 * This repository is updated frequently, so check back often
 
 ## Course Overview
 
-| Topic | Lecture Slides |
-|---------|:----:|:----:|
+| Lecture Topic | Lecture Slides |
+|---------|:----:|
 | Intro to R | [HTML](https://raw.githack.com/adamsoliman/IntroEconometrics/master/chapter_intro/chapter_intro.html) |  
 | Simple Linear Regression | [HTML](https://raw.githack.com/adamsoliman/IntroEconometrics/master/chapter_slr/chapter_slr.html) |
 | Introduction to Causality | [HTML](https://raw.githack.com/adamsoliman/IntroEconometrics/master/chapter_causality/chapter_causality.html) |

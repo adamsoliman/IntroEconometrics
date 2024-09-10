@@ -78,8 +78,6 @@ countdown(
 
 - Economists' endeavour to establish causal relationships is also what makes them useful both in the private (e.g. tech companies) and public sector (e.g. policy advisors). 
 
---
-
 - Ok, that's enough preaching `r emo::ji("sweat_smile")`
 
 
@@ -860,7 +858,9 @@ Recall that: $b_0 = \mathbb{E}[Y_i^0]$ and $\delta = \mathbb{E}[Y_i | D_i = 1] -
 .pull-left[
 ```{r}
 b_0 = mean(star_df_k_small$math[
-    star_df_k_small$small == FALSE])
+  star_df_k_small$small == FALSE])
+b_0 <- mean((star_df_k_small %>% 
+               filter(small == FALSE))$math)
 b_0
 ```
 ]
@@ -1034,9 +1034,9 @@ However, they have some shortcomings:
 
 2 broad cases:
 
-* ***selection occurs on observable characteristics***: *multiple regression* (next week!)
+* ***selection occurs on observable characteristics***: *multiple regression* (next class!)
 
-* ***selection occurs on unobservable characteristics***: *regression discontinuity design* (lecture 10) or  *difference-in-differences* (not covered but set of slides online!)
+* ***selection occurs on unobservable characteristics***: *regression discontinuity design* or  *difference-in-differences* (at the end of the semester)
 
 
 ---

@@ -699,9 +699,9 @@ it to a new object. Use the variance in <code>avgmath_cs</code> (SST)
 and the variance in <code>.fitted</code> (predicted values; SSE) to find
 the <span class="math inline">\(R^2\)</span> using the formula on the
 previous slide.</p>
-<pre class="r"><code>library(broom)</code></pre>
-<pre><code>## Warning: package &#39;broom&#39; was built under R version 4.3.3</code></pre>
-<pre class="r"><code>math_reg_aug &lt;- augment(math_reg)
+<pre class="r"><code>library(broom)
+
+math_reg_aug &lt;- augment(math_reg)
 SST = var(grades_avg_cs$avgmath_cs)
 SSE = var(math_reg_aug$.fitted)
 SSE/SST</code></pre>

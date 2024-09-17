@@ -28,7 +28,9 @@
 
 1. A deep dive into R programming can be found [here](https://raw.githack.com/adamsoliman/IntroEconometrics/master/chapter_tidy_programming/chapter_tidy.html)
 
-1. More on [simple linear regression](https://raw.githack.com/adamsoliman/IntroEconometrics/master/chapter_slr/tasks/slr_tasks.html), [causality](https://raw.githack.com/adamsoliman/IntroEconometrics/master/chapter_causality/tasks/causality_tasks.html), [multiple linear regression](https://raw.githack.com/adamsoliman/IntroEconometrics/master/chapter_mlr/tasks/mlr_tasks.html), [linear regression extensions](https://raw.githack.com/adamsoliman/IntroEconometrics/master/chapter_regext/tasks/regext_tasks.html), [sampling](https://raw.githack.com/adamsoliman/IntroEconometrics/master/chapter_sampling/tasks/sampling_tasks.html), and [regression inference](https://raw.githack.com/adamsoliman/IntroEconometrics/master/chapter_reginference/tasks/reginference_tasks.html).
+1. Answer keys for [simple linear regression](https://raw.githack.com/adamsoliman/IntroEconometrics/master/chapter_slr/tasks/slr_tasks.html) and [causality](https://raw.githack.com/adamsoliman/IntroEconometrics/master/chapter_causality/tasks/causality_tasks.html) in class tasks
+
+<!-- [multiple linear regression](https://raw.githack.com/adamsoliman/IntroEconometrics/master/chapter_mlr/tasks/mlr_tasks.html), [linear regression extensions](https://raw.githack.com/adamsoliman/IntroEconometrics/master/chapter_regext/tasks/regext_tasks.html), [sampling](https://raw.githack.com/adamsoliman/IntroEconometrics/master/chapter_sampling/tasks/sampling_tasks.html), and [regression inference](https://raw.githack.com/adamsoliman/IntroEconometrics/master/chapter_reginference/tasks/reginference_tasks.html). -->
 
 ## Legal
 

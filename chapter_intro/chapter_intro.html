@@ -53,7 +53,7 @@ ___
 
 --
 
-### Moving forward, you will be using R in every class with various tasks (i.e., implementing things you are learning in real time), so always bring your laptop (and you should have already installed R and RStudio using instructions from [this link](https://rstudio-education.github.io/hopr/starting.html) from the Canvas message...)
+### Moving forward, you will be using R in every class with various tasks (i.e., implementing things you are learning in real time), so always bring your laptop (and you should have already installed R and RStudio using instructions from [this link](https://rstudio-education.github.io/hopr/starting.html))
 
 ---
 
@@ -243,7 +243,7 @@ class: title-slide-section-red, middle
 
 * Some basic arithmetic first:
 
-```r
+``` r
 4 + 1
 ```
 
@@ -251,7 +251,7 @@ class: title-slide-section-red, middle
 ## [1] 5
 ```
 
-```r
+``` r
 8 / 2
 ```
 
@@ -262,7 +262,7 @@ class: title-slide-section-red, middle
 
 * Great! What about this?
 
-```r
+``` r
 2^3
 ```
 
@@ -270,7 +270,7 @@ class: title-slide-section-red, middle
 ## [1] 8
 ```
 
-```r
+``` r
 # by the way: this is a comment! R therefore disregards it
 ```
 
@@ -281,7 +281,7 @@ class: title-slide-section-red, middle
 .pull-left[
 `R` built-in `help`:
 
-```r
+``` r
 ?log #? in front of function
 help(lm)   # help() is equivalent
 ??plot  # get all help on keyword "plot"
@@ -307,45 +307,22 @@ In practice:
 
 * Installing packages is easy! Just use the `install.packages` function:
     
-    ```r
+    ``` r
     install.packages("ggplot2")
     ```
 
 * To *use* the contents of a package, we must load it from our library using `library`:
     
-    ```r
+    ``` r
     library(ggplot2)
     ```
 
 ---
 
-# `data.frame`
+# `data.frame` and useful functions to describe one
 
 `data.frame`s represent **tabular data**. Like spreadsheets.
 
-
-``` r
-example_data = data.frame(x = c(1, 3, 5, 7),
-                          y = c(rep("Hello", 3), "Goodbye"),
-                          z = c("one", 2, "three", 4))
-example_data
-```
-
-```
-##   x       y     z
-## 1 1   Hello   one
-## 2 3   Hello     2
-## 3 5   Hello three
-## 4 7 Goodbye     4
-```
-
-* A `data.frame` has 2 dimensions: *rows* and *columns*. Like a *matrix*. Can get elements with `[row_index,col_index]`.
-
-* In practice, you will be importing files that contain the data into `R` rather than creating `data.frame`s by hand.
-
----
-
-# `data.frame`: useful functions to describe one
 
 ``` r
 murders &lt;- read.csv("https://www.dropbox.com/s/zuk0qcfm3kyzs4e/gun_murders.csv?dl=1")
@@ -365,7 +342,7 @@ str(murders) # `str` describes structure of any R object
 
 
 ``` r
-names(murders) # column names
+variable.names(murders) # column names
 ```
 
 ```
@@ -374,15 +351,7 @@ names(murders) # column names
 
 
 ``` r
-nrow(murders) # number of rows
-```
-
-```
-## [1] 51
-```
-
-``` r
-ncol(murders) # number of columns
+ncol(murders) # number of columns. what is the function for rows? yup, its nrow()
 ```
 
 ```
@@ -391,36 +360,61 @@ ncol(murders) # number of columns
 
 ---
 
-# Subsetting `data.frames`
+# Let's try some basic R
 
-* Subsetting a data.frame: `murders[row condition, column number]` or `murders[row condition, "column name"]`
-    
-    ``` r
-    # Only keep states with over 500 gun murders and keep only the "state" and "total" variables
-    murders[murders$total &gt; 500, c("state", "total")]
-    ```
-    
-    ```
-    ##         state total
-    ## 5  California  1257
-    ## 10    Florida   669
-    ## 33   New York   517
-    ## 44      Texas   805
-    ```
-    
-    ``` r
-    # Only keep California and Texas and keep only the "state" and "total" variables
-    murders[murders$state %in% c("California", "Texas"), c("state", "total")]
-    ```
-    
-    ```
-    ##         state total
-    ## 5  California  1257
-    ## 44      Texas   805
-    ```
+1\. Create a new R script (File `\(\rightarrow\)` New File `\(\rightarrow\)` R Script). Save it somewhere as `lecture_intro.R`.
 
---- 
+2\. Type the following code in your script and run it. You can either highlight the code or just put your cursor at the end of the line and click `Run` in the top right corner. Short cut to run code: press `Ctrl` or `Cmd` + `Enter`. 
 
+``` r
+4 * 8
+```
+
+```
+## [1] 32
+```
+
+3\. Type the following code in your script and run it. What happens if you only run the first line of the code?
+
+``` r
+x = 5 # equivalently x &lt;- 5
+x
+```
+
+```
+## [1] 5
+```
+
+**If I only run the first line of code, the object `x` is created in my environment but no output appears in the console. This is because I am not asking `R` to output anything; the only thing I am asking it is to create an object `x` equal to `\(5\)`.**
+
+Congratulations, you have created your first `R` "object"! Everything is an object in R! Objects are assigned using `=` or `&lt;-`.
+
+---
+
+# Let's move on to some real data...about Clemson football!
+
+1\. Find out (using `help()` or google) how to import a .csv file. Do NOT use the "Import Dataset" button, nor install a package. The first Google entry is [this](https://teacherscollege.screenstepslive.com/a/1122473-import-data-in-r-csv-files-into-r-studio)...
+
+--
+
+2\. In the same script used in the previous task, import [clemsonFBSfinances.csv](https://www.dropbox.com/scl/fi/6izns6n1iobin3shafpfr/clemsonFBSfinances.csv?rlkey=s2prx9z1lhmmym96cubzi7awe&amp;dl=0) in a new object and call it `clemsonfootballdata`. This file contains data on Clemson football finances. It should look something like:
+ 
+
+``` r
+# this is a comment, which you should always use in your code. Note your path will look slightly different
+clemsonfootballdata &lt;- read.csv("/Users/adamsoliman/Downloads/clemsonFBSfinances.csv")
+```
+
+3\. Type in `class(clemsonfootball)` in your script and run the code. What happened and why? Now try with `class(clemsonfootballdata)`.
+
+
+4\. Find out what variables are contained in `clemsonfootballdata` by running `names(clemsonfootballdata)` in your script.
+
+5\. View the contents of the dataset by clicking on `clemsonfootballdata` in your workspace. What does the `Medical` variable correspond to?
+
+6\. Find out what years are in the dataset by running `table(clemsonfootballdata$Year)`. What is the unit of observation?
+
+7\. How many observations are there in `clemsonfootballdata`? Use `nrow(clemsonfootballdata)`.
 
 
 ---

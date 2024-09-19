@@ -191,7 +191,7 @@ data %>%
 
 --
 
-* This may look like cooking recipes but of course it can be [derived with some relatively simple maths](https://stats.idre.ucla.edu/other/mult-pkg/faq/general/faqhow-do-i-interpret-a-regression-model-when-some-variables-are-log-transformed/).
+* This may look like cooking recipes but of course it can be [derived with some relatively simple math](https://stats.idre.ucla.edu/other/mult-pkg/faq/general/faqhow-do-i-interpret-a-regression-model-when-some-variables-are-log-transformed/).
 
 --
 

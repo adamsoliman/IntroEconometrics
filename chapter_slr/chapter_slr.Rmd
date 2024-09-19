@@ -78,16 +78,14 @@ countdown(
 
 # Task 1: Getting to know the data
 
-`r countdown(minutes = 7, top = 0)`
- 
-1. Load the data from [here](https://www.dropbox.com/s/wwp2cs9f0dubmhr/grade5.dta?dl=1) as `grades`. *Hint: Use the `read_dta` from the `haven` library to import the file, which has a format .dta.* (FYI: *.dta* is the extension for data files used in [*Stata*](https://www.stata.com/))
+1. Load the data from [here](https://www.dropbox.com/scl/fi/77u2r8xznh63jg7aisq4f/grade5_isl.csv?rlkey=uclo7ng24so9fct41kcjm8k0l&dl=0) as `grades`. Remember that `grades` is called an object. This is similar to a spreadsheet, and you can have multiple objects loaded in R at the same time.
 
 1. Describe the dataset:
 
   * What is the unit of observations, i.e. what does each row correspond to?
   * How many observations are there?
   * View the dataset. What variables do we have? What do the variables `avgmath` and `avgverb` correspond to?
-  * Use the `skim` function from the `skimr` package to obtain common summary statistics for the variables `classize`, `avgmath` and `avgverb`. (*Hint: use `dplyr` to `select` the variables and then simply pipe (`%>%`) `skim()`.*)
+  * Use the `skim` function from the `skimr` package to obtain common summary statistics for the variables `classize`, `avgmath` and `avgverb`. You likely need to install `skimr`, so use `install.packages("skimr")`. Note you only need to install a package once, then remember to load the package every time with `library(skimr)` if you want to use it. (*Hint: use `dplyr` to `select` the variables and then simply pipe (`%>%`) `skim()`.*)
 
 1. Do you have any priors about the actual (linear) relationship between class size and student achievement? What would you do to get a first insight?
 
@@ -571,7 +569,7 @@ For now assume both the dependent variable $(y)$ and the independent variable $(
 * This is how it works:
 
   ```{r, echo = TRUE, eval = FALSE}
-  lm(formula = dependent variable ~  independent variable, data = data.frame containing the data)
+  lm(dependent variable ~  independent variable, data = data.frame containing the data)
   ```
 
 --
@@ -600,7 +598,7 @@ lm(avgmath_cs ~ classize, grades_avg_cs)
 
 ```{r echo=F, eval = TRUE}
 # OLS regression of class size on average maths score
-lm(formula = avgmath_cs~classize, data = grades_avg_cs)
+lm(avgmath_cs~classize, data = grades_avg_cs)
 ```
 
 --
@@ -629,8 +627,6 @@ $$
 ---
 
 # Task 2: OLS Regression
-
-`r countdown(minutes = 10, top = 0)`
 
 Run the following code to aggregate the data at the class size level:
 
@@ -661,8 +657,6 @@ grades_avg_cs <- grades %>%
   $$\begin{align} \frac{1}{N} \sum_{i=1}^N e_i &= \frac{1}{N} \sum_{i=1}^N (y_i - \widehat y_i) \\ &= \bar{y} - \frac{1}{N} \sum_{i=1}^N \widehat{y}_i \\\ &= 0 \end{align}$$
 ]
 
---
-
 .pull-right[
 * __ Regressor and residuals are uncorrelated (by definition).__
 
@@ -684,8 +678,6 @@ grades_avg_cs <- grades %>%
 * It's important to keep in mind that covariance, correlation and simple OLS regression only measure **linear relationships** between two variables.
 
 * Two datasets with *identical* correlations and regression lines could look *vastly* different.
-
---
 
 * Is that even possible?
 <img src="https://media.giphy.com/media/5aLrlDiJPMPFS/giphy.gif" height = "350" align = "middle" />
@@ -745,8 +737,6 @@ ch %>%
 * This is __multiple regression__ (coming soon!)
 ]
 
---
-
 .pull-right[
 * For example, suppose we had this data and fit the previous regression model:
     ```{r non-line-cars-ols2,echo=FALSE,echo=FALSE,fig.height = 6}
@@ -787,8 +777,6 @@ mtcars %>% ggplot(aes(x = hp, y = mpg)) +
 
 * The __ $R^2$ __ measures how well the __model fits the data__.
 
---
-
 $$
 R^2 = \frac{\text{variance explained}}{\text{total variance}} =     \frac{SSE}{SST} = 1 - \frac{SSR}{SST}\in[0,1]
 $$
@@ -806,16 +794,12 @@ $$
 --
     
 * `r emo::ji("warning")` Low $R^2$ does __NOT__ mean it's a useless model! Remember that econometrics is interested in causal mechanisms, not prediction!
-
---
     
 * `r emo::ji("warning")` The $R^2$ is __NOT__ an indicator of whether a relationship is causal!
 
 ---
 
 # Task 3: $R^2$ and goodness of fit
-
-`r countdown(minutes = 10, top = 0)`
 
 1. Regress `avgmath_cs` on `classize`. Assign to an object `math_reg`.
 

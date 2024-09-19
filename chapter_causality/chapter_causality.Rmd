@@ -544,8 +544,6 @@ And because $ATE = \mathop{\mathbb{E}}(\delta_i) = \mathop{\mathbb{E}}(\delta) =
 
 # Task 1: SDO, ATE and Randomization
 
-`r countdown(minutes = 10, top = 0)`
-
 Let's compute these various quantities and biases with data we generated ourselves.
 
 ```{r, echo = FALSE, eval = FALSE}
@@ -685,8 +683,6 @@ Tennessee **S**tudent/**T**eacher **A**chievement **R**atio Experiment (see [Kru
 
 # Task 2: STAR data
 
-`r countdown(minutes = 10, top = 0)`
-
 1. Load the *STAR* data from [here](https://www.dropbox.com/s/bf1fog8yasw3wjj/star_data.csv?dl=1) and assign it to an object called `star_df`. Read the help for the data [here](https://rdrr.io/cran/AER/man/STAR.html) to understand what the variables correspond to. (Note: the data has been *reshaped* so don't mind the "k", "1", etc. in the variable names in the help.)
 
 1. What's the unit of observation? Which variable contains: (i) the (random) class assignment, (ii) the student's class grade, (iii) the outcomes of interest?
@@ -694,7 +690,7 @@ Tennessee **S**tudent/**T**eacher **A**chievement **R**atio Experiment (see [Kru
 1. How many observations are there? Why so many if 11,598 students participated? Why are there so many `NA`s? What do they correspond to?
 
 1. Keep only cases with no `NA`s with the following code:  
-`star_df <- star_df[complete.cases(star_df),]`
+`star_df_complete <- star_df %>% filter(complete.cases(.))`
 
 1. Let's check how well the randomization was done by doing ***balancing checks***.  
 Compute the average percentage of girls, african americans, and free lunch qualifiers by grade *and* treatment class. (*Hint*: The following computes the percentage of girls (without the relevant `dplyr` verbs):
@@ -977,27 +973,6 @@ $\begin{align} ATE &= \mathbb{E}[\textrm{math score} | \text{small}_i = 1] - \ma
 --
 
 We knew this already but we now understand why this is true `r emo::ji("v")`
-
----
-
-# Task 3: Your Turn!
-
-`r countdown(minutes = 10, top = 0)`
-
-Run the following code to filter the dataset to only keep first graders and the small class and regular class groups:
-
-```{r, eval = FALSE}
-star_df_clean <- star_df %>%
-    filter(grade == "1" & star %in% c("small", "regular"))
-```
-
-1. Compute the average math score for both groups, and the difference between the two. (Use base `R`.)
-
-1. Create a dummy variable `treatment` equal to `TRUE` if student is in treatment group (i.e. small class size) and `FALSE` if in control group (i.e. regular class size). *Hint:* you can create the dummy variable with `treatment = (star == "small")`.
-
-1. Regress math score on the treatment dummy variable. Are the results in line with question 2?
-
-1. How do you interpret these coefficients?
 
 ---
 

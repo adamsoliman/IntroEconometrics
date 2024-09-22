@@ -72,8 +72,6 @@ knitr::include_graphics("../img/photos/pasta/pasta_bowl.JPG")
 ```
 ]
 
---
-
 We could count every green pasta but that would be tedious! `r emo::ji("weary")` What else could we do?
 
 ---
@@ -83,7 +81,7 @@ We could count every green pasta but that would be tedious! `r emo::ji("weary")`
 .pull-left[
 * Let's take a sample of 20 pasta.
 
-* We made sure to select them at **random**.
+* My friend made sure to select them at **random**.
 
 * Here is what we found.
 
@@ -121,7 +119,7 @@ Yellow   |  1    |     `r format(round(1/20,2), nsmall = 2)`
 
 # Taking 18 Samples (One per Student)
 
-* Because we don't have pasta with us in class, we drew 18 samples of 20 pasta (with replacement) at home.
+* Because we don't have pasta with us in class, he drew 18 samples of 20 pasta (with replacement) at home.
 
 --
 
@@ -136,7 +134,7 @@ Yellow   |  1    |     `r format(round(1/20,2), nsmall = 2)`
 
 # Taking 18 Samples (One per Student)
 
-* Because we don't have pasta with us in class, we drew 18 samples of 20 pasta (with replacement) at home.
+* Because we don't have pasta with us in class, he drew 18 samples of 20 pasta (with replacement) at home.
 
 * For each sample, we computed the share of green pasta.
 
@@ -172,10 +170,14 @@ Sample # | Count | Proportion
 
 # Task 1
 
-`r countdown(minutes = 5, top = 0)`
-
-1. Create a data.frame containing the proportions of green pasta from the previous slide. Name it `pasta` and name the variable containing the proportions `prop_green`. (Hint: to create a data.frame you need to use the `data.frame()` function.)
+1. Create a data.frame containing the proportions of green pasta from the previous slide. Name the object `pasta` and name the variable containing the proportions `prop_green`. (Hint: to create a data.frame you need to use the `data.frame()` function.)
 The proportions are as follows: `(0.7,0.7,0.5,0.5,0.3,0.5,0.4,0.45,0.55,0.4,0.35,0.45,0.45,0.7,0.55,0.5,0.35,0.65)`
+
+```{r}
+# don't forget to use comments as needed
+pasta <- data.frame(prop_green = c(0.7,0.7,0.5,0.5,0.3,0.5,0.4,0.45,0.55,0.4,
+                                   0.35,0.45,0.45,0.7,0.55,0.5,0.35,0.65))
+```
 
 1. Create a histogram of these proportions using `ggplot2`. Use these parameters in `geom_histogram()`: `boundary = 0.325, binwidth = 0.05`.
 
@@ -242,21 +244,15 @@ pasta_samples %>%
 
 # What Did We Just Do?
 
---
-
 * Demonstrated the statistical concept of ***sampling***.
 
 --
 
 * *Objective*: know the proportion of green pasta
 
---
-
 * *Methods*:
 
   1. **Census**: time-consuming (and in many cases very costly);
-  
---
   
   1. **Sampling**: extract a *sample* of 20 pasta from the bowl to obtain an ***estimate***.  
   Out first ***estimate*** of the proportion of green pasta was 0.70, but it was actually larger than most other ***estimates***.
@@ -270,14 +266,14 @@ pasta_samples %>%
 # Taking Virtual (not Real) Samples
 
 .pull-left[
-* We counted the exact number of green, red and yellow pasta in the bowl `r emo::ji("monocle")` `#confinement`
+* He counted the exact number of green, red and yellow pasta in the bowl `r emo::ji("monocle")` `#confinement`
 
 * All the pasta in the bowl are stored in a csv file [here](https://www.dropbox.com/s/qpjsk0rfgc0gx80/pasta.csv?dl=1).
 
 ```{r, echo = TRUE}
 bowl <- read.csv("https://www.dropbox.com/s/qpjsk0rfgc0gx80/pasta.csv?dl=1")
 
-head(bowl)
+head(bowl, 6)
 ```
 ]
 
@@ -437,8 +433,6 @@ ggplot(virtual_prop_green, aes(x = prop_green)) +
 ---
 
 # Task 2
-
-`r countdown(minutes = 10, top = 0)`
 
 Instead of taking only 33 samples, let's take ***1000***!
 

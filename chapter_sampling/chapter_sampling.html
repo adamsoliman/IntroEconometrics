@@ -53,8 +53,6 @@ class: center, middle, inverse, title-slide
 &lt;img src="../img/photos/pasta/pasta_bowl.JPG" width="600px" style="display: block; margin: auto;" /&gt;
 ]
 
---
-
 We could count every green pasta but that would be tedious! 😩 What else could we do?
 
 ---
@@ -64,7 +62,7 @@ We could count every green pasta but that would be tedious! 😩 What else could
 .pull-left[
 * Let's take a sample of 20 pasta.
 
-* We made sure to select them at **random**.
+* My friend made sure to select them at **random**.
 
 * Here is what we found.
 
@@ -102,7 +100,7 @@ Yellow   |  1    |     0.05
 
 # Taking 18 Samples (One per Student)
 
-* Because we don't have pasta with us in class, we drew 18 samples of 20 pasta (with replacement) at home.
+* Because we don't have pasta with us in class, he drew 18 samples of 20 pasta (with replacement) at home.
 
 --
 
@@ -117,7 +115,7 @@ Yellow   |  1    |     0.05
 
 # Taking 18 Samples (One per Student)
 
-* Because we don't have pasta with us in class, we drew 18 samples of 20 pasta (with replacement) at home.
+* Because we don't have pasta with us in class, he drew 18 samples of 20 pasta (with replacement) at home.
 
 * For each sample, we computed the share of green pasta.
 
@@ -153,13 +151,15 @@ Sample # | Count | Proportion
 
 # Task 1
 
-<div class="countdown" id="timer_203179fd" data-update-every="1" tabindex="0" style="top:0;right:0;">
-<div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
-<code class="countdown-time"><span class="countdown-digits minutes">05</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
-</div>
-
-1. Create a data.frame containing the proportions of green pasta from the previous slide. Name it `pasta` and name the variable containing the proportions `prop_green`. (Hint: to create a data.frame you need to use the `data.frame()` function.)
+1. Create a data.frame containing the proportions of green pasta from the previous slide. Name the object `pasta` and name the variable containing the proportions `prop_green`. (Hint: to create a data.frame you need to use the `data.frame()` function.)
 The proportions are as follows: `(0.7,0.7,0.5,0.5,0.3,0.5,0.4,0.45,0.55,0.4,0.35,0.45,0.45,0.7,0.55,0.5,0.35,0.65)`
+
+
+``` r
+# don't forget to use comments as needed
+pasta &lt;- data.frame(prop_green = c(0.7,0.7,0.5,0.5,0.3,0.5,0.4,0.45,0.55,0.4,
+                                   0.35,0.45,0.45,0.7,0.55,0.5,0.35,0.65))
+```
 
 1. Create a histogram of these proportions using `ggplot2`. Use these parameters in `geom_histogram()`: `boundary = 0.325, binwidth = 0.05`.
 
@@ -176,14 +176,12 @@ The proportions are as follows: `(0.7,0.7,0.5,0.5,0.3,0.5,0.4,0.45,0.55,0.4,0.35
 --
 
 .pull-right[
-&lt;img src="chapter_sampling_files/figure-html/unnamed-chunk-3-1.svg" style="display: block; margin: auto;" /&gt;
+&lt;img src="chapter_sampling_files/figure-html/unnamed-chunk-4-1.svg" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
 
 # What Did We Just Do?
-
---
 
 * Demonstrated the statistical concept of ***sampling***.
 
@@ -191,13 +189,9 @@ The proportions are as follows: `(0.7,0.7,0.5,0.5,0.3,0.5,0.4,0.45,0.55,0.4,0.35
 
 * *Objective*: know the proportion of green pasta
 
---
-
 * *Methods*:
 
   1. **Census**: time-consuming (and in many cases very costly);
-  
---
   
   1. **Sampling**: extract a *sample* of 20 pasta from the bowl to obtain an ***estimate***.  
   Out first ***estimate*** of the proportion of green pasta was 0.70, but it was actually larger than most other ***estimates***.
@@ -211,15 +205,15 @@ The proportions are as follows: `(0.7,0.7,0.5,0.5,0.3,0.5,0.4,0.45,0.55,0.4,0.35
 # Taking Virtual (not Real) Samples
 
 .pull-left[
-* We counted the exact number of green, red and yellow pasta in the bowl 🧐 `#confinement`
+* He counted the exact number of green, red and yellow pasta in the bowl 🧐 `#confinement`
 
 * All the pasta in the bowl are stored in a csv file [here](https://www.dropbox.com/s/qpjsk0rfgc0gx80/pasta.csv?dl=1).
 
 
-```r
+``` r
 bowl &lt;- read.csv("https://www.dropbox.com/s/qpjsk0rfgc0gx80/pasta.csv?dl=1")
 
-head(bowl)
+head(bowl, 6)
 ```
 
 ```
@@ -241,7 +235,7 @@ head(bowl)
 * `color`: pasta color
 
 
-```r
+``` r
 nrow(bowl)
 ```
 
@@ -263,7 +257,7 @@ nrow(bowl)
 --
 
 
-```r
+``` r
 #load moderndive package
 library(moderndive)
 virtual_shovel &lt;- bowl %&gt;% # notice that moderndive functions can be "pipped"
@@ -272,7 +266,7 @@ virtual_shovel &lt;- bowl %&gt;% # notice that moderndive functions can be "pipp
 
 .pull-left[
 
-```r
+``` r
 # display the sample's first 6 rows
 head(virtual_shovel)
 ```
@@ -295,7 +289,7 @@ head(virtual_shovel)
 
 .pull-right[
 
-```r
+``` r
 # number of observations in sample
 nrow(virtual_shovel)
 ```
@@ -311,7 +305,7 @@ nrow(virtual_shovel)
 
 .pull-left[
 
-```r
+``` r
 sample_1 &lt;- virtual_shovel %&gt;% 
   summarize(
     # number of green pasta in sample
@@ -353,7 +347,7 @@ What if we try many times, like, 33 times?
 33 samples (*replicates*) of size 50.
 
 
-```r
+``` r
 virtual_samples &lt;- bowl %&gt;%
   # get 33 samples of size 50
   rep_sample_n(size = 50, reps = 33)
@@ -386,7 +380,7 @@ virtual_samples
 Compute the proportion of green pasta in each sample.
 
 
-```r
+``` r
 virtual_prop_green &lt;- virtual_samples %&gt;% 
   group_by(replicate) %&gt;% # calculate stat by sample
   summarize(num_green = sum(color == "green"),
@@ -426,7 +420,7 @@ virtual_prop_green
 * And again, we can visualize the ***sampling distribution***:
 
 
-```r
+``` r
 ggplot(virtual_prop_green, aes(x = prop_green)) +
   geom_histogram(binwidth = 0.02, 
                  boundary = 0.51,
@@ -443,17 +437,12 @@ ggplot(virtual_prop_green, aes(x = prop_green)) +
 --
 
 .pull-right[
-&lt;img src="chapter_sampling_files/figure-html/unnamed-chunk-13-1.svg" style="display: block; margin: auto;" /&gt;
+&lt;img src="chapter_sampling_files/figure-html/unnamed-chunk-14-1.svg" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
 
 # Task 2
-
-<div class="countdown" id="timer_dfd8c124" data-update-every="1" tabindex="0" style="top:0;right:0;">
-<div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
-<code class="countdown-time"><span class="countdown-digits minutes">10</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
-</div>
 
 Instead of taking only 33 samples, let's take ***1000***!
 
@@ -475,7 +464,7 @@ Instead of taking only 33 samples, let's take ***1000***!
 
 # Sampling Distribution of 1000 Samples
 
-&lt;img src="chapter_sampling_files/figure-html/unnamed-chunk-14-1.svg" style="display: block; margin: auto;" /&gt;
+&lt;img src="chapter_sampling_files/figure-html/unnamed-chunk-15-1.svg" style="display: block; margin: auto;" /&gt;
 
 --
 
@@ -508,7 +497,7 @@ If your goal is still to estimate the proportion of the bowl’s pasta that are 
 Generate all samples of different sizes:
 
 
-```r
+``` r
 # Sample size: 25
 virtual_samples_25 &lt;- bowl %&gt;% 
   rep_sample_n(size = 25, reps = 1000)
@@ -530,7 +519,7 @@ virtual_samples_100 &lt;- bowl %&gt;%
 Compute proportion of green pasta:
 
 
-```r
+``` r
 # Sample size: 25
 # The same code is used for the other sample sizes
 virtual_prop_green_25 &lt;- virtual_samples_25 %&gt;% 
@@ -546,7 +535,7 @@ virtual_prop_green_25 &lt;- virtual_samples_25 %&gt;%
 
 # Role of Sample Size
 
-&lt;img src="chapter_sampling_files/figure-html/unnamed-chunk-17-1.svg" style="display: block; margin: auto;" /&gt;
+&lt;img src="chapter_sampling_files/figure-html/unnamed-chunk-18-1.svg" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -666,7 +655,7 @@ Sample Size `\((n)\)` | Standard Error of `\(\hat{p}\)`
 --
 
 
-```r
+``` r
 sum(bowl$color == "green")/nrow(bowl)
 ```
 
@@ -682,7 +671,7 @@ sum(bowl$color == "green")/nrow(bowl)
 
 # Visualizing Unbiasedness and Sampling Variation
 
-&lt;img src="chapter_sampling_files/figure-html/unnamed-chunk-20-1.svg" style="display: block; margin: auto;" /&gt;
+&lt;img src="chapter_sampling_files/figure-html/unnamed-chunk-21-1.svg" style="display: block; margin: auto;" /&gt;
 
 ---
 # Some Sampling Scenarios

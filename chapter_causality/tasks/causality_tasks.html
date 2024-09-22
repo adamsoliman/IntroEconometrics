@@ -491,57 +491,6 @@ The following computes the percentage of girls (without the relevant
 ## 11 k     regular+aide         48.8                   32.2             49.3
 ## 12 k     small                48.0                   30.2             46.7</code></pre>
 </div>
-<div id="task-3-your-turn" class="section level2">
-<h2>Task 3: Your Turn!</h2>
-<p>1. Filter the dataset to only keep first graders and the small class
-and regular class groups.</p>
-<pre class="r"><code>star_df_1_small &lt;- star_df %&gt;%
-    filter(star %in% c(&quot;small&quot;,&quot;regular&quot;) &amp; grade == &quot;1&quot;)</code></pre>
-<p>2. Compute the average math score for both groups, and the difference
-between the two. (Use base <code>R</code>.)</p>
-<pre class="r"><code>mean_small = mean(star_df_1_small$math[star_df_1_small$star == &quot;small&quot;])
-mean_small</code></pre>
-<pre><code>## [1] 539.0885</code></pre>
-<pre class="r"><code>mean_regular = mean(star_df_1_small$math[star_df_1_small$star == &quot;regular&quot;])
-mean_regular</code></pre>
-<pre><code>## [1] 526.4434</code></pre>
-<pre class="r"><code>ATE = mean_small - mean_regular
-ATE</code></pre>
-<pre><code>## [1] 12.64506</code></pre>
-<p>3. Create a dummy variable <code>treatment</code> equal to
-<code>TRUE</code> if student is in treatment group (i.e. small class
-size) and <code>FALSE</code> if in control group (i.e. regular class
-size). See slide 33 for how to create a dummy variable.</p>
-<pre class="r"><code>star_df_1_small &lt;- star_df_1_small %&gt;%
-    mutate(treatment = (star == &quot;small&quot;))
-table(star_df_1_small$treatment)</code></pre>
-<pre><code>## 
-## FALSE  TRUE 
-##  2359  1786</code></pre>
-<p>4. Regress math score on the treatment dummy variable. Are the
-results in line with question 2?</p>
-<pre class="r"><code>lm(math ~ treatment, star_df_1_small)</code></pre>
-<pre><code>## 
-## Call:
-## lm(formula = math ~ treatment, data = star_df_1_small)
-## 
-## Coefficients:
-##   (Intercept)  treatmentTRUE  
-##        526.44          12.65</code></pre>
-<ol start="5" style="list-style-type: decimal">
-<li>How do you interpret these coefficients?</li>
-</ol>
-<p><strong>The intercept corresponds to the expected math score for
-first graders in the control group, defined as a regular-sized class. In
-other words the expected math score of first grades in the control group
-is 526,44. You can see this by yourself by comparing the coefficient to
-the same average computed in question 2. The slope coefficient
-corresponds the difference in expected math scores between first graders
-in the treatment and in the control group. In other words, first graders
-in small classes are expected to score 12.65 points higher than students
-in regular-sized classes. Again, you can compare this coefficient with
-the difference in averages computed in question 2.</strong></p>
-</div>
 
 
 

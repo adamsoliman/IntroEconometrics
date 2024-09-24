@@ -9,7 +9,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
-<meta name="author" content="Adam Soliman" />
+<meta name="author" content="Dr. Soliman" />
 
 
 <title>Multiple Linear Regression - Tasks</title>
@@ -350,7 +350,7 @@ display: none;
 
 
 <h1 class="title toc-ignore">Multiple Linear Regression - Tasks</h1>
-<h4 class="author">Adam Soliman</h4>
+<h4 class="author">Dr. Soliman</h4>
 
 </div>
 
@@ -359,11 +359,12 @@ display: none;
 <h2>Task 1</h2>
 <p>Let’s analyse the regression results using <strong>reading</strong>
 score as the dependent variable.</p>
-<p>1. Load the data from <a href="https://www.dropbox.com/s/wwp2cs9f0dubmhr/grade5.dta?dl=1">here</a>
-using the <code>read_dta()</code> function from the <code>haven</code>
-package. Assign it to an object <code>grades</code>.</p>
-<pre class="r"><code>library(haven)
-grades &lt;- read_dta(&quot;https://www.dropbox.com/s/wwp2cs9f0dubmhr/grade5.dta?dl=1&quot;)</code></pre>
+<ol style="list-style-type: decimal">
+<li>Load the data from <a href="https://www.dropbox.com/scl/fi/77u2r8xznh63jg7aisq4f/grade5_isl.csv?rlkey=uclo7ng24so9fct41kcjm8k0l&amp;dl=1">here</a>
+as <code>grades</code>.</li>
+</ol>
+<pre class="r"><code># your path will look different
+grades &lt;- read.csv(&quot;/Users/adamsoliman/Library/CloudStorage/Dropbox/Clemson/Econometrics Course/data for tasks/grade5_isl.csv&quot;)</code></pre>
 <p>1. Regress <code>avgverb</code> on <code>classize</code> and
 <code>disadvantaged</code> and assign the output to a new object
 <code>reg</code>. Interpret the coefficients. How do they compare with
@@ -376,7 +377,7 @@ reg</code></pre>
 ## 
 ## Coefficients:
 ##   (Intercept)       classize  disadvantaged  
-##      80.23878       -0.03083       -0.34967</code></pre>
+##      80.26717       -0.03158       -0.34936</code></pre>
 <p><strong>The intercept, which measures that expected reading score
 when class size and the percentage of disadvantaed students in the class
 are 0, equals 80. This, as we’ve discussed in class, doesn’t make any
@@ -409,9 +410,9 @@ reg_full</code></pre>
 ## 
 ## Coefficients:
 ##       (Intercept)           classize      disadvantaged  school_enrollment  
-##        78.5607253          0.0033208         -0.3893330          0.0007583  
+##         78.918736           0.003388          -0.389224           0.000807  
 ##            female          religious  
-##         0.9237105          2.8761467</code></pre>
+##          0.205981           2.886193</code></pre>
 </div>
 <div id="task-2-dummy-variable-trap" class="section level2">
 <h2>Task 2: Dummy Variable Trap</h2>
@@ -420,9 +421,7 @@ regression where there is perfect linear dependence between
 regressors.</p>
 <p>1. Load the <em>STAR</em> data from <a href="%22https://www.dropbox.com/s/bf1fog8yasw3wjj/star_data.csv?dl=1%22">here</a>,
 using <code>read.csv</code>, and assign it to an object called
-<code>star_df</code>. Keep only cases with no <code>NA</code>s with the
-following code:<br />
-<code>star_df &lt;- star_df[complete.cases(star_df),]</code></p>
+<code>star_df</code>. Keep only cases with no <code>NA</code>s.</p>
 <pre class="r"><code>library(tidyverse)</code></pre>
 <pre><code>## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
 ## ✔ dplyr     1.1.4     ✔ readr     2.1.5
@@ -434,11 +433,8 @@ following code:<br />
 ## ✖ dplyr::filter() masks stats::filter()
 ## ✖ dplyr::lag()    masks stats::lag()
 ## ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
-<pre class="r"><code>star_df &lt;- read.csv(&quot;https://www.dropbox.com/s/bf1fog8yasw3wjj/star_data.csv?dl=1&quot;)
-star_df &lt;- star_df[complete.cases(star_df),]
-
-star_df_2 &lt;- star_df %&gt;%
-    filter(grade == &quot;2&quot;)</code></pre>
+<pre class="r"><code>star_df &lt;- read.csv(&quot;/Users/adamsoliman/Library/CloudStorage/Dropbox/Clemson/Econometrics Course/data for tasks/star_data.csv&quot;)
+star_df_complete &lt;- star_df %&gt;% filter(complete.cases(.))</code></pre>
 <p>2. Create three dummy variables: (i) <code>small</code> equal to
 <code>TRUE</code> if students are in a small class and
 <code>FALSE</code> otherwise; (ii) <code>regular</code> equal to
@@ -449,15 +445,15 @@ star_df_2 &lt;- star_df %&gt;%
 equal to the sum of <code>small</code>, <code>regular</code> and
 <code>regular_plus</code>. What is <code>sum</code> equal to? What does
 this mean?</p>
-<pre class="r"><code>star_df_2 &lt;- star_df_2 %&gt;%
+<pre class="r"><code>star_df_complete &lt;- star_df_complete %&gt;%
     mutate(small = (star == &quot;small&quot;),
            regular = (star == &quot;regular&quot;),
            regular_plus = (star == &quot;regular+aide&quot;),
            sum = small + regular + regular_plus)
 
-star_df_2 %&gt;% count(sum)</code></pre>
-<pre><code>##   sum    n
-## 1   1 5672</code></pre>
+star_df_complete %&gt;% count(sum)</code></pre>
+<pre><code>##   sum     n
+## 1   1 22815</code></pre>
 <p><strong>The <code>sum</code> variable is always equal to 1, which
 means that <code>small</code>, <code>regular</code> and
 <code>regular_plus</code> are perfectly collinear. In other words they
@@ -467,15 +463,15 @@ i.e. <code>small</code> = 1 - (<code>regular</code> +
 <p>3. Regress <code>math</code> on <code>small</code>. What is the
 average predicted <code>math</code> score of students in a small class?
 Do the same for <code>regular</code> and <code>regular_plus</code>.</p>
-<pre class="r"><code>reg_small &lt;- lm(math ~ small, star_df_2)
+<pre class="r"><code>reg_small &lt;- lm(math ~ small, star_df_complete)
 reg_small</code></pre>
 <pre><code>## 
 ## Call:
-## lm(formula = math ~ small, data = star_df_2)
+## lm(formula = math ~ small, data = star_df_complete)
 ## 
 ## Coefficients:
 ## (Intercept)    smallTRUE  
-##     579.074        7.564</code></pre>
+##      552.17        10.29</code></pre>
 <p><strong>Note that our regressor is a dummy variable. Remember from
 the lecture on causality that when the regressor is a dummy variable,
 the intercept corresponds to the conditional mean of outcome variable
@@ -483,60 +479,60 @@ for the <code>FALSE</code> category while the slope coefficient
 corresponds to the difference in expected outcomes between the
 <code>TRUE</code> and the <code>FALSE</code> category. In this case,
 from the regression, we can get that the expected math score of students
-not in a small class is around 579.07 points , and that the difference
+not in a small class is around 552.17 points , and that the difference
 in expected math score between students in a small class and those not
-in a small class is 7.56 points. As such, the expected math score of
-students in a small class is approximately 579.07 + 7.56 =
-586.64.</strong></p>
+in a small class is 10.29 points. As such, the expected math score of
+students in a small class is approximately 552.17 + 10.29 =
+562.45.</strong></p>
 <p><strong>For those of you who prefer seeing this formally, this is how
 you can (should proceed):</strong> <span class="math display">\[
 \mathbb{E}(\text{math score } | \text{ small} = 0) = b_0 + b_1 \times 0
-= b_0 \approx 579.07 \\
+= b_0 \approx 552.17 \\
 \mathbb{E}(\text{math score } | \text{ small} = 1) = b_0 + b_1 \times 1
-= b_0 + b_1 \approx 586.64
+= b_0 + b_1 \approx 562.45
 \]</span></p>
-<pre class="r"><code>reg_regular &lt;- lm(math ~ regular, star_df_2)
+<pre class="r"><code>reg_regular &lt;- lm(math ~ regular, star_df_complete)
 reg_regular</code></pre>
 <pre><code>## 
 ## Call:
-## lm(formula = math ~ regular, data = star_df_2)
+## lm(formula = math ~ regular, data = star_df_complete)
 ## 
 ## Coefficients:
 ## (Intercept)  regularTRUE  
-##     583.231       -5.535</code></pre>
-<pre class="r"><code>reg_plus &lt;- lm(math ~ regular_plus, star_df_2)
+##     558.380       -9.093</code></pre>
+<pre class="r"><code>reg_plus &lt;- lm(math ~ regular_plus, star_df_complete)
 reg_plus</code></pre>
 <pre><code>## 
 ## Call:
-## lm(formula = math ~ regular_plus, data = star_df_2)
+## lm(formula = math ~ regular_plus, data = star_df_complete)
 ## 
 ## Coefficients:
 ##      (Intercept)  regular_plusTRUE  
-##          581.859            -1.466</code></pre>
+##         555.4726           -0.5487</code></pre>
 <p><strong>Using the exact same logic as above, we obtain:</strong>
 <span class="math display">\[
 \mathbb{E}(\text{math score } | \text{ regular} = 0) = b_0 + b_1 \times
-0 = b_0 \approx 583.23 \\
+0 = b_0 \approx 558.38 \\
 \mathbb{E}(\text{math score } | \text{ regular} = 1) = b_0 + b_1 \times
-1 = b_0 + b_1 \approx 577.7 \\
+1 = b_0 + b_1 \approx 549.29 \\
 \mathbb{E}(\text{math score } | \text{ regular+aide} = 0) = b_0 + b_1
-\times 0 = b_0 \approx 581.86 \\
+\times 0 = b_0 \approx 555.47 \\
 \mathbb{E}(\text{math score } | \text{ regular+aide} = 1) = b_0 + b_1
-\times 1 = b_0 + b_1 \approx 580.39
+\times 1 = b_0 + b_1 \approx 554.92
 \]</span></p>
 <p>4. Regress <code>math</code> on <code>small</code>,
 <code>regular</code> and <code>regular_plus</code>. What do you notice?
 What’s the omitted (reference) category? Does this match the previous
 questions?</p>
-<pre class="r"><code>reg_full &lt;- lm(math ~ small + regular + regular_plus, star_df_2)
+<pre class="r"><code>reg_full &lt;- lm(math ~ small + regular + regular_plus, star_df_complete)
 reg_full</code></pre>
 <pre><code>## 
 ## Call:
-## lm(formula = math ~ small + regular + regular_plus, data = star_df_2)
+## lm(formula = math ~ small + regular + regular_plus, data = star_df_complete)
 ## 
 ## Coefficients:
 ##      (Intercept)         smallTRUE       regularTRUE  regular_plusTRUE  
-##          580.393             6.246            -2.696                NA</code></pre>
+##          554.924             7.529            -5.637                NA</code></pre>
 <p><strong>We notice that the <code>regular_plus</code> variable has
 been dropped, i.e. the coefficient for this variable cannot be estimated
 because it is collinear to <code>small</code> and <code>regular</code>.
@@ -550,7 +546,7 @@ the model as <span class="math inline">\(\text{math score} = b_0 + b_1
 b_0 &amp;= \mathbb{E}(\text{math score } | \text{ small} = 0 \text{
 &amp; } \text{ regular} = 0) \\
 &amp;= \mathbb{E}(\text{math score } | \text{ regular + aide} = 1) \\
-&amp;\approx 580.39
+&amp;\approx 554.92
 \end{align}\]</span></p>
 <p>You can compare this resul with the answer to the previous question
 and see that we obtain exactly the same answer.</p>
@@ -561,7 +557,7 @@ b_1 &amp;= \mathbb{E}(\text{math score } | \text{ small} = 1 \text{
 \text{ small} = 0 \text{ &amp; } \text{ regular} \in \{0,1\}) \\
 &amp;= b_0 + b_1 \times 1 + b_2 \times \text{regular} - (b_0 + b_1
 \times 0 + b_2 \times \text{regular}) \\
-&amp;\approx 6.25
+&amp;\approx 7.53
 \end{align}\]</span></p>
 <p><span class="math display">\[\begin{align}
 b_2 &amp;= \mathbb{E}(\text{math score } | \text{ small} \in \{0,1\}
@@ -569,7 +565,7 @@ b_2 &amp;= \mathbb{E}(\text{math score } | \text{ small} \in \{0,1\}
 \text{ small} \in \{0,1\} \text{ &amp; } \text{ regular} = 0) \\
 &amp;= b_0 + b_1 \times \text{small} + b_2 \times 1 - (b_0 + b_1 \times
 \text{small} + b_2 \times 0) \\
-&amp;\approx -2.7
+&amp;\approx -5.64
 \end{align}\]</span></p>
 <p>In plain English, the interpretation is that relative to the
 regular+aide group, students in small classes score 6.25 points higher
@@ -577,212 +573,20 @@ in the math exam, while relative to the regular+aide group, students in
 regular classes score 2.7 points lower in the math exam.</p>
 <p>5. Regress <code>math</code> on <code>star</code>. What do you
 notice? What’s the omitted category? Interpret the coefficient.</p>
-<pre class="r"><code>lm(math ~ star, star_df_2)</code></pre>
+<pre class="r"><code>lm(math ~ star, star_df_complete)</code></pre>
 <pre><code>## 
 ## Call:
-## lm(formula = math ~ star, data = star_df_2)
+## lm(formula = math ~ star, data = star_df_complete)
 ## 
 ## Coefficients:
 ##      (Intercept)  starregular+aide         starsmall  
-##          577.696             2.696             8.942</code></pre>
+##          549.287             5.637            13.166</code></pre>
 <p><strong><code>R</code> actually creates the dummy variables for me, I
 don’t need to do the tedious work above of creating an individual dummy
 variable for each category! The omitted category is <code>regular</code>
 therefore the coefficients are to be interpreted as differences in
 average math scores relative to students in <code>regular</code>
 classes.</strong></p>
-</div>
-<div id="task-3-recap" class="section level2">
-<h2>Task 3: Recap</h2>
-<p>Let’s use the <em>STAR</em> data (used in the previous task) to
-review the main concepts covered.</p>
-<p>1. Using the filtered data from the previous task, regress
-<code>math</code> on <code>school</code> (tabulate the variable to know
-what it contains). Interpret the coefficients. What’s the omitted
-category? Do you find them surprising? Why? What might be an omitted
-variable?</p>
-<pre class="r"><code>star_df_2 %&gt;% count(school)</code></pre>
-<pre><code>##       school    n
-## 1 inner-city 1199
-## 2      rural 2665
-## 3   suburban 1476
-## 4      urban  332</code></pre>
-<pre class="r"><code>lm(math ~ school, star_df_2)</code></pre>
-<pre><code>## 
-## Call:
-## lm(formula = math ~ school, data = star_df_2)
-## 
-## Coefficients:
-##    (Intercept)     schoolrural  schoolsuburban     schoolurban  
-##         561.56           30.18           16.93           20.33</code></pre>
-<p><strong>The <code>school</code> variable is a categorical variable
-indicating the school location type. There are four categories:
-inner-cyt, suburban, rural and urban.</strong></p>
-<p><strong>The ommitted category in the regression is inner-city,
-meaning that the intercept represents the average math score of students
-in inner-city schools and that the other coefficients should be
-interpreted relative to the expected math score of students in
-inner-city schools. In particular, on average, students in rural schools
-score 30 points higher than those in inner-city schools, those in
-suburban schools score almost 17 points higher, and those in urban
-schools score about 20 points higher. Inner-cities tend to be poorer
-areas which might explain that they score so much lower than students in
-other locations. An omitted variable might be some student- or
-school-evel variable of disadvantage.</strong></p>
-<p>2. Compute the share of students qualifying for free lunch
-(i.e. <code>lunch</code> equals “free”) by school location category.
-What do you observe? Add <code>lunch</code> to the previous question’s
-regression. How do the coefficients change?</p>
-<pre class="r"><code>star_df_2 %&gt;%
-    group_by(school) %&gt;%
-    summarise(mean(lunch == &quot;free&quot;))</code></pre>
-<pre><code>## # A tibble: 4 × 2
-##   school     `mean(lunch == &quot;free&quot;)`
-##   &lt;chr&gt;                        &lt;dbl&gt;
-## 1 inner-city                   0.897
-## 2 rural                        0.389
-## 3 suburban                     0.335
-## 4 urban                        0.443</code></pre>
-<p><strong>As expected, the share of students qualifying for free
-lunches, a common indicator of disadvantage, is significantly higher in
-inner-city schools (almost 90% of such students) while it is between 34%
-and 44% of students in other locations.</strong></p>
-<pre class="r"><code>lm(math ~ school + lunch, star_df_2)</code></pre>
-<pre><code>## 
-## Call:
-## lm(formula = math ~ school + lunch, data = star_df_2)
-## 
-## Coefficients:
-##    (Intercept)     schoolrural  schoolsuburban     schoolurban   lunchnon-free  
-##        559.228          18.750           4.289          10.114          22.517</code></pre>
-<p><strong>We observe that the coefficients on the rural, suburban and
-urban decrease dramatically once the free lunch status of students are
-taken into account. Note that students not qualifying for free lunch
-score significantly higher, on average, than those who do, controlling
-for the school’s location category.</strong></p>
-<p>3. Regress <code>math</code> on <code>gender</code> and
-<code>experience</code> (the teacher’s experience). Interpret the
-coefficients. How would these regression results look like visually?</p>
-<pre class="r"><code>lm(math ~ gender + experience, star_df_2)</code></pre>
-<pre><code>## 
-## Call:
-## lm(formula = math ~ gender + experience, data = star_df_2)
-## 
-## Coefficients:
-## (Intercept)   gendermale   experience  
-##   581.35255     -0.91383      0.03453</code></pre>
-<p><strong>The intercept coefficient corresponds to the average math
-score of female students, keeping teacher experience constant. Recall
-that because we have both a numeric variable and a dummy variable as
-regressors, the intercept can be interpreted as the intercept for the
-line of the omitted category, in this case female. The coefficient on
-gender represents the expected difference in math scores between male
-and female students, holding teacher experience constant. The
-coefficient is negative but small, implying that on average male
-students score slightly lower than their female peers, holding teacher
-experience constant. Graphically, this implies that the line for male
-students lies below that for females. The coefficient on experience
-corresponds to the expected change in math score associated, on average,
-to an increase in a teacher’s experience by 1 year, accounting for
-student gender. As such, an additional year of teacher experience is
-associated, on average, with a 0.03 increase in math scores, keeping
-gender constant. This is a very small effect, since you would need 100
-years of increased experience to expect math scores to increase by 3
-points.</strong></p>
-<p>4. Regress <code>math</code> on <code>star</code>. After interpreting
-the coefficients, regress <code>math</code> on <code>star</code>,
-<code>gender</code>, <code>ethnicity</code>, <code>lunch</code>,
-<code>degree</code>, <code>experience</code> and <code>school</code>.
-Recalling that this is a randomized experiment, does it look like the
-randomization was well done?</p>
-<pre class="r"><code>lm(math ~ star, star_df_2)</code></pre>
-<pre><code>## 
-## Call:
-## lm(formula = math ~ star, data = star_df_2)
-## 
-## Coefficients:
-##      (Intercept)  starregular+aide         starsmall  
-##          577.696             2.696             8.942</code></pre>
-<p><strong>The interpretation of the coefficients is as usual a
-comparison of conditional means. That is, students in small classes
-score, on average 8.94 points higher than those in regular classes (the
-omitted category) while students in regular + aide classes score only
-2.70 points higher.</strong></p>
-<pre class="r"><code>reg_all &lt;- lm(math ~ star + gender + ethnicity + lunch + degree + experience + school, star_df_2)
-reg_all</code></pre>
-<pre><code>## 
-## Call:
-## lm(formula = math ~ star + gender + ethnicity + lunch + degree + 
-##     experience + school, data = star_df_2)
-## 
-## Coefficients:
-##       (Intercept)   starregular+aide          starsmall         gendermale  
-##         557.64898            2.01899            7.89579           -1.07263  
-## ethnicityamindian     ethnicityasian      ethnicitycauc  ethnicityhispanic  
-##         -21.91483           42.16429           18.61906           15.04510  
-##    ethnicityother      lunchnon-free       degreemaster          degreephd  
-##          54.67051           18.40555           -1.29047            0.97823  
-##  degreespecialist         experience        schoolrural     schoolsuburban  
-##          12.11634           -0.05146            3.99491           -4.65503  
-##       schoolurban  
-##          -3.97039</code></pre>
-<p><strong>The coefficients on the treatment variable <code>star</code>
-decrease very slightly compared to the previous simple regression. This
-is expected considering this was a randomized experiment and therefore
-we can suppose that the randomization seems to have worked. If the
-randomization had been very poor, then accounting for all these factors
-should alter the coefficients on <code>star</code> more
-substantially.</strong></p>
-<p>5. What’s the adjusted <span class="math inline">\(R^2\)</span> from
-the previous multiple regression. How do you interpret it? What might
-you deduce about the importance of observable individual, teacher and
-school characteristics in explaining educational outcomes?</p>
-<pre class="r"><code>summary(reg_all)</code></pre>
-<pre><code>## 
-## Call:
-## lm(formula = math ~ star + gender + ethnicity + lunch + degree + 
-##     experience + school, data = star_df_2)
-## 
-## Residuals:
-##      Min       1Q   Median       3Q      Max 
-## -137.882  -27.033   -1.892   25.174  144.834 
-## 
-## Coefficients:
-##                    Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept)       557.64898    1.68995 329.979  &lt; 2e-16 ***
-## starregular+aide    2.01899    1.30760   1.544 0.122635    
-## starsmall           7.89579    1.36425   5.788 7.52e-09 ***
-## gendermale         -1.07263    1.08674  -0.987 0.323675    
-## ethnicityamindian -21.91483   28.97355  -0.756 0.449457    
-## ethnicityasian     42.16429   11.90591   3.541 0.000401 ***
-## ethnicitycauc      18.61906    1.76609  10.543  &lt; 2e-16 ***
-## ethnicityhispanic  15.04510   14.53924   1.035 0.300810    
-## ethnicityother     54.67051   13.71246   3.987 6.78e-05 ***
-## lunchnon-free      18.40555    1.25646  14.649  &lt; 2e-16 ***
-## degreemaster       -1.29047    1.17370  -1.099 0.271603    
-## degreephd           0.97823    7.08286   0.138 0.890157    
-## degreespecialist   12.11634    5.50130   2.202 0.027674 *  
-## experience         -0.05146    0.06398  -0.804 0.421259    
-## schoolrural         3.99491    2.09764   1.904 0.056898 .  
-## schoolsuburban     -4.65503    1.90889  -2.439 0.014775 *  
-## schoolurban        -3.97039    2.91817  -1.361 0.173703    
-## ---
-## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
-## 
-## Residual standard error: 40.86 on 5655 degrees of freedom
-## Multiple R-squared:  0.1489, Adjusted R-squared:  0.1465 
-## F-statistic: 61.85 on 16 and 5655 DF,  p-value: &lt; 2.2e-16</code></pre>
-<p><strong>The adjusted <span class="math inline">\(R^2\)</span> of the
-previous regression is about 0.15, which means that that model explains
-about 15% of the variance in students’ math scores. This implies that
-85% of the variance in math scores remains unaccounted for. In simple
-terms, class size, gender, ethnicity, free lunch status, teacher
-experience and degree, and school location, explain very little of the
-differences in math scores between the students in this dataset.
-Extrapolating a bit, one may argue that most of the differences in
-educational outcomes do not appear to be explained by these factors.
-This DOES NOT mean that they may not have important causal effects on
-educational outcomes.</strong></p>
 </div>
 
 

@@ -63,7 +63,7 @@ class: center, middle, inverse, title-slide
 
 # Task 1: Getting to know the data
 
-1. Load the data from [here](https://www.dropbox.com/scl/fi/77u2r8xznh63jg7aisq4f/grade5_isl.csv?rlkey=uclo7ng24so9fct41kcjm8k0l&amp;dl=0) as `grades`. Remember that `grades` is called an object. This is similar to a spreadsheet, and you can have multiple objects loaded in R at the same time.
+1. Load the data from [here](https://www.dropbox.com/scl/fi/77u2r8xznh63jg7aisq4f/grade5_isl.csv?rlkey=uclo7ng24so9fct41kcjm8k0l&amp;dl=1) as `grades`. Remember that `grades` is called an object. This is similar to a spreadsheet, and you can have multiple objects loaded in R at the same time.
 
 1. Describe the dataset:
 
@@ -377,7 +377,7 @@ Let's estimate the following model by OLS: `\(\textrm{average math score}_i = b_
 
 .pull-left[
 
-``` r
+```r
 # OLS regression of class size on average maths score
 lm(avgmath_cs ~ classize, grades_avg_cs) 
 ```
@@ -441,7 +441,7 @@ $$
 Run the following code to aggregate the data at the class size level:
 
 
-``` r
+```r
 grades_avg_cs &lt;- grades %&gt;%
   group_by(classize) %&gt;%
   summarise(avgmath_cs = mean(avgmath),
@@ -504,7 +504,7 @@ grades_avg_cs &lt;- grades %&gt;%
 ]
 
 .right-thin[
-&lt;table class="table table-striped" style="font-size: 15px; color: black; margin-left: auto; margin-right: auto;"&gt;
+&lt;table class="table table-striped" style="font-size: 15px; margin-left: auto; margin-right: auto;"&gt;
  &lt;thead&gt;
   &lt;tr&gt;
    &lt;th style="text-align:right;"&gt; dataset &lt;/th&gt;

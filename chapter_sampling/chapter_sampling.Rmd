@@ -117,7 +117,7 @@ Yellow   |  1    |     `r format(round(1/20,2), nsmall = 2)`
 
 ---
 
-# Taking 18 Samples (One per Student)
+# Taking 18 Samples
 
 * Because we don't have pasta with us in class, he drew 18 samples of 20 pasta (with replacement) at home.
 
@@ -132,7 +132,7 @@ Yellow   |  1    |     `r format(round(1/20,2), nsmall = 2)`
 
 ---
 
-# Taking 18 Samples (One per Student)
+# Taking 18 Samples
 
 * Because we don't have pasta with us in class, he drew 18 samples of 20 pasta (with replacement) at home.
 
@@ -175,7 +175,7 @@ The proportions are as follows: `(0.7,0.7,0.5,0.5,0.3,0.5,0.4,0.45,0.55,0.4,0.35
 
 ```{r}
 # don't forget to use comments as needed
-pasta <- data.frame(prop_green = c(0.7,0.7,0.5,0.5,0.3,0.5,0.4,0.45,0.55,0.4,
+pastasample <- data.frame(prop_green = c(0.7,0.7,0.5,0.5,0.3,0.5,0.4,0.45,0.55,0.4,
                                    0.35,0.45,0.45,0.7,0.55,0.5,0.35,0.65))
 ```
 

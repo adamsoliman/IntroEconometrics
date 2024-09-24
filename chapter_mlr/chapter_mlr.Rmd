@@ -84,7 +84,7 @@ countdown(
 # Class size and student performance: Raw relationship
 
 ```{r, echo=FALSE, fig.height=4.75, fig.width = 8}
-grades = read_dta(file = "https://www.dropbox.com/s/wwp2cs9f0dubmhr/grade5.dta?dl=1")
+grades <- read.csv("/Users/adamsoliman/Library/CloudStorage/Dropbox/Clemson/Econometrics Course/data for tasks/grade5_isl.csv")
 
 set.seed(123)
 
@@ -400,7 +400,7 @@ You ***need*** to pay attention to whether you are talking about ***percentage p
 
 Let's analyse the regression results using **reading** score as the dependent variable.
 
-1. Load the data from [here](https://www.dropbox.com/s/wwp2cs9f0dubmhr/grade5.dta?dl=1) using the `read_dta()` function from the `haven` package. If you need to install the package, do that first. Assign it to an object `grades`.
+1. Load the data from [here](https://www.dropbox.com/scl/fi/77u2r8xznh63jg7aisq4f/grade5_isl.csv?rlkey=uclo7ng24so9fct41kcjm8k0l&dl=1) as `grades`.
 
 1. Regress `avgverb` on `classize` and `disadvantaged` and assign the output to a new object `reg`. Interpret the coefficients. How do they compare to the simple linear regression? How do they compare with the math score regression coefficients?
 

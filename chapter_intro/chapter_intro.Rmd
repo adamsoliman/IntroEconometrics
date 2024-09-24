@@ -360,11 +360,14 @@ Congratulations, you have created your first `R` "object"! Everything is an obje
 
 --
 
-2\. In the same script used in the previous task, import [clemsonFBSfinances.csv](https://www.dropbox.com/scl/fi/6izns6n1iobin3shafpfr/clemsonFBSfinances.csv?rlkey=s2prx9z1lhmmym96cubzi7awe&dl=0) in a new object and call it `clemsonfootballdata`. This file contains data on Clemson football finances. It should look something like:
+2\. In the same script used in the previous task, import [clemsonFBSfinances.csv](https://www.dropbox.com/scl/fi/6izns6n1iobin3shafpfr/clemsonFBSfinances.csv?rlkey=s2prx9z1lhmmym96cubzi7awe&dl=1) in a new object and call it `clemsonfootballdata`. This file contains data on Clemson football finances. It should look something like:
  
 ```{r}
 # this is a comment, which you should always use in your code. Note your path will look slightly different
-clemsonfootballdata <- read.csv("/Users/adamsoliman/Downloads/clemsonFBSfinances.csv")
+clemsonfootballdata <- read.csv("/Users/adamsoliman/Library/CloudStorage/Dropbox/Clemson/Econometrics Course/data for tasks/clemsonFBSfinances.csv")
+
+#alternatively, you can import directly from dropbox
+clemsonfootballdata <- read.csv("https://www.dropbox.com/scl/fi/6izns6n1iobin3shafpfr/clemsonFBSfinances.csv?rlkey=s2prx9z1lhmmym96cubzi7awe&dl=1")
 ```
 
 3\. Type in `class(clemsonfootball)` in your script and run the code. What happened and why? Now try with `class(clemsonfootballdata)`.

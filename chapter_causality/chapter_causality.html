@@ -630,7 +630,7 @@ Tennessee **S**tudent/**T**eacher **A**chievement **R**atio Experiment (see [Kru
 
 # Task 2: STAR data
 
-1. Load the *STAR* data from [here](https://www.dropbox.com/s/bf1fog8yasw3wjj/star_data.csv?dl=1) and assign it to an object called `star_df`. Read the help for the data [here](https://rdrr.io/cran/AER/man/STAR.html) to understand what the variables correspond to. (Note: the data has been *reshaped* so don't mind the "k", "1", etc. in the variable names in the help.)
+1. Load the *STAR* data from [here](https://www.dropbox.com/scl/fi/l7fz6p09uwbelg8ks15pl/star_data.csv?rlkey=y3g3l55fsyhvtypldp0ugpmnm&amp;dl=1) and assign it to an object called `star_df`. Read the help for the data [here](https://rdrr.io/cran/AER/man/STAR.html) to understand what the variables correspond to. (Note: the data has been *reshaped* so don't mind the "k", "1", etc. in the variable names in the help.)
 
 1. What's the unit of observation? Which variable contains: (i) the (random) class assignment, (ii) the student's class grade, (iii) the outcomes of interest?
 
@@ -721,7 +721,7 @@ $$
 
 .pull-left[
 
-``` r
+```r
 star_df_k_small &lt;- star_df %&gt;%
     filter(star %in% c("regular", "small") &amp;
            grade == "k") %&gt;% 
@@ -729,7 +729,7 @@ star_df_k_small &lt;- star_df %&gt;%
 ```
 
 
-``` r
+```r
 star_df_k_small %&gt;% count(star, grade)
 
 star_df_k_small %&gt;% count(small)
@@ -763,7 +763,7 @@ star_df_k_small %&gt;% count(small)
 Regression model we want to estimate: `\(\text{math score}_i = b_0 + \delta \text{small}_i + e_i\)`
 
 
-``` r
+```r
 lm(math ~ small, star_df_k_small)
 ```
 
@@ -799,10 +799,10 @@ b_0
 .pull-right[
 
 ``` r
-delta = mean(star_df_k_small$math[
-    star_df_k_small$small == TRUE]) - 
-  mean(star_df_k_small$math[
-    star_df_k_small$small == FALSE])
+delta = mean((star_df_k_small %&gt;% 
+               filter(small == TRUE))$math) - 
+  mean((star_df_k_small %&gt;% 
+               filter(small == FALSE))$math)
 delta
 ```
 

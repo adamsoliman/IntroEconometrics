@@ -78,7 +78,7 @@ countdown(
 
 # Task 1: Getting to know the data
 
-1. Load the data from [here](https://www.dropbox.com/scl/fi/77u2r8xznh63jg7aisq4f/grade5_isl.csv?rlkey=uclo7ng24so9fct41kcjm8k0l&dl=0) as `grades`. Remember that `grades` is called an object. This is similar to a spreadsheet, and you can have multiple objects loaded in R at the same time.
+1. Load the data from [here](https://www.dropbox.com/scl/fi/77u2r8xznh63jg7aisq4f/grade5_isl.csv?rlkey=uclo7ng24so9fct41kcjm8k0l&dl=1) as `grades`. Remember that `grades` is called an object. This is similar to a spreadsheet, and you can have multiple objects loaded in R at the same time.
 
 1. Describe the dataset:
 
@@ -93,7 +93,7 @@ countdown(
 
 ```{r, echo=FALSE}
 # import data
-grades = read_dta(file = "https://www.dropbox.com/s/wwp2cs9f0dubmhr/grade5.dta?dl=1")
+grades <- read.csv("/Users/adamsoliman/Library/CloudStorage/Dropbox/Clemson/Econometrics Course/data for tasks/grade5_isl.csv")
 ```
 
 ---

@@ -1,6 +1,6 @@
 ---
 title: "Sampling - Tasks"
-author: "Adam Soliman"
+author: "Dr. Soliman"
 output: html_document
 ---
 
@@ -13,16 +13,15 @@ knitr::opts_chunk$set(echo = TRUE)
 1/. Create a data.frame containing the proportions of green pasta from the previous slide. Name it `pasta` and name the variable containing the proportions `prop_green`. (Hint: to create a data.frame you need to use the `data.frame()` function.)
 
 ```{r}
-pasta <- data.frame(prop_green = c(0.7,0.7,0.5,0.5,0.3,0.5,0.4,0.45,0.55,0.4,0.35,0.45,0.45,0.7,0.55,0.5,0.35,0.65))
+pastasample <- data.frame(prop_green = c(0.7,0.7,0.5,0.5,0.3,0.5,0.4,0.45,0.55,0.4,0.35,0.45,0.45,0.7,0.55,0.5,0.35,0.65))
 ```
 
 2/. Create a histogram of these proportions using `ggplot2`. Use these parameters in `geom_histogram()`: `boundary = 0.325, binwidth = 0.05`.
 
 ```{r}
 library(tidyverse)
-pasta %>%
-    ggplot(aes(x = prop_green)) +
-    geom_histogram(boundary = 0.325, binwidth = 0.05, color = "white", fill = "darkgreen")
+ggplot(pastasample, aes(x = prop_green)) +
+  geom_histogram(boundary = 0.325, binwidth = 0.05, color = "white", fill = "darkgreen")
 ```
 
 3/. What do you observe?
@@ -38,10 +37,11 @@ Instead of taking only 33 samples, let's take ***1000***!
 
 **It would be too time-consuming.**
 
-2\. Load the [data](https://www.dropbox.com/s/qpjsk0rfgc0gx80/pasta.csv?dl=1) into an object `pasta`.
+2\. Load the [data]("https://www.dropbox.com/scl/fi/m6f187nd2aiwoqzckcpa0/pasta.csv?rlkey=ohaqb5iepispqtoh2dmcpoxpr&dl=1") into an object `pasta`.
 
 ```{r}
-pasta <- read.csv("https://www.dropbox.com/s/qpjsk0rfgc0gx80/pasta.csv?dl=1")
+# your path will look different
+pasta <- read.csv("/Users/adamsoliman/Library/CloudStorage/Dropbox/Clemson/Econometrics Course/data for tasks/pasta.csv")
 ```
 
 3\. Obtain 1000 samples of size 50 using the `rep_sample_n()` function from the `moderndive` package.

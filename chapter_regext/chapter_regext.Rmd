@@ -366,7 +366,7 @@ $\rightarrow$ add a higher order of the regressor to the regression, depending o
 
 --
 
-Several ways of doing this in `R`:
+Several ways of doing this in `R`, these are just two of the equivalent ones:
 
 .pull-left[
 ```{r, eval = F}

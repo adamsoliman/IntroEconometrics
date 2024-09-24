@@ -1,6 +1,6 @@
 ---
 title: "Simple Linear Regression - Tasks"
-author: "Adam Soliman"
+author: "Dr. Soliman"
 output: html_document
 
 ---
@@ -11,13 +11,11 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Task 1: Getting to know the data
 
-1\. Load the data from [here](https://www.dropbox.com/s/wwp2cs9f0dubmhr/grade5.dta?dl=1) as `grades`. You need to find the function that enables importing *.dta* files. (FYI: *.dta* is the extension for data files used in [*Stata*](https://www.stata.com/))
+1\. Load the data from [here](https://www.dropbox.com/scl/fi/77u2r8xznh63jg7aisq4f/grade5_isl.csv?rlkey=luyjby0fa1x9qdi94hviwpn5n&dl=0) as `grades`. You need to find the function that enables importing *csv* files. 
 
 ```{r}
-library(haven)
-link <- "https://www.dropbox.com/s/wwp2cs9f0dubmhr/grade5.dta?dl=1"
-
-grades <- read_dta(link)
+# your path will look different than mine
+grades <- read.csv("/Users/adamsoliman/Library/CloudStorage/Dropbox/Clemson/Econometrics Course/data for tasks/grade5_isl.csv")
 ```
 
 2\. Describe the dataset:

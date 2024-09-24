@@ -24,11 +24,11 @@
 
 1. The reading list for the course can be found [here](https://github.com/adamsoliman/IntroEconometrics/blob/master/readings.md)
 
-1. Slides for the first lecture can be found [here](https://github.com/adamsoliman/IntroEconometrics/blob/master/Introduction%20Materials/Lecture_Intro_SolimanFall2024.pdf)
+1. Slides for the first lecture can be found [here](https://github.com/adamsoliman/IntroEconometrics/blob/master/Intro%20materials%20and%20keys/Lecture_Intro_SolimanFall2024.pdf)
 
 1. A deep dive into R programming can be found [here](https://raw.githack.com/adamsoliman/IntroEconometrics/master/chapter_tidy_programming/chapter_tidy.html)
 
-1. Answer keys for [introduction to R](https://raw.githack.com/adamsoliman/IntroEconometrics/master/chapter_intro/tasks/intro_tasks.html), [simple linear regression](https://raw.githack.com/adamsoliman/IntroEconometrics/master/chapter_slr/tasks/slr_tasks.html), [causality](https://raw.githack.com/adamsoliman/IntroEconometrics/master/chapter_causality/tasks/causality_tasks.html), [multiple linear regression](https://raw.githack.com/adamsoliman/IntroEconometrics/master/chapter_mlr/tasks/mlr_tasks.html), and [linear regression extensions](https://raw.githack.com/adamsoliman/IntroEconometrics/master/chapter_regext/tasks/regext_tasks.html)
+1. Answer keys for in class tasks: [introduction to R](https://raw.githack.com/adamsoliman/IntroEconometrics/master/chapter_intro/tasks/intro_tasks.html), [simple linear regression](https://raw.githack.com/adamsoliman/IntroEconometrics/master/chapter_slr/tasks/slr_tasks.html), [causality](https://raw.githack.com/adamsoliman/IntroEconometrics/master/chapter_causality/tasks/causality_tasks.html), [multiple linear regression](https://raw.githack.com/adamsoliman/IntroEconometrics/master/chapter_mlr/tasks/mlr_tasks.html), [linear regression extensions](https://raw.githack.com/adamsoliman/IntroEconometrics/master/chapter_regext/tasks/regext_tasks.html)
 
 <!--  [sampling](https://raw.githack.com/adamsoliman/IntroEconometrics/master/chapter_sampling/tasks/sampling_tasks.html), and [regression inference](https://raw.githack.com/adamsoliman/IntroEconometrics/master/chapter_reginference/tasks/reginference_tasks.html). -->
 

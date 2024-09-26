@@ -82,15 +82,9 @@ class: title-slide-section-red, middle
 
 * Until now, we have only estimated ***point estimates*** from our samples: *sample means*, *sample proportions*, *regression coefficients*, etc.
 
---
-
 * We know that this ***sample statistic*** differs from the ***true population parameter*** due to ***sampling variation***. 
 
---
-
 * Rather than a point estimate, we could give a ***range of plausible values*** for the population parameter.
-
---
 
 * This is precisely what a ***confidence interval*** (CI) provides.
 
@@ -110,8 +104,6 @@ There are several approaches to constructing confidence intervals:
     
 We'll focus on simulation to give you the intuition and come back to the math approach soon.
 
---
-
 In practice, you ***don't*** need to compute your confidence intervals using *bootstrap*, `R` uses statistical theory to do it for you.
 
 ---
@@ -119,8 +111,6 @@ In practice, you ***don't*** need to compute your confidence intervals using *bo
 # Back to Pasta
 
 * As in real life, imagine we had access to *only one random sample* from our bowl of pasta.
-
---
 
 * How could we study the effect of sampling variation with a single sample? 👉 ***bootstrap resampling with replacement***!
 
@@ -364,7 +354,7 @@ Let's use this ***bootstrap distribution*** to construct confidence intervals!
 
 --
 
-* In our case the fish is the true proportion of pasta in the bowl that are green `\((p)\)`.
+* The true proportion of pasta in the bowl that are green is `\((p)\)`.
 
 * The *point estimate* would be the proportion of green pasta obtained from a random sample `\((\hat{p})\)`.
 
@@ -613,23 +603,22 @@ There is a ***29.2 percentage points difference*** in promotions between men and
 .pull-left[
 
 
-```r
-promotions %&gt;%
-       left_join(promotions_shuffled %&gt;%
-                   rename(shuffled_gender = gender)) %&gt;%
+``` r
+promotions_shuffled %&gt;%
+  rename(shuffled_gender = gender) %&gt;%
   head()
 ```
 
 ```
-## # A tibble: 6 × 4
-##      id decision gender shuffled_gender
-##   &lt;int&gt; &lt;fct&gt;    &lt;fct&gt;  &lt;fct&gt;          
-## 1     1 promoted male   female         
-## 2     2 promoted male   female         
-## 3     3 promoted male   male           
-## 4     4 promoted male   female         
-## 5     5 promoted male   male           
-## 6     6 promoted male   male
+## # A tibble: 6 × 3
+##      id decision shuffled_gender
+##   &lt;int&gt; &lt;fct&gt;    &lt;fct&gt;          
+## 1     1 promoted female         
+## 2     2 promoted female         
+## 3     3 promoted male           
+## 4     4 promoted female         
+## 5     5 promoted male           
+## 6     6 promoted male
 ```
 
 How do the promotion rates look like in our reshuffled sample?
@@ -672,23 +661,22 @@ The difference is much lower: ***4.2 percentage points***!
 .pull-left[
 
 
-```r
-promotions %&gt;%
-       left_join(promotions_shuffled %&gt;%
-                   rename(shuffled_gender = gender)) %&gt;%
+``` r
+promotions_shuffled %&gt;%
+  rename(shuffled_gender = gender) %&gt;%
   head()
 ```
 
 ```
-## # A tibble: 6 × 4
-##      id decision gender shuffled_gender
-##   &lt;int&gt; &lt;fct&gt;    &lt;fct&gt;  &lt;fct&gt;          
-## 1     1 promoted male   female         
-## 2     2 promoted male   female         
-## 3     3 promoted male   male           
-## 4     4 promoted male   female         
-## 5     5 promoted male   male           
-## 6     6 promoted male   male
+## # A tibble: 6 × 3
+##      id decision shuffled_gender
+##   &lt;int&gt; &lt;fct&gt;    &lt;fct&gt;          
+## 1     1 promoted female         
+## 2     2 promoted female         
+## 3     3 promoted male           
+## 4     4 promoted female         
+## 5     5 promoted male           
+## 6     6 promoted male
 ```
 
 How do the promotion rates look like in our reshuffled sample?
@@ -871,16 +859,6 @@ where `\(p_m =\)` promotion rate of men, and `\(p_f =\)` promotion rate of women
 
 ---
 
-# Visualizing the P-value
-
-&lt;img src="chapter_ci_hyptest_files/figure-html/unnamed-chunk-28-1.svg" style="display: block; margin: auto;" /&gt;
-
---
-
-The shaded area correponds to the p-value!
-
----
-
 # Obtaining the p-value and Deciding
 
 * Recall the definition of the p-value: ***probability of observing a test statistic *just as or more extreme* than the one we obtained, assuming the null hypothesis `\(H_0\)` is true.***
@@ -888,7 +866,7 @@ The shaded area correponds to the p-value!
 --
 
 
-```r
+``` r
 p_value &lt;- mean(null_distribution$stat &gt;= 0.292)
 p_value
 ```
@@ -918,7 +896,7 @@ Working with probabilities implies that sometimes, we make **errors**.
 
 * A 29%p difference may be *unlikely* under `\(H_0\)`, but that **doesn't mean it's *impossible* to occur**.
 
-  * In fact, such a difference (or higher) would occur (approximately) in 0.007% of cases.
+  * In fact, such a difference (or higher) would occur (approximately) in 0.7% of cases.
   
 --
 
@@ -1000,7 +978,7 @@ To the amazing [moderndive](https://moderndive.com/) team!
 
 .pull-left[
 
-```r
+``` r
 null_distribution &lt;- promotions %&gt;% 
   # takes formula, defines success
   specify(formula = decision ~ gender,
@@ -1025,7 +1003,7 @@ visualize(null_distribution,
 ]
 
 .pull-right[
-&lt;img src="chapter_ci_hyptest_files/figure-html/unnamed-chunk-31-1.svg" style="display: block; margin: auto;" /&gt;
+&lt;img src="chapter_ci_hyptest_files/figure-html/unnamed-chunk-30-1.svg" style="display: block; margin: auto;" /&gt;
 ]
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>

@@ -95,15 +95,9 @@ class: title-slide-section-red, middle
 
 * Until now, we have only estimated ***point estimates*** from our samples: *sample means*, *sample proportions*, *regression coefficients*, etc.
 
---
-
 * We know that this ***sample statistic*** differs from the ***true population parameter*** due to ***sampling variation***. 
 
---
-
 * Rather than a point estimate, we could give a ***range of plausible values*** for the population parameter.
-
---
 
 * This is precisely what a ***confidence interval*** (CI) provides.
 
@@ -123,8 +117,6 @@ There are several approaches to constructing confidence intervals:
     
 We'll focus on simulation to give you the intuition and come back to the math approach soon.
 
---
-
 In practice, you ***don't*** need to compute your confidence intervals using *bootstrap*, `R` uses statistical theory to do it for you.
 
 ---
@@ -132,8 +124,6 @@ In practice, you ***don't*** need to compute your confidence intervals using *bo
 # Back to Pasta
 
 * As in real life, imagine we had access to *only one random sample* from our bowl of pasta.
-
---
 
 * How could we study the effect of sampling variation with a single sample? `r emo::ji("point_right")` ***bootstrap resampling with replacement***!
 
@@ -345,7 +335,7 @@ Let's use this ***bootstrap distribution*** to construct confidence intervals!
 
 --
 
-* In our case the fish is the true proportion of pasta in the bowl that are green $(p)$.
+* The true proportion of pasta in the bowl that are green is $(p)$.
 
 * The *point estimate* would be the proportion of green pasta obtained from a random sample $(\hat{p})$.
 
@@ -640,9 +630,8 @@ ggplot(promotions, aes(x = gender, fill = decision)) +
 .pull-left[
 
 ```{r, echo = TRUE}
-promotions %>%
-       left_join(promotions_shuffled %>%
-                   rename(shuffled_gender = gender)) %>%
+promotions_shuffled %>%
+  rename(shuffled_gender = gender) %>%
   head()
 ```
 
@@ -674,9 +663,8 @@ The difference is much lower: ***4.2 percentage points***!
 .pull-left[
 
 ```{r, echo = TRUE}
-promotions %>%
-       left_join(promotions_shuffled %>%
-                   rename(shuffled_gender = gender)) %>%
+promotions_shuffled %>%
+  rename(shuffled_gender = gender) %>%
   head()
 ```
 
@@ -904,32 +892,6 @@ visualize(null_distribution, bins = 10, fill = "red") +
 
 ---
 
-# Visualizing the P-value
-
-```{r,fig.height = 6, fig.width = 10, echo = FALSE}
-obs_diff_prop <- promotions %>%
-  specify(decision ~ gender, success = "promoted") %>%
-  calculate(stat = "diff in props", order = c("male", "female"))
-
-visualize(null_distribution, bins = 10, fill = "#d90502") + 
-  shade_p_value(obs_stat = obs_diff_prop,
-                size = 0.5,
-                direction = "right", 
-                fill = "black") +
-  labs(x = "Differences in sample proportions (male - female)",
-       y = "Frequency") +
-  xlim(-0.4, 0.4)+
-  theme_bw(base_size = 14) +
-  geom_vline(xintercept = 0.292, size = 1.25) +
-  annotate("text", x = 0.19, y = 485, label = "observed test statistic", size = 4)
-```
-
---
-
-The shaded area correponds to the p-value!
-
----
-
 # Obtaining the p-value and Deciding
 
 * Recall the definition of the p-value: ***probability of observing a test statistic *just as or more extreme* than the one we obtained, assuming the null hypothesis $H_0$ is true.***
@@ -962,7 +924,7 @@ Working with probabilities implies that sometimes, we make **errors**.
 
 * A 29%p difference may be *unlikely* under $H_0$, but that **doesn't mean it's *impossible* to occur**.
 
-  * In fact, such a difference (or higher) would occur (approximately) in 0.007% of cases.
+  * In fact, such a difference (or higher) would occur (approximately) in 0.7% of cases.
   
 --
 

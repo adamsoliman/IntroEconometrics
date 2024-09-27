@@ -168,23 +168,6 @@ Sample # | Count | Proportion
 
 ---
 
-# Task 1
-
-1. Create a data.frame containing the proportions of green pasta from the previous slide. Name the object `pasta` and name the variable containing the proportions `prop_green`. (Hint: to create a data.frame you need to use the `data.frame()` function.)
-The proportions are as follows: `(0.7,0.7,0.5,0.5,0.3,0.5,0.4,0.45,0.55,0.4,0.35,0.45,0.45,0.7,0.55,0.5,0.35,0.65)`
-
-```{r}
-# don't forget to use comments as needed
-pastasample <- data.frame(prop_green = c(0.7,0.7,0.5,0.5,0.3,0.5,0.4,0.45,0.55,0.4,
-                                   0.35,0.45,0.45,0.7,0.55,0.5,0.35,0.65))
-```
-
-2. Create a histogram of these proportions using `ggplot2`. Use these parameters in `geom_histogram()`: `boundary = 0.325, binwidth = 0.05`.
-
-3. What do you observe?
-
----
-
 # Sample Distribution: Histogram
 
 .pull-left[
@@ -223,8 +206,6 @@ pasta_samples <- data.frame(replicate = 1:18, prop_green = c(0.7,0.7,0.5,0.5,0.3
 knitr::include_graphics("../img/photos/hist_building.gif")
 ```
 ]
-
---
 
 .pull-right[
 ```{r, echo=FALSE, eval = TRUE, fig.height=7}
@@ -432,7 +413,7 @@ ggplot(virtual_prop_green, aes(x = prop_green)) +
 
 ---
 
-# Task 2
+# Task
 
 Instead of taking only 33 samples, let's take ***1000***!
 
@@ -654,8 +635,6 @@ $N = 713$ pasta.
 
 ***Sampling:*** collecting sample(s) of size $n$ from the population of size $N$.
 ]
-
---
 
 .pull-right[
 * ***Point estimate*** or ***Sample statistic:*** summary statistic computed from a sample that estimates an unknown population parameter.  

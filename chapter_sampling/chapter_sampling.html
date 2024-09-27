@@ -149,34 +149,14 @@ Sample # | Count | Proportion
 
 ---
 
-# Task 1
-
-1. Create a data.frame containing the proportions of green pasta from the previous slide. Name the object `pasta` and name the variable containing the proportions `prop_green`. (Hint: to create a data.frame you need to use the `data.frame()` function.)
-The proportions are as follows: `(0.7,0.7,0.5,0.5,0.3,0.5,0.4,0.45,0.55,0.4,0.35,0.45,0.45,0.7,0.55,0.5,0.35,0.65)`
-
-
-``` r
-# don't forget to use comments as needed
-pastasample &lt;- data.frame(prop_green = c(0.7,0.7,0.5,0.5,0.3,0.5,0.4,0.45,0.55,0.4,
-                                   0.35,0.45,0.45,0.7,0.55,0.5,0.35,0.65))
-```
-
-2. Create a histogram of these proportions using `ggplot2`. Use these parameters in `geom_histogram()`: `boundary = 0.325, binwidth = 0.05`.
-
-3. What do you observe?
-
----
-
 # Sample Distribution: Histogram
 
 .pull-left[
 &lt;img src="../img/photos/hist_building.gif" style="display: block; margin: auto;" /&gt;
 ]
 
---
-
 .pull-right[
-&lt;img src="chapter_sampling_files/figure-html/unnamed-chunk-4-1.svg" style="display: block; margin: auto;" /&gt;
+&lt;img src="chapter_sampling_files/figure-html/unnamed-chunk-3-1.svg" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
@@ -437,12 +417,12 @@ ggplot(virtual_prop_green, aes(x = prop_green)) +
 --
 
 .pull-right[
-&lt;img src="chapter_sampling_files/figure-html/unnamed-chunk-14-1.svg" style="display: block; margin: auto;" /&gt;
+&lt;img src="chapter_sampling_files/figure-html/unnamed-chunk-13-1.svg" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
 
-# Task 2
+# Task
 
 Instead of taking only 33 samples, let's take ***1000***!
 
@@ -464,7 +444,7 @@ Instead of taking only 33 samples, let's take ***1000***!
 
 # Sampling Distribution of 1000 Samples
 
-&lt;img src="chapter_sampling_files/figure-html/unnamed-chunk-15-1.svg" style="display: block; margin: auto;" /&gt;
+&lt;img src="chapter_sampling_files/figure-html/unnamed-chunk-14-1.svg" style="display: block; margin: auto;" /&gt;
 
 --
 
@@ -535,7 +515,7 @@ virtual_prop_green_25 &lt;- virtual_samples_25 %&gt;%
 
 # Role of Sample Size
 
-&lt;img src="chapter_sampling_files/figure-html/unnamed-chunk-18-1.svg" style="display: block; margin: auto;" /&gt;
+&lt;img src="chapter_sampling_files/figure-html/unnamed-chunk-17-1.svg" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -596,8 +576,6 @@ Sample Size | Standard Deviation
 
 ***Sampling:*** collecting sample(s) of size `\(n\)` from the population of size `\(N\)`.
 ]
-
---
 
 .pull-right[
 * ***Point estimate*** or ***Sample statistic:*** summary statistic computed from a sample that estimates an unknown population parameter.  
@@ -671,7 +649,7 @@ sum(bowl$color == "green")/nrow(bowl)
 
 # Visualizing Unbiasedness and Sampling Variation
 
-&lt;img src="chapter_sampling_files/figure-html/unnamed-chunk-21-1.svg" style="display: block; margin: auto;" /&gt;
+&lt;img src="chapter_sampling_files/figure-html/unnamed-chunk-20-1.svg" style="display: block; margin: auto;" /&gt;
 
 ---
 # Some Sampling Scenarios

@@ -77,10 +77,7 @@ library(jtools)
 
 # Back to class size and student performance
 
-* Let's go back the ***STAR*** experiment data, and focus on: 
-
-  * *small* and *regular* classes,
-  * *Kindergarten* grade.
+* Let's go back the ***STAR*** experiment data, and focus on *small* and *regular* classes for those in *Kindergarten*
 
 --
 
@@ -215,13 +212,11 @@ Let's imagine we could redo the experiment 1,000 times on 1,000 different sample
 
 # Task 1
 
-`r countdown(minutes = 7, top = 0)`
-
 As we did for the sampling distribution of the proportion of *green pasta*, we want to generate the bootstrap distribution of $b_\textrm{small}$. 
 
-1. Copy the loading and cleaning code from slide 3 and run it.
+1\. Copy the loading and cleaning code from slide 3 and run it. Note you will eventually need the **infer** package if you haven't already installed and loaded it...
 
-1. Generate the bootstrap distribution of $b_\textrm{small}$ based on 1,000 samples drawn from `star_df`.  You can do so through the following code
+2\. Generate the bootstrap distribution of $b_\textrm{small}$ based on 1,000 samples drawn from `star_df`.  You can do so through the following code
 ```{r, eval=FALSE}
 bootstrap_distrib <- star_df %>% 
     mutate(small=as.numeric(small)) %>% 
@@ -231,7 +226,7 @@ bootstrap_distrib <- star_df %>%
 ```
 
 
-3. Plot this simulated sampling distribution and compute the mean and standard error of $b_\textrm{small}$.
+3\. Plot this simulated sampling distribution and compute the mean and standard error of $b_\textrm{small}$.
 
 ---
 
@@ -590,8 +585,6 @@ bootstrap_distrib %>%
 
 # Task 2
 
-`r countdown(minutes = 5, top = 0)`
-
 1. Using the bootstrap distribution you generated in Task 1, compute the 95% confidence interval using the *percentile method*.
 
 1. How similar is it to the confidence intervals obtained in the previous slide?
@@ -933,50 +926,6 @@ The CRM assumption #1 is also know as the (strict) **exogeneity assumption**.
 
 
 `r emo::ji("point_right")` Takeaway: **if assumptions violated, inference is invalid!**
-
----
-
-# Task 3.1
-
-`r countdown(minutes = 10, top = 0)`
-
-Let's go back to our question of returns to education and gender. 
-
-1. Load the data `CPS1985` from the `AER` package and look back at the `help` to get the definition of each variable: `?CPS1985`
-
-1. Create the `log_wage` variable equal to the log of `wage`.
-
-1. Regress `log_wage` on `gender` and `education`, and save it as `reg1`. 
-
-  * Interpret each coefficient.
-  
-  * Are the coefficients statistically significant? At which significance level? 
-
-1. Regress the `log_wage` on `gender`, `education` and their interaction `gender*education`, save it as `reg2`. 
-
-  * How do you interpret the coefficient associated to $female*education$?
-  
-  * Can we reject the nullity of this coefficient at the 5% level? At 10%?  
-  
----
-
-# Task 3.2
-
-`r countdown(minutes = 10, top = 0)`
-
-1. Produce a scatterplot of the relationship between the log wage and the level of education.
-
-1. Add the *regression line* with `geom_smooth`. What does this line represents?
-
-1. Let's illustrate what the shaded area stands for.
-
-  1. Draw one bootstrap sample from our `cps` data. 
-
-  1. Regress the `log_wage` on `gender`, `education` and their interaction `gender*education`, save it as `reg_bootstrap`.
-
-  1. From `reg_bootstrap` extract and save the value of the intercept for men as `intercept_men_bootstrap` and the value of the slope for men as `slope_men_bootstrap`. Do the same for women.
-
-  1. Add both predicted lines from this bootstrap sample to the previous plot (*Hint*: use `geom_abline` (x2))
 
 ---
 

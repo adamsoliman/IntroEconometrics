@@ -280,8 +280,6 @@ bootstrap_distrib = my_sample %&gt;%
 ```
 ]
 
---
-
 .pull-right[
 Here are the first 6 rows:
 
@@ -320,8 +318,6 @@ Let's visualize this sampling variation!
 
 &lt;img src="chapter_ci_hyptest_files/figure-html/unnamed-chunk-10-1.svg" style="display: block; margin: auto;" /&gt;
 
---
-
 The ***bootstrap distribution*** is an approximation of the ***sampling distribution***.
 
 ---
@@ -329,8 +325,6 @@ The ***bootstrap distribution*** is an approximation of the ***sampling distribu
 # Bootstrap Distribution with Mean
 
 &lt;img src="chapter_ci_hyptest_files/figure-html/unnamed-chunk-11-1.svg" style="display: block; margin: auto;" /&gt;
-
---
 
 The ***bootstrap distribution*** mean is very close to the original sample proportion.
 
@@ -360,7 +354,7 @@ Let's use this ***bootstrap distribution*** to construct confidence intervals!
 
 --
 
-&lt;br&gt;&lt;br&gt;
+&lt;br&gt;
 
 * The *confidence interval*: from the previous bootstrap distribution, ***where do most proportions lie?***
 
@@ -373,8 +367,6 @@ Let's use this ***bootstrap distribution*** to construct confidence intervals!
 # Percentile Method: 95% Confidence Interval
 
 * Construct a confidence interval as the middle 95% of values of the bootstrap distribution.
-
---
 
 * For that, we compute the 2.5% and 97.5% percentile:
 
@@ -415,8 +407,6 @@ quantile(bootstrap_distrib$stat,0.975)
 
 &lt;img src="chapter_ci_hyptest_files/figure-html/unnamed-chunk-15-1.svg" style="display: block; margin: auto;" /&gt;
 
---
-
 Does the interval contain the true population proportion?
 
 ---
@@ -424,8 +414,6 @@ Does the interval contain the true population proportion?
 # Percentile Method: 95% Confidence Interval Visually
 
 &lt;img src="chapter_ci_hyptest_files/figure-html/unnamed-chunk-16-1.svg" style="display: block; margin: auto;" /&gt;
-
---
 
 True population parameter is indeed in our 95% interval! Will it always be?
 
@@ -492,8 +480,6 @@ In other words, 95% of the time, the 95% confidence interval will contain the tr
 * What if we want to ***compare*** a sample statistic for two groups?
   
   * *Example*: differences in average wages between men and women. Are the observed differences ***significant***?
-  
---
 
 * These comparisons are the realm of ***hypothesis testing***.
 
@@ -530,7 +516,6 @@ class: title-slide-section-red, middle
 * The data from the experiment are provided in the `promotions` dataset from the `moderndive` package.
 ]
 
---
 
 .pull-right[
 
@@ -597,8 +582,6 @@ There is a ***29.2 percentage points difference*** in promotions between men and
 * Suppose we lived in a world without gender discrimination: the promotion decision would be completely ***independent*** from gender.
 
 * Let's randomly reassign `gender` to each row and see how this affects the result.
-
---
 
 .pull-left[
 
@@ -701,8 +684,6 @@ How do the promotion rates look like in our reshuffled sample?
 * No, we must investigate the role of ***sampling variation***!
 
   * What if we reshuffle once again, how different from 4.2%p (*percentage points*) would the difference be?
-
---
   
   * In other words, how representative of that hypothetical world is 4.2%p?
   
@@ -738,11 +719,7 @@ How ***likely*** is it to observe a 0.292 difference in a world with no discrimi
 
 * We just demonstrated the statistical procedure known as ***hypothesis testing*** using a ***permutation test***.
 
---
-
 * The question is how likely the observed difference in promotion rates is to occur in a hypothetical universe with no discrimination.
-
---
 
 * We concluded ***rather not***, i.e. we tended to ***reject*** the no discrimination hypothesis.
 
@@ -756,10 +733,9 @@ How ***likely*** is it to observe a 0.292 difference in a world with no discrimi
 
 --
 
-  * The ***null hypothesis*** `\((H_0)\)`: generally hypothesis of no difference;
---
+  * The ***null hypothesis*** `\((H_0)\)`: generally hypothesis of no difference
   
-  * The ***alternative hypothesis*** `\((H_A \textrm{or }H_1)\)`: the research hypothesis.
+  * The ***alternative hypothesis*** `\((H_A \textrm{or }H_1)\)`: the research hypothesis
 
 --
 
@@ -778,15 +754,11 @@ where `\(p_m =\)` promotion rate of men, and `\(p_f =\)` promotion rate of women
 
 * ***Test statistic***: *point estimate/sample statistic* formula used for hypothesis testing. 
 
---
-
   * *In our previous case*: difference in sample proportions `\(\hat{p}_m - \hat{p}_f\)`.
 
 --
 
 * ***Observed test statistic***: value of the test statistic that we observed in real life.
-
---
 
   * *In our previous case*: observed difference `\(\hat{p}_m - \hat{p}_f = 0.292 = 29.2\)` percentage points.
   
@@ -794,7 +766,6 @@ where `\(p_m =\)` promotion rate of men, and `\(p_f =\)` promotion rate of women
 
 * ***Null distribution***: sampling distribution of the test statistic *assuming the null hypothesis `\(H_0\)` is true*.
 
---
   *  *In our previous case*: All the possible values that `\(\hat{p}_m - \hat{p}_f\)` can take assuming there is no discrimination.
   * That's the distribution we have seen just before.
  
@@ -809,8 +780,6 @@ where `\(p_m =\)` promotion rate of men, and `\(p_f =\)` promotion rate of women
 # Hypothesis Test Notation and Definitions
 
 &gt; ### ***p-value:*** probability of observing a test statistic *just as or more extreme* than the one we obtained, assuming the null hypothesis `\(H_0\)` is true. 🤔
-
---
 
 * How *surprised* are we that we observed a difference in promotions rates of 0.292 in our sample assuming `\(H_0\)` is true, that is a world without discrimination? Very surprised? Kind of surprised?
 
@@ -845,15 +814,11 @@ where `\(p_m =\)` promotion rate of men, and `\(p_f =\)` promotion rate of women
 * ***Decision***:
   * If the p-value falls ***below the cutoff `\(\alpha\)`***, we "***reject the null hypothesis at the significance level `\(\alpha\)`***."
 
---
-
   * Alternatively, if the p-value if ***greater than `\(\alpha\)`***, we say that we "***fail to reject the null hypothesis `\(H_0\)` at the significance level `\(\alpha\)`***."
 
 --
 
 * ***Interpretation***: If what we observe *is too unlikely to happen* under the null hypothesis, it means that this hypothesis is ***likely to be false***.
-
---
 
 * Let's illustrate how it works in our example. 
 
@@ -918,9 +883,9 @@ In hypothesis testing, there are ***two types of errors***:
 
 .pull-right[
 
-***Type I error***: reject the null hypothesis when in fact it was true. ***false positive***
+***Type I error***: reject the null hypothesis when in fact it was true. ***false positive***. Think of this as a guilty verdict for an innocent (truly not guilty) person. 
   
-***Type II error***: don't reject the null hypothesis when in fact it was false. ***false negative***
+***Type II error***: don't reject the null hypothesis when in fact it was false. ***false negative***. Think of this as a not guilty verdict for someone who is in fact truly guilty.
 
 ]
 

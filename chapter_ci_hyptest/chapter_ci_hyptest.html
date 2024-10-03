@@ -877,7 +877,7 @@ In hypothesis testing, there are ***two types of errors***:
 
 .pull-left[
 
-![:scale 100%](../img/photos/gt_error_table_ht.png)
+![:scale 100%](../img/photos/type-i-and-ii-error-2.png)
 
 ]
 
@@ -889,7 +889,39 @@ In hypothesis testing, there are ***two types of errors***:
 
 ]
 
-* In practice, we choose the frequency of a Type I error by setting `\(\alpha\)` and try to minimize the type II error.
+* In practice, we choose the frequency of a Type I error by setting `\(\alpha\)` and try to minimize the type II error, as seen on the next slide
+
+---
+
+# Type I and Type II error rates influence each other
+
+.pull-left[
+
+![:scale 100%](../img/photos/type-i-and-type-ii-error_dist.png)
+
+]
+
+.pull-right[
+
+* The *null hypothesis distribution* shows all possible results you’d obtain if the null hypothesis is true. The correct conclusion for any point on this distribution means not rejecting the null hypothesis.
+
+* The *alternative hypothesis distribution* shows all possible results you’d obtain if the alternative hypothesis is true. The correct conclusion for any point on this distribution means rejecting the null hypothesis.
+
+* Type I and Type II errors occur where these two distributions overlap. 
+
+]
+
+---
+
+# Which type of error is worse? It depends!
+
+**Type I** error means mistakenly going against the main statistical assumption of a null hypothesis. This may lead to new policies, practices or treatments that are inadequate or a waste of resources.
+
+* Example of its consequences: based on the incorrect conclusion that the new drug intervention is effective, over a million patients are prescribed the medication, despite risks of severe side effects and inadequate research on the outcomes. The consequences of this Type I error also mean that other treatment options are rejected in favor of this intervention.
+
+**Type II** error means failing to reject a null hypothesis. It may only result in missed opportunities to innovate, but these can also have important practical consequences.
+
+* Example of its consequences: if a Type II error is made, the drug intervention is considered ineffective when it can actually improve symptoms of the disease. This means that a medication with important clinical significance doesn’t reach a large number of patients who could tangibly benefit from it.
 
 ---
 
@@ -897,19 +929,11 @@ In hypothesis testing, there are ***two types of errors***:
 
 * Now you have all the tools to make ***statistical inference*** for real!
 
---
-
 * Regression analysis is based on a ***sample*** of data.
-
---
 
 * So your ***regression coefficient*** is subject to ***sampling variation***, it's not the true population coefficient.
 
---
-
 * ***Question***: Is the estimated effect statistically significantly different from some value `\(z\)`?
-
---
 
 * The answer in the next episode! 🐵
 

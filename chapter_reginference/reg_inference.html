@@ -52,28 +52,24 @@ class: center, middle, inverse, title-slide
 
 * Let's go back the ***STAR*** experiment data, and focus on *small* and *regular* classes for those in *Kindergarten*
 
---
-
 * We consider the following regression model and estimate it by OLS:
 
 $$ \text{math score}_i = b_0 + b_1 \text{small}_i + e_i$$ 
 
---
 .pull-left[
 
-```r
+``` r
 library(tidyverse)
 
-star_df = read.csv("https://www.dropbox.com/s/bf1fog8yasw3wjj/star_data.csv?dl=1")
-star_df = star_df[complete.cases(star_df),]
-star_df = star_df %&gt;%
+star_df = read.csv("https://www.dropbox.com/scl/fi/l7fz6p09uwbelg8ks15pl/star_data.csv?rlkey=y3g3l55fsyhvtypldp0ugpmnm&amp;dl=1") 
+
+star_df &lt;- star_df %&gt;%
+  filter(complete.cases(.)) %&gt;%
   filter(star %in% c("small","regular") &amp;
            grade == "k") %&gt;% 
   mutate(small = (star == "small"))
 ```
 ]
-
---
 
 .pull-right[
 
@@ -116,8 +112,6 @@ reg_star
     `$$\hat{y} = b_0 + b_1 x_1$$`
 ]
 
---
-
 .pull-right[
 
 ... is an **estimate** about an unknown, **true population line**
@@ -130,17 +124,14 @@ where `\(\beta_0, \beta_1\)` are the ***population parameters*** of interest.
 
 * You will often find `\(\hat{\beta_k}\)` rather than `\(b_k\)`, both refer to sample estimate of `\(\beta_k\)`.
 
---
-
 * Let's bring what we know about ***confidence intervals***, ***hypothesis testing*** and ***standard errors*** to bear on those `\(\hat{\beta_k}\)`!
 
 ---
 
 # Understanding Regression Tables
 
-Here is our `tidy` regression:
 
-```r
+``` r
 library(broom)
 tidy(lm(math ~ small, star_df))
 ```
@@ -153,12 +144,14 @@ tidy(lm(math ~ small, star_df))
 ## 2 smallTRUE       8.90      1.68      5.30 0.000000123
 ```
 
+``` r
+# an alternative is summary(lm(math ~ small, star_df))
+```
+
 
 
 
 * There are 3 new columns here: `std.error`, `statistic`, `p.value`.
-
---
 
 Entry | Meaning
 ----- | ----
@@ -270,17 +263,11 @@ By default, the regression output provides the results associated with the follo
 
 * It allows to statistically test if there is a true relationship between the outcome and our regressor. 
 
---
-
 * If `\(H_0\)` is true, there is **no** relationship between the outcome and our regressor. 
 
   * In that case observing `\(b_1 \neq 0\)` was just chance.
 
---
-
 * If `\(H_0\)` is false, then there **is** a true relationship. 
-
---
 
 * ***Important:*** This is a ***two-sided*** test!
 
@@ -290,11 +277,7 @@ By default, the regression output provides the results associated with the follo
 
 * As we saw in the previous lecture, to conduct such a test we need to:
 
---
-
   * Derive the sampling distribution of our **test statistic** (`statistic`) assuming `\(H_0\)` is true, i.e. the *null distribution*.
-  
---
 
   * Quantify how extreme the **observed test statistic** is in this hypothetic world.
 
@@ -308,18 +291,17 @@ By default, the regression output provides the results associated with the follo
 
 .pull-left[
 
-```r
-observed_stat = reg_star$coefficients[2]/sd(bootstrap_distrib$stat)
+``` r
+observed_stat = reg_star$coefficients[2]/
+  sd(bootstrap_distrib$stat)
 round(observed_stat,2)
 ```
 
 ```
 ## smallTRUE 
-##      5.35
+##      5.13
 ```
 ]
-
---
 
 .pull-right[
 * Quite close to the observed test statistic we got in the table: `statistic` = 5.3.
@@ -398,7 +380,7 @@ Very unlikely to obtain `\(b_\textrm{small}\)` = 8.8951932 when `\(H_0\)` is tru
 
 # Testing `\(\beta_\textrm{small} = 0\)` vs `\(\beta_\textrm{small} \neq 0\)`
 
-* To decide if we reject `\(H_0\)`, recall we are considering a **two-sided test** here: *more extreme* means inferior to -5.351 **or** superior to 5.351. 
+* To decide if we reject `\(H_0\)`, recall we are considering a **two-sided test** here: *more extreme* means inferior to -5.13 **or** superior to 5.13. 
 
 ---
 
@@ -415,7 +397,7 @@ What does the p-value correspond to?
 
 # Testing `\(\beta_\textrm{small} = 0\)` vs `\(\beta_\textrm{small} \neq 0\)`
 
-* To decide if we reject `\(H_0\)`, recall we are considering a **two-sided test** here: *more extreme* means inferior to -5.35 **or** superior to 5.35. 
+* To decide if we reject `\(H_0\)`, recall we are considering a **two-sided test** here: *more extreme* means inferior to -5.13 **or** superior to 5.13. 
 
 * Computing the *p-value* we get:
 
@@ -441,7 +423,7 @@ p_value
 
 # Testing `\(\beta_\textrm{small} = 0\)` vs `\(\beta_\textrm{small} \neq 0\)`
 
-* To decide if we reject `\(H_0\)`, recall we are considering a **two-sided test** here: *more extreme* means inferior to -5.35 **or** superior to 5.35. 
+* To decide if we reject `\(H_0\)`, recall we are considering a **two-sided test** here: *more extreme* means inferior to -5.13 **or** superior to 5.13. 
 
 * Computing the *p-value* we get:
 
@@ -475,18 +457,12 @@ class: title-slide-section-red, middle
 
 # Regression Inference: Theory
 
-* Up to now we presented simulation-based inference.
-
---
+* Up to now we presented simulation-based inference
 
 * The values reported by statistical packages in `R` are instead obtained from theory.
 
---
-
 * Theoretical inference is based on **large sample approximations**.
   * One can show that sampling distributions *converge* to suitable distributions `\(\rightarrow\)` ***Central Limit Theorem***
-  
---
   
 * Let's briefly look into the theory-based approach.
 
@@ -499,15 +475,9 @@ class: title-slide-section-red, middle
   * `\(\hat{\textrm{SE}(b)}\)` is the sample estimate of the standard deviation of `\(b\)`.
   * It is also obtained through a theoretical formula (which you can find in the [book](https://scpoecon.github.io/ScPoEconometrics/std-errors.html#se-theory)!) but we'll leave it aside.
 
---
-
 * A ***standard normal distribution*** is a *normal distribution* with *mean* 0 and *standard deviation* 1.
 
---
-
 * We don't need to simulate any sampling distribution here, we derive it from theory and use it to construct confidence intervals or to conduct hypothesis tests.
-
---
 
 * Note that if `\(\frac{b - \beta}{\hat{\textrm{SE}(b)}}\)` *converges* to a ***standard normal distribution***, then `\(b\)` converges to a ***normal distribution*** with mean `\(\beta\)` and standard deviation `\(\hat{\textrm{SE}(b)}\)`.
 
@@ -529,11 +499,7 @@ class: title-slide-section-red, middle
 
 * Since the sampling distribution of `\(b\)` is assumed to be normally shaped, we can use the ***95% rule of thumb*** about normal distributions.
 
---
-
 * We know indeed that 95% of the values of a normal distribution lie within approximately 2 standard deviations of the mean (exactly 1.96).
-
---
 
 * So, we can compute a 95% CI for `\(\beta\)` as: `\(\textrm{CI}_{95\%} = [ b \pm 1.96*\hat{\textrm{SE}}(b)]\)`
 
@@ -556,7 +522,6 @@ tidy(lm(math ~ small, star_df),
 ```
 ]
 
---
 .pull-right[
 
 ```r
@@ -699,20 +664,13 @@ class: title-slide-section-red, middle
 
 * The set of assumptions needed defines the *Classical Regression Model* (CRM).
 
---
-
 * Before delving into these assumptions, let's see the small but important modifications we apply to our model (back to [*lecture SLR*](https://raw.githack.com/adamsoliman/IntroEconometrics/master/chapter_slr/chapter_slr.html)):
 
---
-
   * We already mentioned the distinction between the sample estimate `\(b_k\)` (or `\(\hat{\beta_k}\)`) and the population parameter `\(\beta_k\)`.
-
---
 
   * In the same way, we distinguish `\(e\)`, the sample error (*residual*), from `\(\varepsilon\)`, the error term from the true population model: 
   
   `$$y_i = \beta_0 + \beta_1 x_{1,i} + ... + \beta_k x_{k,i} + \varepsilon_i$$`
---
 
   * The classical regression model applies to **correctly specified linear regressions**: the model needs to be linear in parameters, include all relevant variables, and variables cannot be collinear.
 
@@ -723,8 +681,6 @@ class: title-slide-section-red, middle
 # CRM Assumptions
 
 1. ***Mean Independence:*** the mean of the residuals conditional on `\(x\)` should be zero, `\(E[\varepsilon|x] = 0\)`. Notice that this also means that `\(Cov(\varepsilon,x) = 0\)`, i.e. that the errors and our explanatory variable(s) should be *uncorrelated*.
-
---
 
 * Violating this assumption will lead to **biased** estimates of `\(\beta_k\)`.
 
@@ -804,19 +760,13 @@ The CRM assumption #1 is also know as the (strict) **exogeneity assumption**.
 
 --
 
-2\. ***Independently and identically distributed:*** the data are drawn from a **random sample** of size `\(n\)`: observation `\((x_i,y_i)\)` comes from the exact same distribution, and is **independent** of observation `\((x_j,y_j)\)`, for all `\(i\neq j\)`.
-
---
+2\. ***Independently and identically distributed:*** data drawn from a **random sample** of size `\(n\)`: observation `\((x_i,y_i)\)` comes from the exact same distribution, and is **independent** of observation `\((x_j,y_j)\)`, for all `\(i\neq j\)`.
 
 * Violating this assumption would make your sample less representative of the underlying population. It will lead to **biased** estimates of `\(\beta_k\)`.
 
----
-
-# CRM Assumptions
+--
 
 3\. ***Homoskedasticity:*** the variance of the error term `\(\varepsilon\)` is the same for each value of `\(x\)`: `\(Var(\varepsilon|x) = \sigma^2\)`.
-
---
 
 * If this assumption is violated, you can still obtain unbiased estimates of `\(\beta_k\)`. However your estimate of `\(\hat{\textrm{SE}}(b_k)\)` will be biased, which will affect your test statistic and p-value.
 
@@ -824,12 +774,7 @@ The CRM assumption #1 is also know as the (strict) **exogeneity assumption**.
 
 4\. ***Normally distributed errors:*** the error term is normally distributed, i.e. `\(\varepsilon \sim \mathcal{N}(0,\sigma^2)\)` 
 
---
-
 * Not strictly necessary, but makes inference possible even with small sample sizes.
- 
---
-
 
 👉 Takeaway: **if assumptions violated, inference is invalid!**
 

@@ -6,8 +6,6 @@
     <meta name="author" content="Adam Soliman, PhD" />
     <script src="libs/header-attrs/header-attrs.js"></script>
     <link href="libs/remark-css/default.css" rel="stylesheet" />
-    <link href="libs/countdown/countdown.css" rel="stylesheet" />
-    <script src="libs/countdown/countdown.js"></script>
     <script src="https://use.fontawesome.com/5235085b15.js"></script>
     <link rel="stylesheet" href="../css/scpo-fonts.css" type="text/css" />
   </head>
@@ -61,8 +59,6 @@ class: center, middle, inverse, title-slide
 
 * Very common research design in applied research because it provides credible causal estimates.
 
---
-
 * Starting point: subjects are ***not*** randomly allocated to treatment ⚠️
 
 * RDD can be applied when we have specific information about the rules determining treatment.
@@ -101,8 +97,6 @@ We will focus our analysis on the following discontinuity:
 
 # An Example: Alcohol Consumption and Mortality
 
---
-
 * Imagine you are interested in assessing the __causal__ impact of alcohol consumption by young adults on mortality.
 
 * Why is this not that straightforward? Why can't you just regress alcohol consumption on dying age and cause of death?
@@ -123,15 +117,12 @@ We will focus our analysis on the following discontinuity:
 
 &gt; ***Running variable:*** variable that determines assignment to treatment.
 
---
-
 `\(\rightarrow\)` `\(a\)` = age
 
 --
 
 &gt; ***Cutoff level:*** level of the ***running variable*** above (or below) which individuals are treated (or not).
 
---
 
 `\(\rightarrow\)` `\(c = 21\)` year old birthday
 
@@ -163,8 +154,6 @@ data("mlda", package = "masteringmetrics")
 ```
 ]
 
---
-
 .pull-right[
 
 ```
@@ -179,8 +168,6 @@ data("mlda", package = "masteringmetrics")
 ## 6    19.5  90.2     17.9     72.3   1.17      15.6    12.2
 ```
 ]
-
---
 
 * This dataset contains aggregate death rates (and their causes) for different age groups (`agecell`) between 19 and 23 years old.
 
@@ -210,11 +197,7 @@ At the threshold, the probability of being treated jumps from 0 to 1.
 
 * ***Treatment variable***: `\(D_a\)`
 
---
-
   - `\(D_a\)` = 1 if individual is over 21 years old, `\(D_a\)` = 0 if not.
-
---
 
   - `\(D_a\)` is a function of the individual's age, `\(a\)`, which is the ***running variable***.
   
@@ -228,11 +211,11 @@ At the threshold, the probability of being treated jumps from 0 to 1.
   \end{array}\end{cases}
   $$
   
+--
+  
 ## Key features of RD designs
 
 1. Treatment status is a __deterministic__ function of `\(a\)` `\(\rightarrow\)` we know the assignment rule
-
---
 
 1. Treatment status is a __discontinuous__ function of `\(a\)` `\(\rightarrow\)` there is some cutoff level
 
@@ -240,19 +223,13 @@ At the threshold, the probability of being treated jumps from 0 to 1.
 
 # Task 1 
 
-<div class="countdown" id="timer_d19a105b" data-update-every="1" tabindex="0" style="top:0;right:0;">
-<div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
-<code class="countdown-time"><span class="countdown-digits minutes">10</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
-</div>
-
-
-1. Import the dataset following the code from slide 7. How many age cells are there?
+1. Import the dataset following the code from slide 8. How many age cells are there?
 
 1. Create a dummy variable for individuals over 21 years old.
 
-1. Plot the death rate for all causes (`all`) as a function of age (`agecell`) colouring observations above and below 21 years old. Does anything seem striking?
+1. Plot the death rate for all causes (`all`) on the y-axis as a function of age (`agecell`) on the x-axis, coloring observations above and below 21 years old. Does anything seem striking?
 
-1. Add a regression line to the plot. What do you observe?
+1. Add a regression line to the plot with `geom_smooth(method = `lm`)`. What do you observe?
 
 1. Do the same for motor vehicle-related causes (`mva`) and alcohol-related causes (`alcohol`) as a function of age.
 
@@ -286,19 +263,11 @@ At the threshold, the probability of being treated jumps from 0 to 1.
 
 * The RD estimator is a __local average treatment effect (LATE)__.
 
---
-
 * It only tells you the impact of treatment `\(D\)` on outcome `\(Y\)` ***around*** the cutoff value of the running variable.
-
---
 
 * Limited ***external validity*** `\(\rightarrow\)` you cannot extrapolate to the entire population.
 
---
-
 * Using the 21 year old alcohol restriction age in the RD context will only tell you the effect of this restriction on death rates but not the general effect of alcohol consumption.
-
---
 
 * One may easily argue that all results from quantitative empirical analyses have a local nature.
 
@@ -333,11 +302,6 @@ class: title-slide-section-red, middle
 ---
 
 # Task 2 
-
-<div class="countdown" id="timer_7cd14859" data-update-every="1" tabindex="0" style="top:0;right:0;">
-<div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
-<code class="countdown-time"><span class="countdown-digits minutes">05</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
-</div>
 
 1. Estimate the following model on all death causes.
 `$$DEATHRATE_a = \alpha + \delta D_a + \beta a + \varepsilon_i,$$`
@@ -385,11 +349,7 @@ tidy(rdd)
 
 ***Interpretation:***
 
---
-
 On average, the MLDA increases death rates from all causes by 7.66 percentage points.
-
---
 
 This is a big effect considering the average death rate for individuals between 19 and 22 is:
 
@@ -409,11 +369,7 @@ mean(mlda$all, na.rm = TRUE)
 
 * The ***functional form*** used to approximate the lines really matters!
 
---
-
    `\(\rightarrow\)` an insufficiently flexible specification runs the risk of mistaking nonlinearity for treatment effect;
-
---
    
    `\(\rightarrow\)` an overly flexible specification reduces precision and runs the risk of overfitting.
 
@@ -423,8 +379,6 @@ mean(mlda$all, na.rm = TRUE)
 # Simulations - Linear Relationship and Clear Discontinuity
 
 &lt;img src="RDD_files/figure-html/unnamed-chunk-13-1.svg" style="display: block; margin: auto;" /&gt;
-
---
 
 `$$outcome_i = \alpha + \delta treatment_i + \beta running_i + e_i,$$`
 
@@ -441,8 +395,6 @@ mean(mlda$all, na.rm = TRUE)
 # Simulations - Quadratic Relationship and Clear Discontinuity
 
 &lt;img src="RDD_files/figure-html/unnamed-chunk-15-1.svg" style="display: block; margin: auto;" /&gt;
-
---
 
 `$$outcome_i = \alpha + \delta treatment_i + \beta_1 running_i + \color{#d90502}{\beta_2 running_i^2} + e_i,$$`
 
@@ -484,15 +436,9 @@ mean(mlda$all, na.rm = TRUE)
 
 * Essential to __visualise__ the data!
 
---
-
 * Coefficients across models shouldn't vary too much.
 
---
-
 * Should we expect the relationship between the outcome variable and the running variable to be nonlinear? Should we expect it to differ around the cutoff?
-
---
 
 * [Gelman and Imbens (2019)](https://www.tandfonline.com/doi/abs/10.1080/07350015.2017.1366909), "Why High-Order Polynomials Should Not Be Used in Regression Discontinuity Designs":  
   *"We recommend researchers [...] use estimators based on local linear or quadratic polynomials or other smooth functions."*
@@ -515,11 +461,6 @@ Gap between the lines is roughly the same for both specifications.
 ---
 
 # Task 3 
-
-<div class="countdown" id="timer_8c5f7203" data-update-every="1" tabindex="0" style="top:0;right:0;">
-<div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
-<code class="countdown-time"><span class="countdown-digits minutes">15</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
-</div>
 
 
 1. Estimate the following *quadratic* model on all death causes. Does the RDD coefficient differ from the linear model? 
@@ -545,25 +486,15 @@ Gap between the lines is roughly the same for both specifications.
 
 * Give more weight to observations close to the cutoff level
 
---
-
 2 settings:
 
   * How much more weight?
-
---
   
   `\(\rightarrow\)` depends on the chosen ***kernel***.
 
---
-
   * How far away from the cutoff do observations need to be to be discarded?
-  
---
 
   `\(\rightarrow\)` depends on the chosen ***bandwidth***.
-  
---
 
 Luckily there's an `R` package that chooses these settings optimally based on fancy algorythms: `rdrobust`.
 
@@ -580,27 +511,17 @@ class: title-slide-section-red, middle
 
 &gt; *Key assumption*: ***Potential outcomes are smooth at the threshold.***
 
---
-
 `\(\rightarrow\)` assignment variable cannot be manipulated!
-
---
 
 Formally:
 
 `$$\lim_{r \to c+} E[Y_i^d|r] = \lim_{r \to c-} E[Y_i^d|r], d \in \{0,1\}$$`
 
---
-
 * The population just below must not be discretely different from the population just above the cutoff.
-
---
 
 * Assumption is violated if people can manipulate the running variable because they know the cutoff value.
 
---
-
-  * Knowing the cutoff value in itself does not violate the assumption, only ability to manipulate running variable does.
+* Knowing the cutoff value in itself does not violate the assumption, only ability to manipulate running variable does.
 
 ---
 

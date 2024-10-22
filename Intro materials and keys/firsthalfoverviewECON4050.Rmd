@@ -1,0 +1,67 @@
+---
+title: "Overview of First Half of ECON 4050"
+author: "Your Name"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+# we are using a preloaded dataset
+mtcars <- mtcars
+```
+
+Always understand the data before using it by doing something like this:
+```{r }
+summary(mtcars)
+view(mtcars)
+```
+
+# The Linear Regression
+
+1\. Create a scatter plot with mpg on the y-axis and cyl on the x-axis, which is the relationship between miles per gallon and cylinders for a given car.
+
+```{r}
+
+```
+
+2\. Regress mpg on cyl (dependent on independent) and interpret each coefficient.
+
+```{r }
+
+```
+
+
+3\. Add the variable `am` to the previous model and rerun the regression. The `am` variable represents the type of transmission (0 = automatic, 1 = manual). What is the interpretation of each coefficient.
+
+```{r }
+
+```
+
+4\. Is this relationship causal? If not, what is a potential omitted variable that may be important to consider when examining the relationship between mpg and cyl?
+
+
+5\. Create a new object called `mpgextra` and add a variable that is the log of mpg. Why would we want to take the logaritm of a variable? Rerun the regression from question 2 but using the log of mpg as the outcome and interpret the coefficients.
+
+```{r }
+
+```
+
+# Sampling, Confidence Intervals, and Hypothesis Testing
+
+6\. If you run the same regression on different samples, do you expect to get the exact same coefficient estimates or different ones? Why?
+
+7\. When a sample size gets larger, what happens to the sampling variation? Regardless of how the underlying population distribution looks like, when sample means are based on larger and larger sample sizes, the sampling distribution of these sample means becomes both more and more like what type of distribution?
+
+8\. How does the width of the confidence interval change as the confidence level increases? Why?
+
+9\. How does the width of the confidence interval change as the sample size increases? Why?
+
+10\. Define the null and alternative hypothesis. What does it mean to have a very small p-value? 
+
+11\. In economics, what action should you take with regards to the null and alternative hypothesis if you obtain a p-value of 0.007? How about if it was instead 0.7? 
+
+12\. What elements do you need to construct a confidence interval? What us the formula for a 95\% confidence interval and what does it mean?
+
+

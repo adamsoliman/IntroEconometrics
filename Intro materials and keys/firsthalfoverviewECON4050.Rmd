@@ -13,7 +13,7 @@ mtcars <- mtcars
 ```
 
 Always understand the data before using it by doing something like this:
-```{r }
+```{r,  results=FALSE}
 summary(mtcars)
 view(mtcars)
 ```

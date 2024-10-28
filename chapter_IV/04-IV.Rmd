@@ -217,8 +217,6 @@ background-size: 800px
 
 ]
 
---
-
 .pull-right[
 ```{r snow-map,echo = FALSE}
 knitr::include_graphics("../img/snow-map.jpg")
@@ -279,9 +277,7 @@ invisible(lapply(seq_along(vertices), function(i) {
 .pull-left[
 * Snow identified the Broad Street Pump as culprit.
 
-* He pleaded to have its handle removed.
-
-* He was sceptical this was the reason the epidemic ended.
+* He pleaded to have its handle removed, but he was skeptical this was the reason the epidemic ended.
 
 ]
 
@@ -728,10 +724,12 @@ dag %>%
 .pull-right[
 * Yes, of course. So, *all else* is not equal at all.
 
-* That's an issue, because for OLS consistency we require the orthogonality assumption 
+* That's an issue, because for OLS consistency we require the orthogonality assumption (exogeneity)
 $$E[e_i | S_i, X_i] \neq 0$$
 
-* Let's introduce **ability** $A_i$ explicitly.
+* More formally, ability bias arises when more able individuals both obtain more schooling and earn higher wages. This creates an endogeneity problem if ability is unobserved and omitted, as it can bias estimates of the true effect of schooling on wages.
+
+* Therefore, let's introduce **ability** $A_i$ explicitly.
 ]
 
 
@@ -836,11 +834,11 @@ d
 --
 
 .pull-right[
-* If born on 31/12/2015, they will be 5 years and 3/4 by the time they start school.
+* If born on 31/12/2015, they will be 5 years and 3/4 by the time they start school (in September 2021).
 
-* If born on 01/01/2016 they will be also and 3/4 years when *they* enter school (just one year later).
+* If born on 01/01/2016, they will be 6 and 3/4 years when *they* enter school (in September 2022).
 
-* However, people can drop out of school legally on their 16-th birthday! 
+* However, people can drop out of school legally on their 16th birthday! 
 
 * So, out of people who drop out, some got more schooling than others.
 
@@ -861,7 +859,7 @@ school1 = as.Date("2021-09-01")
 school2 = as.Date("2022-09-01")
 ```
 
-How much days of school if they drop out on their 16-th birthday?
+How much days of school if they drop out on their 16th birthday?
 
 
 
@@ -938,16 +936,17 @@ AK91 allow us to introduce a widely used variation of our simple IV estimator: *
 2. We then use the first stage model to *predict* values of $s$ in what is called the **second stage** or the **reduced form** model. Performing this procedure is supposed to take out any impact of $A$ in the correlation we observe in our data between $s$ and $y$.
 
 \begin{align}
-\text{1. Stage: }s_i &= \alpha_0 + \alpha_1 z_i + \eta_i \\ 
-\text{2. Stage: }y_i &= \beta_0 + \beta_1 \hat{s}_i + u_i 
+\text{1st Stage: }s_i &= \alpha_0 + \alpha_1 z_i + \eta_i \\ 
+\text{2nd Stage: }y_i &= \beta_0 + \beta_1 \hat{s}_i + u_i 
 \end{align}
 
 **Conditions:**
 
-1. Relevance of the IV: $\alpha_1 \neq 0$
-1. Independence (IV assignment as good as random): $E[\eta | z] = 0$
-1. Exogeneity (our exclusion restriction): $E[u | z] = 0$
-
+1. Relevance of the IV: $\alpha_1 \neq 0$ (only Testable one)
+1. Independence (IV assignment as good as random): $E[\eta | z] = 0$ 
+ * Assumption. Argue based on contextual evidence or plausibility of instrument’s randomness
+1. Exogeneity (our exclusion restriction): $E[u | z] = 0$ 
+ * Assumption. Argue using theory/sound argument, asserting that any correlation between instrument and dependent variable is solely through instrument’s effect on schooling, not other pathways
 
 ---
 layout: false
@@ -961,7 +960,7 @@ class: separator, middle
 
 Let's load the data and look at a quick summary
 
-```{r ak-data}
+```{r ak-data, results='hide'}
 data("ak91", package = "masteringmetrics")
 # from the modelsummary package
 datasummary_skim(data.frame(ak91),histogram = TRUE)

@@ -1052,9 +1052,7 @@ mod$`2SLS`  &lt;- iv_robust(lnw ~ s | q4,
 
 * Also, we can use more than one IV! Here is how:
 
----
-
-# Additional Control Variables
+## In R...
 
 ``` r
 # we keep adding to our `mod` list:
@@ -1069,39 +1067,7 @@ mod[["2SLS_all"]] &lt;- estimatr::iv_robust(lnw ~ s  + yob_fct | qob_fct + yob_f
 
 # Additional Control Variables
 
-<table class="huxtable" data-quarto-disable-processing="true" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  ">
-<col><col><col><col><col><tr>
-<th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 0pt 1pt 0pt;    padding: 4pt 6pt 4pt 6pt; font-weight: bold;"> </th><th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 0pt 1pt 0pt;    padding: 4pt 6pt 4pt 6pt; font-weight: bold;">ols</th><th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 0pt 1pt 0pt;    padding: 4pt 6pt 4pt 6pt; font-weight: bold;">1. stage</th><th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 0pt 1pt 0pt;    padding: 4pt 6pt 4pt 6pt; font-weight: bold;">2. stage</th><th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 0pt 1pt 0pt;    padding: 4pt 6pt 4pt 6pt; font-weight: bold;">2SLS</th></tr>
-<tr>
-<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 0pt 0pt 0pt;    padding: 4pt 6pt 4pt 6pt; font-weight: normal;">(Intercept)</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 0pt 0pt 0pt;    padding: 4pt 6pt 4pt 6pt; font-weight: normal;">4.995***</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 0pt 0pt 0pt;    padding: 4pt 6pt 4pt 6pt; font-weight: normal;">12.747***</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 0pt 0pt 0pt;    padding: 4pt 6pt 4pt 6pt; font-weight: normal;">4.955***</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 0pt 0pt 0pt;    padding: 4pt 6pt 4pt 6pt; font-weight: normal;">4.955***</td></tr>
-<tr>
-<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 4pt 6pt 4pt 6pt; font-weight: normal;"></td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 4pt 6pt 4pt 6pt; font-weight: normal;">(0.004)</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 4pt 6pt 4pt 6pt; font-weight: normal;">(0.007)</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 4pt 6pt 4pt 6pt; font-weight: normal;">(0.381)</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 4pt 6pt 4pt 6pt; font-weight: normal;">(0.358)</td></tr>
-<tr>
-<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 4pt 6pt 4pt 6pt; font-weight: normal;">s</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 4pt 6pt 4pt 6pt; font-weight: normal;">0.071***</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 4pt 6pt 4pt 6pt; font-weight: normal;"></td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 4pt 6pt 4pt 6pt; font-weight: normal;"></td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 4pt 6pt 4pt 6pt; font-weight: normal;">0.074**</td></tr>
-<tr>
-<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 4pt 6pt 4pt 6pt; font-weight: normal;"></td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 4pt 6pt 4pt 6pt; font-weight: normal;">(0.000)</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 4pt 6pt 4pt 6pt; font-weight: normal;"></td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 4pt 6pt 4pt 6pt; font-weight: normal;"></td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 4pt 6pt 4pt 6pt; font-weight: normal;">(0.028)</td></tr>
-<tr>
-<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 4pt 6pt 4pt 6pt; font-weight: normal;">q4</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 4pt 6pt 4pt 6pt; font-weight: normal;"></td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 4pt 6pt 4pt 6pt; font-weight: normal;">0.092***</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 4pt 6pt 4pt 6pt; font-weight: normal;"></td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 4pt 6pt 4pt 6pt; font-weight: normal;"></td></tr>
-<tr>
-<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 4pt 6pt 4pt 6pt; font-weight: normal;"></td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 4pt 6pt 4pt 6pt; font-weight: normal;"></td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 4pt 6pt 4pt 6pt; font-weight: normal;">(0.013)</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 4pt 6pt 4pt 6pt; font-weight: normal;"></td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 4pt 6pt 4pt 6pt; font-weight: normal;"></td></tr>
-<tr>
-<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 4pt 6pt 4pt 6pt; font-weight: normal;">shat</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 4pt 6pt 4pt 6pt; font-weight: normal;"></td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 4pt 6pt 4pt 6pt; font-weight: normal;"></td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 4pt 6pt 4pt 6pt; font-weight: normal;">0.074*</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 4pt 6pt 4pt 6pt; font-weight: normal;"></td></tr>
-<tr>
-<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 1pt 0pt;    padding: 4pt 6pt 4pt 6pt; font-weight: normal;"></td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 1pt 0pt;    padding: 4pt 6pt 4pt 6pt; font-weight: normal;"></td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 1pt 0pt;    padding: 4pt 6pt 4pt 6pt; font-weight: normal;"></td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 1pt 0pt;    padding: 4pt 6pt 4pt 6pt; font-weight: normal;">(0.030)</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 1pt 0pt;    padding: 4pt 6pt 4pt 6pt; font-weight: normal;"></td></tr>
-<tr>
-<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 0pt 0pt 0pt;    padding: 4pt 6pt 4pt 6pt; font-weight: normal;">R2</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 0pt 0pt 0pt;    padding: 4pt 6pt 4pt 6pt; font-weight: normal;">0.117</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 0pt 0pt 0pt;    padding: 4pt 6pt 4pt 6pt; font-weight: normal;">0.000</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 0pt 0pt 0pt;    padding: 4pt 6pt 4pt 6pt; font-weight: normal;">0.000</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 1pt 0pt 0pt 0pt;    padding: 4pt 6pt 4pt 6pt; font-weight: normal;">0.117</td></tr>
-<tr>
-<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 4pt 6pt 4pt 6pt; font-weight: normal;">RMSE</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 4pt 6pt 4pt 6pt; font-weight: normal;">0.64</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 4pt 6pt 4pt 6pt; font-weight: normal;">3.28</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 4pt 6pt 4pt 6pt; font-weight: normal;">0.68</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 4pt 6pt 4pt 6pt; font-weight: normal;">0.64</td></tr>
-<tr>
-<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.8pt 0pt;    padding: 4pt 6pt 4pt 6pt; font-weight: normal;">1. Stage F:</td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.8pt 0pt;    padding: 4pt 6pt 4pt 6pt; font-weight: normal;"></td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.8pt 0pt;    padding: 4pt 6pt 4pt 6pt; font-weight: normal;"></td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.8pt 0pt;    padding: 4pt 6pt 4pt 6pt; font-weight: normal;"></td><td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.8pt 0pt;    padding: 4pt 6pt 4pt 6pt; font-weight: normal;">48.9904279659094</td></tr>
-<tr>
-<td colspan="5" style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.8pt 0pt 1pt 0pt;    padding: 4pt 6pt 4pt 6pt; font-weight: normal;">+ p &lt; 0.1, * p &lt; 0.05, ** p &lt; 0.01, *** p &lt; 0.001</td></tr>
-</table>
 
-
----
-
-# Additional Control Variables
 
 .left-wide[
 <table class="huxtable" data-quarto-disable-processing="true" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  ">
@@ -1134,6 +1100,7 @@ mod[["2SLS_all"]] &lt;- estimatr::iv_robust(lnw ~ s  + yob_fct | qob_fct + yob_f
 
 **Using all quarters as IV** increases precision of 2SLS estimate a lot! Point estimate is 10.5% now!
 ]
+
 
 
 ---
@@ -1450,10 +1417,8 @@ mods[["IV"]] &lt;- estimatr::iv_robust(log(bwght) ~  packs | cigprice, data = bw
 
 * `\(R^2\)` is zero.
 
-* What is we use this IV nevertheless?
+* What if we use this IV nevertheless?
 ]
-
---
 
 .pull-right[
 
@@ -1468,6 +1433,35 @@ mods[["IV"]] &lt;- estimatr::iv_robust(log(bwght) ~  packs | cigprice, data = bw
 * So: **invalid** approach. ❌
 ]
 
+---
+
+# Summary of IV conditions
+
+1. **Relevance**: The instrument must be correlated with the endogenous explanatory variable it is instrumenting for. This is often tested using the first-stage regression, where a significant relationship indicates that the instrument has explanatory power over the endogenous variable.
+
+   * This is often written as `\({Cov}(Z, X) \neq 0\)`
+
+2. **Exogeneity**: The instrument must be uncorrelated with the error term in the outcome equation. This means that the instrument should not have a direct effect on the dependent variable except through the endogenous explanatory variable. 
+
+  * This condition is usually written as `\(Cov(Z, \varepsilon) = 0\)`
+
+3. **Exclusion Restriction**: The instrument should only affect the outcome through its effect on the endogenous variable, not through any other channels. This condition requires a strong theoretical or empirical justification.
+
+   * Mathematically, this means that, conditional on X, the expected value of Y does not vary with Z, or `\(E[Y | X, Z] = E[Y | X]\)`. This condition is essential for isolating the effect of X on Y and ruling out any direct effect of Z on Y.
+
+---
+
+## Examples of Good Instrumental Variables
+
+1. **Distance to the Nearest College as an Instrument for Education**: Used to study the impact of education on earnings. The idea is that distance affects the likelihood of attending college but isn't directly related to an individual's income, aside from its effect on education.
+
+2. **Weather as an Instrument for Agricultural Output**: For studying the effects of crop yields on income or consumption in farming communities. Weather can influence crop yield independently of the farmer's skill or economic environment, making it an external instrument.
+
+3. **Random Assignment in Lottery Systems**: Often used in studies of educational or housing interventions. For example, in lottery-based school admissions, the lottery outcome can serve as an instrument for studying the effects of attending a particular school on later outcomes.
+
+4. **Military Draft Eligibility as an Instrument for Veteran Status**: Commonly applied in studies examining the effect of military service on earnings or health outcomes. Eligibility based on birth year influences the likelihood of serving but doesn’t directly affect outcomes like income, making it a strong instrument.
+
+5. **Rainfall for Studying the Impact of Agricultural Shocks on Migration or Labor**: Rainfall variability can be used to instrument for economic conditions in agriculture-dependent areas, allowing researchers to study the effect of shocks on migration or labor decisions.
 
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>

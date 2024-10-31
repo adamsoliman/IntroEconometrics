@@ -1215,9 +1215,7 @@ tab %>%
 
 * Also, we can use more than one IV! Here is how:
 
----
-
-# Additional Control Variables
+## In R...
 ```{r}
 # we keep adding to our `mod` list:
 mod$ols_yr  <- update(mod$ols, . ~ . + yob_fct)  #  previous OLS model
@@ -1268,13 +1266,7 @@ htab2 = tab2 %>%
   set_bottom_border(row = 6, col = everywhere) %>%
   set_bold(1, everywhere) %>%
   set_tb_padding(4)
-
-htab
 ```
-
----
-
-# Additional Control Variables
 
 .left-wide[
 ```{r,echo = FALSE}
@@ -1287,6 +1279,7 @@ htab2
 
 **Using all quarters as IV** increases precision of 2SLS estimate a lot! Point estimate is 10.5% now!
 ]
+
 
 
 ---
@@ -1617,10 +1610,8 @@ modelsummary(mods, gof_omit = 'DF|Deviance|AIC|BIC|R2 Adj.|p.value|F$|se_type|st
 
 * $R^2$ is zero.
 
-* What is we use this IV nevertheless?
+* What if we use this IV nevertheless?
 ]
-
---
 
 .pull-right[
 
@@ -1635,4 +1626,33 @@ modelsummary(mods, gof_omit = 'DF|Deviance|AIC|BIC|R2 Adj.|p.value|F$|se_type|st
 * So: **invalid** approach. ❌
 ]
 
+---
+
+# Summary of IV conditions
+
+1. **Relevance**: The instrument must be correlated with the endogenous explanatory variable it is instrumenting for. This is often tested using the first-stage regression, where a significant relationship indicates that the instrument has explanatory power over the endogenous variable.
+
+   * This is often written as ${Cov}(Z, X) \neq 0$
+
+2. **Exogeneity**: The instrument must be uncorrelated with the error term in the outcome equation. This means that the instrument should not have a direct effect on the dependent variable except through the endogenous explanatory variable. 
+
+  * This condition is usually written as $Cov(Z, \varepsilon) = 0$
+
+3. **Exclusion Restriction**: The instrument should only affect the outcome through its effect on the endogenous variable, not through any other channels. This condition requires a strong theoretical or empirical justification.
+
+   * Mathematically, this means that, conditional on X, the expected value of Y does not vary with Z, or $E[Y | X, Z] = E[Y | X]$. This condition is essential for isolating the effect of X on Y and ruling out any direct effect of Z on Y.
+
+---
+
+## Examples of Good Instrumental Variables
+
+1. **Distance to the Nearest College as an Instrument for Education**: Used to study the impact of education on earnings. The idea is that distance affects the likelihood of attending college but isn't directly related to an individual's income, aside from its effect on education.
+
+2. **Weather as an Instrument for Agricultural Output**: For studying the effects of crop yields on income or consumption in farming communities. Weather can influence crop yield independently of the farmer's skill or economic environment, making it an external instrument.
+
+3. **Random Assignment in Lottery Systems**: Often used in studies of educational or housing interventions. For example, in lottery-based school admissions, the lottery outcome can serve as an instrument for studying the effects of attending a particular school on later outcomes.
+
+4. **Military Draft Eligibility as an Instrument for Veteran Status**: Commonly applied in studies examining the effect of military service on earnings or health outcomes. Eligibility based on birth year influences the likelihood of serving but doesn’t directly affect outcomes like income, making it a strong instrument.
+
+5. **Rainfall for Studying the Impact of Agricultural Shocks on Migration or Labor**: Rainfall variability can be used to instrument for economic conditions in agriculture-dependent areas, allowing researchers to study the effect of shocks on migration or labor decisions.
 

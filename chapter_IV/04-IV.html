@@ -728,7 +728,7 @@ school1 = as.Date("2021-09-01")
 school2 = as.Date("2022-09-01")
 ```
 
-How much days of school if they drop out on their 16-th birthday?
+How much days of school if they drop out on their 16th birthday?
 
 
 
@@ -798,7 +798,7 @@ class: separator, middle
 
 ---
 
-# Data on birth quarter and wages
+# Data on birth quarter and wages and quick transformation
 
 Let's load the data and look at a quick summary
 
@@ -809,9 +809,7 @@ data("ak91", package = "masteringmetrics")
 datasummary_skim(data.frame(ak91),histogram = TRUE)
 ```
 
----
-
-# AK91 Data Transformations
+### AK91 Data Transformations
 
 * We want to create the `q4` dummy which is `TRUE` if you are born in the 4th quarter.
 

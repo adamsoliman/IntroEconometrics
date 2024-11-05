@@ -6,8 +6,6 @@
     <meta name="author" content="Adam Soliman, PhD" />
     <script src="libs/header-attrs/header-attrs.js"></script>
     <link href="libs/remark-css/default.css" rel="stylesheet" />
-    <link href="libs/countdown/countdown.css" rel="stylesheet" />
-    <script src="libs/countdown/countdown.js"></script>
     <script src="libs/kePrint/kePrint.js"></script>
     <link href="libs/lightable/lightable.css" rel="stylesheet" />
     <script src="https://use.fontawesome.com/5235085b15.js"></script>
@@ -62,8 +60,6 @@ class: center, middle, inverse, title-slide
 
 * Usual starting point: subjects are not randomly allocated to treatment ⚠️
 
---
-
 ## DiD Requirements:
 
 * 2 time periods: before and after treatment.
@@ -82,15 +78,11 @@ class: center, middle, inverse, title-slide
 
 * Imagine you are interested in assessing the __causal__ impact of increasing the minimum wage on (un)employment.
 
---
-
 * Why is this not that straightforward? What should the control group be?
 
 --
 
 * Seminal 1994 [paper](http://davidcard.berkeley.edu/papers/njmin-aer.pdf) by prominent labor economists David Card and Alan Krueger entitled "Minimum Wages and Employment: A Case Study of the Fast-Food Industry in New Jersey and Pennsylvania"
-
---
 
 * Estimates the effect of an increase in the minimum wage on the employment rate in the fast-food industry. Why this industry?
 
@@ -100,21 +92,13 @@ class: center, middle, inverse, title-slide
 
 * In the US, there is a national minimum wage, but states can depart from it.
 
---
-
 * April 1, 1992: New Jersey minimum wage increases from $4.25 to $5.05 per hour.
 
---
-
 * Neighboring Pennsylvania did not change its minimum wage level.
-
---
 
 .pull-left[
 &lt;img src="../img/photos/nj_penn_map.png" width="600px" style="display: block; margin: auto;" /&gt;
 ]
-
---
 
 .pull-right[
 &lt;br&gt;
@@ -152,8 +136,6 @@ ck1994 &lt;- njmin
 ```
 ]
 
---
-
 .pull-right[
 
 ``` r
@@ -179,12 +161,7 @@ ck1994 %&gt;%
 
 # Task 1 
 
-<div class="countdown" id="timer_18617b15" data-update-every="1" tabindex="0" style="top:0;right:0;">
-<div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
-<code class="countdown-time"><span class="countdown-digits minutes">10</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
-</div>
-
-1. Take a look at the dataset and list the variables. Check the variable definitions with `?njmin`.
+1. Take a look at the dataset (download [here](https://www.dropbox.com/scl/fi/nv2ohjfbikp6ubecsdqru/ck1994.csv?rlkey=6ldo2d7d1we388nnip99865ya&amp;dl=1)) and list the variables. 
 
 1. Tabulate the number of stores by `state` and by survey wave (`observation`). Does it match what's in *Table 1* of the [paper](http://davidcard.berkeley.edu/papers/njmin-aer.pdf)?
 
@@ -316,17 +293,11 @@ class: title-slide-section-red, middle
 
 * There are more data points before and after the policy change
 
---
-
 3 ingredients:
 
 1. __Treatment dummy variable__: `\(TREAT_s\)` where the `\(s\)` subscript reminds us that the treatment is at the state level
 
---
-
 1. __Post-treatment periods dummy variables__: `\(POST_t\)` where the `\(t\)` subscript reminds us that this variable varies over time
-
---
 
 1. __Interaction term between the two__: `\(TREAT_s \times POST_t\)` 👉 the ***coefficient on this term is the DiD causal effect***!
 
@@ -342,8 +313,6 @@ TREAT_s = \begin{cases}\begin{array}{lcl}
 \end{array}\end{cases}
 $$
 
---
-
 __Post-treatment periods dummy variable__
 $$
 POST_t = \begin{cases}\begin{array}{lcl}
@@ -351,8 +320,6 @@ POST_t = \begin{cases}\begin{array}{lcl}
 1 \quad \text{if } t \geq \text{April 1, 1992}
 \end{array}\end{cases}
 $$
-
---
 
 __Which observations correspond to `\(TREAT_s \times POST_t = 1\)`?__
 
@@ -374,15 +341,9 @@ We have the following:
 
 `\(\mathbb{E}(EMP_{st} \; | \; TREAT_s = 0, POST_t = 0) = \color{#d96502}\alpha\)`
 
---
-
 `\(\mathbb{E}(EMP_{st} \; | \; TREAT_s = 0, POST_t = 1) = \color{#d96502}\alpha + \color{#02AB0D}\gamma\)`
 
---
-
 `\(\mathbb{E}(EMP_{st} \; | \; TREAT_s = 1, POST_t = 0) = \color{#d96502}\alpha + \color{#027D83}\beta\)`
-
---
 
 `\(\mathbb{E}(EMP_{st} \; | \; TREAT_s = 1, POST_t = 1) = \color{#d96502}\alpha + \color{#027D83}\beta + \color{#02AB0D}\gamma + \color{#d90502}\delta\)`
 
@@ -406,17 +367,10 @@ Pennsylvania (PA) | `\(\color{#d96502}\alpha\)` | `\(\color{#d96502}\alpha + \co
 New Jersey (NJ) | `\(\color{#d96502}\alpha + \color{#027D83}\beta\)` | `\(\color{#d96502}\alpha + \color{#027D83}\beta + \color{#02AB0D}\gamma + \color{#d90502}\delta\)` | `\(\color{#02AB0D}\gamma + \color{#d90502}\delta\)`
 `\(\Delta\)`(NJ - PA) | `\(\color{#027D83}\beta\)` | `\(\color{#027D83}\beta + \color{#d90502}\delta\)` | `\(\color{#d90502}\delta\)`
 
---
-
 This table generalizes to other settings by substituting *Pennsylvania* with *Control* and *New Jersey* with *Treatment*
 ---
 
 # Task 2 
-
-<div class="countdown" id="timer_458d5e41" data-update-every="1" tabindex="0" style="top:0;right:0;">
-<div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
-<code class="countdown-time"><span class="countdown-digits minutes">10</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
-</div>
 
 1. Create a dummy variable, `treat`, equal to `FALSE` if `state` is Pennsylvania and `TRUE` if New Jersey.
 
@@ -439,11 +393,7 @@ class: title-slide-section-red, middle
 
 &gt; __Common or parallel trends assumption__: absent any minimum wage increase, Pennsylvania's fast-food employment trend would have been what we should have expected to see in New Jersey.
 
---
-
 * This assumption states that Pennsylvania's fast-food employment trend between February and November 1992 provides a reliable counterfactual employment trend New Jersey's fast-food industry *would have experienced* had New Jersey not increased its minimum wage.
-
---
 
 * Impossible to completely validate or invalidate this assumption.
 
@@ -500,8 +450,6 @@ Here is the actual trends for Pennsylvania and New Jersey
 
 &lt;img src="../img/photos/min_wage_parallel_trends.png" width="600px" style="display: block; margin: auto;" /&gt;
 
---
-
 * Is the common trend assumption likely to be verified? 
 ---
 
@@ -511,11 +459,7 @@ Let:
 
 * `\(Y_{ist}^1\)`: fast food employment at restaurant `\(i\)` in state `\(s\)` at time `\(t\)` if there is a high state MW;
 
---
-
 * `\(Y_{ist}^0\)`: fast food employment at restaurant `\(i\)` in state `\(s\)` at time `\(t\)` if there is a low state MW;
-
---
 
 These are potential outcomes, you can only observe one of the two.
 
@@ -538,11 +482,8 @@ The key assumption underlying DiD estimation is that, in the no-treatment state,
 Outcomes in the comparison group:
 
 `$$\mathbb{E}[Y_{ist}| s = \text{Pennsylvania},t = \text{Feb}] = \gamma_{PA} + \lambda_{Feb}$$`
---
 
 `$$\mathbb{E}[Y_{ist}|s = \text{Pennsylvania},t = \text{Nov}] = \gamma_{PA} + \lambda_{Nov}$$`
-
---
 
 $$
 `\begin{align}
@@ -570,8 +511,6 @@ $$
 \end{align}`
 $$
 
---
-
 `\(\rightarrow\)` the comparison group allows to estimate the ***time trend***.
 
 ---
@@ -582,15 +521,12 @@ Let `\(\delta\)` denote the true impact of the minimum wage increase:
 
 `$$\mathbb{E}[Y_{ist}^1 - Y_{ist}^0|s,t] = \delta$$`
 
---
-
 Outcomes in the treatment group:
 
 `$$\mathbb{E}[Y_{ist}|s = \text{New Jersey}, t = \text{Feb}] = \gamma_{NJ} + \lambda_{Feb}$$`
---
+
 
 `$$\mathbb{E}[Y_{ist}|s = \text{New Jersey}, t = \text{Nov}] = \gamma_{NJ} + \delta + \lambda_{Nov}$$`
---
 
 $$
 `\begin{align}
@@ -634,7 +570,7 @@ $$
 \end{align}`
 $$
 
---
+
 
 $$
 `\begin{align}
@@ -642,7 +578,6 @@ $$
 \end{align}`
 $$
 
---
 
 $$
 `\begin{align}

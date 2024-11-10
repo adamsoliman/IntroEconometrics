@@ -44,7 +44,7 @@ gofmap[clean == "R2", omit := FALSE]
 # Cross-Sectional Data
 
 .pull-left[
-So far, we dealt with data that looks like this:
+So far, we have generally dealt with data that looks like this:
 
 ```{r,message=FALSE,warning=FALSE,echo = FALSE}
 library(dplyr)

@@ -97,10 +97,8 @@ class: title-slide-section-red, middle
 .pull-left[
 
 ``` r
-# load gapminder package
-library(gapminder)
-# load the dataset from the gapminder package
-data(gapminder, package = "gapminder") 
+# load the dataset from dropbox
+gapminder &lt;- read_csv("https://www.dropbox.com/scl/fi/5j1rqye1tvpmk6eqhnand/gapminder.csv?rlkey=4aar6bmn9f5vvi423uds0rk7e&amp;dl=1")
 # show first 4 lines of this dataframe
 head(gapminder,n = 4)
 # how many rows in the dataset?
@@ -113,7 +111,7 @@ nrow(gapminder)
 ```
 ## # A tibble: 4 × 6
 ##   country     continent  year lifeExp      pop gdpPercap
-##   &lt;fct&gt;       &lt;fct&gt;     &lt;int&gt;   &lt;dbl&gt;    &lt;int&gt;     &lt;dbl&gt;
+##   &lt;chr&gt;       &lt;chr&gt;     &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
 ## 1 Afghanistan Asia       1952    28.8  8425333      779.
 ## 2 Afghanistan Asia       1957    30.3  9240934      821.
 ## 3 Afghanistan Asia       1962    32.0 10267083      853.

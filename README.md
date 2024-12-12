@@ -1,6 +1,6 @@
 # Introduction to Econometrics
 
-* Below are the slides used for ECON 4050 at Clemson University (Fall 2024)
+* Below are the slides used for ECON 4050 at Clemson University (Spring 2025)
 * This repository is updated frequently, so check back often
 
 ## Course Overview
@@ -17,7 +17,7 @@
 | Regression Inference | [HTML](https://raw.githack.com/adamsoliman/IntroEconometrics/master/chapter_reginference/reg_inference.html) |
 | Regression Discontinuity | [HTML](https://raw.githack.com/adamsoliman/IntroEconometrics/master/chapter-RDD/RDD.html) | 
 | Difference-in-Differences | [HTML](https://raw.githack.com/adamsoliman/IntroEconometrics/master/chapter_did/chapter_did.html) | 
-| Bonus: Panel Data | [HTML](https://raw.githack.com/adamsoliman/IntroEconometrics/master/chapter_panel/06-panel.html) |
+| Panel Data | [HTML](https://raw.githack.com/adamsoliman/IntroEconometrics/master/chapter_panel/06-panel.html) |
 | Bonus: Instrumental Variables | [HTML](https://raw.githack.com/adamsoliman/IntroEconometrics/master/chapter_IV/04-IV.html) |
 
 ## Other Materials
@@ -28,7 +28,7 @@
 
 1. A deep dive into R programming can be found [here](https://raw.githack.com/adamsoliman/IntroEconometrics/master/chapter_tidy_programming/chapter_tidy.html)
 
-1. Answer keys for in class tasks: [introduction to R](https://raw.githack.com/adamsoliman/IntroEconometrics/master/chapter_intro/tasks/intro_tasks.html), 
+1. Answer keys for in class tasks: <!--[introduction to R](https://raw.githack.com/adamsoliman/IntroEconometrics/master/chapter_intro/tasks/intro_tasks.html), 
 [simple linear regression](https://raw.githack.com/adamsoliman/IntroEconometrics/master/chapter_slr/tasks/slr_tasks.html), 
 [causality](https://raw.githack.com/adamsoliman/IntroEconometrics/master/chapter_causality/tasks/causality_tasks.html), 
 [multiple linear regression](https://raw.githack.com/adamsoliman/IntroEconometrics/master/chapter_mlr/tasks/mlr_tasks.html), 
@@ -36,7 +36,7 @@
 [sampling](https://raw.githack.com/adamsoliman/IntroEconometrics/master/chapter_sampling/tasks/sampling_tasks.html), and 
 [regression inference](https://raw.githack.com/adamsoliman/IntroEconometrics/master/chapter_reginference/tasks/reginference_tasks.html)
 
-1. Answer keys for homeworks are [here](https://github.com/adamsoliman/IntroEconometrics/tree/master/Intro%20materials%20and%20keys/Answer%20Keys). 
+1. Answer keys for homeworks are [here](https://github.com/adamsoliman/IntroEconometrics/tree/master/Intro%20materials%20and%20keys/Answer%20Keys). -->
 
 ## Legal
 

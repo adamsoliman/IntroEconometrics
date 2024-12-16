@@ -34,9 +34,9 @@
 [multiple linear regression](https://raw.githack.com/adamsoliman/IntroEconometrics/master/chapter_mlr/tasks/mlr_tasks.html), 
 [linear regression extensions](https://raw.githack.com/adamsoliman/IntroEconometrics/master/chapter_regext/tasks/regext_tasks.html),
 [sampling](https://raw.githack.com/adamsoliman/IntroEconometrics/master/chapter_sampling/tasks/sampling_tasks.html), and 
-[regression inference](https://raw.githack.com/adamsoliman/IntroEconometrics/master/chapter_reginference/tasks/reginference_tasks.html)
+[regression inference](https://raw.githack.com/adamsoliman/IntroEconometrics/master/chapter_reginference/tasks/reginference_tasks.html)-->
 
-1. Answer keys for homeworks are [here](https://github.com/adamsoliman/IntroEconometrics/tree/master/Intro%20materials%20and%20keys/Answer%20Keys). -->
+<!-- 1. Answer keys for homeworks are [here](https://github.com/adamsoliman/IntroEconometrics/tree/master/Intro%20materials%20and%20keys/Answer%20Keys). -->
 
 ## Legal
 

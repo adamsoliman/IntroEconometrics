@@ -99,7 +99,7 @@
 	What types of questions might we be interested in: 
 	\medskip
 	
-	\begin{wideitemize}
+	\begin{wideenumerate}
 		\item<1-> Has economic inequality increased since 1960?
 		\begin{wideitemize}
 			\item<3-> \textbf{Descriptive Question:} asks about how things are (or were) in reality
@@ -113,7 +113,7 @@
 			\item<5-> \textbf{Forecasting Question:} What will happen in the future?  
 		\end{wideitemize}
 
-	\end{wideitemize}
+	\end{wideenumerate}
 	
 \end{frame}
 
@@ -225,7 +225,7 @@ For descriptive questions: we only observe data for a \textbf{sample} of individ
 		\item 
 		Example: we want to know how the distribution of income in the US has changed, but we only observe income for a survey of workers
 	\end{wideitemize}
-\pause
+%\pause
 
 \item Best case scenario: Our sample is \textbf{randomly} selected from the population \\
 	\begin{wideitemize}
@@ -234,7 +234,7 @@ For descriptive questions: we only observe data for a \textbf{sample} of individ
 
 	\end{wideitemize}
 
-\pause 
+%\pause 
 
 \item Worst case scenario: Our sample is \textit{not representative} of the population that we care about
 	\begin{wideitemize}
@@ -281,8 +281,16 @@ For descriptive questions: we only observe data for a \textbf{sample} of individ
 \end{frame}
 
 
+\begin{frame}{\bf \large What is the causal effect on your earnings of going to Clemson instead of USC? \\ {\normalsize How to answer this? Potential paths forward}}
+\begin{wideenumerate}
+	\item Compare averages from each group, but what is this missing?
+	\item Run a randomized control trial
+	\item Use non-experimental econometric techniques
+\end{wideenumerate}
+\end{frame}
 
-\begin{frame}{\bf \large Splitting up the problem}
+
+\begin{frame}[label=splitprob]{\bf \large Splitting up the problem}
 	\begin{wideitemize}
 		
 		\item
@@ -304,206 +312,7 @@ For descriptive questions: we only observe data for a \textbf{sample} of individ
 		
 	\end{wideitemize}	
 	
-\end{frame}
-
-
-
-\begin{frame}{\bf \large Framework for thinking about these steps}
-	
-\begin{wideitemize}
-
-\item \textbf{Sample:} the data that you actually observe
-	\begin{wideitemize}
-		\item
-		A survey of students from Clemson and USC graduates about their earnings 
-	\end{wideitemize}
-
-\item \textbf{Estimator:} a function of the data in the sample 
-	\begin{wideitemize}
-		\item Difference in earnings between Clemson and USC students in survey
-	\end{wideitemize}
-
-\item \textbf{Estimand:} a function of the observable data for the \textit{population}
-	\begin{wideitemize}
-		\item Difference in earnings between all Clemson and USC students 
-	\end{wideitemize}
-
-\item \textbf{Target (aka structural) parameter:} what we actually care about
-	\begin{wideitemize}
-		\item Causal effect on earnings of going to Clemson relative to USC
-	\end{wideitemize}
-
-\end{wideitemize}	
-
-\medskip
-\pause
-\begin{wideitemize}
-
-\item The process of learning about the \textit{estimand} from the \text{estimator} constructed with your \textit{sample} is called \textbf{statistical estimation/inference}
-
-\item The process of learning about the \textit{parameter} from the \textit{estimand} is called \textbf{identification}
-
-\end{wideitemize}	
-\end{frame}
-
-\begin{comment}
-	\begin{frame}
-		\begin{figure}
-			\centering
-			\includegraphics[width=\textwidth]{figs/BigPicture}
-		\end{figure}
-	\end{frame}
-\end{comment}
-
-
-\begin{frame}{\bf \large Let's add some math...by introducing \textbf{potential outcomes} notation}
-\begin{wideitemize}
-	
-	\item $D_i$ = indicator if get treatment (1 if Clemson, 0 if USC)
-	
-
-	\item $Y_i(1)$ = outcome under treatment = earnings at Clemson
-	\item $Y_i(0)$ = outcome under control = earnings at USC
-	
-\vspace{10mm}
-
-	\item Observed outcome $Y_i$ is $Y_i(1)$ if $D_i = 1$ and $Y_i(0)$ if $D_i = 0$. ($Y_i$ is your actual earnings)
-	
-	\item
-	We can write the observed outcome as $Y_i = D_i Y_i(1) + (1-D_i) Y_i(0)$
-\end{wideitemize}
-
-\end{frame}
-
-
-
-\begin{frame}{\bf \large What is the causal effect on earnings of going to Clemson instead of USC?}
-\begin{wideitemize}
-	\item
-	\textbf{Sample}: $(Y_i,D_i)$ for $i=1,...N$. Data with earnings and where you went to school
-	
-	\pause 
-	
-	\item
-	\textbf{Estimator}: Difference in sample mean of earnings for people who went to Clemson and people who went to USC: 
-			
-			$$ \underbrace{\frac{1}{N_1} \sum_{i:D_i=1} Y_i}_{\text{Avg earnings at Clemson in sample}} - \underbrace{\frac{1}{N_0} \sum_{i:D_i=0} Y_i}_{\text{Avg earnings at USC in sample}}$$		
-
-	
-	\pause
-		\item
-		\textbf{Estimand}: 
-			Difference in population mean of earnings for people went to Clemson and people who went to USC: 
-			
-			$$\underbrace{ E[ Y_i | D_i = 1] }_{\text{Avg earnings at Clemson in population}} - \underbrace{E[Y_i | D_i = 0]}_{\text{Avg earnings at USC in population}}$$
-		 
-	\pause 
-	
-	\item \textbf{Target parameter}: Causal effect of Clemson for Clemson students:
-			$\underbrace{E[Y_i(1) | D_i =1]}_{\text{Earnings at Clemson for Clemson students in pop}} - \underbrace{E[Y_i(0) | D_i = 1]}_{\text{Earnings at USC for Clemson students in pop}} $ 
-		\end{wideitemize}
-\end{frame}
-
-
-\begin{frame}{\bf \large Why is causal identification hard?}
-	
-	\begin{wideitemize}
-		
-		\item
-		Thought experiment: suppose we had data on earnings for \textit{every} Clemson and USC graduate
-		
-		
-		\item
-		We can learn from the data:
-		$$\color{teal} \underbrace{E[ Y_i(1) | D_i=1  ] }_{\text{Earnings at Clemson for Clemson Students}} \hspace{0.5cm}  \text{and} \hspace{0.5cm} \underbrace{E[Y_i(0) | D_i = 0]	}_{\text{Earnings at USC for USC students}}$$
-		
-		\pause 
-		\item
-		The causal effect of Clemson for Clemson students is 
-		$$ \color{teal}{\underbrace{E[ Y_i(1) | D_i=1  ] }_{\text{Earnings at Clemson for Clemson Students}}} - \color{red}{ \underbrace{E[ Y_i(0) | D_i=1  ] }_{\text{Earnings at USC for Clemson Students}}}$$ 
-		
-		\pause 
-		\item
-		The data doesn't tell us $\color{red}{ \underbrace{E[ Y_i(0) | D_i=1 ] }_{\text{Earnings at USC for Clemson Students}}}$. Why not? 
-%\pause			\begin{wideitemize} \item Because we never see Clemson students going to USC! \end{wideitemize} 
-		
-	\end{wideitemize}
-	
-\end{frame}
-
-
-\begin{frame}
-	\begin{wideitemize}
-		\item
-		One idea to solve this problem would be to assume that: 
-		
-		$$ \color{red}{ \underbrace{E[ Y_i(0) | D_i=1  ] }_{\text{Earnings at USC for Clemson Students}}} = \color{teal}{ \underbrace{E[ Y_i(0) | D_i=0 ] }_{\text{Earnings at USC for USC Students}}}$$
-		
-		\item
-		Why might this give us the wrong answer? 
-		
-		\pause
-		
-		\item
-		Because Clemson students may be different from USC students in other ways that would affect their earnings (regardless of where they went to college)
-		
-			\begin{wideitemize}
-				\item 
-				Academic ability, family background, career goals, etc.
-			\end{wideitemize}
-		
-		\item
-		These differences are referred to as \textit{omitted variables} or \textit{confounding factors}
-	\end{wideitemize}
-\end{frame}
-
-\begin{frame}{\bf \large What about experiments?}
-\begin{wideitemize}
-\item
-The gold standard for learning about causal effects is a randomized controlled trial (RCT), aka experiment
-
-\item
-Suppose that the Clemson and USC administration randomized who got into which college (assume these are the only 2 colleges for simplicity)
-
-\item
-Since college is randomly assigned, the only thing that differs between Clemson and USC students is the college they went to
-
-\item
-Hence, 
-
-		$$ \color{red}{ \underbrace{E[ Y_i(0) | D_i=1  ] }_{\text{Earnings at USC for Clemson Students}}} = \color{teal}{ \underbrace{E[ Y_i(0) | D_i=0 ] }_{\text{Earnings at USC for USC Students}}}$$
-		
-		since we've eliminated any confounding factors
-
-
-\end{wideitemize}
-\end{frame}
-
-\begin{frame}{\bf \large But running experiments is often hard/impossible}
-	\begin{wideitemize}
-	
-	\item
-	Unfortunately, Clemson/USC have not let us randomize who gets into which college
-		\begin{wideitemize}
-			\item
-			At least not yet! If you could convince them to do this, it'd make for a cool senior thesis! 
-		\end{wideitemize}
-
-
-	\item
-	Likewise, it is difficult to convince states to randomize their minimum wages, or other policies
-	
-	\item
-	In some cases, randomization is not just difficult but would be immoral 
-	
-		\begin{wideitemize}
-			\item 
-			``What is the causal effect of spousal death on labor supply?''
-		\end{wideitemize}	
-	
-	\item
-	In this course, we'll discuss tools economists try to use when running experiments is not possible
-	\end{wideitemize}
+\hyperlink{framework}{\beamergotobutton{Framework for thinking about these steps}}	
 \end{frame}
 
 \section{Course Roadmap}
@@ -545,11 +354,210 @@ Hence,
 \end{minipage}
 \end{frame}
 
+\appendix
+
+\begin{frame}{\bf \large Appendix}
+	
+	\huge Framework for thinking about causal questions
+\end{frame}
+
+\begin{frame}[label = framework]{\bf \large Framework for thinking about these steps \hyperlink{splitprob}{\beamergotobutton{Back}}}
+	
+	\begin{wideitemize}
+		
+		\item \textbf{Sample:} the data that you actually observe
+		\begin{wideitemize}
+			\item
+			A survey of students from Clemson and USC graduates about their earnings 
+		\end{wideitemize}
+		
+		\item \textbf{Estimator:} a function of the data in the sample 
+		\begin{wideitemize}
+			\item Difference in earnings between Clemson and USC students in survey
+		\end{wideitemize}
+		
+		\item \textbf{Estimand:} a function of the observable data for the \textit{population}
+		\begin{wideitemize}
+			\item Difference in earnings between all Clemson and USC students 
+		\end{wideitemize}
+		
+		\item \textbf{Target (aka structural) parameter:} what we actually care about
+		\begin{wideitemize}
+			\item Causal effect on earnings of going to Clemson relative to USC
+		\end{wideitemize}
+		
+	\end{wideitemize}	
+	
+	\medskip
+	\pause
+	\begin{wideitemize}
+		
+		\item The process of learning about the \textit{estimand} from the \text{estimator} constructed with your \textit{sample} is called \textbf{statistical estimation/inference}
+		
+		\item The process of learning about the \textit{parameter} from the \textit{estimand} is called \textbf{identification}
+		
+	\end{wideitemize}	
+\end{frame}
+
 \begin{comment}
-	\begin{frame}{\bf \large And now...}
-		\LARGE	A brief introduction to R
+	\begin{frame}
+		\begin{figure}
+			\centering
+			\includegraphics[width=\textwidth]{figs/BigPicture}
+		\end{figure}
 	\end{frame}
 \end{comment}
+
+
+\begin{frame}{\bf \large Let's add some math...by introducing \textbf{potential outcomes} notation}
+	\begin{wideitemize}
+		
+		\item $D_i$ = indicator if get treatment (1 if Clemson, 0 if USC)
+		
+		
+		\item $Y_i(1)$ = outcome under treatment = earnings at Clemson
+		\item $Y_i(0)$ = outcome under control = earnings at USC
+		
+		\vspace{10mm}
+		
+		\item Observed outcome $Y_i$ is $Y_i(1)$ if $D_i = 1$ and $Y_i(0)$ if $D_i = 0$. ($Y_i$ is your actual earnings)
+		
+		\item
+		We can write the observed outcome as $Y_i = D_i Y_i(1) + (1-D_i) Y_i(0)$
+	\end{wideitemize}
+	
+\end{frame}
+
+
+
+\begin{frame}{\bf \large What is the causal effect on earnings of going to Clemson instead of USC?}
+	\begin{wideitemize}
+		\item
+		\textbf{Sample}: $(Y_i,D_i)$ for $i=1,...N$. Data with earnings and where you went to school
+		
+		\pause 
+		
+		\item
+		\textbf{Estimator}: Difference in sample mean of earnings for people who went to Clemson and people who went to USC: 
+		
+		$$ \underbrace{\frac{1}{N_1} \sum_{i:D_i=1} Y_i}_{\text{Avg earnings at Clemson in sample}} - \underbrace{\frac{1}{N_0} \sum_{i:D_i=0} Y_i}_{\text{Avg earnings at USC in sample}}$$		
+		
+		
+		\pause
+		\item
+		\textbf{Estimand}: 
+		Difference in population mean of earnings for people went to Clemson and people who went to USC: 
+		
+		$$\underbrace{ E[ Y_i | D_i = 1] }_{\text{Avg earnings at Clemson in population}} - \underbrace{E[Y_i | D_i = 0]}_{\text{Avg earnings at USC in population}}$$
+		
+		\pause 
+		
+		\item \textbf{Target parameter}: Causal effect of Clemson for Clemson students:
+		$\underbrace{E[Y_i(1) | D_i =1]}_{\text{Earnings at Clemson for Clemson students in pop}} - \underbrace{E[Y_i(0) | D_i = 1]}_{\text{Earnings at USC for Clemson students in pop}} $ 
+	\end{wideitemize}
+\end{frame}
+
+
+\begin{frame}{\bf \large Why is causal identification hard?}
+	
+	\begin{wideitemize}
+		
+		\item
+		Thought experiment: suppose we had data on earnings for \textit{every} Clemson and USC graduate
+		
+		
+		\item
+		We can learn from the data:
+		$$\color{teal} \underbrace{E[ Y_i(1) | D_i=1  ] }_{\text{Earnings at Clemson for Clemson Students}} \hspace{0.5cm}  \text{and} \hspace{0.5cm} \underbrace{E[Y_i(0) | D_i = 0]	}_{\text{Earnings at USC for USC students}}$$
+		
+		\pause 
+		\item
+		The causal effect of Clemson for Clemson students is 
+		$$ \color{teal}{\underbrace{E[ Y_i(1) | D_i=1  ] }_{\text{Earnings at Clemson for Clemson Students}}} - \color{red}{ \underbrace{E[ Y_i(0) | D_i=1  ] }_{\text{Earnings at USC for Clemson Students}}}$$ 
+		
+		\pause 
+		\item
+		The data doesn't tell us $\color{red}{ \underbrace{E[ Y_i(0) | D_i=1 ] }_{\text{Earnings at USC for Clemson Students}}}$. Why not? 
+		%\pause			\begin{wideitemize} \item Because we never see Clemson students going to USC! \end{wideitemize} 
+		
+	\end{wideitemize}
+	
+\end{frame}
+
+
+\begin{frame}
+	\begin{wideitemize}
+		\item
+		One idea to solve this problem would be to assume that: 
+		
+		$$ \color{red}{ \underbrace{E[ Y_i(0) | D_i=1  ] }_{\text{Earnings at USC for Clemson Students}}} = \color{teal}{ \underbrace{E[ Y_i(0) | D_i=0 ] }_{\text{Earnings at USC for USC Students}}}$$
+		
+		\item
+		Why might this give us the wrong answer? 
+		
+		\pause
+		
+		\item
+		Because Clemson students may be different from USC students in other ways that would affect their earnings (regardless of where they went to college)
+		
+		\begin{wideitemize}
+			\item 
+			Academic ability, family background, career goals, etc.
+		\end{wideitemize}
+		
+		\item
+		These differences are referred to as \textit{omitted variables} or \textit{confounding factors}
+	\end{wideitemize}
+\end{frame}
+
+\begin{frame}{\bf \large What about experiments?}
+	\begin{wideitemize}
+		\item
+		The gold standard for learning about causal effects is a randomized controlled trial (RCT), aka experiment
+		
+		\item
+		Suppose that the Clemson and USC administration randomized who got into which college (assume these are the only 2 colleges for simplicity)
+		
+		\item
+		Since college is randomly assigned, the only thing that differs between Clemson and USC students is the college they went to
+		
+		\item
+		Hence, 
+		
+		$$ \color{red}{ \underbrace{E[ Y_i(0) | D_i=1  ] }_{\text{Earnings at USC for Clemson Students}}} = \color{teal}{ \underbrace{E[ Y_i(0) | D_i=0 ] }_{\text{Earnings at USC for USC Students}}}$$
+		
+		since we've eliminated any confounding factors
+		
+		
+	\end{wideitemize}
+\end{frame}
+
+\begin{frame}{\bf \large But running experiments is often hard/impossible \hyperlink{splitprob}{\beamergotobutton{Back}}}
+	\begin{wideitemize}
+		
+		\item
+		Unfortunately, Clemson/USC have not let us randomize who gets into which college
+		\begin{wideitemize}
+			\item
+			At least not yet! If you could convince them to do this, it'd make for a cool senior thesis! 
+		\end{wideitemize}
+		
+		
+		\item
+		Likewise, it is difficult to convince states to randomize their minimum wages, or other policies
+		
+		\item
+		In some cases, randomization is not just difficult but would be immoral 
+		
+		\begin{wideitemize}
+			\item 
+			``What is the causal effect of spousal death on labor supply?''
+		\end{wideitemize}	
+		
+		\item
+		In this course, we'll discuss tools economists try to use when running experiments is not possible
+	\end{wideitemize}
+\end{frame}
 
 \end{document}
 

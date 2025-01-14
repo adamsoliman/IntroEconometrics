@@ -371,20 +371,16 @@ Congratulations, you have created your first `R` "object"! Everything is an obje
 
 --
 
-2\. In the same script used in the previous task, import [clemsonFBSfinances.csv](https://www.dropbox.com/scl/fi/6izns6n1iobin3shafpfr/clemsonFBSfinances.csv?rlkey=ul08udw266an6ixx1kpy8gk9k&dl=1) in a new object and call it `clemsonfootballdata`. This file contains data on Clemson football finances. It should look something like:
+2\. First, download [clemsonFBSfinances.csv](https://github.com/adamsoliman/IntroEconometrics/blob/master/data%20for%20tasks/clemsonFBSfinances.csv) from Github (click download raw file in the top right of the webpage). Then, in the same script used in the previous task, import it into R in a new object and call it `clemsonfootballdata`. This file contains data on Clemson football finances. It should look something like:
  
 ```{r}
 # this is a comment, which you should always use in your code. Note your path will look slightly different
 clemsonfootballdata <- read.csv("/Users/adamsoliman/Library/CloudStorage/Dropbox/Clemson/Econometrics Course/data for tasks/clemsonFBSfinances.csv")
-
-#alternatively, you can import directly from dropbox
-clemsonfootballdata <- read.csv("https://www.dropbox.com/scl/fi/6izns6n1iobin3shafpfr/clemsonFBSfinances.csv?rlkey=ul08udw266an6ixx1kpy8gk9k&dl=1")
 ```
 
-3\. Type in `class(clemsonfootball)` in your script and run the code. What happened and why? Now try with `class(clemsonfootballdata)`.
+3\. Type in `class(clemsonfootball)` in your script and run the code. What happened and why? Then try with `class(clemsonfootballdata)`. Did that work?
 
-
-4\. Find out what variables are contained in `clemsonfootballdata` by running `names(clemsonfootballdata)` in your script.
+4\. Find out what variables are contained in the data by running `names(clemsonfootballdata)` in your script.
 
 5\. View the contents of the dataset by clicking on `clemsonfootballdata` in your workspace. What does the `Medical` variable correspond to?
 

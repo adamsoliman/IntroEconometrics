@@ -378,7 +378,7 @@ Congratulations, you have created your first `R` "object"! Everything is an obje
 clemsonfootballdata <- read.csv("/Users/adamsoliman/Library/CloudStorage/Dropbox/Clemson/Econometrics Course/data for tasks/clemsonFBSfinances.csv")
 
 #alternatively, you can import directly from dropbox
-clemsonfootballdata <- read.csv("https://www.dropbox.com/scl/fi/6izns6n1iobin3shafpfr/clemsonFBSfinances.csv?rlkey=s2prx9z1lhmmym96cubzi7awe&dl=1")
+clemsonfootballdata <- read.csv("https://www.dropbox.com/scl/fi/6izns6n1iobin3shafpfr/clemsonFBSfinances.csv?rlkey=ul08udw266an6ixx1kpy8gk9k&dl=1")
 ```
 
 3\. Type in `class(clemsonfootball)` in your script and run the code. What happened and why? Now try with `class(clemsonfootballdata)`.

@@ -452,37 +452,11 @@ grades_avg_cs &lt;- grades %&gt;%
 
 1. Regress average verbal score (dependent variable) on class size (independant variable). Interpret the coefficients.
 
-1. Compute the OLS coefficients `\(b_0\)` and `\(b_1\)` of the previous regression using the formulas on slide 27. (*Hint:* you need to use the `cov`, `var`, and `mean` functions.)
-
 1. What is the predicted average verbal score when class size is equal to 0? (Does that even make sense?!)
 
 1. What is the predicted average verbal score when the class size is equal to 30 students?
 
----
-
-# Predictions and Residuals: Properties
-
-.pull-left[
-* __The average of `\(\widehat{y}_i\)` is equal to `\(\bar{y}\)`.__  
-    `$$\begin{align} \frac{1}{N} \sum_{i=1}^N \widehat{y}_i &amp;= \frac{1}{N} \sum_{i=1}^N b_0 + b_1 x_i \\ &amp;= b_0 + b_1  \bar{x}  = \bar{y} \end{align}$$`
-
-* __The average (or sum) of residuals is 0.__
-  `$$\begin{align} \frac{1}{N} \sum_{i=1}^N e_i &amp;= \frac{1}{N} \sum_{i=1}^N (y_i - \widehat y_i) \\ &amp;= \bar{y} - \frac{1}{N} \sum_{i=1}^N \widehat{y}_i \\\ &amp;= 0 \end{align}$$`
-]
-
-.pull-right[
-* __ Regressor and residuals are uncorrelated (by definition).__
-
-  `$$Cov(x_i, e_i) = 0$$`
-
-
-* __Prediction and residuals are uncorrelated.__
-
-  `$$\begin{align} Cov(\widehat y_i, e_i) &amp;= Cov(b_0 + b_1x_i, e_i) \\ &amp;= b_1Cov(x_i,e_i) \\ &amp;= 0 \end{align}$$`
-  
-  Since `\(Cov(a + bx, y) = bCov(x,y)\)`.
-
-]
+1. Bonus: Compute the OLS coefficients `\(b_0\)` and `\(b_1\)` of the regression using the formulas on slide 27. (*Hint:* you need to use the `cov`, `var`, and `mean` functions.)
 
 ---
 
@@ -565,9 +539,37 @@ grades_avg_cs &lt;- grades %&gt;%
 
 ---
 
+# Predictions and Residuals: Properties
+
+.pull-left[
+* __The average of `\(\widehat{y}_i\)` is equal to `\(\bar{y}\)`.__  
+    `$$\begin{align} \frac{1}{N} \sum_{i=1}^N \widehat{y}_i &amp;= \frac{1}{N} \sum_{i=1}^N b_0 + b_1 x_i \\ &amp;= b_0 + b_1  \bar{x}  = \bar{y} \end{align}$$`
+
+* __The average (or sum) of residuals is 0.__
+  `$$\begin{align} \frac{1}{N} \sum_{i=1}^N e_i &amp;= \frac{1}{N} \sum_{i=1}^N (y_i - \widehat y_i) \\ &amp;= \bar{y} - \frac{1}{N} \sum_{i=1}^N \widehat{y}_i \\\ &amp;= 0 \end{align}$$`
+]
+
+.pull-right[
+Remember that covariance measures the degree to which two variables move together.
+
+* __ Regressor and residuals are uncorrelated (by definition, as the residual represents the part of `\(y_i\)` not explained by the regressors).__
+
+  `$$Cov(x_i, e_i) = 0$$`
+
+
+* __Prediction and residuals are uncorrelated.__
+
+  `$$\begin{align} Cov(\widehat y_i, e_i) &amp;= Cov(b_0 + b_1x_i, e_i) \\ &amp;= b_1Cov(x_i,e_i) \\ &amp;= 0 \end{align}$$`
+  
+  Since `\(Cov(a + bx, y) = bCov(x,y)\)`.
+
+]
+
+---
+
 # Analysis of Variance
 
-* Remember that `\(y_i = \widehat{y}_i + e_i\)`.
+* Remember that `\(y_i = \widehat{y}_i + e_i\)` and that variance is a measure of the degree of variability or dispersion of single variable around its average
 
 * We have the following decomposition:
     `$$\begin{align} Var(y) &amp;= Var(\widehat{y} + e)\\&amp;= Var(\widehat{y}) + Var(e) + 2 Cov(\widehat{y},e)\\&amp;= Var(\widehat{y}) + Var(e)\end{align}$$`
@@ -633,6 +635,8 @@ $$
 ❌  Are our findings just due to randomness?
 
 ❌ How to find exogeneity in practice?
+
+
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/remark/0.14.0/remark.min.js"></script>

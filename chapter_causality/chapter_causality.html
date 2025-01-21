@@ -286,8 +286,6 @@ $$ \delta_i = Y_i^1 - Y_i^0$$
 
 * `\(\delta_i\)` measures the **causal effect of the treatment `\((D_i)\)`** on outcome `\(Y\)` for individual `\(i\)`.
 
---
-
 * Since the treatment effect *cannot* be observed at the individual level, we estimate population averages.
 
 ---
@@ -408,8 +406,6 @@ $$
 
 Now, imagine a benevolent and omniscient school director assigns students to the treatment that maximizes their GPA
 
---
-
 Student | &amp;nbsp; &amp;nbsp; `\(Y^1\)` &amp;nbsp; &amp;nbsp; | &amp;nbsp; &amp;nbsp; `\(Y^0\)` &amp;nbsp; &amp;nbsp; | &amp;nbsp; &amp;nbsp; `\(\delta\)` &amp;nbsp; | &amp;nbsp; &amp;nbsp; &amp;nbsp; `\(Y\)` &amp;nbsp; &amp;nbsp; | &amp;nbsp; &amp;nbsp; `\(D\)` &amp;nbsp; &amp;nbsp;
 -----------|:---------:|:---------:|:---------:|:-----------:|:---------:|:---------:
 1 | 5 | 2 | 3 |  | 
@@ -520,7 +516,7 @@ Let's compute these various quantities and biases with data we generated ourselv
 
 
 
-1. Load the data [here](https://www.dropbox.com/s/oqc3vq1m9eyp1d6/toy_data_2.csv?dl=1) using `read.csv`. The `group` variable corresponds to whether the individual has been treated or not, `Y0` to the potential outcome if the individual does not receive the treatment `\((Y_i^0)\)` while `Y1` to the potential outcome if the individual receives the treatment `\((Y_i^1)\)`. Create a new variable containing the observed outcome `\((Y_i)\)` and the individual treatment effect `\((\delta_i)\)`. Recall `\(Y_i = D_i \times Y_i^1 + (1 - D_i) \times Y_i^0\)`, `\(\delta_i = Y_i^1 - Y_i^0\)`.
+1. Load the data [here](https://github.com/adamsoliman/IntroEconometrics/blob/master/data%20for%20tasks/toy_data_2.csv) using `read.csv`. The `group` variable corresponds to whether the individual has been treated or not, `Y0` to the potential outcome if the individual does not receive the treatment `\((Y_i^0)\)` while `Y1` to the potential outcome if the individual receives the treatment `\((Y_i^1)\)`. Create a new variable containing the observed outcome `\((Y_i)\)` and the individual treatment effect `\((\delta_i)\)`. Recall `\(Y_i = D_i \times Y_i^1 + (1 - D_i) \times Y_i^0\)`, `\(\delta_i = Y_i^1 - Y_i^0\)`.
 
 1. Compute the ***ATE*** and the ***SDO***. Is there is any *bias*? Is it large in magnitude?
 
@@ -630,7 +626,7 @@ Tennessee **S**tudent/**T**eacher **A**chievement **R**atio Experiment (see [Kru
 
 # Task 2: STAR data
 
-1. Load the *STAR* data from [here](https://www.dropbox.com/scl/fi/l7fz6p09uwbelg8ks15pl/star_data.csv?rlkey=y3g3l55fsyhvtypldp0ugpmnm&amp;dl=1) and assign it to an object called `star_df`. Read the help for the data [here](https://rdrr.io/cran/AER/man/STAR.html) to understand what the variables correspond to. (Note: the data has been *reshaped* so don't mind the "k", "1", etc. in the variable names in the help.)
+1. Load the *STAR* data from [here](https://github.com/adamsoliman/IntroEconometrics/blob/master/data%20for%20tasks/star_data.csv) and assign it to an object called `star_df`. Read the help for the data [here](https://rdrr.io/cran/AER/man/STAR.html) to understand what the variables correspond to. (Note: the data has been *reshaped* so don't mind the "k", "1", etc. in the variable names in the help.)
 
 1. What's the unit of observation? Which variable contains: (i) the (random) class assignment, (ii) the student's class grade, (iii) the outcomes of interest?
 
@@ -640,8 +636,7 @@ Tennessee **S**tudent/**T**eacher **A**chievement **R**atio Experiment (see [Kru
 `star_df_complete &lt;- star_df %&gt;% filter(complete.cases(.))`
 
 1. Let's check how well the randomization was done by doing ***balancing checks***.  
-Compute the average percentage of girls, african americans, and free lunch qualifiers by grade *and* treatment class. (*Hint*: The following computes the percentage of girls (without the relevant `dplyr` verbs):
-`share_female = mean(gender == "female") * 100`.)
+Compute the average percentage of girls, african americans, and free lunch qualifiers by grade *and* treatment class. (*Hint*: The following computes the percentage of girls: `share_female = mean(gender == "female") * 100` along with `mutate()`, but in this circumstance, you need to use `group_by()`, `%&gt;%` and `summarise()`, as we did in the regression lectures with `grades`.
 
 
 

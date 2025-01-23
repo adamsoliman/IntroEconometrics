@@ -367,11 +367,8 @@ to the potential outcome if the individual receives the treatment <span class="m
 the observed outcome <span class="math inline">\((Y_i)\)</span> and the
 individual treatment effect <span class="math inline">\((\delta_i)\)</span>. (Recall that <span class="math inline">\(Y_i = D_i * Y_i^1 + (1 - D_i) Y_i^0\)</span> and
 <span class="math inline">\(\delta_i = Y_i^1 - Y_i^0\)</span>.)</p>
-<pre class="r"><code># via your local folder
+<pre class="r"><code># via your local folder (you&#39;d need to change the path)
 toy_data &lt;- read.csv(&quot;/Users/adamsoliman/Library/CloudStorage/Dropbox/Clemson/Econometrics Course/data for tasks/toy_data_2.csv&quot;)
-
-# alternatively, directly from dropbox
-toy_data &lt;- read.csv(&quot;https://www.dropbox.com/scl/fi/7gtkp7t1j0a1f7mec6qid/toy_data_2.csv?rlkey=wztw8nxs83kkqudh8j84nzv7i&amp;dl=1&quot;)
 
 toy_data &lt;- toy_data %&gt;%
     mutate(Y = Y1 * group_dummy + (1 - group_dummy) * Y0,
@@ -422,15 +419,11 @@ SDO</code></pre>
 </div>
 <div id="task-2-star-data" class="section level2">
 <h2>Task 2: STAR data</h2>
-<p>1. Load the <em>STAR</em> data from <a href="https://www.dropbox.com/scl/fi/l7fz6p09uwbelg8ks15pl/star_data.csv?rlkey=y3g3l55fsyhvtypldp0ugpmnm&amp;dl=1">here</a>
+<p>1. Load the <em>STAR</em> data from <a href="https://github.com/adamsoliman/IntroEconometrics/blob/master/data%20for%20tasks/star_data.csv">here</a>
 and assign it to an object called <code>star_df</code>.</p>
-<pre class="r"><code>star_df &lt;- read.csv(&quot;https://www.dropbox.com/scl/fi/l7fz6p09uwbelg8ks15pl/star_data.csv?rlkey=y3g3l55fsyhvtypldp0ugpmnm&amp;dl=1&quot;)</code></pre>
-<p>2. Read the help for <code>AER::STAR</code> to understand what the
-variables correspond to. (Note: the data has been <em>reshaped</em> so
-don’t mind the “k”, “1”, etc. in the variable names in the help.)</p>
-<pre class="r"><code>library(AER)
-?AER::STAR</code></pre>
-<p>3. What’s the unit of observation? Which variable contains: (i) the
+<pre class="r"><code># remember to change the path
+star_df &lt;- read.csv(&quot;/Users/adamsoliman/Documents/GitHub/Econometrics-Slides/data for tasks/star_data.csv&quot;)</code></pre>
+<p>2. What’s the unit of observation? Which variable contains: (i) the
 (random) class assignment, (ii) the student’s class grade, (iii) the
 outcomes of interest?</p>
 <p><strong>The unit of observation is student-grade. The variable
@@ -438,18 +431,18 @@ containing the (random) class assignment is <code>star</code>, that
 containing the student’s class grade is <code>grade</code>, and that
 containing the outcomes of interest are <code>read</code> and
 <code>math</code>.</strong></p>
-<p>4. How many observations are there? Why so many?</p>
+<p>3. How many observations are there? Why so many?</p>
 <p><strong>There are so many observations because the data has been
 reshaped such that each row corresponds to a student in a grade rather
 than just to a student.</strong></p>
-<p>5. Why are there so many <code>NA</code>s? What do they correspond
+<p>4. Why are there so many <code>NA</code>s? What do they correspond
 to?</p>
 <p><strong>The <code>NA</code>s correspond to children who left the
 experiment for various reasons. This is called attrition.</strong></p>
-<p>6. Keep only cases with no <code>NA</code>s with the following
+<p>5. Keep only cases with no <code>NA</code>s with the following
 code:<br />
-<code>star_df &lt;- star_df[complete.cases(star_df),]</code></p>
-<pre class="r"><code>star_df &lt;- star_df[complete.cases(star_df),]</code></pre>
+<code>star_df_complete &lt;- star_df %&gt;% filter(complete.cases(.))</code></p>
+<pre class="r"><code>star_df_complete &lt;- star_df %&gt;% filter(complete.cases(.))</code></pre>
 <p>7. Let’s check how well the randomization was done by doing
 <strong><em>balancing checks</em></strong>.<br />
 Compute the average percentage of girls, african americans, and free
@@ -457,12 +450,38 @@ lunch qualifiers by grade <em>and</em> treatment class. (<em>Hint</em>:
 The following computes the percentage of girls (without the relevant
 <code>dplyr</code> verbs):
 <code>share_female = mean(gender == &quot;female&quot;) * 100</code>.)</p>
-<pre class="r"><code>star_df %&gt;%
+<pre class="r"><code>star_df_complete %&gt;%
+  mutate(is_female = ifelse(gender == &quot;female&quot;, 1, 0),
+        is_african_american = ifelse(ethnicity == &quot;afam&quot;, 1, 0),
+        is_free_lunch = ifelse(lunch == &quot;free&quot;, 1, 0)) %&gt;%
     group_by(grade, star) %&gt;%
-    summarise(
-        share_female = mean(gender == &quot;female&quot;) * 100,
-        share_african_american = mean(ethnicity == &quot;afam&quot;) * 100,
-        share_free_lunch = mean(lunch == &quot;free&quot;) * 100)</code></pre>
+    summarise(share_female = sum(is_female) / n() * 100,
+              share_african_american = sum(is_african_american) / n() * 100,
+              share_free_lunch = sum(is_free_lunch) / n() * 100)</code></pre>
+<pre><code>## `summarise()` has grouped output by &#39;grade&#39;. You can override using the
+## `.groups` argument.</code></pre>
+<pre><code>## # A tibble: 12 × 5
+## # Groups:   grade [4]
+##    grade star         share_female share_african_american share_free_lunch
+##    &lt;chr&gt; &lt;chr&gt;               &lt;dbl&gt;                  &lt;dbl&gt;            &lt;dbl&gt;
+##  1 1     regular              48.7                   37.3             51.5
+##  2 1     regular+aide         47.8                   29.8             50.8
+##  3 1     small                48.6                   31.9             47.9
+##  4 2     regular              48.3                   36.7             50.6
+##  5 2     regular+aide         47.7                   33.8             48.2
+##  6 2     small                49.1                   33.3             46.6
+##  7 3     regular              48.9                   35.2             49.7
+##  8 3     regular+aide         47.2                   34.3             49.1
+##  9 3     small                50.1                   31.6             46.8
+## 10 k     regular              48.5                   28.5             46.0
+## 11 k     regular+aide         48.8                   32.2             49.3
+## 12 k     small                48.0                   30.2             46.7</code></pre>
+<pre class="r"><code># alternative way
+star_df_complete %&gt;%
+    group_by(grade, star) %&gt;%
+    summarise(share_female = mean(gender == &quot;female&quot;) * 100,
+              share_african_american = mean(ethnicity == &quot;afam&quot;) * 100,
+              share_free_lunch = mean(lunch == &quot;free&quot;) * 100)</code></pre>
 <pre><code>## `summarise()` has grouped output by &#39;grade&#39;. You can override using the
 ## `.groups` argument.</code></pre>
 <pre><code>## # A tibble: 12 × 5

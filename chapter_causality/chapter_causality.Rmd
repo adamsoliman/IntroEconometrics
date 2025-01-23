@@ -689,7 +689,7 @@ Tennessee **S**tudent/**T**eacher **A**chievement **R**atio Experiment (see [Kru
 `star_df_complete <- star_df %>% filter(complete.cases(.))`
 
 1. Let's check how well the randomization was done by doing ***balancing checks***.  
-Compute the average percentage of girls, african americans, and free lunch qualifiers by grade *and* treatment class. (*Hint*: The following computes the percentage of girls: `share_female = mean(gender == "female") * 100` along with `mutate()`, but in this circumstance, you need to use `group_by()`, `%>%` and `summarise()`, as we did in the regression lectures with `grades`.
+Compute the average percentage of girls, african americans, and free lunch qualifiers by grade *and* treatment class.
 
 ```{r, echo = FALSE}
 # data("STAR", package = "AER")
@@ -699,8 +699,8 @@ Compute the average percentage of girls, african americans, and free lunch quali
 #         names_to = c(".value", "grade"),
 #         names_pattern = "(.+)(k|1|2|3)$")
 # write.csv2(star, file = "star_data.csv", row.names = F)
-star_df = readr::read_csv(file = "https://www.dropbox.com/scl/fi/l7fz6p09uwbelg8ks15pl/star_data.csv?rlkey=y3g3l55fsyhvtypldp0ugpmnm&dl=1")
-star_df <- star_df %>% filter(complete.cases(.))
+star_df_complete = readr::read_csv(file = "https://www.dropbox.com/scl/fi/l7fz6p09uwbelg8ks15pl/star_data.csv?rlkey=y3g3l55fsyhvtypldp0ugpmnm&dl=1")
+star_df_complete <- star_df_complete %>% filter(complete.cases(.))
 ```
 
 ---
@@ -724,20 +724,20 @@ Let's only focus on:
 diff_table = data.frame(
     grade = rep(c("1","2","3","k"), each = 2),
     test = rep(c("math","read"), times = 4),
-    star_df  %>%
+    star_df_complete  %>%
         pivot_longer(cols = c("math","read"), names_to = "test", values_to = "score") %>%
         filter(star == "regular") %>%
         group_by(grade, test) %>%
         summarise(mean_regular = round(mean(score), 3)) %>%
         ungroup() %>%
         select(mean_regular),
-    star_df %>%
+    star_df_complete %>%
         pivot_longer(cols = c("math","read"), names_to = "test", values_to = "score") %>%
         filter(star == "small") %>% group_by(grade, test) %>%
         summarise(mean_small = round(mean(score), 3)) %>%
         ungroup() %>%
         select(mean_small),
-    star_df %>%
+    star_df_complete %>%
         pivot_longer(cols = c("math","read"), names_to = "test", values_to = "score") %>%
         filter(star == "regular+aide") %>%
         group_by(grade, test) %>%
@@ -768,19 +768,13 @@ That's nice but can't we put this in regression form?
 
 $$ Y_i = D_i Y_i^1 + (1 - D_i) Y_i^0 $$
 
---
-
 Factoring by $D_i$ and replacing $Y_i^1 - Y_i^0$ by $\delta_i$, we get:
 
 $$\begin{align} Y_i &=Y_i^0 +D_i (Y_i^1 - Y_i^0) \\ &= Y_i^0 +D_i \delta_i \end{align}$$
 
---
-
 Assuming $\delta_i = \delta$, for all $i$,
 
 $$Y_i = Y_i^0 + D_i \delta$$
-
---
 
 Adding $\mathbb{E}[Y_i^0] - \mathbb{E}[Y_i^0] = 0$ to the right-hand side:
 
@@ -808,7 +802,7 @@ $$
 
 .pull-left[
 ```{r, echo = TRUE}
-star_df_k_small <- star_df %>%
+star_df_k_small <- star_df_complete %>%
     filter(star %in% c("regular", "small") &
            grade == "k") %>% 
   mutate(small = (star == "small"))

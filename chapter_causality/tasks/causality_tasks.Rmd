@@ -17,11 +17,8 @@ Let's compute these various quantities and biases with some toy data (i.e. data 
 1\. Load the data [here](https://www.dropbox.com/scl/fi/7gtkp7t1j0a1f7mec6qid/toy_data_2.csv?rlkey=wztw8nxs83kkqudh8j84nzv7i&dl=1). The `group` variable corresponds to whether the individual has been treated or not, the `Y0` variable corresponds to the potential outcome if the individual does not receive the treatment $(Y_i^0)$ while `Y1` corresponds to the potential outcome if the individual receives the treatment $(Y_i^1)$. Create a new variable containing the observed outcome $(Y_i)$ and the individual treatment effect $(\delta_i)$. (Recall that $Y_i = D_i * Y_i^1 + (1 - D_i) Y_i^0$ and $\delta_i = Y_i^1 - Y_i^0$.)
 
 ```{r}
-# via your local folder
+# via your local folder (you'd need to change the path)
 toy_data <- read.csv("/Users/adamsoliman/Library/CloudStorage/Dropbox/Clemson/Econometrics Course/data for tasks/toy_data_2.csv")
-
-# alternatively, directly from dropbox
-toy_data <- read.csv("https://www.dropbox.com/scl/fi/7gtkp7t1j0a1f7mec6qid/toy_data_2.csv?rlkey=wztw8nxs83kkqudh8j84nzv7i&dl=1")
 
 toy_data <- toy_data %>%
     mutate(Y = Y1 * group_dummy + (1 - group_dummy) * Y0,
@@ -70,36 +67,30 @@ ATE + selection_bias + het_trt_effect_bias
 
 ## Task 2: STAR data
 
-1\. Load the *STAR* data from [here](https://www.dropbox.com/scl/fi/l7fz6p09uwbelg8ks15pl/star_data.csv?rlkey=y3g3l55fsyhvtypldp0ugpmnm&dl=1) and assign it to an object called `star_df`.
+1\. Load the *STAR* data from [here](https://github.com/adamsoliman/IntroEconometrics/blob/master/data%20for%20tasks/star_data.csv) and assign it to an object called `star_df`.
 
 ```{r}
-star_df <- read.csv("https://www.dropbox.com/scl/fi/l7fz6p09uwbelg8ks15pl/star_data.csv?rlkey=y3g3l55fsyhvtypldp0ugpmnm&dl=1")
+# remember to change the path
+star_df <- read.csv("/Users/adamsoliman/Documents/GitHub/Econometrics-Slides/data for tasks/star_data.csv")
 ```
 
-2\. Read the help for `AER::STAR` to understand what the variables correspond to. (Note: the data has been *reshaped* so don't mind the "k", "1", etc. in the variable names in the help.)
-
-```{r, eval = FALSE}
-library(AER)
-?AER::STAR
-```
-
-3\. What's the unit of observation? Which variable contains: (i) the (random) class assignment, (ii) the student's class grade, (iii) the outcomes of interest?
+2\. What's the unit of observation? Which variable contains: (i) the (random) class assignment, (ii) the student's class grade, (iii) the outcomes of interest?
 
 **The unit of observation is student-grade. The variable containing the (random) class assignment is `star`, that containing the student's class grade is `grade`, and that containing the outcomes of interest are `read` and `math`.**
 
-4\. How many observations are there? Why so many?
+3\. How many observations are there? Why so many?
 
 **There are so many observations because the data has been reshaped such that each row corresponds to a student in a grade rather than just to a student.**
 
-5\. Why are there so many `NA`s? What do they correspond to?
+4\. Why are there so many `NA`s? What do they correspond to?
 
 **The `NA`s correspond to children who left the experiment for various reasons. This is called attrition.**
 
-6\. Keep only cases with no `NA`s with the following code:  
-`star_df <- star_df[complete.cases(star_df),]`
+5\. Keep only cases with no `NA`s with the following code:  
+`star_df_complete <- star_df %>% filter(complete.cases(.))`
 
 ```{r}
-star_df <- star_df[complete.cases(star_df),]
+star_df_complete <- star_df %>% filter(complete.cases(.))
 ```
 
 7\. Let's check how well the randomization was done by doing ***balancing checks***.  
@@ -107,11 +98,20 @@ Compute the average percentage of girls, african americans, and free lunch quali
 `share_female = mean(gender == "female") * 100`.)
 
 ```{r}
-star_df %>%
+star_df_complete %>%
+  mutate(is_female = ifelse(gender == "female", 1, 0),
+        is_african_american = ifelse(ethnicity == "afam", 1, 0),
+        is_free_lunch = ifelse(lunch == "free", 1, 0)) %>%
     group_by(grade, star) %>%
-    summarise(
-        share_female = mean(gender == "female") * 100,
-        share_african_american = mean(ethnicity == "afam") * 100,
-        share_free_lunch = mean(lunch == "free") * 100)
+    summarise(share_female = sum(is_female) / n() * 100,
+              share_african_american = sum(is_african_american) / n() * 100,
+              share_free_lunch = sum(is_free_lunch) / n() * 100)
+
+# alternative way
+star_df_complete %>%
+    group_by(grade, star) %>%
+    summarise(share_female = mean(gender == "female") * 100,
+              share_african_american = mean(ethnicity == "afam") * 100,
+              share_free_lunch = mean(lunch == "free") * 100)
 ```
 

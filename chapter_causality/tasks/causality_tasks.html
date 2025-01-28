@@ -477,13 +477,14 @@ The following computes the percentage of girls (without the relevant
 ## 11 k     regular+aide         48.8                   32.2             49.3
 ## 12 k     small                48.0                   30.2             46.7</code></pre>
 <pre class="r"><code># alternative way
-star_df_complete %&gt;%
+balancetest &lt;- star_df_complete %&gt;%
     group_by(grade, star) %&gt;%
     summarise(share_female = mean(gender == &quot;female&quot;) * 100,
               share_african_american = mean(ethnicity == &quot;afam&quot;) * 100,
               share_free_lunch = mean(lunch == &quot;free&quot;) * 100)</code></pre>
 <pre><code>## `summarise()` has grouped output by &#39;grade&#39;. You can override using the
 ## `.groups` argument.</code></pre>
+<pre class="r"><code>balancetest</code></pre>
 <pre><code>## # A tibble: 12 × 5
 ## # Groups:   grade [4]
 ##    grade star         share_female share_african_american share_free_lunch

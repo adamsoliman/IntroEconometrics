@@ -108,10 +108,11 @@ star_df_complete %>%
               share_free_lunch = sum(is_free_lunch) / n() * 100)
 
 # alternative way
-star_df_complete %>%
+balancetest <- star_df_complete %>%
     group_by(grade, star) %>%
     summarise(share_female = mean(gender == "female") * 100,
               share_african_american = mean(ethnicity == "afam") * 100,
               share_free_lunch = mean(lunch == "free") * 100)
+balancetest
 ```
 

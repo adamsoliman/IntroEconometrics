@@ -12,7 +12,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 Let's analyse the regression results using **reading** score as the dependent variable.
 
-1. Load the data from [here](https://www.dropbox.com/scl/fi/77u2r8xznh63jg7aisq4f/grade5_isl.csv?rlkey=uclo7ng24so9fct41kcjm8k0l&dl=1) as `grades`.
+1. Load the data from [here](https://github.com/adamsoliman/IntroEconometrics/blob/master/data%20for%20tasks/grade5_isl.csv) as `grades`.
 
 ```{r}
 # your path will look different
@@ -26,7 +26,7 @@ reg <- lm(avgverb ~ classize + disadvantaged, grades)
 reg
 ```
 
-**The intercept, which measures that expected reading score when class size and the percentage of disadvantaed students in the class are 0, equals 80. This, as we've discussed in class, doesn't make any "real-world" sense because if there are no students then there cannot be a test score. The coefficient on class size is -0.03 which means that a 1 student increase in class size, controlling for the percentage of disadvantaged students, is, on average, associated to a 0.03 point decrease in average reading score. The coefficient is negative while it was positive when analysing math score as the outcome. However, the coefficient is very small considering reading is scored on a scale from 0 to 100. Lastly, the coefficient on disadvantaged is equal to -0.35 which means that keeping class size constrant, a 1 percentage point increase in disadvantaged students is associate, on average, with a 0.35 point decrease in averate reading score. The magnitude of this coefficient is very similar to that when looking at math scores. Again, it is very small: a 10 percentage point increase in disadvantaged students (quite a large increase) would only be associated, on average, with 3.5 points decrease in reading score, keeping class size constant.**
+**The intercept, which measures that expected reading score when class size and the percentage of disadvantaed students in the class are 0, equals 80. This, as we've discussed in class, doesn't make any "real-world" sense because if there are no students then there cannot be a test score. The coefficient on class size is -0.03 which means that a 1 student increase in class size, controlling for the percentage of disadvantaged students, is, on average, associated to a 0.03 point decrease in average reading score. The coefficient is negative while it was positive when analysing math score as the outcome. However, the coefficient is very small considering reading is scored on a scale from 0 to 100. Lastly, the coefficient on disadvantaged is equal to -0.35 which means that keeping class size constant, a 1 percentage point increase in disadvantaged students is associate, on average, with a 0.35 point decrease in averate reading score. The magnitude of this coefficient is very similar to that when looking at math scores. Again, it is very small: a 10 percentage point increase in disadvantaged students (quite a large increase) would only be associated, on average, with 3.5 points decrease in reading score, keeping class size constant.**
 
 1\. What are the other available variables that we may add in the regression? 
   * Run the regression with all these variables and assign it to `reg_full`.

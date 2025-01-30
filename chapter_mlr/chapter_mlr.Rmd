@@ -400,7 +400,7 @@ You ***need*** to pay attention to whether you are talking about ***percentage p
 
 Let's analyse the regression results using **reading** score as the dependent variable.
 
-1. Load the data from [here](https://www.dropbox.com/scl/fi/77u2r8xznh63jg7aisq4f/grade5_isl.csv?rlkey=uclo7ng24so9fct41kcjm8k0l&dl=1) as `grades`.
+1. Load the data from [here](https://github.com/adamsoliman/IntroEconometrics/blob/master/data%20for%20tasks/grade5_isl.csv) as `grades`.
 
 1. Regress `avgverb` on `classize` and `disadvantaged` and assign the output to a new object `reg`. Interpret the coefficients. How do they compare to the simple linear regression? How do they compare with the math score regression coefficients?
 

@@ -289,7 +289,7 @@ lm(y ~ poly(x, 3, raw = TRUE), data)
 
 # Task 1: Non-linear relationships
 
-1. Load the data [here](https://www.dropbox.com/s/2v5mb04nzw2u7bd/college_tuition_income.csv?dl=1). This dataset contains information about tuition and estimated incomes of graduates for universities in the US. More details can be found [here](https://github.com/rfordatascience/tidytuesday/blob/master/data/2020/2020-03-10/readme.md).
+1. Load the data [here](https://github.com/adamsoliman/IntroEconometrics/blob/master/data%20for%20tasks/college_tuition_income.csv). This dataset contains information about tuition and estimated incomes of graduates for universities in the US. More details can be found [here](https://github.com/rfordatascience/tidytuesday/blob/master/data/2020/2020-03-10/readme.md).
 
 2. Create a scatter plot of estimated mid career pay (`mid_career_pay`) `\((y-axis)\)` as a function of out of state tuition (`out_of_state_tuition`) `\((x-axis)\)`. Would you say the relationship is broadly linear or rather non-linear? Use `geom_smooth(method = "lm", se = F) + geom_smooth(method = "lm", se = F, formula = y ~ poly(x, 2, raw= T))` to fit both a linear and 2nd order regression line. This time which seems most appropriate?
 

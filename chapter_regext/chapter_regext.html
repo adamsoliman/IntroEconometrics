@@ -43,7 +43,7 @@ Depending on the data and the relationships between the variables of interest, y
 
 We will focus on 3 important variations:
   
-  1. ***Non-linear relationships***: log and polynomial models
+  1. ***Non-linear relationships***: logarithm (and polynomial models)
   
   1. ***Interactions*** between variables
 
@@ -78,7 +78,7 @@ There are two main "methods":
 
 1. ***Log*** models
 
-1. ***Polynomial*** models
+1. ***Polynomial*** models (not the focus of lecture)
 
 ---
 
@@ -215,6 +215,25 @@ For ***any increase in `\(x\)`, `\(\Delta x,\)` and any `\(b_1\)`*** `\((\Delta 
 
 ---
 
+# Task 1: Non-linear relationships
+
+1. Load the data [here](https://www.dropbox.com/scl/fi/68taafng8vjpzmub6q1xj/college_tuition_income.csv?rlkey=0c59a2kj0cwmcecjbg20jrkva&amp;dl=0) and call the object `college`. This dataset contains information about tuition and estimated incomes of graduates for universities in the US.  
+
+2. Create a scatter plot of estimated mid-career pay (`mid_career_pay`) `\((y-axis)\)` as a function of out-of-state tuition (`out_of_state_tuition`) `\((x-axis)\)`. Would you say the relationship is broadly linear or rather non-linear?  
+
+3. Filter the variable `type` to keep only the values of ("For Profit", "Private", "Public"). Call this object `college_clean`. USE THIS DATA OBJECT FROM NOW ON!  
+
+4. Regress mid-career pay on university type. Interpret each coefficient. What is the reference category?  
+
+5. Regress mid-career pay on the logarithm of out-of-state tuition. You can either create a new variable using `mutate`, or incorporate the logarithm directly into the regression. Interpret the slope coefficient.  
+
+6. Regress the logarithm of mid-career pay on the variable you created in #3 (`out_state`). Interpret the slope coefficient.  
+
+7. Regress the logarithm of mid-career pay on the logarithm of out-of-state tuition. Interpret the slope coefficient.
+
+
+---
+
 # Accounting for Other Types Non-Linear Relationships
 
 What if the relationship between `\(x\)` and `\(y\)` is not exponential/log?
@@ -264,7 +283,6 @@ lm(y ~ poly(x, 3, raw = TRUE), data)
 
 # Polynomial Regressions
 
-
 .pull-left[
 
 ***2nd order:***
@@ -284,18 +302,6 @@ lm(y ~ poly(x, 3, raw = TRUE), data)
 ---
 
 &lt;img src="chapter_regext_files/figure-html/curve_fitting.png" width="378px" height="600px" style="display: block; margin: auto;" /&gt;
-
----
-
-# Task 1: Non-linear relationships
-
-1. Load the data [here](https://github.com/adamsoliman/IntroEconometrics/blob/master/data%20for%20tasks/college_tuition_income.csv). This dataset contains information about tuition and estimated incomes of graduates for universities in the US. More details can be found [here](https://github.com/rfordatascience/tidytuesday/blob/master/data/2020/2020-03-10/readme.md).
-
-2. Create a scatter plot of estimated mid career pay (`mid_career_pay`) `\((y-axis)\)` as a function of out of state tuition (`out_of_state_tuition`) `\((x-axis)\)`. Would you say the relationship is broadly linear or rather non-linear? Use `geom_smooth(method = "lm", se = F) + geom_smooth(method = "lm", se = F, formula = y ~ poly(x, 2, raw= T))` to fit both a linear and 2nd order regression line. This time which seems most appropriate?
-
-3. Create a variable equal to out of state tuition divided by 1000. Regress mid career pay on out of state tuition divided by 1000. Interpret the coefficient.
-
-4. Regress mid career pay on out of state tuition divided by 1000 and its square. *Hint:* you can use either `poly(x, 2, raw = T)` or `x + I(x^2)`, where x is your regressor. What does the positive sign on the squared term imply?
 
 ---
 
@@ -526,6 +532,15 @@ $$ \textrm{score}_i = \color{#d96502}{b_0} + \color{#027D83}{b_1} \textrm{small}
 
 ---
 
+## Task 2: Interacted models
+
+1. Using the same dataset as before, `college_cleaned`, now filter out `type` ("Private", "Public"), so that you only have private or public universities, and call the object `college_clean_really`. Also, create a variable equal to out of state tuition divided by 1000 (note this means a one unit change in this variable is now a $1000 change).
+
+2. Run the following regression model `lm(mid_career_pay ~ out_state + type + type*out_state, data = college_clean_really).` Interpret the coefficients in the context of the model. Specifically, what does each coefficient represent, and how do the coefficients for out_state and type differ for public vs. private universities? Keep in mind what is the reference category. 
+
+
+---
+
 # Teaser for the Next Few Lectures
 
 * You may have noticed that since the beginning we always work with **samples** drawn from the overall population.
@@ -700,7 +715,7 @@ If the ***regressor*** `\(x_k\)` is standardized, i.e. the model is `\(y = b_0 +
   
 ---
 
-# Task 2: Standardized regression
+# Task 3: Standardized regression
 
 Let's go back our [grades](https://www.dropbox.com/scl/fi/77u2r8xznh63jg7aisq4f/grade5_isl.csv?rlkey=uclo7ng24so9fct41kcjm8k0l&amp;dl=0) dataset. Please download it from the previous link and read it in using the appropriate function. Below are the estimates we got from regressing average math test scores on the full set of regressors.
 

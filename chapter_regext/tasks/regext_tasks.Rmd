@@ -11,7 +11,7 @@ library(tidyverse)
 
 # Task 1: Non-linear relationships
 
-1\. Load the data [here](https://www.dropbox.com/scl/fi/68taafng8vjpzmub6q1xj/college_tuition_income.csv?rlkey=0c59a2kj0cwmcecjbg20jrkva&dl=0). This dataset contains information about tuition and estimated incomes of graduates for universities in the US.
+1\. Load the data [here](https://www.dropbox.com/scl/fi/68taafng8vjpzmub6q1xj/college_tuition_income.csv?rlkey=0c59a2kj0cwmcecjbg20jrkva&dl=0) and call the object `college`. This dataset contains information about tuition and estimated incomes of graduates for universities in the US.
 
 ```{r}
 # change the path to yours
@@ -46,27 +46,84 @@ base_graph +
 
 **Based on my first impressions, the 2nd order polynomial fit seems to be a bit better at capturing non-linearities to the left and right of the graph.**
 
-3\. Create a variable equal to out of state tuition divided by 1000. Regress mid career pay on out of state tuition divided by 1000. Interpret the coefficient.
+3\. Create a variable equal to out of state tuition divided by 1000 (note this means a one unit change in this variable is now a $1000 change) and filter the variable `type` to keep only the values of ("For Profit", "Private", "Public"). Call this object ``college_clean``. Regress mid career pay on out of state tuition divided by 1000. Interpret the coefficients.
 
 ```{r}
-college <- college %>%
+college_clean <- college %>% filter(type %in% c("For Profit", "Private", "Public")) %>%
     mutate(out_state = out_of_state_tuition/1000)
 
-lm(mid_career_pay ~ out_state, college)
+lm(mid_career_pay ~ out_state, college_clean)
 ```
 
-**On average, a $1,000 increase in out of state tuition is associated with a $772 increase in estimated mid career pay.**
+**On average, a $1,000 increase in out of state tuition is associated with a $772 increase in estimated mid career pay. In this case, the model predicts that if a college had zero out-of-state tuition, the expected mid-career pay for its graduates would be $68,462.40, on average.**
 
-4\. Regress mid career pay on out of state tuition divided by 1000 and its square. *Hint:* you can use either `poly(x, 2, raw = T)` or `x + I(x^2)`, where x is your regressor. What does the positive sign on the squared term imply?
+4. Regress mid career pay on university type. Interpret each coefficient. What is the reference category?
 
 ```{r}
-lm(mid_career_pay ~ poly(out_state, 2, raw = T), college)
+lm(mid_career_pay ~ type, college_clean)
 ```
 
-**The positive sign on the squared term (`poly(out_state, 2, raw = T)2` implies that as out of state tuition increases the increase in estimated mid career pay increases faster. In other words, the slope of the line is increasing in out of state tuition, it becomes steeper as you move to the right of the graph.**
+**Intercept (82,400): This represents the expected mid-career pay for graduates of For-Profit colleges, as it is the reference category.**
+
+**Private (11,959): Graduating from a Private college is associated with an increase of $11,959 in mid-career pay compared to a For-Profit college.**
+
+**Public (6,145): Graduating from a Public college is associated with an increase of $6,145 in mid-career pay compared to a For-Profit college.**
+
+5. Regress mid career pay on the logarithm of out of state tuition. You can either create a new variable using mutate, or incorporate the logarithm directly into the regression. Interpret the slope coefficient.
+
+```{r}
+lm(mid_career_pay ~ log(out_of_state_tuition), college_clean)
+```
+
+**The slope coefficient, i.e. the one on log(out_of_state_tuition), means that a 1% increase in out-of-state tuition is associated with an increase of $19.188 (19188/100) in mid-career pay, on average. Note, the intercept isn't very meaningful in this case, because for log-transformed independent variables, the intercept is often outside the range of observed data and doesn't have a direct real-world interpretation.**
+
+6. Regress the logarithm of mid career pay on the variable you created in #3 (`out_state`). Interpret the slope coefficient.
+
+```{r}
+lm(log(mid_career_pay) ~ out_state, college_clean)
+```
+
+**A $1,000 increase in tuition is associated with an 0.81% (0.008058\*100) increase in mid-career pay. The intercept is when out-of-state tuition is $0, the predicted log mid-career pay is 11.170. This corresponds to a mid-career pay of exp(11.170) = 71,945.**
+
+7. Regress the logarithm of mid career pay on the logarithm of out of state tuition. Interpret the slope coefficient.
+
+```{r}
+lm(log(mid_career_pay) ~ log(out_of_state_tuition), college)
+```
+
+**A 1% increase in out-of-state tuition is associated with a 0.2033% increase in mid-career pay, on average. Alternatively, a 10% increase in out-of-state tuition is associated with a 2.033% increase in mid-career pay.**
+
+## Task 2: Interacted models
+
+1. Using the same dataset as before, `college_cleaned`, now filter out `type` ("Private", "Public"), so that you only have private or public universities, and call the object `college_clean_really`. Also, create a variable equal to out of state tuition divided by 1000 (note this means a one unit change in this variable is now a $1000 change).
+
+```{r}
+college_clean_really <- college_clean %>% filter(type %in% c("Private", "Public")) %>%
+  mutate(out_state = out_of_state_tuition/1000)
+```
+
+2. Run the following regression model `lm(mid_career_pay ~ out_state + type + type*out_state, data = college_clean_really).` Interpret the coefficients in the context of the model. Specifically, what does each coefficient represent, and how do the coefficients for out_state and type differ for public vs. private universities? Keep in mind what is the reference category. 
+
+```{r}
+lm(mid_career_pay ~ out_state + type + type*out_state, college_clean_really)
+```
+
+a. **Intercept: 59,515.88**  
+   The baseline mid-career pay is \$59,515.88 for private universities when out-of-state tuition (`out_state`) is \$0.
+
+b. **out_state: 956.27**  
+   For private universities, each additional \$1,000 increase in out-of-state tuition is associated with a \$956.27 increase in mid-career pay.
+
+c. **typePublic: 8,335.59**  
+   Public universities have mid-career pay that is \$8,335.59 higher than private universities, holding out-of-state tuition constant.
+
+d. **out_state:typePublic: 17.35**  
+   For public universities, the effect of out-of-state tuition on mid-career pay differs slightly from private universities. Specifically, for each \$1,000 increase in out-of-state tuition, mid-career pay increases by an additional \$17.35 compared to private universities.
+
+Thereofre, for ***Public universities***, the effect of a \$1,000 increase in out-of-state tuition is \$956.27 + \$17.35 = ***\$973.62***.
 
 
-## Task 2: Standardized regression
+## Task 3: Standardized regression
 
 Let's go back our [grades](https://www.dropbox.com/scl/fi/77u2r8xznh63jg7aisq4f/grade5_isl.csv?rlkey=uclo7ng24so9fct41kcjm8k0l&dl=1) dataset. Please download it from the previous link and read it in using the appropriate function. Below are the estimates we got from regressing average math test scores on the full set of regressors.
 

@@ -724,7 +724,7 @@ This applies to cases when you have more than 2 categories. You don't need to cr
 
 Let's run a regression where there is perfect linear dependence between regressors.
 
-1. Load the *STAR* data from [here](https://github.com/adamsoliman/IntroEconometrics/blob/master/data%20for%20tasks/grade5_isl.csv), using `read.csv`, and assign it to an object called `star_df`. Keep only cases with no `NA`s with the following code:  
+1. Load the *STAR* data from [here](https://github.com/adamsoliman/IntroEconometrics/blob/master/data%20for%20tasks/star_data.csv), using `read.csv`, and assign it to an object called `star_df`. Keep only cases with no `NA`s with the following code:  
 `star_df_complete <- star_df %>% filter(complete.cases(.))` 
 
 1. Create three dummy variables: (i) `small` equal to `TRUE` if students are in a small class and `FALSE` otherwise; (ii) `regular` equal to `TRUE` if students are in a regular class and `FALSE` otherwise; (iii) `regular_plus` equal to `TRUE` if students are in a regular+aide class and `FALSE` otherwise. (*Hint: To create a dummy, write* `dummy = (variable=="value")`, *inside the appropriate dplyr verb*) Create a last variable, `sum`, equal to the sum of `small`, `regular` and `regular_plus`. What is `sum` equal to? What does this mean?
@@ -743,27 +743,15 @@ Let's run a regression where there is perfect linear dependence between regresso
 
 This renders the coefficient for your regressor of interest unreliable (*biased*).
 
---
-
 Let's note $y$ our outcome variable, $x$ our regressor and $z$ our omitted variable.
-
---
 
 We could run regressions for the following models:
 
---
-
 1. ***Simple linear model***: $y = b_0 + b_1x + e$
-
---
 
 1. ***Multiple linear model***: $y = c_0 + c_1x + \color{#d90502}{c_2}z + e$
 
---
-
 1. ***Omitted variable on regressor***: $z = d_0 + \color{#d96502}{d_1}x + e$
-
---
 
 The [formula for the OVB](https://www.youtube.com/watch?v=9-lPES4e0n8) is:
 

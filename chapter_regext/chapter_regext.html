@@ -215,6 +215,37 @@ For ***any increase in `\(x\)`, `\(\Delta x,\)` and any `\(b_1\)`*** `\((\Delta 
 
 ---
 
+# An example of interpretation of a log model
+
+- We estimate the effect of fertility on GDP using the **Gapminder** dataset using 
+$$ \log(\text{gdp}) = \beta_0 + \beta_1 \cdot \text{fertility} + \epsilon $$
+
+--
+
+
+``` r
+model &lt;- lm(log(gdp) ~ fertility, gapminder)
+model
+```
+
+```
+## 
+## Call:
+## lm(formula = log(gdp) ~ fertility, data = gapminder)
+## 
+## Coefficients:
+## (Intercept)    fertility  
+##     25.4027      -0.5899
+```
+
+- Approximate interpretation for slope, which works for small changes: A one-unit increase in the fertility rate is associated with an approximately 100×(−0.5899)=−58.99% decrease in GDP
+
+- Exact value for slope change: `\((e^{\beta_1}−1)×100 = (e^{−0.5899}−1)×100 = −44.53\%\)`
+
+- The intercept (25.4027) represents log(gdp) when the fertility rate is 0. This doesn't have a meaningful real-world interpretation, but you would exponentiate it to get the value, so exp(25.4027)
+
+---
+
 # Task 1: Non-linear relationships
 
 1. Load the data [here](https://www.dropbox.com/scl/fi/68taafng8vjpzmub6q1xj/college_tuition_income.csv?rlkey=0c59a2kj0cwmcecjbg20jrkva&amp;dl=0) and call the object `college`. This dataset contains information about tuition and estimated incomes of graduates for universities in the US.  
@@ -245,11 +276,11 @@ What if the relationship between `\(x\)` and `\(y\)` is not exponential/log?
 # Polynomial Wut? 😟
 
 .pull-left[
-&lt;img src="chapter_regext_files/figure-html/unnamed-chunk-8-1.svg" style="display: block; margin: auto;" /&gt;
+&lt;img src="chapter_regext_files/figure-html/unnamed-chunk-9-1.svg" style="display: block; margin: auto;" /&gt;
 ]
 
 .pull-right[
-&lt;img src="chapter_regext_files/figure-html/unnamed-chunk-9-1.svg" style="display: block; margin: auto;" /&gt;
+&lt;img src="chapter_regext_files/figure-html/unnamed-chunk-10-1.svg" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
@@ -266,14 +297,14 @@ Several ways of doing this in `R`, these are just two of the equivalent ones:
 
 .pull-left[
 
-```r
+``` r
 lm(y ~ x + I(x^2) + I(x^3), data)
 ```
 ]
 
 .pull-right[
 
-```r
+``` r
 lm(y ~ poly(x, 3, raw = TRUE), data)
 ```
 ]
@@ -287,7 +318,7 @@ lm(y ~ poly(x, 3, raw = TRUE), data)
 
 ***2nd order:***
 
-&lt;img src="chapter_regext_files/figure-html/unnamed-chunk-12-1.svg" style="display: block; margin: auto;" /&gt;
+&lt;img src="chapter_regext_files/figure-html/unnamed-chunk-13-1.svg" style="display: block; margin: auto;" /&gt;
 ]
 
 --
@@ -296,7 +327,7 @@ lm(y ~ poly(x, 3, raw = TRUE), data)
 
 ***3rd order:***
 
-&lt;img src="chapter_regext_files/figure-html/unnamed-chunk-13-1.svg" style="display: block; margin: auto;" /&gt;
+&lt;img src="chapter_regext_files/figure-html/unnamed-chunk-14-1.svg" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
@@ -379,7 +410,7 @@ Running the regression for the `math` score (for all grades), we obtain:
 
 
 
-```r
+``` r
 lm(math ~ small+ experience + small*experience, star_df)
 ```
 

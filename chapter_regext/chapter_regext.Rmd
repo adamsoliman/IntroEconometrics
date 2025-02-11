@@ -313,6 +313,26 @@ gapminder %>%
 
 ---
 
+# An example of interpretation of a log model
+
+- We estimate the effect of fertility on GDP using the **Gapminder** dataset using 
+$$ \log(\text{gdp}) = \beta_0 + \beta_1 \cdot \text{fertility} + \epsilon $$
+
+--
+
+```{r}
+model <- lm(log(gdp) ~ fertility, gapminder)
+model
+```
+
+- Approximate interpretation for slope, which works for small changes: A one-unit increase in the fertility rate is associated with an approximately 100×(−0.5899)=−58.99% decrease in GDP
+
+- Exact value for slope change: $(e^{\beta_1}−1)×100 = (e^{−0.5899}−1)×100 = −44.53\%$
+
+- The intercept (25.4027) represents log(gdp) when the fertility rate is 0. This doesn't have a meaningful real-world interpretation, but you would exponentiate it to get the value, so exp(25.4027)
+
+---
+
 # Task 1: Non-linear relationships
 
 1. Load the data [here](https://www.dropbox.com/scl/fi/68taafng8vjpzmub6q1xj/college_tuition_income.csv?rlkey=0c59a2kj0cwmcecjbg20jrkva&dl=0) and call the object `college`. This dataset contains information about tuition and estimated incomes of graduates for universities in the US.  

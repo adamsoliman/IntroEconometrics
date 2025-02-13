@@ -249,10 +249,10 @@ pasta_samples %>%
 .pull-left[
 * He counted the exact number of green, red and yellow pasta in the bowl `r emo::ji("monocle")` `#confinement`
 
-* All the pasta in the bowl are stored in a csv file [here](https://www.dropbox.com/s/qpjsk0rfgc0gx80/pasta.csv?dl=1).
+* All the pasta in the bowl are stored in a csv file [here](https://github.com/adamsoliman/IntroEconometrics/blob/master/data%20for%20tasks/pasta.csv).
 
 ```{r, echo = TRUE}
-bowl <- read.csv("https://www.dropbox.com/s/qpjsk0rfgc0gx80/pasta.csv?dl=1")
+bowl <- read.csv("~/Documents/GitHub/Econometrics-Slides/data for tasks/pasta.csv")
 
 head(bowl, 6)
 ```
@@ -419,7 +419,7 @@ Instead of taking only 33 samples, let's take ***1000***!
 
 1. Why do we not take 1000 samples "by hand"?
 
-1. Load the [data](https://www.dropbox.com/s/qpjsk0rfgc0gx80/pasta.csv?dl=1) into an object `pasta`.
+1. Load the [data](https://www.dropbox.com/s/qpjsk0rfgc0gx80/pasta.csv?dl=1) into an object `pasta`. Careful with the names of objects.
 
 1. Obtain 1000 samples of size 50 using the `rep_sample_n()` function from the `moderndive` package.
 

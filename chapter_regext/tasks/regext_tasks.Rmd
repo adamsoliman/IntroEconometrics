@@ -75,7 +75,7 @@ lm(mid_career_pay ~ type, college_clean)
 lm(mid_career_pay ~ log(out_of_state_tuition), college_clean)
 ```
 
-**The slope coefficient, i.e. the one on log(out_of_state_tuition), means that a 1% increase in out-of-state tuition is associated with an increase of $19.188 (19188/100) in mid-career pay, on average. Note, the intercept isn't very meaningful in this case, because for log-transformed independent variables, the intercept is often outside the range of observed data and doesn't have a direct real-world interpretation.**
+**The slope coefficient, i.e. the one on log(out_of_state_tuition), means that a 1% increase in out-of-state tuition is associated with an increase of $191.88 (19188/100) in mid-career pay, on average. Note, the intercept isn't very meaningful in this case, because for log-transformed independent variables, the intercept is often outside the range of observed data and doesn't have a direct real-world interpretation.**
 
 6. Regress the logarithm of mid career pay on the variable you created in #3 (`out_state`). Interpret the slope coefficient.
 

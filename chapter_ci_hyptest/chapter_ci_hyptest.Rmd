@@ -132,7 +132,7 @@ In practice, you ***don't*** need to compute your confidence intervals using *bo
 * Let's start by drawing one random sample of size $n = 50$ from our bowl.
 
 ```{r, echo = FALSE}
-bowl <- read.csv("https://www.dropbox.com/s/qpjsk0rfgc0gx80/pasta.csv?dl=1")
+bowl <- read.csv("~/Library/CloudStorage/Dropbox/Clemson/Econometrics Course/data for tasks/pasta.csv")
 set.seed(1234)
 sample_size = 50
 my_sample = bowl %>% mutate(color = as.factor(ifelse(color == "green","green","non-green"))) %>%
@@ -761,7 +761,7 @@ How ***likely*** is it to observe a 0.292 difference in a world with no discrimi
 
   * The ***null hypothesis*** $(H_0)$: generally hypothesis of no difference
   
-  * The ***alternative hypothesis*** $(H_A \textrm{or }H_1)$: the research hypothesis
+  * The ***alternative hypothesis*** $(H_A \textrm{ or }H_1)$: the research hypothesis
 
 --
 

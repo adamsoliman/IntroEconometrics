@@ -61,7 +61,7 @@ $$ \text{math score}_i = b_0 + b_1 \text{small}_i + e_i$$
 ``` r
 library(tidyverse)
 
-star_df = read.csv("https://www.dropbox.com/scl/fi/l7fz6p09uwbelg8ks15pl/star_data.csv?rlkey=y3g3l55fsyhvtypldp0ugpmnm&amp;dl=1") 
+star_df = read.csv("~/Library/CloudStorage/Dropbox/Clemson/Econometrics Course/data for tasks/star_data.csv") 
 
 star_df &lt;- star_df %&gt;%
   filter(complete.cases(.)) %&gt;%
@@ -104,8 +104,6 @@ reg_star
   
   * Just like the sample proportion `\(\hat{p}\)` from our pasta example!
 
---
-
 .pull-left[
 
 * In fact, our model's prediction...
@@ -120,8 +118,6 @@ reg_star
 
 where `\(\beta_0, \beta_1\)` are the ***population parameters*** of interest.
 
---
-
 * You will often find `\(\hat{\beta_k}\)` rather than `\(b_k\)`, both refer to sample estimate of `\(\beta_k\)`.
 
 * Let's bring what we know about ***confidence intervals***, ***hypothesis testing*** and ***standard errors*** to bear on those `\(\hat{\beta_k}\)`!
@@ -132,8 +128,44 @@ where `\(\beta_0, \beta_1\)` are the ***population parameters*** of interest.
 
 
 ``` r
+summary(lm(math ~ small, star_df))
+```
+
+```
+## 
+## Call:
+## lm(formula = math ~ small, data = star_df)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -164.446  -34.342   -4.342   28.554  141.554 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  484.446      1.150   421.1  &lt; 2e-16 ***
+## smallTRUE      8.895      1.678     5.3 1.23e-07 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 48.55 on 3357 degrees of freedom
+## Multiple R-squared:  0.008298,	Adjusted R-squared:  0.008003 
+## F-statistic: 28.09 on 1 and 3357 DF,  p-value: 1.233e-07
+```
+
+
+
+
+* There are 3 new columns here: standard error, t-value (test statistic), and Pr(&gt;|t|) (p-value)
+
+---
+
+# Understanding Regression Tables
+
+
+``` r
+# alternative
 library(broom)
-tidy(lm(math ~ small, star_df))
+tidy(lm(math ~ small, star_df)) 
 ```
 
 ```
@@ -144,93 +176,73 @@ tidy(lm(math ~ small, star_df))
 ## 2 smallTRUE       8.90      1.68      5.30 0.000000123
 ```
 
-``` r
-# an alternative is summary(lm(math ~ small, star_df))
-```
-
-
-
-
-* There are 3 new columns here: `std.error`, `statistic`, `p.value`.
-
 Entry | Meaning
 ----- | ----
 `std. error` |  Standard error of `\(b_k\)`
 `statistic` |  Observed test statistic associated to `\(H_0:\beta_k = 0,H_A:\beta_k \neq 0\)`
 `p.value` |  p-value associated to `\(H_0:\beta_k = 0,H_A:\beta_k \neq 0\)`
 
---
-
 * Let's focus on the `small` coefficient and make sense of each entry.
 
 ---
-
 # Standard Error of `\(b_k\)`
 
 &gt; ***Standard Error of `\(b_k\)`:*** Standard deviation of the sampling distribution of `\(b_k\)`.
-
---
 
 Let's imagine we could redo the experiment 1,000 times on 1,000 different samples:
 
 * We'd run 1,000 regressions and obtain 1,000 estimates of `\(\beta_k\)`, `\(b_k\)`.
 
+* The standard error of `\(b_k\)` quantifies how much variation in `\(b_k\)` one would expect across samples.
+
 --
 
-* The standard error of `\(b_k\)` quantifies how much variation in `\(b_k\)` one would expect across (*an infinity of*) samples.
-
----
-
-# Standard Error of `\(b_\textrm{small}\)`
+## Standard Error of `\(b_\textrm{small}\)`
 
 * From the table, we get `\(\hat{\textrm{SE}}(b_\textrm{small}) = 1.68\)`
   
   * Notice that we write `\(\hat{\textrm{SE}}\)` and not `\({\textrm{SE}}\)` because 1.68 is an estimate of the real standard error of `\(b_\textrm{small}\)` we get from our sample.
 
   * We would love to know the real standard error `\({\textrm{SE}}\)`, but we have only one sample!
---
 
 * Let's simulate the sampling distribution of `\(b_\textrm{small}\)` to see where it comes from.
     
 ---
 
-# Task 1
-
-As we did for the sampling distribution of the proportion of *green pasta*, we want to generate the bootstrap distribution of `\(b_\textrm{small}\)`. 
-
-1\. Copy the loading and cleaning code from slide 3 and run it. Note you will eventually need the **infer** package if you haven't already installed and loaded it...
-
-2\. Generate the bootstrap distribution of `\(b_\textrm{small}\)` based on 1,000 samples drawn from `star_df`.  You can do so through the following code
-
-```r
-bootstrap_distrib &lt;- star_df %&gt;% 
-    mutate(small=as.numeric(small)) %&gt;% 
-    specify(response = math, explanatory = small) %&gt;%
-    generate(reps = 1000, type = "bootstrap") %&gt;%
-    calculate(stat = "slope")
-```
-
-
-3\. Plot this simulated sampling distribution and compute the mean and standard error of `\(b_\textrm{small}\)`.
-
----
-
 # Bootstrap Distribution
 
-&lt;img src="reg_inference_files/figure-html/unnamed-chunk-6-1.svg" style="display: block; margin: auto;" /&gt;
+.pull-left[
 
---
+``` r
+library(infer)
+bootstrap_distrib = star_df %&gt;% 
+    mutate(small=as.numeric(small)) %&gt;% 
+    specify(formula = math ~ small) %&gt;%
+    generate(reps = 1000, type = "bootstrap") %&gt;%
+    calculate(stat = "slope")
+se_simul = round(sd(bootstrap_distrib$stat),3)
 
-***standard error:*** 1.73 `\(\rightarrow\)` very close to the one in the table (1.68)!
+# ggplot(bootstrap_distrib, aes(x = stat)) +
+# geom_histogram(boundary = 9, binwidth = 0.5, 
+# col = "white", fill = "#d90502") +
+# labs(x = "Bootstrap sample slope estimate", 
+# y = "Frequency") + theme_bw(base_size = 14)
+```
+]
+
+.pull-right[
+&lt;img src="reg_inference_files/figure-html/unnamed-chunk-7-1.svg" style="display: block; margin: auto;" /&gt;
+
+***standard error:*** 1.72 `\(\rightarrow\)` very close to the one in the table (1.68)!
 
 Not exactly equal, because we used bootstrapping instead of the theory approach used by `R`.
-
+]
 ---
 
 # Back to our regression results
 
 
-```r
+``` r
 library(broom)
 tidy(lm(math ~ small, star_df))
 ```
@@ -259,8 +271,6 @@ By default, the regression output provides the results associated with the follo
 
 `$$\begin{align}H_0:&amp; \beta_k = 0\\H_A:&amp; \beta_k \neq 0\end{align}$$`
 
---
-
 * It allows to statistically test if there is a true relationship between the outcome and our regressor. 
 
 * If `\(H_0\)` is true, there is **no** relationship between the outcome and our regressor. 
@@ -281,13 +291,9 @@ By default, the regression output provides the results associated with the follo
 
   * Quantify how extreme the **observed test statistic** is in this hypothetic world.
 
---
-
 * Our *observed test statistic* (`statistic`) equals `\(\frac{b}{\hat{SE}(b)}\)`.
 
   * Why not just `\(b\)`? We'll come back and explain this formula later.
-
---
 
 .pull-left[
 
@@ -299,18 +305,15 @@ round(observed_stat,2)
 
 ```
 ## smallTRUE 
-##      5.13
+##      5.34
 ```
 ]
 
 .pull-right[
 * Quite close to the observed test statistic we got in the table: `statistic` = 5.3.
 ]
---
 
 * The **p-value** measures the area outside of `\(\pm\)` *observed test statistic* under the *null distribution*.
-
---
 
 * Finally, we check if we can reject `\(H_0\)` at the usual **significance levels**: `\(\alpha\)` = 0.1, 0.05, 0.01.
 
@@ -320,17 +323,13 @@ round(observed_stat,2)
 
 * We will approximate the null distribution of `\(\frac{b_\textrm{small}}{\hat{SE}(b_\textrm{small})}\)` through a simulation exercise. 
 
---
-
 * If there is no relationship between math score and class size, i.e. `\(H_0\)` is true and `\(\beta_\textrm{small} = 0\)`, then *reshuffling* / *permuting* the values of `small` across students should play no role.
-
---
 
 .pull-left[
 * Let's generate 1,000 permuted samples and compute `\(b_\textrm{small}\)` for each.
 
 
-```r
+``` r
 null_distribution &lt;- star_df %&gt;% 
   mutate(small=as.numeric(small)) %&gt;% 
   specify(formula = math ~ small) %&gt;%
@@ -347,12 +346,12 @@ null_distribution &lt;- star_df %&gt;%
 * We can compute the distribution of our test statistic `\(\frac{b_\textrm{small}}{\hat{SE}(b_\textrm{small})}\)` under the null:
 
 
-```r
+``` r
 null_distribution &lt;- null_distribution %&gt;%
   mutate(test_stat = stat/sd(bootstrap_distrib$stat))
 ```
 
-* Remember we got `\(\hat{SE}(b_\textrm{small})\)` = 1.73 from our bootstrap distribution.
+* Remember we got `\(\hat{SE}(b_\textrm{small})\)` = 1.72 from our bootstrap distribution.
 ]
 
   
@@ -363,24 +362,7 @@ null_distribution &lt;- null_distribution %&gt;%
 # Testing `\(\beta_\textrm{small} = 0\)` vs `\(\beta_\textrm{small} \neq 0\)`
 
 
-&lt;img src="reg_inference_files/figure-html/unnamed-chunk-11-1.svg" style="display: block; margin: auto;" /&gt;
-
----
-
-# Testing `\(\beta_\textrm{small} = 0\)` vs `\(\beta_\textrm{small} \neq 0\)`
-
-
 &lt;img src="reg_inference_files/figure-html/unnamed-chunk-12-1.svg" style="display: block; margin: auto;" /&gt;
-
---
-
-Very unlikely to obtain `\(b_\textrm{small}\)` = 8.8951932 when `\(H_0\)` is true.
-
----
-
-# Testing `\(\beta_\textrm{small} = 0\)` vs `\(\beta_\textrm{small} \neq 0\)`
-
-* To decide if we reject `\(H_0\)`, recall we are considering a **two-sided test** here: *more extreme* means inferior to -5.13 **or** superior to 5.13. 
 
 ---
 
@@ -389,7 +371,15 @@ Very unlikely to obtain `\(b_\textrm{small}\)` = 8.8951932 when `\(H_0\)` is tru
 
 &lt;img src="reg_inference_files/figure-html/unnamed-chunk-13-1.svg" style="display: block; margin: auto;" /&gt;
 
---
+Very unlikely to obtain `\(b_\textrm{small}\)` = 8.8951932 when `\(H_0\)` is true.
+
+---
+
+# Testing `\(\beta_\textrm{small} = 0\)` vs `\(\beta_\textrm{small} \neq 0\)`
+
+* To decide if we reject `\(H_0\)`, recall we are considering a **two-sided test** here: *more extreme* means inferior to -5.335 **or** superior to 5.335. 
+
+&lt;img src="reg_inference_files/figure-html/unnamed-chunk-14-1.svg" style="display: block; margin: auto;" /&gt;
 
 What does the p-value correspond to?
 
@@ -397,7 +387,7 @@ What does the p-value correspond to?
 
 # Testing `\(\beta_\textrm{small} = 0\)` vs `\(\beta_\textrm{small} \neq 0\)`
 
-* To decide if we reject `\(H_0\)`, recall we are considering a **two-sided test** here: *more extreme* means inferior to -5.13 **or** superior to 5.13. 
+* To decide if we reject `\(H_0\)`, recall we are considering a **two-sided test** here: *more extreme* means inferior to -5.34 **or** superior to 5.34. 
 
 * Computing the *p-value* we get:
 
@@ -411,11 +401,7 @@ p_value
 ## [1] 0
 ```
 
---
-
 * This is the same value as in the regression table.
-
---
 
 * ***Question:*** Can we reject the null hypothesis at the 5% level?
 
@@ -423,12 +409,12 @@ p_value
 
 # Testing `\(\beta_\textrm{small} = 0\)` vs `\(\beta_\textrm{small} \neq 0\)`
 
-* To decide if we reject `\(H_0\)`, recall we are considering a **two-sided test** here: *more extreme* means inferior to -5.13 **or** superior to 5.13. 
+* To decide if we reject `\(H_0\)`, recall we are considering a **two-sided test** here: *more extreme* means inferior to -5.34 **or** superior to 5.34. 
 
 * Computing the *p-value* we get:
 
 
-```r
+``` r
 p_value = mean(abs(null_distribution$test_stat) &gt;= observed_stat)
 p_value
 ```
@@ -495,8 +481,6 @@ class: title-slide-section-red, middle
 
 * Let's take the example of a 95% confidence interval.
 
---
-
 * Since the sampling distribution of `\(b\)` is assumed to be normally shaped, we can use the ***95% rule of thumb*** about normal distributions.
 
 * We know indeed that 95% of the values of a normal distribution lie within approximately 2 standard deviations of the mean (exactly 1.96).
@@ -507,7 +491,7 @@ class: title-slide-section-red, middle
 
 .pull-left[
 
-```r
+``` r
 tidy(lm(math ~ small, star_df),
      conf.int = TRUE, conf.level = 0.95) %&gt;%
   filter(term == "smallTRUE") %&gt;%
@@ -524,7 +508,7 @@ tidy(lm(math ~ small, star_df),
 
 .pull-right[
 
-```r
+``` r
 bootstrap_distrib %&gt;%
   summarise(
     lower_bound = 8.895 - 1.96*sd(stat),
@@ -535,27 +519,17 @@ bootstrap_distrib %&gt;%
 ## # A tibble: 1 × 2
 ##   lower_bound upper_bound
 ##         &lt;dbl&gt;       &lt;dbl&gt;
-## 1        5.64        12.2
+## 1        5.63        12.2
 ```
 ]
-
---
 
 * This can easily be generalized to any confidence level by taking the appropriate quantile of the normal distribution.
 
 ---
 
-# Task 2
-
-1. Using the bootstrap distribution you generated in Task 1, compute the 95% confidence interval using the *percentile method*.
-
-1. How similar is it to the confidence intervals obtained in the previous slide?
-
----
-
 # Confidence Intervals: Visually
 
-&lt;img src="reg_inference_files/figure-html/unnamed-chunk-19-1.svg" style="display: block; margin: auto;" /&gt;
+&lt;img src="reg_inference_files/figure-html/unnamed-chunk-20-1.svg" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -566,20 +540,15 @@ bootstrap_distrib %&gt;%
 * As we already mentioned, the default test that is conducted by any statistical software is:
 
 `$$\begin{align}H_0:&amp; \beta_k = 0\\H_A:&amp; \beta_k \neq 0\end{align}$$`
---
 
 * So, **under the null hypothesis**, `\(\beta_k=0\)`, and we get from theory that the sampling distribution of `\(\frac{b}{\hat{\textrm{SE}(b)}}\)` will be a standard normal distribution.
 
-
---
 
 * So the *standard normal distribution* is the **null distribution** of our test statistic. 
 
 --
 
 * The ***p-value*** associated to our test is then equal to the area of the *standard normal distribution* outside `\(\pm\)` the observed value of `\(\frac{b}{\hat{\textrm{SE}(b)}}\)`.
-
---
 
 * Common rule of thumb: if the *estimate* is ***twice the size of the standard error***, then it is significant at the 5% level. Why?
 
@@ -590,7 +559,7 @@ bootstrap_distrib %&gt;%
 * Now that we have learned about all components of a regression table, let's finally learn how to create and read one!
 
 
-```r
+``` r
 reg_simple_math &lt;- lm(math ~ small, data=star_df)
 reg_gender_math &lt;- lm(math ~ small + gender , data=star_df)
 reg_simple_read &lt;- lm(read ~ small, data=star_df)
@@ -689,14 +658,14 @@ class: title-slide-section-red, middle
 
 # Mean Independence of Error: E[u | small] = ?
 
-&lt;img src="reg_inference_files/figure-html/unnamed-chunk-23-1.svg" style="display: block; margin: auto;" /&gt;
+&lt;img src="reg_inference_files/figure-html/unnamed-chunk-24-1.svg" style="display: block; margin: auto;" /&gt;
 
 
 ---
 
 # Mean Independence of Error: E[u | small] = ?
 
-&lt;img src="reg_inference_files/figure-html/unnamed-chunk-24-1.svg" style="display: block; margin: auto;" /&gt;
+&lt;img src="reg_inference_files/figure-html/unnamed-chunk-25-1.svg" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -787,7 +756,7 @@ The CRM assumption #1 is also know as the (strict) **exogeneity assumption**.
 Let's repeat the procedure you just made 100 times! 
 
 
-```r
+``` r
 library(AER)
 data("CPS1985")
 cps = CPS1985 %&gt;% mutate(log_wage = log(wage))
@@ -815,7 +784,7 @@ ggplot(data=cps,aes(y = log_wage, x = education, colour = gender)) +
 
 .pull-right[
 
-&lt;img src="reg_inference_files/figure-html/unnamed-chunk-26-1.svg" style="display: block; margin: auto;" /&gt;
+&lt;img src="reg_inference_files/figure-html/unnamed-chunk-27-1.svg" style="display: block; margin: auto;" /&gt;
 
 ]
 

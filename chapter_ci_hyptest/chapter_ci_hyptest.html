@@ -96,11 +96,7 @@ There are several approaches to constructing confidence intervals:
     
   1. *Theory*: use mathematical formulas (***Central Limit Theorem***) to derive the sampling distribution of our point estimate under certain conditions `\(\rightarrow\)` ***what `R` does under the hood!***
 
---
-
   1. *Simulation*: use the ***bootstrapping*** method to *reconstruct* the sampling distribution of our point estimate
-    
---
     
 We'll focus on simulation to give you the intuition and come back to the math approach soon.
 
@@ -121,9 +117,9 @@ In practice, you ***don't*** need to compute your confidence intervals using *bo
 
 
 
-```r
+``` r
 library(tidyverse)
-bowl &lt;- read.csv("https://www.dropbox.com/s/qpjsk0rfgc0gx80/pasta.csv?dl=1")
+bowl &lt;- read.csv("~/Library/CloudStorage/Dropbox/Clemson/Econometrics Course/data for tasks/pasta.csv")
 my_sample = bowl %&gt;% mutate(color = ifelse(color == "green","green","non-green")) %&gt;%
   rep_sample_n(size = 50) %&gt;% ungroup() %&gt;% select(pasta_ID, color)
 ```
@@ -143,8 +139,6 @@ head(my_sample,3)
 ## 3       79 non-green
 ```
 ]
-
---
 
 .pull-right[
 
@@ -423,8 +417,6 @@ True population parameter is indeed in our 95% interval! Will it always be?
 
 Let's repeatedly draw 100 different samples from our `bowl` and for each sample compute the associated 95% CI using the percentile method.
 
---
-
 &lt;img src="chapter_ci_hyptest_files/figure-html/unnamed-chunk-17-1.svg" style="display: block; margin: auto;" /&gt;
 
 How many confidence intervals contain the true parameter? Why?
@@ -483,8 +475,6 @@ In other words, 95% of the time, the 95% confidence interval will contain the tr
 
 * These comparisons are the realm of ***hypothesis testing***.
 
---
-
 * Just like confidence intervals, hypothesis tests are used to make claims about a population based on information from a sample.
 
 * However, we’ll see that the framework for making such inferences is slightly different.
@@ -505,8 +495,6 @@ class: title-slide-section-red, middle
 * 48 (male) supervisors were given *identical* candidate CVs, differing only with respect to the first name, which was male or female.
 
   * Each CV was "*in the form of a memorandum requesting a decision on the promotion of an employee to the position of branch manager.*"
-
---
 
 * ***Hypothesis*** we want to test: *Is there gender discrimination?*
 
@@ -565,13 +553,9 @@ promotions %&gt;%
 There is a ***29.2 percentage points difference*** in promotions between men and women!
 ]
 
---
-
 .pull-right[
 &lt;img src="chapter_ci_hyptest_files/figure-html/unnamed-chunk-20-1.svg" style="display: block; margin: auto;" /&gt;
 ]
-
---
 
 ***Question***: Is this difference ***conclusive evidence*** of differences in promotion rates between men and women? Could such a difference have been observed ***by chance***?
 
@@ -683,19 +667,13 @@ How do the promotion rates look like in our reshuffled sample?
 
 * No, we must investigate the role of ***sampling variation***!
 
-  * What if we reshuffle once again, how different from 4.2%p (*percentage points*) would the difference be?
-  
-  * In other words, how representative of that hypothetical world is 4.2%p?
-  
---
+  * What if we reshuffle once again, how different from 4.2%p (*percentage points*) would the difference be? In other words, how representative of that hypothetical world is 4.2%p?
   
   * How likely is a 29%p difference to occur in such a world?
   
 --
 
 * We need to know about the whole sampling distribution under the *no discrimination* hypothesis.
-
---
 
 * How? Just by redoing the reshuffling a large number of times, and computing the difference each time.
 
@@ -731,8 +709,6 @@ How ***likely*** is it to observe a 0.292 difference in a world with no discrimi
 
 * A ***hypothesis test*** consists of a test between ***two competing hypotheses*** about the population parameter:
 
---
-
   * The ***null hypothesis*** `\((H_0)\)`: generally hypothesis of no difference
   
   * The ***alternative hypothesis*** `\((H_A \textrm{ or }H_1)\)`: the research hypothesis
@@ -755,8 +731,6 @@ where `\(p_m =\)` promotion rate of men, and `\(p_f =\)` promotion rate of women
 * ***Test statistic***: *point estimate/sample statistic* formula used for hypothesis testing. 
 
   * *In our previous case*: difference in sample proportions `\(\hat{p}_m - \hat{p}_f\)`.
-
---
 
 * ***Observed test statistic***: value of the test statistic that we observed in real life.
 
@@ -789,11 +763,7 @@ where `\(p_m =\)` promotion rate of men, and `\(p_f =\)` promotion rate of women
 
   * Defined in terms of the alternative hypothesis: in this case, men are ***more likely*** to be promoted than women. Therefore, ***more extreme*** in our case means observing a difference in promotion rates ***greater than 0.292***.
 
---
-
 * ***Interpretation***: the lower the p-value, the *less consistent our null hypothesis is with the observed statistic*.
-
---
 
 * When do we decide to ***reject*** `\(H_0\)` or not?
 
@@ -801,9 +771,7 @@ where `\(p_m =\)` promotion rate of men, and `\(p_f =\)` promotion rate of women
 
 # Hypothesis Test Notation and Definitions
 
-* To decide wether we reject `\(H_0\)` or not, we set a ***significance level*** for the test.
-
---
+* To decide whether we reject `\(H_0\)` or not, we set a ***significance level*** for the test.
 
 * ***Significance level `\((\alpha)\)`:*** acts as a *cutoff* on the p-value.
 
@@ -828,8 +796,6 @@ where `\(p_m =\)` promotion rate of men, and `\(p_f =\)` promotion rate of women
 
 * Recall the definition of the p-value: ***probability of observing a test statistic *just as or more extreme* than the one we obtained, assuming the null hypothesis `\(H_0\)` is true.***
 
---
-
 
 ``` r
 p_value &lt;- mean(null_distribution$stat &gt;= 0.292)
@@ -846,8 +812,6 @@ p_value
 * So, we can reject `\(H_0\)`, i.e. the absence of discrimination, at the 5% significance level.
 
   * We also say that `\(\hat{p_m} - \hat{p_f} = 0.292\)` is ***statistically significantly different from 0*** at the 5% level. 
- 
---
 
 * ***Question***: Suppose we had set `\(\alpha = 0.01 = 1\%\)`, would we have rejected the absence of discrimination at this level? 
 
@@ -857,13 +821,9 @@ p_value
 
 Working with probabilities implies that sometimes, we make **errors**.
 
---
-
 * A 29%p difference may be *unlikely* under `\(H_0\)`, but that **doesn't mean it's *impossible* to occur**.
 
   * In fact, such a difference (or higher) would occur (approximately) in 0.7% of cases.
-  
---
 
 * So, it may happen that we sometimes reject `\(H_0\)`, when in fact it was true.
 

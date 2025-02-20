@@ -87,7 +87,7 @@ $$ \text{math score}_i = b_0 + b_1 \text{small}_i + e_i$$
 ```{r, echo = TRUE}
 library(tidyverse)
 
-star_df = read.csv("https://www.dropbox.com/scl/fi/l7fz6p09uwbelg8ks15pl/star_data.csv?rlkey=y3g3l55fsyhvtypldp0ugpmnm&dl=1") 
+star_df = read.csv("~/Library/CloudStorage/Dropbox/Clemson/Econometrics Course/data for tasks/star_data.csv") 
 
 star_df <- star_df %>%
   filter(complete.cases(.)) %>%
@@ -119,8 +119,6 @@ reg_star
   
   * Just like the sample proportion $\hat{p}$ from our pasta example!
 
---
-
 .pull-left[
 
 * In fact, our model's prediction...
@@ -135,8 +133,6 @@ $$y = \beta_0 + \beta_1 x_1$$
 
 where $\beta_0, \beta_1$ are the ***population parameters*** of interest.
 
---
-
 * You will often find $\hat{\beta_k}$ rather than $b_k$, both refer to sample estimate of $\beta_k$.
 
 * Let's bring what we know about ***confidence intervals***, ***hypothesis testing*** and ***standard errors*** to bear on those $\hat{\beta_k}$!
@@ -146,9 +142,7 @@ where $\beta_0, \beta_1$ are the ***population parameters*** of interest.
 # Understanding Regression Tables
 
 ```{r}
-library(broom)
-tidy(lm(math ~ small, star_df))
-# an alternative is summary(lm(math ~ small, star_df))
+summary(lm(math ~ small, star_df))
 ```
 
 ```{r echo=FALSE}
@@ -157,7 +151,17 @@ coeff_star = coef(reg_star)
 ```
 
 
-* There are 3 new columns here: `std.error`, `statistic`, `p.value`.
+* There are 3 new columns here: standard error, t-value (test statistic), and Pr(>|t|) (p-value)
+
+---
+
+# Understanding Regression Tables
+
+```{r}
+# alternative
+library(broom)
+tidy(lm(math ~ small, star_df)) 
+```
 
 Entry | Meaning
 ----- | ----
@@ -165,64 +169,37 @@ Entry | Meaning
 `statistic` |  Observed test statistic associated to $H_0:\beta_k = 0,H_A:\beta_k \neq 0$
 `p.value` |  p-value associated to $H_0:\beta_k = 0,H_A:\beta_k \neq 0$
 
---
-
 * Let's focus on the `small` coefficient and make sense of each entry.
 
 ---
-
 # Standard Error of $b_k$
 
 > ***Standard Error of $b_k$:*** Standard deviation of the sampling distribution of $b_k$.
-
---
 
 Let's imagine we could redo the experiment 1,000 times on 1,000 different samples:
 
 * We'd run 1,000 regressions and obtain 1,000 estimates of $\beta_k$, $b_k$.
 
+* The standard error of $b_k$ quantifies how much variation in $b_k$ one would expect across samples.
+
 --
 
-* The standard error of $b_k$ quantifies how much variation in $b_k$ one would expect across (*an infinity of*) samples.
-
----
-
-# Standard Error of $b_\textrm{small}$
+## Standard Error of $b_\textrm{small}$
 
 * From the table, we get $\hat{\textrm{SE}}(b_\textrm{small}) = `r reg_summary_star_df[2,2]`$
   
   * Notice that we write $\hat{\textrm{SE}}$ and not ${\textrm{SE}}$ because `r reg_summary_star_df[2,2]` is an estimate of the real standard error of $b_\textrm{small}$ we get from our sample.
 
   * We would love to know the real standard error ${\textrm{SE}}$, but we have only one sample!
---
 
 * Let's simulate the sampling distribution of $b_\textrm{small}$ to see where it comes from.
     
 ---
 
-# Task 1
-
-As we did for the sampling distribution of the proportion of *green pasta*, we want to generate the bootstrap distribution of $b_\textrm{small}$. 
-
-1\. Copy the loading and cleaning code from slide 3 and run it. Note you will eventually need the **infer** package if you haven't already installed and loaded it...
-
-2\. Generate the bootstrap distribution of $b_\textrm{small}$ based on 1,000 samples drawn from `star_df`.  You can do so through the following code
-```{r, eval=FALSE}
-bootstrap_distrib <- star_df %>% 
-    mutate(small=as.numeric(small)) %>% 
-    specify(response = math, explanatory = small) %>%
-    generate(reps = 1000, type = "bootstrap") %>%
-    calculate(stat = "slope")
-```
-
-
-3\. Plot this simulated sampling distribution and compute the mean and standard error of $b_\textrm{small}$.
-
----
-
 # Bootstrap Distribution
 
-```{r, echo=FALSE, fig.height = 5.5, fig.width = 9.5}
+.pull-left[
+```{r} 
 library(infer)
 bootstrap_distrib = star_df %>% 
     mutate(small=as.numeric(small)) %>% 
@@ -231,22 +208,26 @@ bootstrap_distrib = star_df %>%
     calculate(stat = "slope")
 se_simul = round(sd(bootstrap_distrib$stat),3)
 
-bootstrap_distrib %>%
-    ggplot(aes(x = stat)) +
-    geom_histogram(boundary = 9, binwidth = 0.5, col = "white", fill = "#d90502") +
-    labs(
-        x = "Bootstrap sample slope estimate",
-        y = "Frequency"
-    ) +
-    theme_bw(base_size = 14)
-```
+# ggplot(bootstrap_distrib, aes(x = stat)) +
+# geom_histogram(boundary = 9, binwidth = 0.5, 
+# col = "white", fill = "#d90502") +
+# labs(x = "Bootstrap sample slope estimate", 
+# y = "Frequency") + theme_bw(base_size = 14)
 
---
+```
+]
+
+.pull-right[
+```{r, echo=FALSE, fig.height = 5.5, fig.width = 9.5}
+    ggplot(bootstrap_distrib, aes(x = stat)) +
+    geom_histogram(boundary = 9, binwidth = 0.5, col = "white", fill = "#d90502") +
+    labs(x = "Bootstrap sample slope estimate", y = "Frequency") + theme_bw(base_size = 14)
+```
 
 ***standard error:*** `r round(se_simul,2)` $\rightarrow$ very close to the one in the table (`r reg_summary_star_df[2,2]`)!
 
 Not exactly equal, because we used bootstrapping instead of the theory approach used by `R`.
-
+]
 ---
 
 # Back to our regression results
@@ -272,8 +253,6 @@ By default, the regression output provides the results associated with the follo
 
 $$\begin{align}H_0:& \beta_k = 0\\H_A:& \beta_k \neq 0\end{align}$$
 
---
-
 * It allows to statistically test if there is a true relationship between the outcome and our regressor. 
 
 * If $H_0$ is true, there is **no** relationship between the outcome and our regressor. 
@@ -294,13 +273,9 @@ $$\begin{align}H_0:& \beta_k = 0\\H_A:& \beta_k \neq 0\end{align}$$
 
   * Quantify how extreme the **observed test statistic** is in this hypothetic world.
 
---
-
 * Our *observed test statistic* (`statistic`) equals $\frac{b}{\hat{SE}(b)}$.
 
   * Why not just $b$? We'll come back and explain this formula later.
-
---
 
 .pull-left[
 ```{r}
@@ -313,11 +288,8 @@ round(observed_stat,2)
 .pull-right[
 * Quite close to the observed test statistic we got in the table: `statistic` = `r reg_summary_star_df[2,3]`.
 ]
---
 
 * The **p-value** measures the area outside of $\pm$ *observed test statistic* under the *null distribution*.
-
---
 
 * Finally, we check if we can reject $H_0$ at the usual **significance levels**: $\alpha$ = 0.1, 0.05, 0.01.
 
@@ -327,11 +299,7 @@ round(observed_stat,2)
 
 * We will approximate the null distribution of $\frac{b_\textrm{small}}{\hat{SE}(b_\textrm{small})}$ through a simulation exercise. 
 
---
-
 * If there is no relationship between math score and class size, i.e. $H_0$ is true and $\beta_\textrm{small} = 0$, then *reshuffling* / *permuting* the values of `small` across students should play no role.
-
---
 
 .pull-left[
 * Let's generate 1,000 permuted samples and compute $b_\textrm{small}$ for each.
@@ -391,8 +359,6 @@ plot_null_distrib +
 
 ```
 
---
-
 Very unlikely to obtain $b_\textrm{small}$ = `r coeff_star[2]` when $H_0$ is true.
 
 ---
@@ -401,19 +367,12 @@ Very unlikely to obtain $b_\textrm{small}$ = `r coeff_star[2]` when $H_0$ is tru
 
 * To decide if we reject $H_0$, recall we are considering a **two-sided test** here: *more extreme* means inferior to `r round(-observed_stat,3)` **or** superior to `r round(observed_stat,3)`. 
 
----
-
-# Testing $\beta_\textrm{small} = 0$ vs $\beta_\textrm{small} \neq 0$
-
-
 ```{r echo=FALSE, fig.height = 6, fig.width = 10}
 plot_null_distrib +
   geom_vline(xintercept = observed_stat, size = 1.25) +
   geom_vline(xintercept = -observed_stat, size = 1.25)
 
 ```
-
---
 
 What does the p-value correspond to?
 
@@ -430,11 +389,7 @@ p_value = mean(abs(null_distribution$test_stat) >= observed_stat)
 p_value
 ```
 
---
-
 * This is the same value as in the regression table.
-
---
 
 * ***Question:*** Can we reject the null hypothesis at the 5% level?
 
@@ -511,8 +466,6 @@ knitr::include_graphics("../img/photos/standard_normal_distrib.png")
 
 * Let's take the example of a 95% confidence interval.
 
---
-
 * Since the sampling distribution of $b$ is assumed to be normally shaped, we can use the ***95% rule of thumb*** about normal distributions.
 
 * We know indeed that 95% of the values of a normal distribution lie within approximately 2 standard deviations of the mean (exactly 1.96).
@@ -539,17 +492,7 @@ bootstrap_distrib %>%
 ```
 ]
 
---
-
 * This can easily be generalized to any confidence level by taking the appropriate quantile of the normal distribution.
-
----
-
-# Task 2
-
-1. Using the bootstrap distribution you generated in Task 1, compute the 95% confidence interval using the *percentile method*.
-
-1. How similar is it to the confidence intervals obtained in the previous slide?
 
 ---
 
@@ -596,20 +539,15 @@ bootstrap_distrib %>%
 * As we already mentioned, the default test that is conducted by any statistical software is:
 
 $$\begin{align}H_0:& \beta_k = 0\\H_A:& \beta_k \neq 0\end{align}$$
---
 
 * So, **under the null hypothesis**, $\beta_k=0$, and we get from theory that the sampling distribution of $\frac{b}{\hat{\textrm{SE}(b)}}$ will be a standard normal distribution.
 
-
---
 
 * So the *standard normal distribution* is the **null distribution** of our test statistic. 
 
 --
 
 * The ***p-value*** associated to our test is then equal to the area of the *standard normal distribution* outside $\pm$ the observed value of $\frac{b}{\hat{\textrm{SE}(b)}}$.
-
---
 
 * Common rule of thumb: if the *estimate* is ***twice the size of the standard error***, then it is significant at the 5% level. Why?
 

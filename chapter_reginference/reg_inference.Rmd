@@ -176,11 +176,9 @@ Entry | Meaning
 
 > ***Standard Error of $b_k$:*** Standard deviation of the sampling distribution of $b_k$.
 
-Let's imagine we could redo the experiment 1,000 times on 1,000 different samples:
+* Let's imagine we could redo the experiment 1,000 times on 1,000 different samples, and thus we'd run 1,000 regressions and obtain 1,000 estimates of $\beta_k$, $b_k$.
 
-* We'd run 1,000 regressions and obtain 1,000 estimates of $\beta_k$, $b_k$.
-
-* The standard error of $b_k$ quantifies how much variation in $b_k$ one would expect across samples.
+* The standard error tells us how much these estimates would vary across samples. A smaller standard error means that our estimate is more precise, while a larger standard error suggests more uncertainty.
 
 --
 
@@ -188,15 +186,15 @@ Let's imagine we could redo the experiment 1,000 times on 1,000 different sample
 
 * From the table, we get $\hat{\textrm{SE}}(b_\textrm{small}) = `r reg_summary_star_df[2,2]`$
   
-  * Notice that we write $\hat{\textrm{SE}}$ and not ${\textrm{SE}}$ because `r reg_summary_star_df[2,2]` is an estimate of the real standard error of $b_\textrm{small}$ we get from our sample.
+* The true standard error (SE) is unknown because we only have one sample—if we had all possible samples, we could compute the real SE exactly.
 
-  * We would love to know the real standard error ${\textrm{SE}}$, but we have only one sample!
+* This estimate of the standard error allows us to quantify uncertainty in $b_\textrm{small}$ and conduct statistical inference.
 
 * Let's simulate the sampling distribution of $b_\textrm{small}$ to see where it comes from.
     
 ---
 
-# Bootstrap Distribution
+# Standard Error from Bootstrap Distribution
 
 .pull-left[
 ```{r} 
@@ -359,7 +357,7 @@ plot_null_distrib +
 
 ```
 
-Very unlikely to obtain $b_\textrm{small}$ = `r coeff_star[2]` when $H_0$ is true.
+Unlikely to obtain $b_\textrm{small}$ = 8.9 if $H_0$ is true, as the associated test statistic (5.3) is far in the null distribution's tail. This comes from 8.9/1.68=5.3, meaning the effect on small classes (8.9) is 5.3 standard errors from 0.
 
 ---
 
@@ -414,6 +412,15 @@ p_value
   * In other words, we can say that $b_\textrm{small}$ is **statistically different from 0** at any significance level.
   * We also say that $b_\textrm{small}$ is *statistically significant* (at any significance level).
 
+---
+
+# Decision rules and how to interpret the p-value (Hypothetical Examples)
+
+| Term      | Estimate | P-value    | Interpretation                                            |
+|-----------|----------|------------|-----------------------------------------------------------|
+| smallTRUE | 8.90     | 0.000000123 | **Reject the null hypothesis**; the effect is very unlikely due to chance/random variation. Put another way, the p-value suggests that the probability of observing an effect as extreme (or more extreme) as the one found in the data, assuming the null hypothesis is true, is essentially zero. |
+| smallTRUE | 8.90     | 0.25       | **Fail to reject the null hypothesis**; there’s a 25% chance the observed effect is due to random variation. Put another way, the p-value suggests weak evidence against the null hypothesis, meaning we do not have enough evidence to confidently assert that the effect is real.
+| smallTRUE | 8.90     | 0.57       | **Fail to reject the null hypothesis**; The p-value suggests that the probability of observing an effect as extreme (or more extreme) as the one found in the data, assuming the null hypothesis is true, is relatively high (57%), indicating that the data do not provide strong enough evidence to rule out the null hypothesis. |
 
 ---
 

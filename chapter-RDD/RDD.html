@@ -35,35 +35,30 @@ class: center, middle, inverse, title-slide
 
 * Three main causal evaluation methods used in economics:
   
-  - ***regression discontinuity designs (RDD)***.
-  - ***instrumental variables (IV)***, and
+  - ***regression discontinuity designs (RDD)***
   - ***differences-in-differences (DiD)***
+  - ***instrumental variables (IV)*** (not covered in this course)
+
 
 * These methods are used to identify __causal relationships__ between treatments and outcomes.
 
 ---
 
-## Today: ***Regression Discontinuity Design***
+# Today: **Regression Discontinuity Design (RDD)**
 
-* Life is full of random rules which assign some treatment
+* Very common research design in applied research because it provides credible causal estimates
 
-* Exploits knowledge of assignment rule
+* **Idea**: life is full of random rules which assign some to treatment and others to control, and we exploit knowledge of this assignment rule
+
+* **Empirical application:** effect of alcohol consumption on mortality
+
+--
+
+* **Starting point**: subjects are ***not*** randomly allocated to treatment ⚠️
+
+* RDD can be applied when we have specific information about the rules determining treatment
 
 * Key assumption: variable which assigns treatment cannot be manipulated by individuals
-
-* *Empirical application:* effect of alchol consumption on mortality
-
----
-
-# Regression Discontinuity Design (RDD)
-
-* Very common research design in applied research because it provides credible causal estimates.
-
-* Starting point: subjects are ***not*** randomly allocated to treatment ⚠️
-
-* RDD can be applied when we have specific information about the rules determining treatment.
-
-* __RDD__ exploits this precise information about allocation to treatment!
 
 ---
 
@@ -223,7 +218,7 @@ At the threshold, the probability of being treated jumps from 0 to 1.
 
 # Task 1 
 
-1. Import the dataset after downloading it from [here](https://www.dropbox.com/scl/fi/z58zieotrid5e38wwmn18/mlda.csv?rlkey=m08brfy656yxb5er4ny3kow28&amp;dl=1). How many age cells are there?
+1. Import the dataset after downloading it from [here](https://github.com/adamsoliman/IntroEconometrics/blob/master/data%20for%20tasks/mlda.csv). How many age cells are there?
 
 1. Create a dummy variable for individuals over 21 years old.
 
@@ -414,24 +409,6 @@ mean(mlda$all, na.rm = TRUE)
 
 ---
 
-# Simulations - Different Slopes
-
-&lt;img src="RDD_files/figure-html/unnamed-chunk-18-1.svg" style="display: block; margin: auto;" /&gt;
-
---
-
-`$$outcome_i = \alpha + \delta treatment_i + \beta (running_i - cutoff) + \\ \color{#d90502}{\gamma treatment_i * (running_i - cutoff)} + e_i,$$`
-
----
-
-# Simulations - Different (Linear) Slopes
-
-&lt;img src="RDD_files/figure-html/unnamed-chunk-19-1.svg" style="display: block; margin: auto;" /&gt;
-
-`$$outcome_i = \alpha + \color{#d90502}\delta treatment_i + \beta (running_i - cutoff) + \\ \gamma treatment_i * (running_i - cutoff) + e_i,$$`
-
----
-
 # How to Choose Appropriate Functional Form?
 
 * Essential to __visualise__ the data!
@@ -447,38 +424,23 @@ mean(mlda$all, na.rm = TRUE)
 
 # Going Back to our Example: Nonlinearities / `\(\neq\)` Slopes?
 
-&lt;img src="RDD_files/figure-html/unnamed-chunk-20-1.svg" style="display: block; margin: auto;" /&gt;
+&lt;img src="RDD_files/figure-html/unnamed-chunk-18-1.svg" style="display: block; margin: auto;" /&gt;
 
 ---
 
 # Going Back to our Example: Nonlinearities / `\(\neq\)` Slopes?
 
-&lt;img src="RDD_files/figure-html/unnamed-chunk-21-1.svg" style="display: block; margin: auto;" /&gt;
+&lt;img src="RDD_files/figure-html/unnamed-chunk-19-1.svg" style="display: block; margin: auto;" /&gt;
 
 --
 
 Gap between the lines is roughly the same for both specifications.
----
-
-# Task 3 
-
-
-1. Estimate the following *quadratic* model on all death causes. Does the RDD coefficient differ from the linear model? 
-`$$DEATHRATE_a = \alpha + \delta D_a + \beta a + \beta a^2 + \varepsilon_a,$$`
-
-1. Recall that the regression model allowing for different slopes on each side of the cutoff is:
-`$$DEATHRATE_a = \alpha + \delta D_a + \beta (a - 21) + \gamma D_a * (a - 21) + \varepsilon_a,$$`
-   - Why do we need to substract the `cutoff` from `running_i`? (Hint: compute `\(\mathbb{E}(DEATHRATE_a|a=21)\)`)
-   - Should we expect the relationship between death rates and age to change at 21?
-   - Estimate this model. How different is the RDD coefficient from the other models you have estimated?
-
-* Re-run these models (linear, quadratic, different slopes) for the following death causes: motor vehicle accidents (`mva`), alcohol-related (`alcohol`), and internal (`internal`).
 
 ---
 
 # Graphical Representation of the Regression Results
 
-&lt;img src="RDD_files/figure-html/unnamed-chunk-22-1.svg" style="display: block; margin: auto;" /&gt;
+&lt;img src="RDD_files/figure-html/unnamed-chunk-20-1.svg" style="display: block; margin: auto;" /&gt;
 
 ---
 

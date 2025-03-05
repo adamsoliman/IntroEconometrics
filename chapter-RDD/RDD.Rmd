@@ -70,8 +70,6 @@ set.seed(1234)
 
 * **Empirical application:** effect of alcohol consumption on mortality
 
---
-
 * **Starting point**: subjects are ***not*** randomly allocated to treatment `r emo::ji("warning")`
 
 * RDD can be applied when we have specific information about the rules determining treatment

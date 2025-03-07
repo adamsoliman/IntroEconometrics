@@ -168,7 +168,7 @@ ck1994 %>%
 
 # Task 1 
 
-1. Take a look at the dataset (download [here](https://www.dropbox.com/scl/fi/nv2ohjfbikp6ubecsdqru/ck1994.csv?rlkey=6ldo2d7d1we388nnip99865ya&dl=1)) and list the variables. 
+1. Take a look at the dataset (download [here](https://github.com/adamsoliman/IntroEconometrics/blob/master/data%20for%20tasks/ck1994.csv)) and list the variables. 
 
 1. Tabulate the number of stores by `state` and by survey wave (`observation`). Does it match what's in *Table 1* of the [paper](http://davidcard.berkeley.edu/papers/njmin-aer.pdf)?
 

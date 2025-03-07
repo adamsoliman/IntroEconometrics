@@ -43,6 +43,7 @@ library(pBrackets)
 library(emo)
 library(countdown)
 library(viridis)
+library(broom)
 
   # set seed
 set.seed(1234)
@@ -288,7 +289,6 @@ rdd_plot
 # Graphical Results: All Death Rates
 
 ```{r, echo = FALSE, eval = TRUE, fig.height = 6, fig.width = 10}
-library(broom)
 all_fit <- augment(lm(all ~ agecell + over21, mlda))
 
 rdd_plot_line <- rdd_plot +
@@ -409,7 +409,7 @@ $$DEATHRATE_a = \alpha + \delta D_a + \beta a + \varepsilon_i,$$
 
 ---
 
-# Estimation #1: Simple Linear Model
+# Estimation #1: Simple Linear Model (all cause mortality)
 
 $$DEATHRATE_a = \alpha + \delta D_a + \beta a + \varepsilon_a,$$
 
@@ -420,7 +420,7 @@ mlda <- mlda %>%
          agecell_21 = agecell - 21)
 rdd <- lm(all ~ agecell_21 + over21, mlda)
 
-library(broom)
+
 tidy(rdd)
 ```
 ]
@@ -432,7 +432,7 @@ mlda <- mlda %>%
          agecell_21 = agecell - 21)
 rdd <- lm(all ~ agecell_21 + over21, mlda)
 
-library(broom)
+
 tidy(rdd)
 ```
 ]
@@ -443,7 +443,7 @@ tidy(rdd)
 
 ***Interpretation:***
 
-On average, the MLDA increases death rates from all causes by 7.66 percentage points.
+On average, the MLDA increases deaths from all causes by 7.66 per 100,000, or put differently, turning 21 increases the mortality rate by approximately 8.35% relative to those just under 21 (7.66/91.8*100).
 
 This is a big effect considering the average death rate for individuals between 19 and 22 is:
 
@@ -451,6 +451,21 @@ This is a big effect considering the average death rate for individuals between 
 mean(mlda$all, na.rm = TRUE)
 ```
 
+---
+
+# Estimation #1: Simple Linear Model (motor vehicle accidents)
+
+$$DEATHRATE_a = \alpha + \delta D_a + \beta a + \varepsilon_a,$$
+
+```{r}
+mlda_alt <- mlda %>% mutate(over21_bin = ifelse(agecell >= 21, 1, 0),
+                            agecell_21 = agecell - 21)
+tidy(lm(mva ~ agecell_21 + over21_bin, mlda_alt))
+```
+
+***Interpretation:***
+
+On average, the MLDA increases motor vehicle deaths by 4.53 per 100,000 relative to those just under the age of 21. We can also express this as a share: 4.53/29.4*100=15.4%. It appears, then, that a lot of the increase in all cause mortality is driven by changes in drunk driving.
 
 ---
 
@@ -845,18 +860,10 @@ $\rightarrow$ ***Fuzzy RDD***
 
 ### Step #1: ***Is assignment to treatment rule-based?***
 
---
-
 ### Step #2: ***Is design sharp or fuzzy?***
-
---
 
 ### Step #3: ***Is there a discontinuity in running variable at cutoff?***
 
---
-
 ### Step #4: ***Is there a discontinuity in outcome variable at cutoff in running variable?***
-
---
 
 ### Step #5: ***How big is the gap?***

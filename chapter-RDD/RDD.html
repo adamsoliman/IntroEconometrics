@@ -307,7 +307,7 @@ class: title-slide-section-red, middle
 
 ---
 
-# Estimation #1: Simple Linear Model
+# Estimation #1: Simple Linear Model (all cause mortality)
 
 `$$DEATHRATE_a = \alpha + \delta D_a + \beta a + \varepsilon_a,$$`
 
@@ -319,7 +319,7 @@ mlda &lt;- mlda %&gt;%
          agecell_21 = agecell - 21)
 rdd &lt;- lm(all ~ agecell_21 + over21, mlda)
 
-library(broom)
+
 tidy(rdd)
 ```
 ]
@@ -342,7 +342,7 @@ tidy(rdd)
 
 ***Interpretation:***
 
-On average, the MLDA increases death rates from all causes by 7.66 percentage points.
+On average, the MLDA increases deaths from all causes by 7.66 per 100,000, or put differently, turning 21 increases the mortality rate by approximately 8.35% relative to those just under 21 (7.66/91.8*100).
 
 This is a big effect considering the average death rate for individuals between 19 and 22 is:
 
@@ -355,6 +355,31 @@ mean(mlda$all, na.rm = TRUE)
 ## [1] 95.67272
 ```
 
+---
+
+# Estimation #1: Simple Linear Model (motor vehicle accidents)
+
+`$$DEATHRATE_a = \alpha + \delta D_a + \beta a + \varepsilon_a,$$`
+
+
+``` r
+mlda_alt &lt;- mlda %&gt;% mutate(over21_bin = ifelse(agecell &gt;= 21, 1, 0),
+                            agecell_21 = agecell - 21)
+tidy(lm(mva ~ agecell_21 + over21_bin, mlda_alt))
+```
+
+```
+## # A tibble: 3 × 5
+##   term        estimate std.error statistic  p.value
+##   &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
+## 1 (Intercept)    29.4      0.429     68.4  4.03e-47
+## 2 agecell_21     -3.15     0.337     -9.34 4.26e-12
+## 3 over21_bin      4.53     0.768      5.90 4.34e- 7
+```
+
+***Interpretation:***
+
+On average, the MLDA increases motor vehicle deaths by 4.53 per 100,000 relative to those just under the age of 21. We can also express this as a share: 4.53/29.4*100=15.4%. It appears, then, that a lot of the increase in all cause mortality is driven by changes in drunk driving.
 
 ---
 
@@ -371,7 +396,7 @@ mean(mlda$all, na.rm = TRUE)
 
 # Simulations - Linear Relationship and Clear Discontinuity
 
-&lt;img src="RDD_files/figure-html/unnamed-chunk-13-1.svg" style="display: block; margin: auto;" /&gt;
+&lt;img src="RDD_files/figure-html/unnamed-chunk-14-1.svg" style="display: block; margin: auto;" /&gt;
 
 `$$outcome_i = \alpha + \delta treatment_i + \beta running_i + e_i,$$`
 
@@ -379,7 +404,7 @@ mean(mlda$all, na.rm = TRUE)
 
 # Simulations - Linear Relationship and Clear Discontinuity
 
-&lt;img src="RDD_files/figure-html/unnamed-chunk-14-1.svg" style="display: block; margin: auto;" /&gt;
+&lt;img src="RDD_files/figure-html/unnamed-chunk-15-1.svg" style="display: block; margin: auto;" /&gt;
 
 `$$outcome_i = \alpha + \color{#d90502}\delta treatment_i + \beta running_i + e_i,$$`
 
@@ -387,7 +412,7 @@ mean(mlda$all, na.rm = TRUE)
 
 # Simulations - Quadratic Relationship and Clear Discontinuity
 
-&lt;img src="RDD_files/figure-html/unnamed-chunk-15-1.svg" style="display: block; margin: auto;" /&gt;
+&lt;img src="RDD_files/figure-html/unnamed-chunk-16-1.svg" style="display: block; margin: auto;" /&gt;
 
 `$$outcome_i = \alpha + \delta treatment_i + \beta_1 running_i + \color{#d90502}{\beta_2 running_i^2} + e_i,$$`
 
@@ -395,7 +420,7 @@ mean(mlda$all, na.rm = TRUE)
 
 # Simulations - Quadratic Relationship and Clear Discontinuity
 
-&lt;img src="RDD_files/figure-html/unnamed-chunk-16-1.svg" style="display: block; margin: auto;" /&gt;
+&lt;img src="RDD_files/figure-html/unnamed-chunk-17-1.svg" style="display: block; margin: auto;" /&gt;
 
 `$$outcome_i = \alpha + \color{#d90502}\delta treatment_i + \beta_1 running_i + \beta_2 running_i^2 + e_i,$$`
 
@@ -403,7 +428,7 @@ mean(mlda$all, na.rm = TRUE)
 
 # Simulations - Linear Relationship but NO Discontinuity
 
-&lt;img src="RDD_files/figure-html/unnamed-chunk-17-1.svg" style="display: block; margin: auto;" /&gt;
+&lt;img src="RDD_files/figure-html/unnamed-chunk-18-1.svg" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -422,13 +447,13 @@ mean(mlda$all, na.rm = TRUE)
 
 # Going Back to our Example: Nonlinearities / `\(\neq\)` Slopes?
 
-&lt;img src="RDD_files/figure-html/unnamed-chunk-18-1.svg" style="display: block; margin: auto;" /&gt;
+&lt;img src="RDD_files/figure-html/unnamed-chunk-19-1.svg" style="display: block; margin: auto;" /&gt;
 
 ---
 
 # Going Back to our Example: Nonlinearities / `\(\neq\)` Slopes?
 
-&lt;img src="RDD_files/figure-html/unnamed-chunk-19-1.svg" style="display: block; margin: auto;" /&gt;
+&lt;img src="RDD_files/figure-html/unnamed-chunk-20-1.svg" style="display: block; margin: auto;" /&gt;
 
 --
 
@@ -438,7 +463,7 @@ Gap between the lines is roughly the same for both specifications.
 
 # Graphical Representation of the Regression Results
 
-&lt;img src="RDD_files/figure-html/unnamed-chunk-20-1.svg" style="display: block; margin: auto;" /&gt;
+&lt;img src="RDD_files/figure-html/unnamed-chunk-21-1.svg" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -554,19 +579,11 @@ What if the running variable does not *fully* determine assignment to treatment?
 
 ### Step #1: ***Is assignment to treatment rule-based?***
 
---
-
 ### Step #2: ***Is design sharp or fuzzy?***
-
---
 
 ### Step #3: ***Is there a discontinuity in running variable at cutoff?***
 
---
-
 ### Step #4: ***Is there a discontinuity in outcome variable at cutoff in running variable?***
-
---
 
 ### Step #5: ***How big is the gap?***
     </textarea>

@@ -1,0 +1,43 @@
+---
+title: "DID Expanded and Maps"
+author: "Dr. Soliman"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(warning = FALSE, message = FALSE)
+options(dplyr.summarise.inform = FALSE, max.print = 100)
+library(tidyverse)
+library(fixest)
+library(sf)
+library(viridis)
+
+# Load the built-in North Carolina shapefile data
+nc <- st_read(system.file("shape/nc.shp", package = "sf"))
+```
+
+# ggplot map
+
+```{r}
+# Create the map with ggplot2
+ggplot(data = nc, aes(fill = BIR74)) + geom_sf() + 
+  labs(title = "Map of North Carolina", fill = "Birth Rate per 1000 in 1974") +
+  scale_fill_viridis(option = "magma")
+```
+
+# DID with multiple periods example
+
+```{r}
+# read in data
+simulated_did_data <- 
+  read_csv("~/Documents/GitHub/Econometrics-Slides/data for tasks/simulated_did_data_clean.csv")
+
+# check it out
+head(simulated_did_data, 10)
+
+# run regressions (don't worry about the NA, its simulated data)
+lm(outcome ~ post_treatment + treated + post_treatment:treated, data = simulated_did_data)
+feols(outcome ~ post_treatment:treated | unit + time, data = simulated_did_data)
+```
+

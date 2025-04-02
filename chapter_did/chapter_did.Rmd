@@ -595,13 +595,28 @@ This table generalizes to other settings by substituting *Pennsylvania* with *Co
 
 # Task 2 
 
-1. Create a dummy variable, `treat`, equal to `FALSE` if `state` is Pennsylvania and `TRUE` if New Jersey.
+1. Create a dummy variable, `treat`, equal to 0 if `state` is Pennsylvania and 1 if New Jersey. Remember to use the mutate() function with ifelse()...
 
-1. Create a dummy variable, `post`, equal to `FALSE` if `observation` is February 1992 and `TRUE` otherwise.
+1. Create a dummy variable, `post`, equal to 0 if `observation` is February 1992 and 1 otherwise.
 
-1. Estimate the following regression model. Do you obtain the same results as in slide 9?
+1. Estimate the following regression model. Do you obtain the same results as in slide 8?
 
 $$empfte_{st} = \alpha + \beta treat_s + \gamma post_t + \delta(treat_s \times post_t) + \varepsilon_{st}$$
+
+---
+
+# Regression Results
+
+```{r}
+regdata <- njmin %>% mutate(empfte = empft + 0.5*emppt + nmgrs,
+                             treat = ifelse(state == "New Jersey", 1, 0),
+                             post = ifelse(observation == "February 1992", 0 , 1)) 
+
+lm(empfte~treat + post + post:treat, data = regdata)
+
+## alternative
+# lm(empfte~post*treat, data = regdata)
+```
 
 ---
 

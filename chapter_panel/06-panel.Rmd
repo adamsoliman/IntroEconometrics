@@ -216,9 +216,7 @@ xsection_p = round(predict(xsection,newdata = data.frame(prbarr = c(0.2,0.3))),3
 
 * Increasing probability of arrest by 1 unit (i.e. 100 percentage point), increases the crime rate by `r coef(xsection)[2]`. So, if we double the probability of arrest, crime would increase by 0.064 crimes per person.
 
-* Increase of 10 percentage points in the probability of arrest (e.g. `prbarr` goes from 0.2 to 0.3) ...
-
-* ... is associated with an increase in crime rate from `r xsection_p[1]` to `r xsection_p[2]`, or a `r round(100 * diff(xsection_p) / xsection_p[1],2)` percent increase in the crime rate.
+* Increase of 10 percentage points in the probability of arrest (e.g. `prbarr` goes from 0.2 to 0.3) is associated with an increase in crime rate from `r xsection_p[1]` to `r xsection_p[2]`, or a `r round(100 * diff(xsection_p) / xsection_p[1],2)` percent increase in the crime rate.
 
 ]
 
@@ -505,8 +503,6 @@ if $c_i$ unobservable and $Cov(x_i,c_i)\neq0 \Rightarrow E[u_i+c_i|x_i]\neq 0,\t
 * Find IV correlated with schooling but not ability
 ]
 
---
-
 .pull-right[
 
 ## Panel Data
@@ -576,7 +572,7 @@ pcolor
 .right-thin[
 * *Within* each county, now is a **negative** relationship!! 
 
-* Different intercepts (county 1 is be the reference group), 
+* Different intercepts (county 1 is the reference group), 
 
 * Unique slope coefficient $\beta$. (you observe that the lines are parallel).
 
@@ -709,51 +705,6 @@ pcolor
 
 ---
 
-# Fixed Effects Estimation in `R`: use a Package!
-
-
-* In real life you will hardly ever perform the within-transformation by yourself 
-
-* and use a package instead!
-
-* There are several options ([`fixest` is fastest](https://github.com/lrberge/fixest)). In our context:
-
-```{r}
-mod$FE = fixest::feols(crmrte ~ prbarr | county, cdata)
-```
-
-* Notice the similar setup to the `estimatr::iv_robust` *two-part formula*. Here the fixed effects come after the `|`. 
-
-* Also, we can have *more than one fixed effect*! For a cool example with *three* fixed effects see the package [vignette](https://cran.r-project.org/web/packages/fixest/vignettes/fixest_walkthrough.html)
-
----
-
-# Fixed Effects Estimation in `R`: use `fixest` 🙂
-
-.left-wide[
-```{r,echo = FALSE}
-ht = modelsummary::modelsummary(mod[c("xsect","dummy","demeaned","FE")],
-                           statistic = 'std.error',
-                           coef_omit = "factor",
-                           gof_map = gofmap,output = "huxtable")
-
-ht %>%
-    set_text_color(row = c(4,6,4), col = c(3,4,5), value = 'red')
-  
-```
-]
-
-.right-thin[
-<br>
-
-* Same estimates! 😅
-* Notice the standard errors: *robust*?! `fixest` computes **cluster-robust** se's. 
-* We suspect there is strong correlation in residuals *within* each county (over time).
-]
-
-
----
-
 # Within Transformation Animated
 
 .left-wide[
@@ -772,3 +723,70 @@ knitr::include_graphics("../img/gifs/panel.gif")
 * By time-demeaning $y$ and $x$, we *project out* the fixed factors related to *county*
 * Only *within* county variation is left.
 ]
+
+
+---
+
+# Fixed Effects Estimation in `R`: use a Package!
+
+* In real life you will hardly ever perform the within-transformation by yourself and will use a package instead! There are several options, but [`fixest` is fastest](https://github.com/lrberge/fixest).
+
+* Also, we can have *more than one fixed effect*! For a cool example with *three* fixed effects see the package [vignette](https://cran.r-project.org/web/packages/fixest/vignettes/fixest_walkthrough.html)
+
+--
+
+* Let's go over an example with real data:
+
+```{r}
+# load package and bring in data
+library(fixest)
+countyopioids <- read.csv("~/Documents/GitHub/IntroEconometrics/data for tasks/countyleveldataonopioids.csv")
+
+# what we did before (pooled OLS)
+lpm <- lm(overdosedeaths ~ percapitapills, data = countyopioids) 
+lpm <- feols(overdosedeaths ~ percapitapills, data = countyopioids) # this is the same as above, but cleaner for output
+
+# the new stuff, various fixed effects
+fe_year <- feols(overdosedeaths ~ percapitapills | year, data = countyopioids, cluster = ~county)
+fe_yearstate <- feols(overdosedeaths ~ percapitapills | state + year, data = countyopioids, cluster = ~county)
+fe_yearcounty <- feols(overdosedeaths ~ percapitapills | county + year, data = countyopioids)
+
+## the below is the best way to generate tables with multiple fixest objects, output is on the next slide
+# etable(lpm, fe_year, fe_yearstate, fe_yearcounty)
+```
+---
+
+```{r, echo=FALSE}
+etable(lpm, fe_year, fe_yearstate, fe_yearcounty)
+```
+
+---
+
+# What is happening?! 
+
+1. Leftmost column (OLS, no FE) → Captures both true effects + confounding factors
+
+2. Adding Year FE → Controls for national trends; effect weakens
+
+3. Adding State FE → Controls for state-level policies/ time-invariant characteristics; effect further weakens
+
+4. Adding County FE → Controls for more local, time-invariant characteristics; effect reverses, suggesting omitted variable bias in earlier models
+
+Potential explanation for findings: after controlling for state policies and local conditions, we might realize that counties with more overdose deaths actually received fewer pills over time (policy response)
+
+---
+
+# Another Way to Think of Fixed Effects
+
+1. Their Role
+
+    - Fixed effects work by introducing dummy variables for each firm and each year
+    - The model estimates separate intercepts for each firm and each year but does not report them explicitly
+    - Since every observation belongs to exactly one firm and one year, these fixed effects fully absorb the intercept
+    
+2. Why No Intercept is Reported?
+
+    - In a typical OLS regression, the intercept represents the expected value of the dependent variable when all explanatory variables are zero
+    - With fixed effects, each firm has its own intercept, meaning the model does not need a single, global intercept
+    - The mean differences across firms and years are captured by the fixed effects instead of a single intercept
+

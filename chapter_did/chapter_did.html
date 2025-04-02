@@ -176,7 +176,7 @@ ck1994 %&gt;%
 # Card and Krueger DiD: Tabular Results
 
 .center[__Average Employment Per Store Before and After the Rise in NJ Minimum Wage__]
-&lt;table class="table table-striped" style="width: auto !important; margin-left: auto; margin-right: auto;"&gt;
+&lt;table class="table table-striped" style="color: black; width: auto !important; margin-left: auto; margin-right: auto;"&gt;
  &lt;thead&gt;
   &lt;tr&gt;
    &lt;th style="text-align:left;"&gt; Variables &lt;/th&gt;
@@ -198,8 +198,8 @@ ck1994 %&gt;%
   &lt;tr&gt;
    &lt;td style="text-align:left;"&gt; Change in mean FTE
 employment &lt;/td&gt;
-   &lt;td style="text-align:left;"&gt; &lt;span style=" font-weight: bold;    color: white !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: rgba(253, 231, 37, 1) !important;text-align: c;"&gt;-2.17&lt;/span&gt; &lt;/td&gt;
-   &lt;td style="text-align:left;"&gt; &lt;span style=" font-weight: bold;    color: white !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: rgba(68, 1, 84, 1) !important;text-align: center;"&gt;0.59&lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; &lt;span style=" font-weight: bold;    color: white !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: rgba(253, 231, 37, 255) !important;text-align: c;"&gt;-2.17&lt;/span&gt; &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; &lt;span style=" font-weight: bold;    color: white !important;border-radius: 4px; padding-right: 4px; padding-left: 4px; background-color: rgba(68, 1, 84, 255) !important;text-align: center;"&gt;0.59&lt;/span&gt; &lt;/td&gt;
   &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
@@ -372,13 +372,41 @@ This table generalizes to other settings by substituting *Pennsylvania* with *Co
 
 # Task 2 
 
-1. Create a dummy variable, `treat`, equal to `FALSE` if `state` is Pennsylvania and `TRUE` if New Jersey.
+1. Create a dummy variable, `treat`, equal to 0 if `state` is Pennsylvania and 1 if New Jersey. Remember to use the mutate() function with ifelse()...
 
-1. Create a dummy variable, `post`, equal to `FALSE` if `observation` is February 1992 and `TRUE` otherwise.
+1. Create a dummy variable, `post`, equal to 0 if `observation` is February 1992 and 1 otherwise.
 
-1. Estimate the following regression model. Do you obtain the same results as in slide 9?
+1. Estimate the following regression model. Do you obtain the same results as in slide 8?
 
 `$$empfte_{st} = \alpha + \beta treat_s + \gamma post_t + \delta(treat_s \times post_t) + \varepsilon_{st}$$`
+
+---
+
+# Regression Results
+
+
+``` r
+regdata &lt;- njmin %&gt;% mutate(empfte = empft + 0.5*emppt + nmgrs,
+                             treat = ifelse(state == "New Jersey", 1, 0),
+                             post = ifelse(observation == "February 1992", 0 , 1)) 
+
+lm(empfte~treat + post + post:treat, data = regdata)
+```
+
+```
+## 
+## Call:
+## lm(formula = empfte ~ treat + post + post:treat, data = regdata)
+## 
+## Coefficients:
+## (Intercept)        treat         post   treat:post  
+##      23.331       -2.892       -2.166        2.754
+```
+
+``` r
+## alternative
+# lm(empfte~post*treat, data = regdata)
+```
 
 ---
 
@@ -403,24 +431,18 @@ class: title-slide-section-red, middle
 
 #  Parallel Trends: Graphically
 
-&lt;img src="chapter_did_files/figure-html/unnamed-chunk-16-1.svg" style="display: block; margin: auto;" /&gt;
-
----
-
-# Checking the parallel trends assumption
-
-
 &lt;img src="chapter_did_files/figure-html/unnamed-chunk-17-1.svg" style="display: block; margin: auto;" /&gt;
 
 ---
 
 # Checking the parallel trends assumption
 
+
 &lt;img src="chapter_did_files/figure-html/unnamed-chunk-18-1.svg" style="display: block; margin: auto;" /&gt;
 
 ---
 
-# Parallel trends assumption `\(\rightarrow\)` Verified ✅
+# Checking the parallel trends assumption
 
 &lt;img src="chapter_did_files/figure-html/unnamed-chunk-19-1.svg" style="display: block; margin: auto;" /&gt;
 
@@ -432,7 +454,7 @@ class: title-slide-section-red, middle
 
 ---
 
-# Parallel trends assumption `\(\rightarrow\)` Not verified ❌
+# Parallel trends assumption `\(\rightarrow\)` Verified ✅
 
 &lt;img src="chapter_did_files/figure-html/unnamed-chunk-21-1.svg" style="display: block; margin: auto;" /&gt;
 
@@ -441,6 +463,12 @@ class: title-slide-section-red, middle
 # Parallel trends assumption `\(\rightarrow\)` Not verified ❌
 
 &lt;img src="chapter_did_files/figure-html/unnamed-chunk-22-1.svg" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Parallel trends assumption `\(\rightarrow\)` Not verified ❌
+
+&lt;img src="chapter_did_files/figure-html/unnamed-chunk-23-1.svg" style="display: block; margin: auto;" /&gt;
 
 ---
 

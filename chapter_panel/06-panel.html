@@ -31,7 +31,28 @@ class: center, middle, inverse, title-slide
 
 
 
-# Cross-Sectional Data
+
+# Overview and Today's Lecture
+
+Thus far, for causality, we've learned:
+
+    Randomized Control Trials (RCTs) → Gold standard, but often impractical
+
+    Regression Discontinuity Designs → Leverages cutoffs for causal inference
+
+    Difference-in-Differences → Exploits policy changes for causal effects
+
+We now turn to panel data techniques:
+
+    Panel Data = Repeated observations of the same units over time
+
+    Fixed Effects = Controlling for time-invariant differences across units
+
+    Helps eliminate omitted variable bias by comparing each unit to itself over time
+
+---
+
+# Type of Data #1: Cross-Sectional
 
 .pull-left[
 So far, we have generally dealt with data that looks like this:
@@ -62,7 +83,7 @@ So far, we have generally dealt with data that looks like this:
 
 ---
 
-# Panel Data
+# Type of Data #2: Panel
 
 .pull-left[
 Now, let's add a `time` index: `Year`.

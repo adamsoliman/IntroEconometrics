@@ -248,27 +248,6 @@ knitr::include_graphics("chapter_intro_files/figure-html/rstudio.png")
 
 ---
 
-# R as a Calculator
-
-* You can use the `R` console like a calculator
-
-* Just type an arithmetic operation after `>` and hit `Enter`!
-
-* Some basic arithmetic first:
-```{r}
-4 + 1
-8 / 2
-```
-
-
-* Great! What about this?
-```{r}
-2^3
-# by the way: this is a comment! R therefore disregards it
-```
-
----
-
 # Where to get Help?
 
 .pull-left[
@@ -332,7 +311,7 @@ ncol(murders) # number of columns. what is the function for rows? yup, its nrow(
 
 # We are going to do some organization before diving into R
 
-1\. Create a folder on your computer and call it **ECON 4050 (Spring 2025)**
+1\. Create a folder on your computer and call it **ECON 4050**
 
 2\. Create three subfolders:
 

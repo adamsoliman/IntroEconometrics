@@ -64,11 +64,11 @@ Depending on the data and the relationships between the variables of interest, y
 
 We will focus on 3 important variations:
   
-  1. ***Non-linear relationships***: logarithm (and polynomial models)
+  1. ***Non-linear relationships***
   
-  1. ***Interactions*** between variables
+  1. ***Interactions*** between variables 
 
-  1. ***Standardized*** regression (will not be covered, see appendix if interested)
+  1. ***Standardized*** regression 
 
 --
 
@@ -352,7 +352,43 @@ model
 
 ---
 
-# Accounting for Other Types Non-Linear Relationships
+# Teaser for the Next Few Topics
+
+* You may have noticed that since the beginning we always work with **samples** drawn from the overall population.
+
+
+* Each time, imagine we could draw another sample from population:
+
+  * Would we obtain the same results? 
+  
+  * In other words, how confident can we be that our estimates (sign, magnitude) are not just driven by randomness?
+
+* We will answer those kind of questions:
+
+  * We'll present the notion of **sampling**, and
+  
+  * Understand what **statistical inference** is and how to do it. 
+---
+
+# On the way to causality
+
+`r emo::ji("white heavy check mark")` How to manage data? Read it, tidy it, visualise it!
+
+`r emo::ji("white heavy check mark")`  **How to summarise relationships between variables?** Simple and multiple linear regression, non-linear regressions, interactions...
+
+`r emo::ji("white heavy check mark")` What is causality?
+
+`r emo::ji("cross mark")` What if we don't observe an entire population?
+
+`r emo::ji("cross mark")`  Are our findings just due to randomness?
+
+`r emo::ji("cross mark")` How to find exogeneity in practice?
+
+---
+
+# Bonus Material
+
+## Accounting for Other Types Non-Linear Relationships
 
 What if the relationship between $x$ and $y$ is not exponential/log?
 
@@ -752,40 +788,6 @@ knitr::include_graphics("chapter_regext_files/figure-html/graph_reg_b0_b1_b2_b3.
 
 2. Run the following regression model `lm(mid_career_pay ~ out_state + type + type*out_state, data = college_clean_really).` Interpret the coefficients in the context of the model. Specifically, what does each coefficient represent, and how do the coefficients for out_state and type differ for public vs. private universities? Keep in mind what is the reference category. 
 
-
----
-
-# Teaser for the Next Few Lectures
-
-* You may have noticed that since the beginning we always work with **samples** drawn from the overall population.
-
-
-* Each time, imagine we could draw another sample from population:
-
-  * Would we obtain the same results? 
-  
-  * In other words, how confident can we be that our estimates (sign, magnitude) are not just driven by randomness?
-
-* We will answer those kind of questions:
-
-  * We'll present the notion of **sampling**, and
-  
-  * Understand what **statistical inference** is and how to do it. 
----
-
-# On the way to causality
-
-`r emo::ji("white heavy check mark")` How to manage data? Read it, tidy it, visualise it!
-
-`r emo::ji("white heavy check mark")`  **How to summarise relationships between variables?** Simple and multiple linear regression, non-linear regressions, interactions...
-
-`r emo::ji("white heavy check mark")` What is causality?
-
-`r emo::ji("cross mark")` What if we don't observe an entire population?
-
-`r emo::ji("cross mark")`  Are our findings just due to randomness?
-
-`r emo::ji("cross mark")` How to find exogeneity in practice?
 
 ---
 name: log_approx

@@ -233,53 +233,12 @@ class: title-slide-section-red, middle
 
 ---
 
-# R as a Calculator
-
-* You can use the `R` console like a calculator
-
-* Just type an arithmetic operation after `&gt;` and hit `Enter`!
-
-* Some basic arithmetic first:
-
-```r
-4 + 1
-```
-
-```
-## [1] 5
-```
-
-```r
-8 / 2
-```
-
-```
-## [1] 4
-```
-
-
-* Great! What about this?
-
-```r
-2^3
-```
-
-```
-## [1] 8
-```
-
-```r
-# by the way: this is a comment! R therefore disregards it
-```
-
----
-
 # Where to get Help?
 
 .pull-left[
 `R` built-in `help`:
 
-```r
+``` r
 ?log #? in front of function
 help(lm)   # help() is equivalent
 ??plot  # get all help on keyword "plot"
@@ -305,13 +264,13 @@ In practice:
 
 * Installing packages is easy! Just use the `install.packages` function:
     
-    ```r
+    ``` r
     install.packages("ggplot2")
     ```
 
 * To *use* the contents of a package, we must load it from our library using `library`:
     
-    ```r
+    ``` r
     library(ggplot2)
     ```
 
@@ -442,10 +401,10 @@ Note that [Hands-On Programming with R](https://rstudio-education.github.io/hopr
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
 <script src="../js/ru_xaringan.js"></script>
 <script>var slideshow = remark.create({
-"highlightStyle": "github",
-"highlightLines": true,
-"countIncrementalSlides": false,
-"ratio": "16:9"
+  "highlightStyle": "github",
+  "highlightLines": true,
+  "countIncrementalSlides": false,
+  "ratio": "16:9"
 });
 if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
   window.dispatchEvent(new Event('resize'));

@@ -1,7 +1,7 @@
 ---
 title: "Does the presence of supporters make football games more interesting?"
 subtitle: "Intro to econometrics using R - Example of research project"
-author: "Adam Soliman"
+author: "Dr. Soliman"
 output: pdf_document
 editor_options: 
   chunk_output_type: console
@@ -13,9 +13,6 @@ library(stargazer)
 library(readxl)
 ```
 
-```{r, echo=F, eval=F}
-setwd("intro/projects/final_example")
-```
 
 # Introduction
 
@@ -39,27 +36,27 @@ Another important factor that could be related to both score and game attendance
 
 ```{r tidy data}
 #uploading all yearly files, keeping relevant variables and creating a variable for the season
-ligue1_18_19 <- read.csv("Ligue1_18_19.csv", encoding="UTF-8") %>%
+ligue1_18_19 <- read.csv("/Users/adamsoliman/Documents/GitHub/Econometrics-Slides/Final project information/Data/Ligue1_18_19.csv", encoding="UTF-8") %>%
     select(Wk, Day, Date, Time, Home, Score,
            Away, Attendance, Venue, Referee) %>% 
     mutate(Season="2018-2019")
 
-ligue1_17_18 <- read.csv("Ligue1_17_18.csv", encoding="UTF-8") %>% 
+ligue1_17_18 <- read.csv("/Users/adamsoliman/Documents/GitHub/Econometrics-Slides/Final project information/Data/Ligue1_17_18.csv", encoding="UTF-8") %>% 
     select(Wk, Day, Date, Time, Home, Score,
            Away, Attendance, Venue, Referee) %>% 
     mutate(Season="2017-2018")
 
-ligue1_16_17 <- read.csv("Ligue1_16_17.csv", encoding="UTF-8") %>% 
+ligue1_16_17 <- read.csv("/Users/adamsoliman/Documents/GitHub/Econometrics-Slides/Final project information/Data/Ligue1_16_17.csv", encoding="UTF-8") %>% 
     select(Wk, Day, Date, Time, Home, Score,
            Away, Attendance, Venue, Referee) %>% 
     mutate(Season="2016-2017")
 
-ligue1_15_16 <- read.csv("Ligue1_15_16.csv", encoding="UTF-8") %>% 
+ligue1_15_16 <- read.csv("/Users/adamsoliman/Documents/GitHub/Econometrics-Slides/Final project information/Data/Ligue1_15_16.csv", encoding="UTF-8") %>% 
     select(Wk, Day, Date, Time, Home, Score,
            Away, Attendance, Venue, Referee) %>%
     mutate(Season="2015-2016")
 
-ligue1_14_15 <- read.csv("Ligue1_14_15.csv", encoding="UTF-8") %>%
+ligue1_14_15 <- read.csv("/Users/adamsoliman/Documents/GitHub/Econometrics-Slides/Final project information/Data/Ligue1_14_15.csv", encoding="UTF-8") %>%
     select(Wk, Day, Date, Time, Home, Score,
            Away, Attendance, Venue, Referee) %>% 
     mutate(Season="2014-2015")
@@ -99,7 +96,7 @@ ligue1_clean <- ligue1 %>%
 
 
 #read budget data
-budgets <- read_excel("budgets_ligue1.xlsx") %>% 
+budgets <- read_excel("/Users/adamsoliman/Documents/GitHub/Econometrics-Slides/Final project information/Data/budgets_ligue1.xlsx") %>% 
     mutate(Budget=str_replace(Budget, "M€", ""), #Remove the unit at the end of the line
            Budget=str_replace(Budget, ",", ".")) #replace decimal comma by decimal point
 
@@ -262,23 +259,23 @@ For instance, as we saw in the distribution of spectators by venue, some stadium
 Another possible omitted variable is the overall quality of the team. It is possible that, even for a given stadium (and hence home team), more fans want to attend the game when the opposing team is a high quality one, to see famous players in action or to support their team in a difficult game. This result has been show before in the literature in Portugal and Germany where people come in greater numbers to see games where the away team is Bavaria Munich or Benfica, Sporting, and Porto. [https://www.tandfonline.com/doi/pdf/10.1080/13504851.2011.639725](Pawlowski & Anders 2012) [https://journals.sagepub.com/doi/full/10.1177/1527002516661602#](Martins & Cro, 2016). To control for this, we will use two alternative methods. The first one will be to control for the budget of the two teams in presence. We argue that budget is a good proxy for quality, in a context where the "price" of best football players is out of reach of average teams. We can also check that budget is an adequate proxy by computing the correlation between each team's season ranking and their budget. We can clearly see that while the correlation is not very linear, the teams with the higest budgets are in the highest ranks at the end of the season. 
 
 ```{r, fig.show="hold", out.width="50%", fig.align="center"}
-ligue1_18_19_results <- read.csv("Ligue1_results_18_19.csv", encoding="UTF-8") %>%
+ligue1_18_19_results <- read.csv("/Users/adamsoliman/Documents/GitHub/Econometrics-Slides/Final project information/Data/Ligue1_results_18_19.csv", encoding="UTF-8") %>%
     select(Rk, Squad) %>% 
     mutate(Season="2018-2019")
 
-ligue1_17_18_results <- read.csv("Ligue1_results_17_18.csv", encoding="UTF-8") %>%
+ligue1_17_18_results <- read.csv("/Users/adamsoliman/Documents/GitHub/Econometrics-Slides/Final project information/Data/Ligue1_results_17_18.csv", encoding="UTF-8") %>%
     select(Rk, Squad) %>% 
     mutate(Season="2017-2018")
 
-ligue1_16_17_results <- read.csv("Ligue1_results_16_17.csv", encoding="UTF-8") %>% 
+ligue1_16_17_results <- read.csv("/Users/adamsoliman/Documents/GitHub/Econometrics-Slides/Final project information/Data/Ligue1_results_16_17.csv", encoding="UTF-8") %>% 
     select(Rk, Squad) %>% 
     mutate(Season="2016-2017")
 
-ligue1_15_16_results <- read.csv("Ligue1_results_15_16.csv", encoding="UTF-8") %>% 
+ligue1_15_16_results <- read.csv("/Users/adamsoliman/Documents/GitHub/Econometrics-Slides/Final project information/Data/Ligue1_results_15_16.csv", encoding="UTF-8") %>% 
     select(Rk, Squad) %>% 
     mutate(Season="2015-2016")
 
-ligue1_14_15_results <- read.csv("Ligue1_results_14_15.csv", encoding="UTF-8") %>%
+ligue1_14_15_results <- read.csv("/Users/adamsoliman/Documents/GitHub/Econometrics-Slides/Final project information/Data/Ligue1_results_14_15.csv", encoding="UTF-8") %>%
     select(Rk, Squad) %>% 
     mutate(Season="2014-2015")
 

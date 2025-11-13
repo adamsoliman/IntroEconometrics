@@ -36,7 +36,7 @@
 
 \title{Introductions and Overview}
 \author{Dr. Adam Soliman}
-\date{Introduction to Econometrics (ECON 4050) \\ Clemson University\\Spring 2025} 
+\date{Introduction to Econometrics (ECON 4050) \\ Clemson University}%\\Spring 2025} 
 \setbeamertemplate{navigation symbols}{}
 
 \begin{frame}[plain, noframenumbering]
@@ -69,7 +69,7 @@
 		\begin{enumerate}
 			\item What are the impacts of cracking down on rogue doctors during the opioid epidemic on street drug prices, overdose mortality, and other doctors behavior?
 			\item Do police respond to changes in punishment severity?
-			\item What happens to neighborhood crime when investors buy many properties?
+			\item What happens to neighborhood crime when investors buy many properties in that area, converting single family homes to rentals?
 		\end{enumerate}
 	\end{wideitemize}
 \end{frame}
@@ -154,10 +154,10 @@
 	\vspace{5mm}
 	\item[1)] Schedule and Location:
 	\begin{wideitemize}
-		\item Lectures: 4050-001 TR from 11:00AM to 12:15PM in Brackett Hall 111
-		\item Labs: 4051-001 T 5:30PM to 8:30PM or ECON 4051-002 Tuesday 5:30PM-8:30PM in Powers Hall 112
+		\item Lectures: 4050-001 TR from 11:00AM to 12:15PM
+		\item Labs: 4051-001 Monday 5:30PM to 8:30PM or ECON 4051-002 Tuesday 5:30PM-8:30PM
 		\item My office hours are on Zoom, please sign up in advance for a slot \href{https://calendly.com/asolima-clemson/econ-4050-sign-up-clone}{here} 
-		\item Our Teaching Assistant (TA) is Haoran Li and will hold office hours (TBD)
+		\item Our Teaching Assistant (TA) is Travis and will hold office hours (TBD)
 	\end{wideitemize}
 	
 	\item[2)] Content: %and communication:
@@ -281,39 +281,16 @@ For descriptive questions: we only observe data for a \textbf{sample} of individ
 \end{frame}
 
 
-\begin{frame}{\bf \large What is the causal effect on your earnings of going to Clemson instead of USC? \\ {\normalsize How to answer this? Potential paths forward}}
+\begin{frame}[label=splitprob]{\bf \large What is the causal effect on your earnings of going to Clemson instead of USC? \\ {\normalsize How to answer this? Potential paths forward}}
 \begin{wideenumerate}
 	\item Compare averages from each group, but what is this missing?
 	\item Run a randomized control trial
 	\item Use non-experimental econometric techniques
 \end{wideenumerate}
+
+\hyperlink{framework}{\beamergotobutton{Splitting up the problem/ Framework for thinking about these steps}}	
 \end{frame}
 
-
-\begin{frame}[label=splitprob]{\bf \large Splitting up the problem}
-	\begin{wideitemize}
-		
-		\item
-		When thinking about causal questions, it's often easier to split the problem in two
-		
-		\item
-		\textbf{Identification:} what could we learn about the parameters we care about (causal effects) if we had the \text{observable data} for the entire population
-		\begin{wideitemize}
-			\item 
-			Need to make assumptions about how observed outcomes relate to outcomes that would have been realized under different treatments
-		\end{wideitemize}
-		
-		\item
-		\textbf{Statistics}: what can we learn about the full population that we care about from the finite sample that we have?
-			\begin{wideitemize}
-				\item 
-				Need to understand the process by which our data is generated from the full population
-			\end{wideitemize} 	
-		
-	\end{wideitemize}	
-	
-\hyperlink{framework}{\beamergotobutton{Framework for thinking about these steps}}	
-\end{frame}
 
 \section{Course Roadmap}
 	\begin{frame}[plain, noframenumbering]{\bf \large Outline}
@@ -332,7 +309,6 @@ For descriptive questions: we only observe data for a \textbf{sample} of individ
 		\item Sampling
 		\item Confidence Intervals \& Hypothesis Testing
 		\item Regression Inference
-		\item ChatGPT and coding
 		\item Regression Discontinuity
 		\item Difference-in-Differences
 		\item Panel Data
@@ -343,11 +319,11 @@ For descriptive questions: we only observe data for a \textbf{sample} of individ
 	\begin{wideitemize}
 		\item \textbf{Important Dates}
 		\begin{wideitemize}
-			\item February 6 (No Class): One Page Proposal for Final Project Due			 
-			\item March 4 (No Class): Take Home Coding Midterm
-			\item Spring Break: March 18, March 20, and March 25 (No Classes)
-			\item April 10: In Class Theory Midterm
-			\item Final Project Presentations: April 15, April 17, April 22, April 24
+			\item January 29 (No Class): One Page Proposal for Final Project Due			 
+			\item February 26 (No Class): Take Home Coding Midterm
+			\item Spring Break: March 17, March 19 (No Classes)
+			\item March 26: In Class Theory Midterm
+			\item Final Project Presentations: April 9, April 14, April 16, April 21, April 23
 			\item Final Project: Due by April 30 at 3PM
 		\end{wideitemize}
 	\end{wideitemize}
@@ -361,7 +337,32 @@ For descriptive questions: we only observe data for a \textbf{sample} of individ
 	\huge Framework for thinking about causal questions
 \end{frame}
 
-\begin{frame}[label = framework]{\bf \large Framework for thinking about these steps \hyperlink{splitprob}{\beamergotobutton{Back}}}
+\begin{frame}[label = framework]{\bf \large Splitting up the problem \hyperlink{splitprob}{\beamergotobutton{Back}}}
+	\begin{wideitemize}
+		
+		\item
+		When thinking about causal questions, it's often easier to split the problem in two
+		
+		\item
+		\textbf{Identification:} what could we learn about the parameters we care about (causal effects) if we had the \text{observable data} for the entire population
+		\begin{wideitemize}
+			\item 
+			Need to make assumptions about how observed outcomes relate to outcomes that would have been realized under different treatments
+		\end{wideitemize}
+		
+		\item
+		\textbf{Statistics}: what can we learn about the full population that we care about from the finite sample that we have?
+		\begin{wideitemize}
+			\item 
+			Need to understand the process by which our data is generated from the full population
+		\end{wideitemize} 	
+		
+	\end{wideitemize}	
+	
+	
+\end{frame}
+
+\begin{frame}{\bf \large Framework for thinking about these steps \hyperlink{splitprob}{\beamergotobutton{Back}}}
 	
 	\begin{wideitemize}
 		

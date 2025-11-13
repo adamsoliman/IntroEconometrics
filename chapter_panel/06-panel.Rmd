@@ -761,7 +761,7 @@ knitr::include_graphics("../img/gifs/panel.gif")
 ```{r}
 # load package and bring in data
 library(fixest)
-countyopioids <- read.csv("~/Documents/GitHub/IntroEconometrics/data for tasks/countyleveldataonopioids.csv")
+countyopioids <- read.csv("~/Library/CloudStorage/Dropbox/Clemson/Econometrics Course/data for tasks/countyleveldataonopioids.csv")
 
 # what we did before (pooled OLS)
 lpm <- lm(overdosedeaths ~ percapitapills, data = countyopioids) 

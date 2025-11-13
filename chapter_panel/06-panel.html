@@ -57,14 +57,42 @@ We now turn to panel data techniques:
 .pull-left[
 So far, we have generally dealt with data that looks like this:
 
-
-| County | CrimeRate | ProbofArrest |
-|:------:|:---------:|:------------:|
-|   1    | 0.0398849 |   0.289696   |
-|   3    | 0.0163921 |   0.202899   |
-|   5    | 0.0093372 |   0.406593   |
-|   7    | 0.0219159 |   0.431095   |
-|   9    | 0.0075178 |   0.631579   |
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:center;"&gt; County &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; CrimeRate &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; ProbofArrest &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.0398849 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.289696 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; 3 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.0163921 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.202899 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; 5 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.0093372 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.406593 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; 7 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.0219159 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.431095 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; 9 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.0075178 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.631579 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
 ]
 
 .pull-right[
@@ -88,18 +116,72 @@ So far, we have generally dealt with data that looks like this:
 .pull-left[
 Now, let's add a `time` index: `Year`.
 
-
-| County | Year | CrimeRate | ProbofArrest |
-|:------:|:----:|:---------:|:------------:|
-|   1    |  81  | 0.0398849 |   0.289696   |
-|   1    |  82  | 0.0383449 |   0.338111   |
-|   1    |  83  | 0.0303048 |   0.330449   |
-|   1    |  84  | 0.0347259 |   0.362525   |
-|   1    |  85  | 0.0365730 |   0.325395   |
-|   1    |  86  | 0.0347524 |   0.326062   |
-|   1    |  87  | 0.0356036 |   0.298270   |
-|   3    |  81  | 0.0163921 |   0.202899   |
-|   3    |  82  | 0.0190651 |   0.162218   |
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:center;"&gt; County &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; Year &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; CrimeRate &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; ProbofArrest &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 81 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.0398849 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.289696 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 82 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.0383449 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.338111 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 83 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.0303048 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.330449 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 84 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.0347259 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.362525 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 85 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.0365730 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.325395 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 86 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.0347524 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.326062 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 87 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.0356036 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.298270 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; 3 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 81 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.0163921 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.202899 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; 3 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 82 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.0190651 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.162218 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
 ]
 
 .pull-right[
@@ -636,7 +718,7 @@ mod$demeaned &lt;- lm(demeaned_crime ~ demeaned_prob, data = cdata)
 ``` r
 # load package and bring in data
 library(fixest)
-countyopioids &lt;- read.csv("~/Documents/GitHub/IntroEconometrics/data for tasks/countyleveldataonopioids.csv")
+countyopioids &lt;- read.csv("~/Library/CloudStorage/Dropbox/Clemson/Econometrics Course/data for tasks/countyleveldataonopioids.csv")
 
 # what we did before (pooled OLS)
 lpm &lt;- lm(overdosedeaths ~ percapitapills, data = countyopioids) 
@@ -719,10 +801,10 @@ Potential explanation for findings: after controlling for state policies and loc
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
 <script src="../js/ru_xaringan.js"></script>
 <script>var slideshow = remark.create({
-"highlightStyle": "github",
-"highlightLines": true,
-"countIncrementalSlides": false,
-"ratio": "16:9"
+  "highlightStyle": "github",
+  "highlightLines": true,
+  "countIncrementalSlides": false,
+  "ratio": "16:9"
 });
 if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
   window.dispatchEvent(new Event('resize'));

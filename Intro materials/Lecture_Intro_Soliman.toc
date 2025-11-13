@@ -1,0 +1,3 @@
+\beamer@sectionintoc {1}{Course Preliminaries}{3}{0}{1}
+\beamer@sectionintoc {2}{Why is Econometrics Challenging?}{18}{0}{2}
+\beamer@sectionintoc {3}{Course Roadmap}{25}{0}{3}

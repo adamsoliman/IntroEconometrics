@@ -24,7 +24,7 @@
 
 1. The reading list for the course can be found [here](https://github.com/adamsoliman/IntroEconometrics/blob/master/readings.md)
 
-1. Slides for the first lecture can be found [here](https://github.com/adamsoliman/IntroEconometrics/blob/master/Intro%20materials%20and%20keys/Lecture_Intro_Soliman.pdf)
+1. Slides for the first lecture can be found [here](https://github.com/adamsoliman/IntroEconometrics/blob/master/Intro%20materials/Lecture_Intro_Soliman.pdf)
 
 1. A deep dive into R programming can be found [here](https://raw.githack.com/adamsoliman/IntroEconometrics/master/chapter_tidy_programming/chapter_tidy.html)
 

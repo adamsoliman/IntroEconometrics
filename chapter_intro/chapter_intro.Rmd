@@ -69,7 +69,7 @@ ___
 
 --
 
-### Moving forward, you will be using R in every class with various tasks (i.e., implementing things you are learning in real time), so always bring your laptop (and you should have already installed R and RStudio using instructions from [this link](https://rstudio-education.github.io/hopr/starting.html))
+### Moving forward, you will be using R in every class with various tasks, so always bring your laptop (and you should install R and RStudio using instructions from [this link](https://rstudio-education.github.io/hopr/starting.html) before next lecture.)
 
 ---
 

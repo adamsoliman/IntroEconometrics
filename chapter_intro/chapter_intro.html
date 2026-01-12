@@ -204,6 +204,47 @@ ggplot(data = gapminder_dplyr,
 
 ---
 
+# Quick Re-Anchor: Thinking About Selection Bias
+
+Recall our earlier examples (e.g., *Clemson vs. USC students* or *Dewey Defeats Truman*):  
+**naive comparisons can conflate causal effects with pre-existing differences between groups.**
+
+Before moving back into R and regression analysis, let’s look at two conceptual examples.
+
+--
+
+## Example 1: Job Training
+
+**Research question:**  
+What is the impact of a *voluntary* job-training program on earnings?
+
+**Setup:**  
+Compare post-training earnings of individuals who enroll in the program to those who do not.
+
+**Question:**  
+What would be your main concern with using this comparison to infer the causal effect of training?
+
+---
+
+# Quick Re-Anchor: Thinking About Selection Bias
+
+## Example 2: Exercise and Health
+
+**Research question:**  
+What is the impact of exercise on health?
+
+**Setup:**  
+Compare health outcomes of individuals who go to the gym with those who do not.
+
+**Question:**  
+Why might this comparison fail to identify the causal effect of exercise?
+
+--
+
+**Key take-away for both examples**: selection into treatment means treated and untreated differ even absent treatment.
+
+---
+
 layout: false
 class: title-slide-section-red, middle
 
@@ -333,7 +374,7 @@ c\. **Final Project**
 
 # Let's try some basic R
 
-1\. Create a new R script (File `\(\rightarrow\)` New File `\(\rightarrow\)` R Script). Save it somewhere as `lecture_intro.R`.
+1\. Create a new R script (File `\(\rightarrow\)` New File `\(\rightarrow\)` R Script). Save it in the *In-Class* subfolder as `lecture_intro.R`.
 
 2\. Type the following code in your script and run it. You can either highlight the code or just put your cursor at the end of the line and click `Run` in the top right corner. Short cut to run code: press `Ctrl` or `Cmd` + `Enter`. 
 

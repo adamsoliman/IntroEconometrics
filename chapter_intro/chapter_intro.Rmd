@@ -55,8 +55,6 @@ ___
 
 `R` is a __programming language__ with powerful statistical and graphic capabilities.
 
---
-
 ## Why are we using `R`?
 
 1. `R` is __free__ and __open source__—saving both you and the university 💰💵💰.
@@ -113,7 +111,7 @@ class: title-slide-section-red, middle
 .pull-left[
 ```{r, gapminder, echo = T, eval = F}
 # load the dataset from dropbox
-gapminder <- read_csv("https://www.dropbox.com/scl/fi/5j1rqye1tvpmk6eqhnand/gapminder.csv?rlkey=4aar6bmn9f5vvi423uds0rk7e&dl=1")
+gapminder <- read.csv("https://www.dropbox.com/scl/fi/5j1rqye1tvpmk6eqhnand/gapminder.csv?rlkey=4aar6bmn9f5vvi423uds0rk7e&dl=1")
 # show first 4 lines of this dataframe
 head(gapminder,n = 4)
 # how many rows in the dataset?
@@ -289,30 +287,6 @@ knitr::include_graphics("chapter_intro_files/figure-html/rstudio.png")
 
 ---
 
-# Where to get Help?
-
-.pull-left[
-`R` built-in `help`:
-```{r, eval = FALSE}
-?log #? in front of function
-help(lm)   # help() is equivalent
-??plot  # get all help on keyword "plot"
-```
-]
-
-.pull-right[
-In practice:
-![Learning R](chapter_intro_files/figure-html/learning_path.png)
-]
-
----
-
-# Collaborate!
-
-<img src="chapter_intro_files/figure-html/gator_error.jpg" alt="Gator collaboration" width="900" style="display: block; margin-left: auto; margin-right: auto"/>
-
----
-
 # R Packages
 
 * `R` users contribute add-on data and functions as *packages*
@@ -387,7 +361,7 @@ Congratulations, you have created your first `R` "object"! Everything is an obje
 
 # Let's move on to some real data...about Clemson football!
 
-1\. Find out (using `help()` or google) how to import a .csv file. Do NOT use the "Import Dataset" button, nor install a package. The first Google entry is [this](https://teacherscollege.screenstepslive.com/a/1122473-import-data-in-r-csv-files-into-r-studio)...
+1\. Find out (using `help()` or google) how to import a .csv file. Do NOT use the "Import Dataset" button, nor install a package. 
 
 --
 
@@ -397,6 +371,9 @@ Congratulations, you have created your first `R` "object"! Everything is an obje
 # this is a comment, which you should always use in your code. Note your path will look slightly different
 clemsonfootballdata <- read.csv("/Users/adamsoliman/Library/CloudStorage/Dropbox/Clemson/Econometrics Course/data for tasks/clemsonFBSfinances.csv")
 ```
+
+
+--
 
 3\. Type in `class(clemsonfootball)` in your script and run the code. What happened and why? Then try with `class(clemsonfootballdata)`. Did that work?
 

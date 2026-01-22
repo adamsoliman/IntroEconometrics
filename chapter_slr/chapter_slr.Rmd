@@ -78,6 +78,8 @@ countdown(
 
 # Task 1: Getting to know the data
 
+**GOOD CODING PRACTICES TO ALWAYS START WITH: 1) open a new script and save it, 2) load in any packages, such as with *library(tidyverse)*, and 3) add notes for yourself. Then import the data.**
+
 1. Download the data from [here](https://github.com/adamsoliman/IntroEconometrics/blob/master/data%20for%20tasks/grade5_isl.csv) and load it into R as `grades`. Remember that `grades` is called an object. This is similar to a spreadsheet, and you can have multiple objects loaded in R at the same time.
 
 1. Describe the dataset:

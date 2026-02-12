@@ -422,26 +422,6 @@ ggplot(virtual_prop_green, aes(x = prop_green)) +
 
 ---
 
-# Task
-
-Instead of taking only 33 samples, let's take ***1000***!
-
-1. Why do we not take 1000 samples "by hand"?
-
-1. Load the [data](https://github.com/adamsoliman/IntroEconometrics/blob/master/data%20for%20tasks/pasta.csv) into an object `pasta`. Careful with the names of objects.
-
-1. Obtain 1000 samples of size 50 using the `rep_sample_n()` function from the `moderndive` package.
-
-1. Calculate the proportion of green pasta in each sample.
-
-1. Plot a histogram of the obtained proportion of green pasta in each sample.
-
-1. What do you observe? Which proportions occur most frequently? How does the shape of the histogram compare to when we took only 33 samples?
-
-1. How likely is it that we sample 50 pasta of which less than 20% are green?
-
----
-
 # Sampling Distribution of 1000 Samples
 
 &lt;img src="chapter_sampling_files/figure-html/unnamed-chunk-14-1.svg" style="display: block; margin: auto;" /&gt;
@@ -684,11 +664,25 @@ Scenario | Population parameter | Notation | Point estimate | Symbol(s)
 
 ---
 
-# Central Limit Theorem - NYTimes video
+# Task
 
-.center[
-&lt;iframe width="684" height="464" src="https://www.youtube.com/embed/jvoxEYmQHNM" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen&gt;&lt;/iframe&gt;
-]
+1. Why do we not take 1000 samples "by hand"?
+
+1. Install the `moderndive` package. To install a new package, i.e., for the first time, run `install.packages("moderndive")` in the console. Then, in your script, right below `library(tidyverse)`, add `library(moderndive)`. You will never need to install the package again moving forward.
+
+1. Load the [data](https://github.com/adamsoliman/IntroEconometrics/blob/master/data%20for%20tasks/pasta.csv) into R, and call the object `pastabowl`. 
+
+1. Obtain 100 samples of size 10 using the `rep_sample_n()` function. 
+
+1. Calculate the proportion of green pasta in each sample.
+
+1. Plot a histogram of the obtained proportion of green pasta in each sample.
+
+1. Redo the procedure above with 100 samples of size 30 using the `rep_sample_n()` function. Then calculate the proportion of green pasta in each sample and plot a histogram. 
+
+1. Redo the procedure above with 100 samples of size 1000 using the `rep_sample_n()` function. Then calculate the proportion of green pasta in each sample and plot a histogram. 
+
+1. What are the two key concepts relating to sampling for estimation that we just highlighted?
 
 ---
 

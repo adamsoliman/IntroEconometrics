@@ -1,0 +1,75 @@
+---
+title: "Regression Homework"
+author: "Econ 4050 (Soliman)"
+date: "Due by 2/7/2026 at 5pm, upload a PDF of your Word/Google Doc responses to Canvas"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+
+moviedata <- read.csv("~/Documents/GitHub/Econometrics-Slides/Additional Resources/TableF4-3.csv") %>% 
+  mutate(BOXOFFICE = BOX/100000, BOXOFFICE = round(BOXOFFICE, digits = 0),
+         BUDGET = round(BUDGET, digits = 0)) %>%
+  select(BOXOFFICE, BUDGET, STARPOWR, SEQUEL, COMEDY)
+```
+
+
+```{r}
+head(moviedata, 5)
+```
+
+*This is information on movies in a given year. BOXOFFICE and BUDGET are in millions of dollars. STARPOWR is an index of star power for a given movie. COMEDY and SEQUEL are dummy variables.*
+
+**Question 1) Interpret each coefficient.** (20 points)
+
+```{r}
+lm(BOXOFFICE ~ BUDGET, data = moviedata)
+```
+
+Answer:
+
+Intercept:
+The intercept represents the predicted box office revenue in millions of dollars (so $82.8 million) for a movie with a budget of zero.
+
+Budget coefficient:
+The coefficient on BUDGET measures the average change in box office revenue associated with a one-million-dollar increase in a movie’s budget. Specifically, an additional \$1 million in budget is associated with an increase of \$2.3 million in box office revenue, on average.
+
+**Question 2) Interpret each coefficient.** (30 points)
+
+```{r}
+lm(BOXOFFICE ~ BUDGET + SEQUEL, data = moviedata)
+```
+
+Answer:
+
+Intercept:
+The intercept represents the predicted box office revenue ($72.7 million) for a non-sequel movie with a budget of zero.
+
+Budget coefficient:
+Holding sequel status constant, the coefficient on BUDGET represents the average change in box office revenue associated with a one-million-dollar increase in the movie’s budget. Therefore, a proper interpretation would be that an additional \$1 million in budget is associated with an increase of \$2.1 million in box office revenue, on average, holding sequal status constant.
+
+Sequel coefficient:
+The coefficient on SEQUEL measures the average difference in box office revenue between sequel and non-sequel movies, holding the budget constant. Therefore, the interpretation here is holding the budget constant, a sequel movie makes, on average, $145 million more than a non-sequel movie.
+
+**Question 3) Interpret each coefficient.** (50 points)
+
+```{r}
+lm(BOXOFFICE ~ BUDGET + COMEDY + STARPOWR, data = moviedata)
+```
+
+Answer:
+
+Intercept:
+The intercept represents the predicted box office revenue ($106 million) for a non-comedy movie with zero star power and a budget of zero.
+
+Budget coefficient:
+Holding genre and star power constant, the coefficient on BUDGET represents the average change in box office revenue associated with a one-million-dollar increase in the movie’s budget. Therefore, a proper interpretation would be that an additional \$1 million in budget is associated with an average increase of \$2.6 million in box office revenue, holding comedy status and star power constant.
+
+Comedy coefficient:
+The coefficient on COMEDY measures the average difference in box office revenue between comedy and non-comedy movies, holding budget and star power constant.  Therefore, the interpretation here is holding the budget and start power constant, a comedy movie makes, on average, $14.5 million more than a non-comedy movie.
+
+Star power coefficient:
+Holding budget and genre constant, the coefficient on STARPOWR represents the average change in box office revenue associated with a one-unit increase in the star power index.
+

@@ -1,0 +1,43 @@
+---
+title: "Regression Homework"
+author: "Econ 4050 (Soliman)"
+date: "Due by 2/7/2026 at 5pm, upload a PDF of your Word/Google Doc responses to Canvas"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+
+moviedata <- read.csv("~/Documents/GitHub/Econometrics-Slides/Additional Resources/TableF4-3.csv") %>% 
+  mutate(BOXOFFICE = BOX/100000, BOXOFFICE = round(BOXOFFICE, digits = 0),
+         BUDGET = round(BUDGET, digits = 0)) %>%
+  select(BOXOFFICE, BUDGET, STARPOWR, SEQUEL, COMEDY)
+```
+
+
+```{r}
+head(moviedata, 5)
+```
+
+*This is information on movies in a given year. BOXOFFICE and BUDGET are in millions of dollars. STARPOWR is an index of star power for a given movie. COMEDY and SEQUEL are dummy variables.*
+
+**Question 1) Interpret each coefficient.** (20 points)
+
+```{r}
+lm(BOXOFFICE ~ BUDGET, data = moviedata)
+```
+
+**Question 2) Interpret each coefficient.** (30 points)
+
+```{r}
+lm(BOXOFFICE ~ BUDGET + SEQUEL, data = moviedata)
+```
+
+**Question 3) Interpret each coefficient.** (50 points)
+
+```{r}
+lm(BOXOFFICE ~ BUDGET + COMEDY + STARPOWR, data = moviedata)
+```
+
+

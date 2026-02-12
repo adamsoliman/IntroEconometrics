@@ -506,6 +506,25 @@ In other words, 95% of the time, the 95% confidence interval will contain the tr
   
 ---
 
+# Sampling, the Bootstrap, and Distributions
+
+Goal: Estimate the true proportion of green pasta, *p*, in the population (in our case, of 713 pieces).
+
+
+| World/ Setting                                         | What We Do                                              | What We See                       | What We Learn                                                           |
+| --------------------------------------------- | ------------------------------------------------------- | --------------------------------- | ----------------------------------------------------------------------- |
+| **1. Repeated Sampling** (thought experiment) | Draw many samples of 50 from the 713                    | Each sample’s  $\hat{p}$  differs | The sampling distribution shows natural variability                     |
+| **2. Real Data** (one sample)                 | Observe one sample of 50 and compute one  $\hat{p}$     | Only a single estimate            | We need a way to quantify unseen variability (for confidence intervals) |
+| **3. Bootstrap**                              | Resample *with replacement* from the 50 observed pieces | Bootstrap  $\hat{p}$’s differ    | Approximates the sampling distribution                                  |
+
+
+**Key Idea**: *the bootstrap mimics the repeated-sampling experiment, using the sample as our best estimate of the population.* Put another way:
+
+  - A single $\hat{p}$ answers: *what is our estimate?*
+  - Bootstrapping helps answer: *how much should we trust that estimate/ what is the uncertainty around it?* 
+  - Confidence intervals can also be derived analytically from the Central Limit Theorem (as is done in R)
+---
+
 # From Confidence Intervals to Hypothesis Testing
 
 * *Confidence intervals* can be thought of as an extension of *point estimation*.

@@ -186,7 +186,7 @@ Entry | Meaning
 
 * From the table, we get $\hat{\textrm{SE}}(b_\textrm{small}) = `r reg_summary_star_df[2,2]`$
   
-* The true standard error (SE) is unknown because we only have one sample—if we had all possible samples, we could compute the real SE exactly.
+* The true standard error (SE) is unknown because we only have one sample.
 
 * This estimate of the standard error allows us to quantify uncertainty in $b_\textrm{small}$ and conduct statistical inference.
 

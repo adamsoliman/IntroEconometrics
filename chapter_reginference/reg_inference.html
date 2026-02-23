@@ -73,7 +73,7 @@ star_df &lt;- star_df %&gt;%
 
 .pull-right[
 
-```r
+``` r
 reg_star = lm(math ~ small, star_df)
 reg_star
 ```
@@ -199,7 +199,7 @@ Entry | Meaning
 
 * From the table, we get `\(\hat{\textrm{SE}}(b_\textrm{small}) = 1.68\)`
   
-* The true standard error (SE) is unknown because we only have one sample—if we had all possible samples, we could compute the real SE exactly.
+* The true standard error (SE) is unknown because we only have one sample.
 
 * This estimate of the standard error allows us to quantify uncertainty in `\(b_\textrm{small}\)` and conduct statistical inference.
 
@@ -231,7 +231,7 @@ se_simul = round(sd(bootstrap_distrib$stat),3)
 .pull-right[
 &lt;img src="reg_inference_files/figure-html/unnamed-chunk-7-1.svg" style="display: block; margin: auto;" /&gt;
 
-***standard error:*** 1.72 `\(\rightarrow\)` very close to the one in the table (1.68)!
+***standard error:*** 1.68 `\(\rightarrow\)` very close to the one in the table (1.68)!
 
 Not exactly equal, because we used bootstrapping instead of the theory approach used by `R`.
 ]
@@ -303,7 +303,7 @@ round(observed_stat,2)
 
 ```
 ## smallTRUE 
-##      5.34
+##      5.29
 ```
 ]
 
@@ -349,7 +349,7 @@ null_distribution &lt;- null_distribution %&gt;%
   mutate(test_stat = stat/sd(bootstrap_distrib$stat))
 ```
 
-* Remember we got `\(\hat{SE}(b_\textrm{small})\)` = 1.72 from our bootstrap distribution.
+* Remember we got `\(\hat{SE}(b_\textrm{small})\)` = 1.68 from our bootstrap distribution.
 ]
 
   
@@ -375,7 +375,7 @@ Unlikely to obtain `\(b_\textrm{small}\)` = 8.9 if `\(H_0\)` is true, as the ass
 
 # Testing `\(\beta_\textrm{small} = 0\)` vs `\(\beta_\textrm{small} \neq 0\)`
 
-* To decide if we reject `\(H_0\)`, recall we are considering a **two-sided test** here: *more extreme* means inferior to -5.335 **or** superior to 5.335. 
+* To decide if we reject `\(H_0\)`, recall we are considering a **two-sided test** here: *more extreme* means inferior to -5.286 **or** superior to 5.286. 
 
 &lt;img src="reg_inference_files/figure-html/unnamed-chunk-14-1.svg" style="display: block; margin: auto;" /&gt;
 
@@ -385,12 +385,12 @@ What does the p-value correspond to?
 
 # Testing `\(\beta_\textrm{small} = 0\)` vs `\(\beta_\textrm{small} \neq 0\)`
 
-* To decide if we reject `\(H_0\)`, recall we are considering a **two-sided test** here: *more extreme* means inferior to -5.34 **or** superior to 5.34. 
+* To decide if we reject `\(H_0\)`, recall we are considering a **two-sided test** here: *more extreme* means inferior to -5.29 **or** superior to 5.29. 
 
 * Computing the *p-value* we get:
 
 
-```r
+``` r
 p_value = mean(abs(null_distribution$test_stat) &gt;= observed_stat)
 p_value
 ```
@@ -407,7 +407,7 @@ p_value
 
 # Testing `\(\beta_\textrm{small} = 0\)` vs `\(\beta_\textrm{small} \neq 0\)`
 
-* To decide if we reject `\(H_0\)`, recall we are considering a **two-sided test** here: *more extreme* means inferior to -5.34 **or** superior to 5.34. 
+* To decide if we reject `\(H_0\)`, recall we are considering a **two-sided test** here: *more extreme* means inferior to -5.29 **or** superior to 5.29. 
 
 * Computing the *p-value* we get:
 
@@ -526,7 +526,7 @@ bootstrap_distrib %&gt;%
 ## # A tibble: 1 × 2
 ##   lower_bound upper_bound
 ##         &lt;dbl&gt;       &lt;dbl&gt;
-## 1        5.63        12.2
+## 1        5.60        12.2
 ```
 ]
 
@@ -855,10 +855,10 @@ Big Thanks 🎉 to [ungeviz](https://github.com/wilkelab/ungeviz) and 🎊 [ggan
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
 <script src="../js/ru_xaringan.js"></script>
 <script>var slideshow = remark.create({
-  "highlightStyle": "github",
-  "highlightLines": true,
-  "countIncrementalSlides": false,
-  "ratio": "16:9"
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9"
 });
 if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
   window.dispatchEvent(new Event('resize'));

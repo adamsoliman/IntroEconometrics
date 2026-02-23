@@ -1,0 +1,117 @@
+---
+title: "Overview of First Half of ECON 4050 (Answer Key)"
+author: "Dr. Soliman"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+# we are using a preloaded dataset
+mtcars <- mtcars
+```
+
+Always understand the data before using it by doing something like this:
+```{r}
+summary(mtcars)
+view(mtcars)
+```
+
+# The Linear Regression
+
+1\. Create a scatter plot with mpg on the y-axis and cyl on the x-axis, which is the relationship between miles per gallon and cylinders for a given car.
+
+```{r}
+ggplot(mtcars, aes(x = cyl, y = mpg)) + geom_point() 
+```
+
+2\. Calculate the average mpg by cyl. Do this using dyplr functions and `%>%`.
+
+```{r}
+mtcars %>% 
+  group_by(cyl) %>% 
+  summarise(averagempg = mean(mpg))
+```
+
+
+3\. Regress mpg on cyl (dependent on independent) and interpret each coefficient.
+
+```{r }
+lm(mpg ~ cyl, data = mtcars)
+```
+
+A car with no cylinders, on average, achieves 38 miles per gallon. Each additional cylinder is associated with a decrease in the miles per gallon of approximately 2.9, on average. 
+
+4\. Add the variable `am` to the previous model and rerun the regression. The `am` variable represents the type of transmission (0 = automatic, 1 = manual). What is the interpretation of each coefficient.
+
+```{r }
+lm(mpg ~ cyl + am, data = mtcars)
+```
+
+An automatic car (am = 0) with no cylinders (cyl = 0) achieves an average miles per gallon of 34.5. Holding transmission fixed, each additional cylinder is associated with a decrease in the miles per gallon of approximately 2.5, on average. Holding cylinders fixed, a manual car gets 2.6 more miles per gallon than an automatic car, on average.
+
+
+5\. Is this relationship causal? If not, what is a potential omitted variable that may be important to consider when examining the relationship between mpg and cyl?
+
+No, it is not causal. One omitted variable is the weight of the car, as heavier cars often have worse miles per gallon and more cylinders. There are many other ones to consider.
+
+6\. Create a new object called `mpgextra` and add a variable that is the log of mpg. Why would we want to take the logaritm of a variable? Rerun the regression from question 2 but using the log of mpg as the outcome and interpret the coefficients.
+
+```{r }
+mpgextra <- mtcars %>% mutate(logmpg = log(mpg))
+
+lm(logmpg ~ cyl, data = mpgextra)
+
+```
+
+We take the log of a variable if its distribution is skewed. We usually only care about the slope coefficients when we do that, and so an increase in the cylinders by one unit is associated with a decrease in the miles per gallon of about 14%. 
+
+7\. Copy the regression you ran in Question #3 in the code chunk below, then add `%>% summary()` and execute. Define the null and alternative hypotheses. Then, interpret the p-value and what it means you should do with regards to the hypothesis test
+
+```{r }
+lm(mpg ~ cyl, data = mtcars) %>% summary()
+```
+
+The null hypothesis is that the slope coefficient is zero, or put differently, there is no relationship between cylinders and miles per gallon. The alternative is that the slope is nonzero, i.e., that there is some relationship between the two variables. Because the p-value is essentially zero, so less than alpha of 0.05, we would reject the null hypothesis. We would say therefore that the coefficient is statistically significant. 
+
+\clearpage
+
+# Sampling, Confidence Intervals, and Hypothesis Testing
+
+1\. **If you run the same regression on different samples, do you expect to get the exact same coefficient estimates or different ones? Why?**
+
+You should expect different coefficient estimates because each sample (generally) contains different observations. This is called sampling variation. Put differently, even though/if all samples come from the same population, randomness in sampling leads to different estimates.
+
+2\. **When a sample size gets larger, what happens to the sampling variation? Regardless of how the underlying population distribution looks like, when sample means are based on larger and larger sample sizes, the sampling distribution of these sample means becomes both more and more like what type of distribution?**
+
+As the sample size increases, sampling variation decreases, and thus estimates become more precise. Regardless of the underlying population distribution, the sampling distribution of the sample mean becomes more and more like a normal distribution. This result follows from the Central Limit Theorem.
+
+3\. **How does the width of the confidence interval change as the confidence level increases? Why?**
+
+As the confidence level increases, the confidence interval becomes wider. This happens because higher confidence requires covering the true parameter more often, which requires a larger margin of error.
+
+4\. **How does the width of the confidence interval change as the sample size increases? Why?**
+
+As the sample size increases, the confidence interval becomes narrower. The intuition is that more data gives you more information about the true population value. With only a small sample, your estimate could be far from the truth just by chance, so you need a wider interval to reflect that uncertainty. With a large sample, your estimate is more reliable and less affected by random chance, so you can be more precise and use a narrower interval.
+
+5\. **Define the null and alternative hypothesis. What does it mean to have a very small p-value?**
+
+The null hypothesis is the default claim that there is no effect or no relationship (for example, that a coefficient equals zero). It represents the idea that nothing interesting is happening.
+
+The alternative hypothesis is the competing claim that there is an effect or relationship (for example, that the coefficient is not zero).
+
+A very small p-value means that the observed result would be very unlikely if the null hypothesis were true. This provides strong evidence against the null hypothesis.
+
+6\. **In economics, what action should you take with regards to the null and alternative hypothesis if you obtain a p-value of 0.007? How about if it was instead 0.7?**
+
+If the p-value is 0.007, you should reject the null hypothesis, because this is strong evidence against it (assuming a typical significance level such as 5%).
+
+If the p-value is 0.7, you should fail to reject the null hypothesis, because the data are consistent with the null hypothesis.
+
+7\. **What elements do you need to construct a confidence interval? What us the formula for a 95\% confidence interval and what does it mean?**
+
+You need the point estimate (e.g., coefficient from the regression), standard error, and critical value. The formula is estimate +/- 1.96 X standard error. 
+
+Interpretation: A 95% confidence interval means that if you repeated the sampling process many times, 95% of the constructed confidence intervals would contain the true population parameter. More informally, we say that we are 95% confident that the true population parameter lies within our constructed confidence interval. 
+

@@ -214,20 +214,6 @@ At the threshold, the probability of being treated jumps from 0 to 1.
 
 ---
 
-# Task 1 
-
-1. Import the dataset after downloading it from [here](https://github.com/adamsoliman/IntroEconometrics/blob/master/data%20for%20tasks/mlda.csv). How many age cells are there?
-
-1. Create a dummy variable for individuals over 21 years old.
-
-1. Plot the death rate for all causes (`all`) on the y-axis as a function of age (`agecell`) on the x-axis, coloring observations above and below 21 years old. Does anything seem striking?
-
-1. Add a regression line to the plot with `geom_smooth(method = `lm`)`. What do you observe?
-
-1. Do the same for motor vehicle-related causes (`mva`) and alcohol-related causes (`alcohol`) as a function of age.
-
----
-
 # Graphical Results: All Death Rates
 
 &lt;img src="RDD_files/figure-html/unnamed-chunk-6-1.svg" style="display: block; margin: auto;" /&gt;
@@ -291,19 +277,6 @@ class: title-slide-section-red, middle
 
 * The RDD estimator exploits a discontinuity at `\(a = 21\)` in the conditional expectation function:
 `$$\underbrace{\lim_{c \to 21^+} \mathbb{E}[DEATHRATE_a|a = c]}_{\alpha + \delta} - \underbrace{\lim_{c \to 21^-} \mathbb{E}[DEATHRATE_a|a = c]}_{\alpha} = \delta$$`
-
----
-
-# Task 2 
-
-1. Estimate the following model on all death causes.
-`$$DEATHRATE_a = \alpha + \delta D_a + \beta a + \varepsilon_i,$$`
-
- Does the RDD coefficient correspond to the graphical illustration?
- 
-1. How do you interpret each coefficient?
-
-1. What is the causal effect of legal access to alcohol on death rates?
 
 ---
 
@@ -586,15 +559,39 @@ What if the running variable does not *fully* determine assignment to treatment?
 ### Step #4: ***Is there a discontinuity in outcome variable at cutoff in running variable?***
 
 ### Step #5: ***How big is the gap?***
+
+---
+
+# Task 
+
+1. Import the dataset after downloading it from [here](https://github.com/adamsoliman/IntroEconometrics/blob/master/data%20for%20tasks/mlda.csv). How many age cells are there?
+
+1. Create a dummy variable for individuals over 21 years old.
+
+1. Plot the death rate for all causes (`all`) on the y-axis as a function of age (`agecell`) on the x-axis, coloring observations above and below 21 years old. Does anything seem striking?
+
+1. Add a regression line to the plot with `geom_smooth(method = `lm`)`. What do you observe?
+
+1. Do the same for motor vehicle-related causes (`mva`) and alcohol-related causes (`alcohol`) as a function of age.
+
+1. Estimate the following model on all death causes.
+`$$DEATHRATE_a = \alpha + \delta D_a + \beta a + \varepsilon_i,$$`
+
+ Does the RDD coefficient correspond to the graphical illustration?
+ 
+1. How do you interpret each coefficient?
+
+1. What is the causal effect of legal access to alcohol on death rates?
+
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/remark/0.14.0/remark.min.js"></script>
 <script src="../js/ru_xaringan.js"></script>
 <script>var slideshow = remark.create({
-  "highlightStyle": "github",
-  "highlightLines": true,
-  "countIncrementalSlides": false,
-  "ratio": "16:9"
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9"
 });
 if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
   window.dispatchEvent(new Event('resize'));

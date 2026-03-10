@@ -12,7 +12,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 Let's analyse the regression results using **reading** score as the dependent variable.
 
-1. Load the data from [here](https://github.com/adamsoliman/IntroEconometrics/blob/master/data%20for%20tasks/grade5_isl.csv) as `grades`.
+1. Load the data from [here](https://github.com/adamsoliman/IntroEconometrics/blob/master/data_for_tasks/grade5_isl.csv) as `grades`.
 
 ```{r}
 # your path will look different

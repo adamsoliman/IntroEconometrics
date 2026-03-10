@@ -17,7 +17,7 @@ countyopioids <- read.csv("~/Library/CloudStorage/Dropbox/Clemson/Econometrics C
 
 # Introduction to Fixed Effects and Panel Data
 
-This document provides an overview of fixed effects (FE) models in panel data analysis, using county-level opioid data. We will first review pooled OLS regression and then introduce various fixed effects specifications to illustrate their impact. Note that the data comes from [here](https://github.com/adamsoliman/IntroEconometrics/blob/master/data%20for%20tasks/countyleveldataonopioids.csv) if you want to download and run/ edit this on your own. Remember to install the fixest package first, but only once, in the console with `install.packages("fixest")`.
+This document provides an overview of fixed effects (FE) models in panel data analysis, using county-level opioid data. We will first review pooled OLS regression and then introduce various fixed effects specifications to illustrate their impact. Note that the data comes from [here](https://github.com/adamsoliman/IntroEconometrics/blob/master/data_for_tasks/countyleveldataonopioids.csv) if you want to download and run/ edit this on your own. Remember to install the fixest package first, but only once, in the console with `install.packages("fixest")`.
 
 ## Pooled OLS Regression
 

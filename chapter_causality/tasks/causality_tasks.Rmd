@@ -67,11 +67,11 @@ ATE + selection_bias + het_trt_effect_bias
 
 ## Task 2: STAR data
 
-1\. Load the *STAR* data from [here](https://github.com/adamsoliman/IntroEconometrics/blob/master/data%20for%20tasks/star_data.csv) and assign it to an object called `star_df`.
+1\. Load the *STAR* data from [here](https://github.com/adamsoliman/IntroEconometrics/blob/master/data_for_tasks/star_data.csv) and assign it to an object called `star_df`.
 
 ```{r}
 # remember to change the path
-star_df <- read.csv("/Users/adamsoliman/Documents/GitHub/Econometrics-Slides/data for tasks/star_data.csv")
+star_df <- read.csv("~/Documents/GitHub/Econometrics-Slides/data_for_tasks/star_data.csv")
 ```
 
 2\. What's the unit of observation? Which variable contains: (i) the (random) class assignment, (ii) the student's class grade, (iii) the outcomes of interest?

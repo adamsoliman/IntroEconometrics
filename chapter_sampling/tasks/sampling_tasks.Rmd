@@ -18,10 +18,10 @@ Instead of taking only 33 samples, let's take ***1000***!
 
 **It would be too time-consuming.**
 
-2. Load the [data](https://github.com/adamsoliman/IntroEconometrics/blob/master/data%20for%20tasks/pasta.csv) into an object `pasta`.
+2. Load the [data](https://github.com/adamsoliman/IntroEconometrics/blob/master/data_for_tasks/pasta.csv) into an object `pasta`.
 
 ```{r}
-pasta <- read.csv("~/Documents/GitHub/Econometrics-Slides/data for tasks/pasta.csv")
+pasta <- read.csv("~/Documents/GitHub/Econometrics-Slides/data_for_tasks/pasta.csv")
 ```
 
 3. Obtain 1000 samples of size 50 using the `rep_sample_n()` function from the `moderndive` package.

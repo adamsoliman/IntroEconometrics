@@ -845,7 +845,7 @@ $\rightarrow$ ***Fuzzy RDD***
 
 # Task 
 
-1. Import the dataset after downloading it from [here](https://github.com/adamsoliman/IntroEconometrics/blob/master/data%20for%20tasks/mlda.csv). How many age cells are there?
+1. Import the dataset after downloading it from [here](https://github.com/adamsoliman/IntroEconometrics/blob/master/data_for_tasks/mlda.csv). How many age cells are there?
 
 1. Create a dummy variable for individuals over 21 years old.
 

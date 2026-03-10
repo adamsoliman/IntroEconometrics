@@ -166,20 +166,6 @@ ck1994 %>%
 ]
 ---
 
-# Task 1 
-
-1. Take a look at the dataset (download [here](https://github.com/adamsoliman/IntroEconometrics/blob/master/data%20for%20tasks/ck1994.csv)) and list the variables. 
-
-1. Tabulate the number of stores by `state` and by survey wave (`observation`). Does it match what's in *Table 1* of the [paper](http://davidcard.berkeley.edu/papers/njmin-aer.pdf)?
-
-1. Create a full-time equivalent (FTE) employees variable called `empfte` equal to `empft` + 0.5*`emppt` + `nmgrs`. `empft` and `emppt` correspond respectively to the number of full-time and part-time employees. `nmgrs` corresponds to the number of managers. This is how Card and Krueger compute their full-time equivalent (FTE) employment variable (p.775 of the paper).
-
-1. Compute the average number of FTE employment, average percentage of FT employees (out of the number of FTE employees), and average starting wage (`wage_st`) by state and by survey wave. Compare your results with *Table 2* of the paper.
-
-5. How different are New Jersey and Pennsylvania's fast-food restaurants before the minimum wage increase?
-
----
-
 # Card and Krueger DiD: Tabular Results
 
 .center[__Average Employment Per Store Before and After the Rise in NJ Minimum Wage__]
@@ -591,17 +577,6 @@ New Jersey (NJ) | $\color{#d96502}\alpha + \color{#027D83}\beta$ | $\color{#d965
 $\Delta$(NJ - PA) | $\color{#027D83}\beta$ | $\color{#027D83}\beta + \color{#d90502}\delta$ | $\color{#d90502}\delta$
 
 This table generalizes to other settings by substituting *Pennsylvania* with *Control* and *New Jersey* with *Treatment*
----
-
-# Task 2 
-
-1. Create a dummy variable, `treat`, equal to 0 if `state` is Pennsylvania and 1 if New Jersey. Remember to use the mutate() function with ifelse()...
-
-1. Create a dummy variable, `post`, equal to 0 if `observation` is February 1992 and 1 otherwise.
-
-1. Estimate the following regression model. Do you obtain the same results as in slide 8?
-
-$$empfte_{st} = \alpha + \beta treat_s + \gamma post_t + \delta(treat_s \times post_t) + \varepsilon_{st}$$
 
 ---
 
@@ -992,3 +967,28 @@ DD &= \mathbb{E}[Y_{ist}|s = \text{NJ}, t = \text{Nov}] - \mathbb{E}[Y_{ist}|s =
 \end{align}
 $$
 
+---
+
+# Task 1 
+
+1. Take a look at the dataset (download [here](https://github.com/adamsoliman/IntroEconometrics/blob/master/data%20for%20tasks/ck1994.csv)) and list the variables. 
+
+1. Tabulate the number of stores by `state` and by survey wave (`observation`). Does it match what's in *Table 1* of the [paper](http://davidcard.berkeley.edu/papers/njmin-aer.pdf)?
+
+1. Create a full-time equivalent (FTE) employees variable called `empfte` equal to `empft` + 0.5*`emppt` + `nmgrs`. `empft` and `emppt` correspond respectively to the number of full-time and part-time employees. `nmgrs` corresponds to the number of managers. This is how Card and Krueger compute their full-time equivalent (FTE) employment variable (p.775 of the paper).
+
+1. Compute the average number of FTE employment, average percentage of FT employees (out of the number of FTE employees), and average starting wage (`wage_st`) by state and by survey wave. Compare your results with *Table 2* of the paper.
+
+5. How different are New Jersey and Pennsylvania's fast-food restaurants before the minimum wage increase?
+
+---
+
+# Task 2 
+
+1. Create a dummy variable, `treat`, equal to 0 if `state` is Pennsylvania and 1 if New Jersey. Remember to use the mutate() function with ifelse()...
+
+1. Create a dummy variable, `post`, equal to 0 if `observation` is February 1992 and 1 otherwise.
+
+1. Estimate the following regression model. Do you obtain the same results as in slide 8?
+
+$$empfte_{st} = \alpha + \beta treat_s + \gamma post_t + \delta(treat_s \times post_t) + \varepsilon_{st}$$

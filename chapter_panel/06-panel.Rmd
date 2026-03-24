@@ -811,3 +811,65 @@ Potential explanation for findings: after controlling for state policies and loc
     - With fixed effects, each firm has its own intercept, meaning the model does not need a single, global intercept
     - The mean differences across firms and years are captured by the fixed effects instead of a single intercept
 
+---
+
+# Fixed Effects: Key Idea (Conceptual Review)
+
+* Goal: estimate causal effect when there are **unobserved, time-invariant differences** across units
+
+* Model: $y_{it} = \beta x_{it} + c_i + u_{it}$
+
+* Problem:
+    - $c_i$ (e.g. county characteristics) is **unobserved**
+    - and may be **correlated with $x_{it}$** → OVB
+
+--
+
+## Solution: Fixed Effects
+
+* Compare each unit **to itself over time**
+
+* Remove $c_i$ by focusing on **within-unit variation**
+
+* Interpretation:
+    > How do changes in $x$ within the same unit affect $y$?
+
+---
+
+# What Variation Are We Using? Between vs Within
+
+* **Between variation**:
+    - Differences *across* units (e.g. high-crime vs low-crime counties)
+
+* **Within variation**:
+    - Changes *within* a unit over time
+
+--
+
+## Key Insight
+
+* Pooled OLS mixes both → biased if $c_i$ matters
+
+* Fixed effects uses **only within variation**
+
+* So we are estimating:
+    > If a county’s arrest probability increases, what happens to crime in that same county?
+
+---
+
+# Interpreting a Fixed Effects Coefficient
+
+If the estimated coefficient is $\hat{\beta} = -0.25$, then we say a one-unit increase in $x$, within the same unit over time, is associated with a 0.25-unit decrease in $y$
+
+
+Important:
+- This is a within-unit interpretation
+- We are comparing a unit to itself over time
+- All time-invariant differences across units are already accounted for
+
+
+So we are not asking: 
+    Do units with higher $x$ have higher or lower $y$?
+
+Instead, we are asking: 
+    When this same unit’s $x$ changes, how does $y$ change?

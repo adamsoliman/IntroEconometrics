@@ -1,0 +1,457 @@
+---
+title: "ECON 4050: Warm-Up Quizzes"
+subtitle: "Instructor Use Only — Do Not Distribute"
+author: "Adam Soliman, PhD"
+date: "Clemson University | Fall 2026"
+output:
+  xaringan::moon_reader:
+    chakra: "https://cdnjs.cloudflare.com/ajax/libs/remark/0.14.0/remark.min.js"
+    lib_dir: libs
+    css: [default, "../css/scpo-fonts.css"]
+    nature:
+      beforeInit: ["../js/ru_xaringan.js"]
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: "16:9"
+---
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
+```
+
+class: center, middle
+
+# Quiz Navigation
+
+| Chapter Starting | Questions | Answers |
+|---|:---:|:---:|
+| Simple Linear Regression | 3 | 4 |
+| Introduction to Causality | 6 | 7 |
+| Multiple Linear Regression | 9 | 10 |
+| Linear Regression Extensions | 12 | 13 |
+| Sampling | 15 | 16 |
+| Confidence Intervals & Hypothesis Testing | 18 | 19 |
+| Regression Inference | 21 | 22 |
+| Regression Discontinuity | 24 | 25 |
+| Difference-in-Differences | 27 | 28 |
+| Panel Data | 30 | 31 |
+
+---
+
+class: center, middle, inverse
+
+# ── Chapter: Simple Linear Regression ──
+## Reviewing: Intro to R & Course Concepts
+
+---
+
+# Warm-Up Questions
+
+**Q1.** Which of the following is a causal question?
+
+a) What is the average income of Clemson graduates?
+
+b) What will the unemployment rate be next quarter?
+
+c) Does attending a smaller class cause higher test scores?
+
+d) How many students are enrolled in ECON 4050 this semester?
+
+**Q2.** Selection bias in a survey occurs when:
+
+a) The sample is very large
+
+b) The survey asks too many questions
+
+c) The sample is not representative of the population we care about
+
+d) The researcher uses the wrong statistical software
+
+---
+
+# Answers
+
+**Q1. → C** — Causal questions ask what *would have happened* under a different treatment (counterfactual). A and D are descriptive; B is forecasting.
+
+&emsp;
+
+**Q2. → C** — Classic example: the 1948 Dewey/Truman poll used phone surveys, but only wealthy people had phones in 1948, making the sample systematically unrepresentative of voters.
+
+---
+
+class: center, middle, inverse
+
+# ── Chapter: Introduction to Causality ──
+## Reviewing: Simple Linear Regression
+
+---
+
+# Warm-Up Questions
+
+**Q1.** The OLS estimator chooses the regression line by minimizing:
+
+a) The sum of residuals
+
+b) The correlation between X and Y
+
+c) The sum of squared residuals
+
+d) The R²
+
+**Q2.** In $Y_i = \beta_0 + \beta_1 X_i + \varepsilon_i$, how is $\hat{\beta}_1$ interpreted?
+
+a) The value of Y when X equals zero
+
+b) The correlation between X and Y
+
+c) The fraction of variance in Y explained by X
+
+d) The average change in Y associated with a one-unit increase in X
+
+---
+
+# Answers
+
+**Q1. → C** — OLS = **O**rdinary **L**east **S**quares. Squaring ensures positive and negative errors don't cancel out, and penalizes large errors more heavily.
+
+&emsp;
+
+**Q2. → D** — $\hat\beta_1$ is the slope: for every 1-unit increase in X, Y changes by $\hat\beta_1$ units *on average*. (A is the intercept $\hat\beta_0$.)
+
+---
+
+class: center, middle, inverse
+
+# ── Chapter: Multiple Linear Regression ──
+## Reviewing: Introduction to Causality
+
+---
+
+# Warm-Up Questions
+
+**Q1.** The fundamental problem of causal inference is that:
+
+a) Experiments are always too expensive to run
+
+b) OLS is biased in small samples
+
+c) We can never observe both potential outcomes for the same person at the same time
+
+d) Correlation always implies causation
+
+**Q2.** Why does random assignment of treatment eliminate selection bias?
+
+a) It increases the sample size
+
+b) It makes R² equal to 1
+
+c) Treatment becomes independent of potential outcomes, so groups are comparable on average
+
+d) It guarantees equal group sizes
+
+---
+
+# Answers
+
+**Q1. → C** — A Clemson student either attends Clemson *or* USC — we observe only one earnings outcome. The counterfactual is fundamentally unobservable (the "missing data" problem).
+
+&emsp;
+
+**Q2. → C** — With randomization, $E[Y_i(0)|D_i=1] = E[Y_i(0)|D_i=0]$: what USC would have paid Clemson students equals what USC actually paid USC students, on average.
+
+---
+
+class: center, middle, inverse
+
+# ── Chapter: Linear Regression Extensions ──
+## Reviewing: Multiple Linear Regression
+
+---
+
+# Warm-Up Questions
+
+**Q1.** In $Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \varepsilon$, how is $\hat\beta_1$ interpreted?
+
+a) The total effect of $X_1$ on $Y$ regardless of $X_2$
+
+b) The correlation between $X_1$ and $Y$
+
+c) The average change in Y for a one-unit increase in $X_1$, holding $X_2$ constant
+
+d) The predicted value of Y when $X_1 = 1$
+
+**Q2.** Omitted Variable Bias (OVB) arises when an omitted variable is:
+
+a) Correlated only with the dependent variable Y
+
+b) Correlated only with the included regressor
+
+c) Uncorrelated with everything in the model
+
+d) Correlated with both the included regressor and the outcome Y
+
+---
+
+# Answers
+
+**Q1. → C** — The "ceteris paribus" interpretation is the key advantage of multiple regression: it isolates the partial effect of each regressor by holding the others fixed.
+
+&emsp;
+
+**Q2. → D** — Both conditions are required for OVB. If the omitted variable affects Y but not X, the coefficient on X is still unbiased (it just gets absorbed into the error term).
+
+---
+
+class: center, middle, inverse
+
+# ── Chapter: Sampling ──
+## Reviewing: Linear Regression Extensions
+
+---
+
+# Warm-Up Questions
+
+**Q1.** In a **log-linear** model $\ln(Y) = \beta_0 + \beta_1 X + \varepsilon$, how is $\hat\beta_1$ interpreted?
+
+a) A 1-unit increase in X leads to a $\hat\beta_1$-unit increase in Y
+
+b) A 1% increase in X leads to a $\hat\beta_1$% increase in Y
+
+c) A 1-unit increase in X leads to approximately a $100 \cdot \hat\beta_1$% increase in Y
+
+d) A 1-unit increase in X leads to a $\hat\beta_1$% decrease in Y
+
+**Q2.** In a **log-log** model $\ln(Y) = \beta_0 + \beta_1 \ln(X) + \varepsilon$, $\hat\beta_1$ represents:
+
+a) The level change in Y for a 1-unit change in X
+
+b) The percentage change in X for a 1% change in Y
+
+c) The sample correlation between $\ln(Y)$ and $\ln(X)$
+
+d) The elasticity of Y w.r.t. X: a 1% increase in X gives a $\hat\beta_1$% change in Y
+
+---
+
+# Answers
+
+**Q1. → C** — The approximation $\Delta \ln(Y) \approx \Delta Y / Y$ gives the semi-elasticity. Example: $\hat\beta_1 = 0.08$ means each additional year of schooling is associated with ≈ 8% higher wages.
+
+&emsp;
+
+**Q2. → D** — Log-log models give *constant elasticities*, natural for demand curves and wage regressions where proportional relationships make more economic sense than level ones.
+
+---
+
+class: center, middle, inverse
+
+# ── Chapter: Confidence Intervals & Hypothesis Testing ──
+## Reviewing: Sampling
+
+---
+
+# Warm-Up Questions
+
+**Q1.** The standard error of a sample statistic measures:
+
+a) The bias of the estimator
+
+b) The average prediction error for individual observations
+
+c) The distance between the sample mean and the true population mean
+
+d) The variability of the sample statistic across repeated samples
+
+**Q2.** According to the Central Limit Theorem, as sample size increases:
+
+a) The population distribution becomes approximately normal
+
+b) The standard error grows larger
+
+c) Individual observations become less variable
+
+d) The sampling distribution of the sample mean approaches a normal distribution
+
+---
+
+# Answers
+
+**Q1. → D** — The SE quantifies how much the estimate would bounce around across different samples. Larger samples → smaller SE → more precise estimates.
+
+&emsp;
+
+**Q2. → D** — Even if the population is skewed (like income), the *distribution of sample means* becomes bell-shaped as $n$ grows. This is the foundation of frequentist inference.
+
+---
+
+class: center, middle, inverse
+
+# ── Chapter: Regression Inference ──
+## Reviewing: Confidence Intervals & Hypothesis Testing
+
+---
+
+# Warm-Up Questions
+
+**Q1.** A correct interpretation of a **95% confidence interval** is:
+
+a) There is a 95% probability the true parameter lies in this specific interval
+
+b) 95% of the data fall within the interval
+
+c) The estimator is correct 95% of the time
+
+d) If we repeated sampling many times, 95% of such intervals would contain the true parameter
+
+**Q2.** You get a p-value of **0.02** with significance level $\alpha = 0.05$. You should:
+
+a) Fail to reject the null hypothesis
+
+b) Accept the null hypothesis
+
+c) Collect more data before deciding
+
+d) Reject the null hypothesis
+
+---
+
+# Answers
+
+**Q1. → D** — The 95% is a property of the *procedure*, not of any specific interval. The true parameter is fixed — any given interval either contains it or doesn't. The interval is what is random.
+
+&emsp;
+
+**Q2. → D** — p-value (0.02) < $\alpha$ (0.05) → reject $H_0$. We observed data that would occur less than 2% of the time under the null — strong enough evidence against it.
+
+---
+
+class: center, middle, inverse
+
+# ── Chapter: Regression Discontinuity ──
+## Reviewing: Regression Inference
+
+---
+
+# Warm-Up Questions
+
+**Q1.** The t-statistic for a regression coefficient $\hat\beta_k$ is:
+
+a) $\hat\beta_k \times SE(\hat\beta_k)$
+
+b) $SE(\hat\beta_k) \div \hat\beta_k$
+
+c) p-value $\div \hat\beta_k$
+
+d) $\hat\beta_k \div SE(\hat\beta_k)$
+
+**Q2.** A coefficient being "statistically significant at the 5% level" means:
+
+a) The effect is economically important
+
+b) The coefficient explains 5% of the variation in Y
+
+c) There is a 5% chance the coefficient equals zero
+
+d) We would observe a t-statistic this large less than 5% of the time if the true coefficient were zero
+
+---
+
+# Answers
+
+**Q1. → D** — The t-stat standardizes the estimate relative to its precision. A large |t| (typically > 2) means the coefficient is large relative to its uncertainty.
+
+&emsp;
+
+**Q2. → D** — Statistical significance $\neq$ practical significance. A tiny, economically meaningless effect can be statistically significant with a large enough sample.
+
+---
+
+class: center, middle, inverse
+
+# ── Chapter: Difference-in-Differences ──
+## Reviewing: Regression Discontinuity
+
+---
+
+# Warm-Up Questions
+
+**Q1.** The key feature that makes RDD valid is:
+
+a) Treatment is randomly assigned across all units
+
+b) We have a very large sample
+
+c) Units just above and below the cutoff are as-good-as randomly assigned to treatment
+
+d) The running variable is measured without error
+
+**Q2.** A key assumption required for RDD is:
+
+a) Parallel trends in pre-treatment outcomes
+
+b) The instrument is uncorrelated with the outcome
+
+c) Treatment and control groups are the same size
+
+d) Units cannot precisely manipulate which side of the cutoff they fall on
+
+---
+
+# Answers
+
+**Q1. → C** — People barely above/below the threshold are otherwise very similar. The sharp jump in the outcome *at the cutoff* is the causal effect.
+
+&emsp;
+
+**Q2. → D** — If students can manipulate their score to just barely clear a threshold, those just above are no longer comparable to those just below. We test this with the McCrary density test.
+
+---
+
+class: center, middle, inverse
+
+# ── Chapter: Panel Data ──
+## Reviewing: Difference-in-Differences
+
+---
+
+# Warm-Up Questions
+
+**Q1.** The Difference-in-Differences estimator is:
+
+a) The difference in outcomes between treated and control after treatment
+
+b) The change over time for the treated group only
+
+c) The difference in outcomes between treated and control before treatment
+
+d) [After − Before] for the treated group minus [After − Before] for the control group
+
+**Q2.** The parallel trends assumption states that:
+
+a) Treatment and control groups must be identical before treatment
+
+b) Treatment must be randomly assigned
+
+c) There are no time-varying confounders anywhere
+
+d) In the absence of treatment, both groups would have followed the same time trend
+
+---
+
+# Answers
+
+**Q1. → D** — DiD uses the control group's time trend to construct the counterfactual for the treated group. It differences out both group-level fixed effects and common time trends.
+
+&emsp;
+
+**Q2. → D** — Parallel trends does *not* require equal levels — just the same *trend*. We test this by checking that pre-treatment trends look similar across groups.
+
+---
+
+class: center, middle
+
+# End of Quiz Deck
+
+*Open this file locally before class. Not linked from the course website.*

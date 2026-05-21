@@ -252,7 +252,7 @@ pasta_samples %>%
 * All the pasta in the bowl are stored in a csv file [here](https://github.com/adamsoliman/IntroEconometrics/blob/master/data%20for%20tasks/pasta.csv).
 
 ```{r, echo = TRUE}
-bowl <- read.csv("~/Library/CloudStorage/Dropbox/Clemson/Econometrics Course/data for tasks/pasta.csv")
+bowl <- read.csv("../data_for_tasks/pasta.csv")
 
 head(bowl, 6)
 ```

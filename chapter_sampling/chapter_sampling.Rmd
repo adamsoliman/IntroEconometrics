@@ -748,6 +748,12 @@ Scenario | Population parameter | Notation | Point estimate | Symbol(s)
 
 ---
 
+# Out-of-Class Tasks
+
+**Submit your answers to Canvas before the next class.** Work through these tasks on your own time — you may use any tools or resources. Be prepared to present your approach and answers.
+
+---
+
 # Task
 
 1. Why do we not take 1000 samples "by hand"?

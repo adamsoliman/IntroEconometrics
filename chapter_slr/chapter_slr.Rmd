@@ -50,6 +50,10 @@ countdown(
 )
 ```
 
+```{r load-data, include=FALSE}
+grades <- read.csv("../data_for_tasks/grade5_isl.csv")
+```
+
 # Today - Getting into the good stuff `r emo::ji("v")`
 
 * Introduction to the ***Simple Linear Regression Model*** and ***Ordinary Least Squares (OLS)*** *estimation*.
@@ -73,30 +77,6 @@ countdown(
 * Consists of test scores and class/school characteristics for fifth graders (10-11 years old) in Jewish public elementary schools in Israel in 1991.
 
 * National tests measured *mathematics* and (Hebrew) *reading* skills. The raw scores were scaled from 1-100.
-
----
-
-# Task 1: Getting to know the data
-
-**GOOD CODING PRACTICES TO ALWAYS START WITH: 1) open a new script and save it, 2) load in any packages, such as with *library(tidyverse)*, and 3) add notes for yourself. Then import the data.**
-
-1. Download the data from [here](https://github.com/adamsoliman/IntroEconometrics/blob/master/data%20for%20tasks/grade5_isl.csv) and load it into R as `grades`. Remember that `grades` is called an object. This is similar to a spreadsheet, and you can have multiple objects loaded in R at the same time.
-
-1. Describe the dataset:
-
-  * What is the unit of observations, i.e. what does each row correspond to?
-  * How many observations are there?
-  * View the dataset. What variables do we have? What do the variables `avgmath` and `avgverb` correspond to?
-  * Obtain summary statistics for the variables `classize`, `avgmath` and `avgverb`. 
-
-1. Do you have any priors about the actual (linear) relationship between class size and student achievement? What would you do to get a first insight?
-
-1. Compute the correlation between class size and math and verbal scores. Is the relationship positive/negative, strong/weak?
-
-```{r, echo=FALSE}
-# import data
-grades <- read.csv("/Users/adamsoliman/Library/CloudStorage/Dropbox/Clemson/Econometrics Course/data for tasks/grade5_isl.csv")
-```
 
 ---
 
@@ -628,29 +608,6 @@ $$
 $$
 ---
 
-# Task 2: OLS Regression
-
-If you haven't already, download the data from [here](https://github.com/adamsoliman/IntroEconometrics/blob/master/data%20for%20tasks/grade5_isl.csv) and load it into R as `grades`. Remember that `grades` is called an object. 
-
-Run the following code to aggregate the data at the class size level:
-
-```{r, eval = F}
-grades_avg_cs <- grades %>%
-  group_by(classize) %>%
-  summarise(avgmath_cs = mean(avgmath),
-            avgverb_cs = mean(avgverb))
-```
-
-1. Regress average verbal score (dependent variable) on class size (independant variable). Interpret the coefficients.
-
-1. What is the predicted average verbal score when class size is equal to 0? (Does that even make sense?!)
-
-1. What is the predicted average verbal score when the class size is equal to 30 students?
-
-1. Bonus: Compute the OLS coefficients $b_0$ and $b_1$ of the regression using the formulas on slide 27. (*Hint:* you need to use the `cov`, `var`, and `mean` functions.)
-
----
-
 # Linearity Assumption: Visualize your Data!
 
 * It's important to keep in mind that covariance, correlation and simple OLS regression only measure **linear relationships** between two variables.
@@ -805,7 +762,53 @@ $$
 
 ---
 
-# Task 3: $R^2$ and goodness of fit
+# Out-of-Class Tasks
+
+**Submit your answers to Canvas before the next class.** Work through these tasks on your own time — you may use any tools or resources. Be prepared to present your approach and answers.
+
+---
+
+# Task 1: Getting to Know the Data
+
+**GOOD CODING PRACTICES TO ALWAYS START WITH: 1) open a new script and save it, 2) load in any packages, such as with *library(tidyverse)*, and 3) add notes for yourself. Then import the data.**
+
+1. Download the data from [here](https://github.com/adamsoliman/IntroEconometrics/blob/master/data%20for%20tasks/grade5_isl.csv) and load it into R as `grades`. Remember that `grades` is called an object. This is similar to a spreadsheet, and you can have multiple objects loaded in R at the same time.
+
+1. Describe the dataset:
+
+  * What is the unit of observations, i.e. what does each row correspond to?
+  * How many observations are there?
+  * View the dataset. What variables do we have? What do the variables `avgmath` and `avgverb` correspond to?
+  * Obtain summary statistics for the variables `classize`, `avgmath` and `avgverb`.
+
+1. Do you have any priors about the actual (linear) relationship between class size and student achievement? What would you do to get a first insight?
+
+1. Compute the correlation between class size and math and verbal scores. Is the relationship positive/negative, strong/weak?
+
+---
+
+# Task 2: OLS Regression
+
+Load the data as `grades`, then run the following code to aggregate at the class size level:
+
+```{r, eval = F}
+grades_avg_cs <- grades %>%
+  group_by(classize) %>%
+  summarise(avgmath_cs = mean(avgmath),
+            avgverb_cs = mean(avgverb))
+```
+
+1. Regress average verbal score (dependent variable) on class size (independent variable). Interpret the coefficients.
+
+1. What is the predicted average verbal score when class size is equal to 0? (Does that even make sense?!)
+
+1. What is the predicted average verbal score when the class size is equal to 30 students?
+
+1. Bonus: Compute the OLS coefficients $b_0$ and $b_1$ using the formulas from class. (*Hint:* use the `cov`, `var`, and `mean` functions.)
+
+---
+
+# Task 3: $R^2$ and Goodness of Fit
 
 1. Regress `avgmath_cs` on `classize`. Assign to an object `math_reg`.
 
@@ -815,7 +818,7 @@ $$
 
 1. Repeat steps 1 and 2 for `avgverb_cs`. For which exam does the variance in class size explain more of the variance in students' scores?
 
-1. (Optional) Install and load the `broom` package. Pass `math_reg` in the `augment()` function and assign it to a new object. Use the variance in `avgmath_cs` (SST) and the variance in `.fitted` (predicted values; SSE) to find the $R^2$ using the formula on the previous slide.
+1. (Optional) Install and load the `broom` package. Pass `math_reg` in the `augment()` function and assign it to a new object. Use the variance in `avgmath_cs` (SST) and the variance in `.fitted` (predicted values; SSE) to find the $R^2$ using the formula from class.
 
 ---
 

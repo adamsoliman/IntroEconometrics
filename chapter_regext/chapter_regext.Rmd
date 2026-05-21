@@ -333,25 +333,6 @@ model
 
 ---
 
-# Task 1: Non-linear relationships
-
-1. Load the data [here](https://www.dropbox.com/scl/fi/68taafng8vjpzmub6q1xj/college_tuition_income.csv?rlkey=0c59a2kj0cwmcecjbg20jrkva&dl=0) and call the object `college`. This dataset contains information about tuition and estimated incomes of graduates for universities in the US.  
-
-2. Create a scatter plot of estimated mid-career pay (`mid_career_pay`) $(y-axis)$ as a function of out-of-state tuition (`out_of_state_tuition`) $(x-axis)$. Would you say the relationship is broadly linear or rather non-linear?  
-
-3. Filter the variable `type` to keep only the values of ("For Profit", "Private", "Public"). Call this object `college_clean`. USE THIS DATA OBJECT FROM NOW ON!  
-
-4. Regress mid-career pay on university type. Interpret each coefficient. What is the reference category?  
-
-5. Regress mid-career pay on the logarithm of out-of-state tuition. You can either create a new variable using `mutate`, or incorporate the logarithm directly into the regression. Interpret the slope coefficient.  
-
-6. Regress the logarithm of mid-career pay on the variable you created in #3 (`out_state`). Interpret the slope coefficient.  
-
-7. Regress the logarithm of mid-career pay on the logarithm of out-of-state tuition. Interpret the slope coefficient.
-
-
----
-
 # Teaser for the Next Few Topics
 
 * You may have noticed that since the beginning we always work with **samples** drawn from the overall population.
@@ -368,6 +349,28 @@ model
   * We'll present the notion of **sampling**, and
   
   * Understand what **statistical inference** is and how to do it. 
+---
+
+# Out-of-Class Tasks
+
+**Submit your answers to Canvas before the next class.** Work through these tasks on your own time — you may use any tools or resources. Be prepared to present your approach and answers.
+
+---
+
+# Task 1: Non-Linear Relationships
+
+1. Load the data [here](https://www.dropbox.com/scl/fi/68taafng8vjpzmub6q1xj/college_tuition_income.csv?rlkey=0c59a2kj0cwmcecjbg20jrkva&dl=0) and call the object `college`. This dataset contains information about tuition and estimated incomes of graduates for universities in the US.
+
+2. Create a scatter plot of estimated mid-career pay (`mid_career_pay`) $(y-axis)$ as a function of out-of-state tuition (`out_of_state_tuition`) $(x-axis)$. Would you say the relationship is broadly linear or rather non-linear?
+
+3. Filter the variable `type` to keep only the values of ("For Profit", "Private", "Public"). Call this object `college_clean`. **Use this object from now on.**
+
+4. Regress mid-career pay on university type. Interpret each coefficient. What is the reference category?
+
+5. Regress mid-career pay on the logarithm of out-of-state tuition. You can either create a new variable using `mutate`, or incorporate the logarithm directly into the regression. Interpret the slope coefficient.
+
+6. Regress the logarithm of mid-career pay on the logarithm of out-of-state tuition. Interpret the slope coefficient.
+
 ---
 
 # On the way to causality

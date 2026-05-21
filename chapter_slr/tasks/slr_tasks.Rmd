@@ -15,7 +15,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ```{r}
 # your path will look different than mine
-grades <- read.csv("/Users/adamsoliman/Library/CloudStorage/Dropbox/Clemson/Econometrics Course/data for tasks/grade5_isl.csv")
+grades <- read.csv("../../data_for_tasks/grade5_isl.csv")
 ```
 
 2\. Describe the dataset:

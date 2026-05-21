@@ -128,7 +128,7 @@ In practice, you ***don't*** need to compute your confidence intervals using *bo
 * Let's start by drawing one random sample of size $n = 50$ from our bowl.
 
 ```{r, echo = FALSE}
-bowl <- read.csv("~/Library/CloudStorage/Dropbox/Clemson/Econometrics Course/data for tasks/pasta.csv")
+bowl <- read.csv("../data_for_tasks/pasta.csv")
 set.seed(1234)
 sample_size = 50
 my_sample = bowl %>% mutate(color = as.factor(ifelse(color == "green","green","non-green"))) %>%
@@ -137,7 +137,7 @@ my_sample = bowl %>% mutate(color = as.factor(ifelse(color == "green","green","n
 
 ```{r, eval = FALSE}
 library(tidyverse)
-bowl <- read.csv("~/Library/CloudStorage/Dropbox/Clemson/Econometrics Course/data for tasks/pasta.csv")
+bowl <- read.csv("../data_for_tasks/pasta.csv")
 my_sample = bowl %>% mutate(color = ifelse(color == "green","green","non-green")) %>%
   rep_sample_n(size = 50) %>% ungroup() %>% select(pasta_ID, color)
 ```

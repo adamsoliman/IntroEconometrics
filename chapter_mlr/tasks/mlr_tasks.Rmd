@@ -16,7 +16,7 @@ Let's analyse the regression results using **reading** score as the dependent va
 
 ```{r}
 # your path will look different
-grades <- read.csv("/Users/adamsoliman/Library/CloudStorage/Dropbox/Clemson/Econometrics Course/data for tasks/grade5_isl.csv")
+grades <- read.csv("../../data_for_tasks/grade5_isl.csv")
 ```
 
 1\. Regress `avgverb` on `classize` and `disadvantaged` and assign the output to a new object `reg`. Interpret the coefficients. How do they compare with the math score regression coefficients?
@@ -47,7 +47,7 @@ Still need to think about this dummy variable trap? Let's run another regression
 ```{r}
 library(tidyverse)
 
-star_df <- read.csv("/Users/adamsoliman/Library/CloudStorage/Dropbox/Clemson/Econometrics Course/data for tasks/star_data.csv")
+star_df <- read.csv("../../data_for_tasks/star_data.csv")
 star_df_complete <- star_df %>% filter(complete.cases(.))
 ```
 

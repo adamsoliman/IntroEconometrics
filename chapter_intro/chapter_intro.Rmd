@@ -369,7 +369,7 @@ Congratulations, you have created your first `R` "object"! Everything is an obje
  
 ```{r}
 # this is a comment, which you should always use in your code. Note your path will look slightly different
-clemsonfootballdata <- read.csv("/Users/adamsoliman/Library/CloudStorage/Dropbox/Clemson/Econometrics Course/data for tasks/clemsonFBSfinances.csv")
+clemsonfootballdata <- read.csv("../data_for_tasks/clemsonFBSfinances.csv")
 ```
 
 

@@ -969,7 +969,13 @@ $$
 
 ---
 
-# Task 1 
+# Out-of-Class Tasks
+
+**Submit your answers to Canvas before the next class.** Work through these tasks on your own time — you may use any tools or resources. Be prepared to present your approach and answers.
+
+---
+
+# Task 1
 
 1. Take a look at the dataset (download [here](https://github.com/adamsoliman/IntroEconometrics/blob/master/data_for_tasks/ck1994.csv)) and list the variables. 
 

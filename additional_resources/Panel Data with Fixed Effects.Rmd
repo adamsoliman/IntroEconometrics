@@ -11,7 +11,7 @@ library(tidyverse)
 library(fixest) # For fixed effects regression
 
 # Load county-level opioid data
-countyopioids <- read.csv("~/Library/CloudStorage/Dropbox/Clemson/Econometrics Course/data for tasks/countyleveldataonopioids.csv")
+countyopioids <- read.csv("../data_for_tasks/countyleveldataonopioids.csv")
 
 ```
 

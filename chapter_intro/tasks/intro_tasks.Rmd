@@ -49,7 +49,7 @@ x_3
 ```{r}
 
 # yours may look something like this:
-murders = read.csv("/Users/adamsoliman/Library/CloudStorage/Dropbox/Clemson/Econometrics Course/data for tasks/gun_murders.csv")
+murders = read.csv("../../data_for_tasks/gun_murders.csv")
 # alternatively, you can download and read in directly from dropbox
 murders <- read.csv("https://www.dropbox.com/scl/fi/vanp2vdx741092v2k16dn/gun_murders.csv?rlkey=z81qu9y0f334s09538evukhh6&dl=1")
 ```

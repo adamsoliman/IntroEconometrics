@@ -87,7 +87,7 @@ $$ \text{math score}_i = b_0 + b_1 \text{small}_i + e_i$$
 ```{r, echo = TRUE}
 library(tidyverse)
 
-star_df = read.csv("~/Library/CloudStorage/Dropbox/Clemson/Econometrics Course/data for tasks/star_data.csv") 
+star_df = read.csv("../data_for_tasks/star_data.csv") 
 
 star_df <- star_df %>%
   filter(complete.cases(.)) %>%

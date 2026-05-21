@@ -84,7 +84,7 @@ countdown(
 # Class size and student performance: Raw relationship
 
 ```{r, echo=FALSE, fig.height=4.75, fig.width = 8}
-grades <- read.csv("/Users/adamsoliman/Library/CloudStorage/Dropbox/Clemson/Econometrics Course/data for tasks/grade5_isl.csv")
+grades <- read.csv("../data_for_tasks/grade5_isl.csv")
 
 set.seed(123)
 
@@ -393,21 +393,6 @@ Example: % of disadvantaged students in class increases from 10 to 25 %?
 --
 
 You ***need*** to pay attention to whether you are talking about ***percentage points*** or ***percentage*** changes! They imply drastically different magnitudes!
-
----
-
-# Task 1
-
-Let's analyse the regression results using **reading** score as the dependent variable.
-
-1. Load the data from [here](https://github.com/adamsoliman/IntroEconometrics/blob/master/data%20for%20tasks/grade5_isl.csv) as `grades`.
-
-1. Regress `avgverb` on `classize` and `disadvantaged` and assign the output to a new object `reg`. Interpret the coefficients. How do they compare to the simple linear regression? How do they compare with the math score regression coefficients?
-
-1. What are the other available variables that we may add in the regression? 
-  * Run the regression with all these variables and assign it to `reg_full`.
-  * Look at the coefficients.
-  * Discuss all coefficients: sign and magnitude.
 
 ---
 
@@ -720,23 +705,6 @@ This applies to cases when you have more than 2 categories. You don't need to cr
 
 ---
 
-# Task 2: Dummy Variable Trap
-
-Let's run a regression where there is perfect linear dependence between regressors.
-
-1. Load the *STAR* data from [here](https://github.com/adamsoliman/IntroEconometrics/blob/master/data%20for%20tasks/star_data.csv), using `read.csv`, and assign it to an object called `star_df`. Keep only cases with no `NA`s with the following code:  
-`star_df_complete <- star_df %>% filter(complete.cases(.))` 
-
-1. Create three dummy variables: (i) `small` equal to `TRUE` if students are in a small class and `FALSE` otherwise; (ii) `regular` equal to `TRUE` if students are in a regular class and `FALSE` otherwise; (iii) `regular_plus` equal to `TRUE` if students are in a regular+aide class and `FALSE` otherwise. (*Hint: To create a dummy, write* `dummy = (variable=="value")`, *inside the appropriate dplyr verb*) Create a last variable, `sum`, equal to the sum of `small`, `regular` and `regular_plus`. What is `sum` equal to? What does this mean?
-
-1. Regress `math` on `regular_plus`. What is the average predicted `math` score of students in a regular+aide class?
-
-1. Regress `math` on `small`, `regular` and `regular_plus`. What do you notice? What's the omitted (reference) category? Does this match the previous question?
-
-1. Regress `math` on `star`. What do you notice? What's the omitted category? Interpret the coefficient.
-
----
-
 # Omitted Variable Bias (OVB)
 
 ***Omitted variable bias***: Omitting important control variables from the regression model. This is different than an ommitted category!
@@ -822,6 +790,42 @@ We obtain: $$b_1 = `r round(reg1$coefficients[2],3)` = \underbrace{`r round(reg2
 * By construction, $R^2$ will always increase when a new regressor is added to the regression.
 
 * The *adjusted $R^2$* imposes a penalty for adding regressors to the model. The details are not crucial as in the vast majority of cases the $R^2$ and the adjusted $R^2$ are pretty similar.
+
+---
+
+# Out-of-Class Tasks
+
+**Submit your answers to Canvas before the next class.** Work through these tasks on your own time — you may use any tools or resources. Be prepared to present your approach and answers.
+
+---
+
+# Task 1: Multiple Regression with Reading Scores
+
+Let's analyse the regression results using **reading** score as the dependent variable. Load the data from [here](https://github.com/adamsoliman/IntroEconometrics/blob/master/data%20for%20tasks/grade5_isl.csv) as `grades`.
+
+1. Regress `avgverb` on `classize` and `disadvantaged` and assign the output to a new object `reg`. Interpret the coefficients. How do they compare to the simple linear regression? How do they compare with the math score regression coefficients?
+
+1. What are the other available variables that we may add in the regression?
+  * Run the regression with all these variables and assign it to `reg_full`.
+  * Look at the coefficients.
+  * Discuss all coefficients: sign and magnitude.
+
+---
+
+# Task 2: Dummy Variable Trap
+
+Let's run a regression where there is perfect linear dependence between regressors.
+
+1. Load the *STAR* data from [here](https://github.com/adamsoliman/IntroEconometrics/blob/master/data%20for%20tasks/star_data.csv), using `read.csv`, and assign it to an object called `star_df`. Keep only cases with no `NA`s with the following code:  
+`star_df_complete <- star_df %>% filter(complete.cases(.))` 
+
+1. Create three dummy variables: (i) `small` equal to `TRUE` if students are in a small class and `FALSE` otherwise; (ii) `regular` equal to `TRUE` if students are in a regular class and `FALSE` otherwise; (iii) `regular_plus` equal to `TRUE` if students are in a regular+aide class and `FALSE` otherwise. (*Hint: To create a dummy, write* `dummy = (variable=="value")`, *inside the appropriate dplyr verb*) Create a last variable, `sum`, equal to the sum of `small`, `regular` and `regular_plus`. What is `sum` equal to? What does this mean?
+
+1. Regress `math` on `regular_plus`. What is the average predicted `math` score of students in a regular+aide class?
+
+1. Regress `math` on `small`, `regular` and `regular_plus`. What do you notice? What's the omitted (reference) category? Does this match the previous question?
+
+1. Regress `math` on `star`. What do you notice? What's the omitted category? Interpret the coefficient.
 
 ---
 

@@ -18,7 +18,7 @@ Let's compute these various quantities and biases with some toy data (i.e. data 
 
 ```{r}
 # via your local folder (you'd need to change the path)
-toy_data <- read.csv("/Users/adamsoliman/Library/CloudStorage/Dropbox/Clemson/Econometrics Course/data for tasks/toy_data_2.csv")
+toy_data <- read.csv("../../data_for_tasks/toy_data_2.csv")
 
 toy_data <- toy_data %>%
     mutate(Y = Y1 * group_dummy + (1 - group_dummy) * Y0,

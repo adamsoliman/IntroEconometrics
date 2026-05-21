@@ -651,7 +651,7 @@ Let's only focus on:
 --
 
 ```{r, echo = FALSE}
-star_df <- read.csv("~/Library/CloudStorage/Dropbox/Clemson/Econometrics Course/data for tasks/star_data.csv")
+star_df <- read.csv("../data_for_tasks/star_data.csv")
 star_df_complete <- star_df %>% filter(complete.cases(.))
 
 diff_table = data.frame(
@@ -920,6 +920,12 @@ However, they have some shortcomings:
   * Uncovering the mechanisms that are at stake may be difficult,
   
   * Imperfect randomization, attrition, ...
+
+---
+
+# Out-of-Class Tasks
+
+**Submit your answers to Canvas before the next class.** Work through these tasks on your own time — you may use any tools or resources. Be prepared to present your approach and answers.
 
 ---
 

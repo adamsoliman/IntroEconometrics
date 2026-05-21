@@ -15,7 +15,7 @@ library(tidyverse)
 
 ```{r}
 # change the path to yours
-college <- read.csv("/Users/adamsoliman/Library/CloudStorage/Dropbox/Clemson/Econometrics Course/data for tasks/college_tuition_income.csv")
+college <- read.csv("../../data_for_tasks/college_tuition_income.csv")
 ```
 
 
@@ -128,7 +128,7 @@ Thereofre, for ***Public universities***, the effect of a \$1,000 increase in ou
 Let's go back our [grades](https://www.dropbox.com/scl/fi/77u2r8xznh63jg7aisq4f/grade5_isl.csv?rlkey=uclo7ng24so9fct41kcjm8k0l&dl=1) dataset. Please download it from the previous link and read it in using the appropriate function. Below are the estimates we got from regressing average math test scores on the full set of regressors.
 
 ```{r}
-grades <- read.csv("/Users/adamsoliman/Library/CloudStorage/Dropbox/Clemson/Econometrics Course/data for tasks/grade5_isl.csv")
+grades <- read.csv("../../data_for_tasks/grade5_isl.csv")
 
 reg_full <- lm(avgverb ~ classize + disadvantaged + school_enrollment + female + religious, grades)
 reg_full

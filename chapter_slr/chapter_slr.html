@@ -35,6 +35,8 @@ class: center, middle, inverse, title-slide
 
 
 
+
+
 # Today - Getting into the good stuff ✌️
 
 * Introduction to the ***Simple Linear Regression Model*** and ***Ordinary Least Squares (OLS)*** *estimation*.
@@ -61,35 +63,14 @@ class: center, middle, inverse, title-slide
 
 ---
 
-# Task 1: Getting to know the data
-
-**GOOD CODING PRACTICES TO ALWAYS START WITH: 1) open a new script and save it, 2) load in any packages, such as with *library(tidyverse)*, and 3) add notes for yourself. Then import the data.**
-
-1. Download the data from [here](https://github.com/adamsoliman/IntroEconometrics/blob/master/data%20for%20tasks/grade5_isl.csv) and load it into R as `grades`. Remember that `grades` is called an object. This is similar to a spreadsheet, and you can have multiple objects loaded in R at the same time.
-
-1. Describe the dataset:
-
-  * What is the unit of observations, i.e. what does each row correspond to?
-  * How many observations are there?
-  * View the dataset. What variables do we have? What do the variables `avgmath` and `avgverb` correspond to?
-  * Obtain summary statistics for the variables `classize`, `avgmath` and `avgverb`. 
-
-1. Do you have any priors about the actual (linear) relationship between class size and student achievement? What would you do to get a first insight?
-
-1. Compute the correlation between class size and math and verbal scores. Is the relationship positive/negative, strong/weak?
-
-
-
----
-
 # Class size and student performance: Scatter plot
 
 .pull-left[
-&lt;img src="chapter_slr_files/figure-html/unnamed-chunk-2-1.svg" style="display: block; margin: auto;" /&gt;
+&lt;img src="chapter_slr_files/figure-html/unnamed-chunk-1-1.svg" alt="" style="display: block; margin: auto;" /&gt;
 ]
 
 .pull-right[
-&lt;img src="chapter_slr_files/figure-html/unnamed-chunk-3-1.svg" style="display: block; margin: auto;" /&gt;
+&lt;img src="chapter_slr_files/figure-html/unnamed-chunk-2-1.svg" alt="" style="display: block; margin: auto;" /&gt;
 ]
 
 --
@@ -101,11 +82,11 @@ class: center, middle, inverse, title-slide
 # Class size and student performance: Binned scatter plot 
 
 .pull-left[
-&lt;img src="chapter_slr_files/figure-html/unnamed-chunk-4-1.svg" style="display: block; margin: auto;" /&gt;
+&lt;img src="chapter_slr_files/figure-html/unnamed-chunk-3-1.svg" alt="" style="display: block; margin: auto;" /&gt;
 ]
 
 .pull-right[
-&lt;img src="chapter_slr_files/figure-html/unnamed-chunk-5-1.svg" style="display: block; margin: auto;" /&gt;
+&lt;img src="chapter_slr_files/figure-html/unnamed-chunk-4-1.svg" alt="" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
@@ -114,7 +95,7 @@ class: center, middle, inverse, title-slide
 
 * We'll first focus on the mathematics scores and for visual simplicity we'll zoom in
 
-&lt;img src="chapter_slr_files/figure-html/unnamed-chunk-6-1.svg" style="display: block; margin: auto;" /&gt;
+&lt;img src="chapter_slr_files/figure-html/unnamed-chunk-5-1.svg" alt="" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -122,7 +103,7 @@ class: center, middle, inverse, title-slide
 
 How to visually summarize the relationship: **a line through the scatter plot**
 
-&lt;img src="chapter_slr_files/figure-html/unnamed-chunk-7-1.svg" style="display: block; margin: auto;" /&gt;
+&lt;img src="chapter_slr_files/figure-html/unnamed-chunk-6-1.svg" alt="" style="display: block; margin: auto;" /&gt;
 
 --
 * A *line*! Great. But **which** line? This one?
@@ -136,7 +117,7 @@ How to visually summarize the relationship: **a line through the scatter plot**
 
 How to visually summarize the relationship: **a line through the scatter plot**
 
-&lt;img src="chapter_slr_files/figure-html/unnamed-chunk-8-1.svg" style="display: block; margin: auto;" /&gt;
+&lt;img src="chapter_slr_files/figure-html/unnamed-chunk-7-1.svg" alt="" style="display: block; margin: auto;" /&gt;
 
 * **That** one?
 * Slightly better! Has a **slope** and an **intercept** 😐
@@ -179,19 +160,19 @@ Let's formalise a bit what we are doing so far.
 
 # What's A Line: A Refresher
 
-&lt;img src="chapter_slr_files/figure-html/unnamed-chunk-9-1.svg" style="display: block; margin: auto;" /&gt;
+&lt;img src="chapter_slr_files/figure-html/unnamed-chunk-8-1.svg" alt="" style="display: block; margin: auto;" /&gt;
 
 ---
 
 # What's A Line: A Refresher
 
-&lt;img src="chapter_slr_files/figure-html/unnamed-chunk-10-1.svg" style="display: block; margin: auto;" /&gt;
+&lt;img src="chapter_slr_files/figure-html/unnamed-chunk-9-1.svg" alt="" style="display: block; margin: auto;" /&gt;
 
 ---
 
 # What's A Line: A Refresher
 
-&lt;img src="chapter_slr_files/figure-html/unnamed-chunk-11-1.svg" style="display: block; margin: auto;" /&gt;
+&lt;img src="chapter_slr_files/figure-html/unnamed-chunk-10-1.svg" alt="" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -201,7 +182,7 @@ Let's formalise a bit what we are doing so far.
 
 --
 
-&lt;img src="chapter_slr_files/figure-html/unnamed-chunk-12-1.svg" style="display: block; margin: auto;" /&gt;
+&lt;img src="chapter_slr_files/figure-html/unnamed-chunk-11-1.svg" alt="" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -209,7 +190,7 @@ Let's formalise a bit what we are doing so far.
 
 * If all the data points were __on__ the line then `\(\widehat{y}_i = y_i\)`.
 
-&lt;img src="chapter_slr_files/figure-html/unnamed-chunk-13-1.svg" style="display: block; margin: auto;" /&gt;
+&lt;img src="chapter_slr_files/figure-html/unnamed-chunk-12-1.svg" alt="" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -236,38 +217,38 @@ This __error__ is called the __residual__.
 
 # Simple Linear Regression: Graphically
 
-&lt;img src="chapter_slr_files/figure-html/unnamed-chunk-14-1.svg" style="display: block; margin: auto;" /&gt;
+&lt;img src="chapter_slr_files/figure-html/unnamed-chunk-13-1.svg" alt="" style="display: block; margin: auto;" /&gt;
 
 ---
 
 # Simple Linear Regression: Graphically
 
-&lt;img src="chapter_slr_files/figure-html/unnamed-chunk-15-1.svg" style="display: block; margin: auto;" /&gt;
+&lt;img src="chapter_slr_files/figure-html/unnamed-chunk-14-1.svg" alt="" style="display: block; margin: auto;" /&gt;
 
 ---
 
 # Simple Linear Regression: Graphically
 
-&lt;img src="chapter_slr_files/figure-html/unnamed-chunk-16-1.svg" style="display: block; margin: auto;" /&gt;
+&lt;img src="chapter_slr_files/figure-html/unnamed-chunk-15-1.svg" alt="" style="display: block; margin: auto;" /&gt;
 
 ---
 
 # Simple Linear Regression: Graphically
 
-&lt;img src="chapter_slr_files/figure-html/unnamed-chunk-17-1.svg" style="display: block; margin: auto;" /&gt;
+&lt;img src="chapter_slr_files/figure-html/unnamed-chunk-16-1.svg" alt="" style="display: block; margin: auto;" /&gt;
 
 ---
 
 # Simple Linear Regression: Graphically
 
-&lt;img src="chapter_slr_files/figure-html/unnamed-chunk-18-1.svg" style="display: block; margin: auto;" /&gt;
+&lt;img src="chapter_slr_files/figure-html/unnamed-chunk-17-1.svg" alt="" style="display: block; margin: auto;" /&gt;
 
 ---
 
 # Simple Linear Regression: Graphically
 
 .left-wide[
-&lt;img src="chapter_slr_files/figure-html/unnamed-chunk-19-1.svg" style="display: block; margin: auto;" /&gt;
+&lt;img src="chapter_slr_files/figure-html/unnamed-chunk-18-1.svg" style="display: block; margin: auto;" /&gt;
 ]
 
 .right-thin[
@@ -286,7 +267,7 @@ This __error__ is called the __residual__.
 
 --
 
-&lt;img src="chapter_slr_files/figure-html/unnamed-chunk-20-1.svg" style="display: block; margin: auto;" /&gt;
+&lt;img src="chapter_slr_files/figure-html/unnamed-chunk-19-1.svg" alt="" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -297,7 +278,7 @@ This __error__ is called the __residual__.
 
 * Choose `\((b_0,b_1)\)` such that `\(\sum_{i = 1}^N e_1^2 + \dots + e_N^2\)` is **as small as possible**.
 
-&lt;img src="chapter_slr_files/figure-html/unnamed-chunk-21-1.svg" style="display: block; margin: auto;" /&gt;
+&lt;img src="chapter_slr_files/figure-html/unnamed-chunk-20-1.svg" alt="" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -379,7 +360,7 @@ Let's estimate the following model by OLS: `\(\textrm{average math score}_i = b_
 
 .pull-left[
 
-```r
+``` r
 # OLS regression of class size on average maths score
 lm(avgmath_cs ~ classize, grades_avg_cs) 
 ```
@@ -394,7 +375,7 @@ lm(avgmath_cs ~ classize, grades_avg_cs)
 ## 
 ## Coefficients:
 ## (Intercept)     classize  
-##     61.1092       0.1913
+##     61.2104       0.1876
 ```
 ]
 
@@ -410,7 +391,7 @@ lm(avgmath_cs ~ classize, grades_avg_cs)
 ## 
 ## Coefficients:
 ## (Intercept)     classize  
-##     61.1092       0.1913
+##     61.2104       0.1876
 ```
 
 --
@@ -438,30 +419,6 @@ $$
 $$
 ---
 
-# Task 2: OLS Regression
-
-If you haven't already, download the data from [here](https://github.com/adamsoliman/IntroEconometrics/blob/master/data%20for%20tasks/grade5_isl.csv) and load it into R as `grades`. Remember that `grades` is called an object. 
-
-Run the following code to aggregate the data at the class size level:
-
-
-```r
-grades_avg_cs &lt;- grades %&gt;%
-  group_by(classize) %&gt;%
-  summarise(avgmath_cs = mean(avgmath),
-            avgverb_cs = mean(avgverb))
-```
-
-1. Regress average verbal score (dependent variable) on class size (independant variable). Interpret the coefficients.
-
-1. What is the predicted average verbal score when class size is equal to 0? (Does that even make sense?!)
-
-1. What is the predicted average verbal score when the class size is equal to 30 students?
-
-1. Bonus: Compute the OLS coefficients `\(b_0\)` and `\(b_1\)` of the regression using the formulas on slide 27. (*Hint:* you need to use the `cov`, `var`, and `mean` functions.)
-
----
-
 # Linearity Assumption: Visualize your Data!
 
 * It's important to keep in mind that covariance, correlation and simple OLS regression only measure **linear relationships** between two variables.
@@ -478,11 +435,11 @@ grades_avg_cs &lt;- grades %&gt;%
 * Francis Anscombe (1973) came up with 4 datasets with identical stats. But look!
 
 .left-wide[
-&lt;img src="chapter_slr_files/figure-html/unnamed-chunk-29-1.svg" style="display: block; margin: auto;" /&gt;
+&lt;img src="chapter_slr_files/figure-html/unnamed-chunk-27-1.svg" alt="" style="display: block; margin: auto;" /&gt;
 ]
 
 .right-thin[
-&lt;table class="table table-striped" style="font-size: 15px; margin-left: auto; margin-right: auto;"&gt;
+&lt;table class="table table-striped" style="font-size: 15px; color: black; margin-left: auto; margin-right: auto;"&gt;
  &lt;thead&gt;
   &lt;tr&gt;
    &lt;th style="text-align:right;"&gt; dataset &lt;/th&gt;
@@ -610,7 +567,54 @@ $$
 
 ---
 
-# Task 3: `\(R^2\)` and goodness of fit
+# Out-of-Class Tasks
+
+**Submit your answers to Canvas before the next class.** Work through these tasks on your own time — you may use any tools or resources. Be prepared to present your approach and answers.
+
+---
+
+# Task 1: Getting to Know the Data
+
+**GOOD CODING PRACTICES TO ALWAYS START WITH: 1) open a new script and save it, 2) load in any packages, such as with *library(tidyverse)*, and 3) add notes for yourself. Then import the data.**
+
+1. Download the data from [here](https://github.com/adamsoliman/IntroEconometrics/blob/master/data_for_tasks/grade5_isl.csv) and load it into R as `grades`. Remember that `grades` is called an object. This is similar to a spreadsheet, and you can have multiple objects loaded in R at the same time.
+
+1. Describe the dataset:
+
+  * What is the unit of observations, i.e. what does each row correspond to?
+  * How many observations are there?
+  * View the dataset. What variables do we have? What do the variables `avgmath` and `avgverb` correspond to?
+  * Obtain summary statistics for the variables `classize`, `avgmath` and `avgverb`.
+
+1. Do you have any priors about the actual (linear) relationship between class size and student achievement? What would you do to get a first insight?
+
+1. Compute the correlation between class size and math and verbal scores. Is the relationship positive/negative, strong/weak?
+
+---
+
+# Task 2: OLS Regression
+
+Load the data as `grades`, then run the following code to aggregate at the class size level:
+
+
+``` r
+grades_avg_cs &lt;- grades %&gt;%
+  group_by(classize) %&gt;%
+  summarise(avgmath_cs = mean(avgmath),
+            avgverb_cs = mean(avgverb))
+```
+
+1. Regress average verbal score (dependent variable) on class size (independent variable). Interpret the coefficients.
+
+1. What is the predicted average verbal score when class size is equal to 0? (Does that even make sense?!)
+
+1. What is the predicted average verbal score when the class size is equal to 30 students?
+
+1. Bonus: Compute the OLS coefficients `\(b_0\)` and `\(b_1\)` using the formulas from class. (*Hint:* use the `cov`, `var`, and `mean` functions.)
+
+---
+
+# Task 3: `\(R^2\)` and Goodness of Fit
 
 1. Regress `avgmath_cs` on `classize`. Assign to an object `math_reg`.
 
@@ -620,7 +624,7 @@ $$
 
 1. Repeat steps 1 and 2 for `avgverb_cs`. For which exam does the variance in class size explain more of the variance in students' scores?
 
-1. (Optional) Install and load the `broom` package. Pass `math_reg` in the `augment()` function and assign it to a new object. Use the variance in `avgmath_cs` (SST) and the variance in `.fitted` (predicted values; SSE) to find the `\(R^2\)` using the formula on the previous slide.
+1. (Optional) Install and load the `broom` package. Pass `math_reg` in the `augment()` function and assign it to a new object. Use the variance in `avgmath_cs` (SST) and the variance in `.fitted` (predicted values; SSE) to find the `\(R^2\)` using the formula from class.
 
 ---
 

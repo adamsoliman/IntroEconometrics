@@ -249,7 +249,7 @@ pasta_samples %>%
 .pull-left[
 * He counted the exact number of green, red and yellow pasta in the bowl `r emo::ji("monocle")` `#confinement`
 
-* All the pasta in the bowl are stored in a csv file [here](https://github.com/adamsoliman/IntroEconometrics/blob/master/data%20for%20tasks/pasta.csv).
+* All the pasta in the bowl are stored in a csv file [here](https://github.com/adamsoliman/IntroEconometrics/blob/master/data_for_tasks/pasta.csv).
 
 ```{r, echo = TRUE}
 bowl <- read.csv("../data_for_tasks/pasta.csv")
@@ -760,7 +760,7 @@ Scenario | Population parameter | Notation | Point estimate | Symbol(s)
 
 1. Install the `moderndive` package. To install a new package, i.e., for the first time, run `install.packages("moderndive")` in the console. Then, in your script, right below `library(tidyverse)`, add `library(moderndive)`. You will never need to install the package again moving forward.
 
-1. Load the [data](https://github.com/adamsoliman/IntroEconometrics/blob/master/data%20for%20tasks/pasta.csv) into R, and call the object `pastabowl`. 
+1. Load the [data](https://github.com/adamsoliman/IntroEconometrics/blob/master/data_for_tasks/pasta.csv) into R, and call the object `pastabowl`. 
 
 1. Obtain 100 samples of size 10 using the `rep_sample_n()` function. 
 

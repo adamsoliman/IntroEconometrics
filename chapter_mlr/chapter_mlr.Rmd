@@ -396,6 +396,26 @@ You ***need*** to pay attention to whether you are talking about ***percentage p
 
 ---
 
+### Interpretation Review for SLR and MLR
+
+#### 1) Simple Linear Regression Example
+
+```{r, echo=FALSE}
+lm(mpg ~ cyl, data = mtcars)
+```
+
+How do you interpret the intercept and slope coefficients?
+
+#### 2) Multiple Linear Regression Example
+
+```{r, echo=FALSE}
+lm(mpg ~ cyl + wt, data = mtcars)
+```
+
+How do you interpret the intercept and both slope coefficients?
+
+---
+
 # A Numeric and a Dummy Regressor: Interpretation
 
 You know how to interpret coefficients when the variable is numeric (i.e. continuous).

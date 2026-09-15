@@ -376,6 +376,40 @@ You ***need*** to pay attention to whether you are talking about ***percentage p
 
 ---
 
+### Interpretation Review for SLR and MLR
+
+#### 1) Simple Linear Regression Example
+
+
+```
+## 
+## Call:
+## lm(formula = mpg ~ cyl, data = mtcars)
+## 
+## Coefficients:
+## (Intercept)          cyl  
+##      37.885       -2.876
+```
+
+How do you interpret the intercept and slope coefficients?
+
+#### 2) Multiple Linear Regression Example
+
+
+```
+## 
+## Call:
+## lm(formula = mpg ~ cyl + wt, data = mtcars)
+## 
+## Coefficients:
+## (Intercept)          cyl           wt  
+##      39.686       -1.508       -3.191
+```
+
+How do you interpret the intercept and both slope coefficients?
+
+---
+
 # A Numeric and a Dummy Regressor: Interpretation
 
 You know how to interpret coefficients when the variable is numeric (i.e. continuous).
@@ -403,7 +437,7 @@ lm(avgmath ~ classize + religious, grades)
 ## 
 ## Coefficients:
 ## (Intercept)     classize    religious  
-##     61.3092       0.2311      -3.7800
+##     61.3558       0.2297      -3.7882
 ```
 
 ---
@@ -517,7 +551,7 @@ $$
 \text{average math score}_i = \color{#d96502}{b_0} + \color{#d90502}{b_1}\text{class size}_i + \color{#027D83}{b_2}\text{religious}_i +e_i
 $$
 
-&lt;img src="chapter_mlr_files/figure-html/unnamed-chunk-12-1.svg" style="display: block; margin: auto;" /&gt;
+&lt;img src="chapter_mlr_files/figure-html/unnamed-chunk-14-1.svg" alt="" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -527,7 +561,7 @@ $$
 \text{average math score}_i = \color{#d96502}{b_0} + \color{#d90502}{b_1}\text{class size}_i + \color{#027D83}{b_2}\text{religious}_i +e_i
 $$
 
-&lt;img src="chapter_mlr_files/figure-html/unnamed-chunk-13-1.svg" style="display: block; margin: auto;" /&gt;
+&lt;img src="chapter_mlr_files/figure-html/unnamed-chunk-15-1.svg" alt="" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -537,7 +571,7 @@ $$
 \text{average math score}_i = \color{#d96502}{b_0} + \color{#d90502}{b_1}\text{class size}_i + \color{#027D83}{b_2}\text{religious}_i +e_i
 $$
 
-&lt;img src="chapter_mlr_files/figure-html/unnamed-chunk-14-1.svg" style="display: block; margin: auto;" /&gt;
+&lt;img src="chapter_mlr_files/figure-html/unnamed-chunk-16-1.svg" alt="" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -547,7 +581,7 @@ $$
 \text{average math score}_i = \color{#d96502}{b_0} + \color{#d90502}{b_1}\text{class size}_i + \color{#027D83}{b_2}\text{religious}_i +e_i
 $$
 
-&lt;img src="chapter_mlr_files/figure-html/unnamed-chunk-15-1.svg" style="display: block; margin: auto;" /&gt;
+&lt;img src="chapter_mlr_files/figure-html/unnamed-chunk-17-1.svg" alt="" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -557,7 +591,7 @@ $$
 \text{average math score}_i = \color{#d96502}{b_0} + \color{#d90502}{b_1}\text{class size}_i + \color{#027D83}{b_2}\text{religious}_i +e_i
 $$
 
-&lt;img src="chapter_mlr_files/figure-html/unnamed-chunk-16-1.svg" style="display: block; margin: auto;" /&gt;
+&lt;img src="chapter_mlr_files/figure-html/unnamed-chunk-18-1.svg" alt="" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -595,7 +629,7 @@ Let's go back to our `religious` school regression:
 ## 
 ## Coefficients:
 ## (Intercept)     classize    religious  
-##     61.3092       0.2311      -3.7800
+##     61.3558       0.2297      -3.7882
 ```
 
 --
@@ -622,7 +656,7 @@ lm(avgmath ~ classize + is_religious + is_notreligious, grades)
 ## 
 ## Coefficients:
 ##         (Intercept)             classize     is_religiousTRUE  
-##             61.3092               0.2311              -3.7800  
+##             61.3558               0.2297              -3.7882  
 ## is_notreligiousTRUE  
 ##                  NA
 ```
@@ -641,10 +675,8 @@ grades %&gt;% count(is_religious == 1 - is_notreligious)
 .pull-right[
 
 ```
-## # A tibble: 1 × 2
-##   `is_religious == 1 - is_notreligious`     n
-##   &lt;lgl&gt;                                 &lt;int&gt;
-## 1 TRUE                                   2019
+##   is_religious == 1 - is_notreligious    n
+## 1                                TRUE 2019
 ```
 ]
 
@@ -723,7 +755,7 @@ Let's go back to our class size and student performance example. We had:
 
 ```
 ## (Intercept)    classize 
-##  57.7939158   0.3174906
+##  57.8328853   0.3162944
 ```
 
 --
@@ -733,7 +765,7 @@ Let's go back to our class size and student performance example. We had:
 
 ```
 ##   (Intercept)      classize disadvantaged 
-##   69.94438332    0.07167819   -0.33957877
+##   69.97975279    0.07055483   -0.33947815
 ```
 
 --
@@ -748,7 +780,7 @@ Let's go back to our class size and student performance example. We had:
 
 --
 
-We obtain: `$$b_1 = 0.317 = \underbrace{0.072}_{c_1} + \underbrace{(-0.34)}_{\color{#d90502}{c_2}} \times \underbrace{(-0.724)}_{\color{#d96502}{d_1}} = c_1 + OVB$$`
+We obtain: `$$b_1 = 0.316 = \underbrace{0.071}_{c_1} + \underbrace{(-0.339)}_{\color{#d90502}{c_2}} \times \underbrace{(-0.724)}_{\color{#d96502}{d_1}} = c_1 + OVB$$`
 
 ---
 
@@ -817,7 +849,7 @@ Let's run a regression where there is perfect linear dependence between regresso
 &lt;br&gt;
 
 .center[
-&lt;img src="../img/photos/confounding_variables_funny.png" width="1000px" style="display: block; margin: auto;" /&gt;
+&lt;img src="../img/photos/confounding_variables_funny.png" alt="" width="1000px" style="display: block; margin: auto;" /&gt;
 ]
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>

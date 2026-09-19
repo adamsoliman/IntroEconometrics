@@ -727,44 +727,219 @@ This applies to cases when you have more than 2 categories. You don't need to cr
 
 # Omitted Variable Bias (OVB)
 
-***Omitted variable bias***: Omitting important control variables from the regression model. This is different than an ommitted category!
+***Omitted variable bias*** occurs when we omit a variable that: (1) affects our outcome variable, and (2) is correlated with our regressor of interest. NOTE: This is different from an omitted category!
 
-This renders the coefficient for your regressor of interest unreliable (*biased*).
+Let's denote $y$ our outcome variable, $x$ our regressor of interest, and $z$ our omitted variable.
 
-Let's note $y$ our outcome variable, $x$ our regressor and $z$ our omitted variable.
+We could run the following regressions:
 
-We could run regressions for the following models:
+1. ***Simple linear model:*** $y = b_0 + b_1x + e$
 
-1. ***Simple linear model***: $y = b_0 + b_1x + e$
+2. ***Multiple linear model:*** $y = c_0 + c_1x + \color{#d90502}{c_2}z + e$
 
-1. ***Multiple linear model***: $y = c_0 + c_1x + \color{#d90502}{c_2}z + e$
-
-1. ***Omitted variable on regressor***: $z = d_0 + \color{#d96502}{d_1}x + e$
+3. ***Omitted variable on regressor:*** $z = d_0 + \color{#d96502}{d_1}x + e$
 
 The [formula for the OVB](https://www.youtube.com/watch?v=9-lPES4e0n8) is:
 
-$$\text{OVB} = \color{#d90502}{c_2} \times \color{#d96502}{d_1}$$
+$$
+\text{OVB} = \color{#d90502}{c_2} \times \color{#d96502}{d_1}
+$$
 
---
+Therefore, through substitution, we get the following:
 
-In other words, $b_1 = c_1 + OVB$ 
+$$
+b_1 = c_1 + \text{OVB}
+$$
 
 ---
 
-# Omitted Variable Bias (OVB)
+# Omitted Variable Bias (OVB): The Intuition
 
-$$\text{OVB} = \underbrace{\text{multiple regression coefficient on omitted variable}}_{\color{#d90502}{c_2}} \times \underbrace{\frac{Cov(x,z)}{Var(x)}}_{\color{#d96502}{d_1}}$$
+Because \(x\) is correlated with the omitted variable \(z\), a change in \(x\) is also associated with a change in \(z\). The simple regression therefore attributes both the relationship of \(x\) with \(y\) and the indirect relationship operating through \(z\) to \(x\), so $b_1 = c_1 + \text{OVB}$.
 
-From this formula you obtain:
+Recall:
 
-* the OVB's ***magnitude*** (only if you observe $z$),
-* the OVB's ***sign*** (positive/negative): since in practice $z$ is not observed (otherwise you could include it in the regression) this is the most relevant case
+$$
+\text{OVB} = \color{#d90502}{c_2} \times \color{#d96502}{d_1}
+$$
+
+What do these two pieces tell us?
+
+* $\color{#d90502}{c_2}$: How is the omitted variable $z$ related to the outcome $y$, holding $x$ fixed?
+
+* $\color{#d96502}{d_1}$: How is the omitted variable $z$ related to our regressor $x$?
 
 --
 
-***Question:***
+For omitting $z$ to bias the coefficient on $x$, ***both relationships must exist.***
 
-Imagine you want to uncover the relationship between income and years of education. Why might a simple regression of income on years of education not yield reliable estimates? What could be an omitted variable? What's the expected sign of the OVB?
+If $c_2 = 0$ or $d_1 = 0$, then:
+
+$$
+\text{OVB} = 0
+$$
+
+***Not every omitted variable creates omitted variable bias!***
+
+---
+
+# Omitted Variable Bias (OVB): Which Direction?
+
+Since
+
+$$
+b_1 = c_1 + \text{OVB},
+$$
+
+the sign of the OVB tells us whether $b_1$ is ***too high*** or ***too low***.
+
+--
+
+If $c_2$ and $d_1$ have the ***same sign***:
+
+$$
+(+)(+) = (+)
+\qquad \text{or} \qquad
+(-)(-) = (+)
+$$
+
+then OVB is ***positive*** and:
+
+$$
+b_1 > c_1
+$$
+
+We call this ***upward bias***.
+
+--
+
+If $c_2$ and $d_1$ have ***opposite signs***:
+
+$$
+(+)(-) = (-)
+\qquad \text{or} \qquad
+(-)(+) = (-)
+$$
+
+then OVB is ***negative*** and:
+
+$$
+b_1 < c_1
+$$
+
+We call this ***downward bias***.
+
+---
+
+# Omitted Variable Bias (OVB): Be Careful With "Up" and "Down"
+
+***Upward bias*** does not necessarily mean that the estimated coefficient is positive.
+
+It means that $b_1$ is ***more positive*** than $c_1$.
+
+For example:
+
+$$
+c_1 = -5, \qquad b_1 = -2
+$$
+
+Here the bias is:
+
+$$
+\text{OVB} = b_1-c_1 = -2-(-5)=+3
+$$
+
+So the estimate is ***upward biased*** even though both coefficients are negative.
+
+--
+
+Likewise, ***downward bias*** means $b_1$ is more negative than $c_1$.
+
+The key question is always:
+
+$$
+\boxed{\text{Is } b_1 \text{ above or below } c_1?}
+$$
+
+---
+
+# Omitted Variable Bias (OVB): What Do We Use It For?
+
+Usually, if we actually observed $z$, we could simply include it in our regression.
+
+So why is the OVB formula useful?
+
+--
+
+Most importantly, it lets us use economic reasoning to predict the ***direction*** of the bias.
+
+Ask two questions:
+
+1. What is the expected sign of $\color{#d90502}{c_2}$?
+
+2. What is the expected sign of $\color{#d96502}{d_1}$?
+
+Then multiply the signs:
+
+$$
+\text{sign of OVB}
+=
+\text{sign of }c_2
+\times
+\text{sign of }d_1
+$$
+
+--
+
+If we observe $z$, we can also calculate the ***magnitude*** of the bias:
+
+$$
+\text{OVB} = b_1-c_1 = c_2d_1
+$$
+
+---
+
+# Omitted Variable Bias (OVB): Example
+
+Imagine we want to estimate the relationship between ***income*** and ***years of education***:
+
+$$
+\text{income} = b_0 + b_1\text{education} + e
+$$
+
+Suppose we omit ***ability***.
+
+--
+
+Ask our two questions:
+
+1. Is ability related to income, holding education fixed?
+
+   We might expect: $\color{#d90502}{c_2 > 0}$
+
+2. Is ability correlated with years of education?
+
+   We might expect: $\color{#d96502}{d_1 > 0}$
+
+--
+
+Therefore:
+
+$$
+\text{OVB}
+=
+\color{#d90502}{c_2}(+)
+\times
+\color{#d96502}{d_1}(+)
+=
+(+)
+$$
+
+So the simple regression coefficient would be ***upward biased***:
+
+$$
+b_1 > c_1
+$$
 
 ---
 
@@ -772,7 +947,11 @@ Imagine you want to uncover the relationship between income and years of educati
 
 Let's go back to our class size and student performance example. We had:
 
-***Simple linear model:***  $\text{average math score} = b_0 + b_1\text{class size} + e$
+***Simple linear model:***
+
+$$
+\text{average math score} = b_0 + b_1\text{class size} + e
+$$
 
 ```{r, echo = FALSE}
 reg1 <- lm(avgmath ~ classize, grades)
@@ -781,7 +960,11 @@ reg1$coefficients
 
 --
 
-***Multiple linear model:***  $\text{average math score} = c_0 + c_1\text{class size} + \color{#d90502}{c_2}\text{% disadvantaged} + e$
+***Multiple linear model:***
+
+$$
+\text{average math score} = c_0 + c_1\text{class size} + \color{#d90502}{c_2}\text{% disadvantaged} + e
+$$
 
 ```{r, echo = FALSE}
 reg2 <- lm(avgmath ~ classize + disadvantaged, grades)
@@ -790,16 +973,100 @@ reg2$coefficients
 
 --
 
-***Omitted variable on regressor***:  $\text{% disadvantaged} = d_0 + \color{#d96502}{d_1}\text{class size} + e$
+***Omitted variable on regressor:***
+
+$$
+\text{% disadvantaged} = d_0 + \color{#d96502}{d_1}\text{class size} + e
+$$
 
 ```{r, echo = FALSE}
 reg3 <- lm(disadvantaged ~ classize, grades)
 reg3$coefficients
 ```
 
+---
+
+# Omitted Variable Bias (OVB): In Practice
+
+From our regressions:
+
+$$
+\color{#d90502}{c_2} = `r round(reg2$coefficients[3],3)`
+$$
+
+A higher percentage of disadvantaged students is associated with ***lower math scores***.
+
 --
 
-We obtain: $$b_1 = `r round(reg1$coefficients[2],3)` = \underbrace{`r round(reg2$coefficients[2],3)`}_{c_1} + \underbrace{(`r round(reg2$coefficients[3],3)`)}_{\color{#d90502}{c_2}} \times \underbrace{(`r round(reg3$coefficients[2],3)`)}_{\color{#d96502}{d_1}} = c_1 + OVB$$
+And:
+
+$$
+\color{#d96502}{d_1} = `r round(reg3$coefficients[2],3)`
+$$
+
+Larger classes are associated with a ***lower percentage of disadvantaged students***.
+
+--
+
+Therefore:
+
+$$
+\text{OVB}
+=
+(\color{#d90502}{-})
+\times
+(\color{#d96502}{-})
+=
+(+)
+$$
+
+So we expect ***upward bias***.
+
+--
+
+And that is exactly what we find:
+
+$$
+b_1 = `r round(reg1$coefficients[2],3)`
+>
+c_1 = `r round(reg2$coefficients[2],3)`
+$$
+
+---
+
+# Omitted Variable Bias (OVB): In Practice
+
+We can also calculate the exact bias:
+
+$$
+b_1
+=
+c_1
++
+c_2d_1
+$$
+
+$$
+`r round(reg1$coefficients[2],3)`
+=
+`r round(reg2$coefficients[2],3)`
++
+(`r round(reg2$coefficients[3],3)`)
+\times
+(`r round(reg3$coefficients[2],3)`)
+$$
+
+--
+
+Therefore:
+
+$$
+\text{OVB}
+=
+`r round(reg1$coefficients[2] - reg2$coefficients[2],3)`
+$$
+
+The simple regression makes the relationship between class size and math scores look ***more positive*** because class size is also picking up differences in the percentage of disadvantaged students.
 
 ---
 
@@ -815,7 +1082,7 @@ We obtain: $$b_1 = `r round(reg1$coefficients[2],3)` = \underbrace{`r round(reg2
 
 # Out-of-Class Tasks
 
-**Submit your answers to Canvas before the next class.** Work through these tasks on your own time — you may use any tools or resources. Be prepared to present your approach and answers.
+**Submit your answers to Canvas before the next class.** Work through these tasks on your own time. Be prepared to present your approach and answers.
 
 ---
 

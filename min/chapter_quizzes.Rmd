@@ -21,25 +21,6 @@ options(htmltools.dir.version = FALSE)
 knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
 ```
 
-class: center, middle
-
-# Quiz Navigation
-
-| Chapter Starting | Questions | Answers |
-|---|:---:|:---:|
-| Simple Linear Regression | 3 | 4 |
-| Introduction to Causality | 6 | 7 |
-| Multiple Linear Regression | 9 | 10 |
-| Linear Regression Extensions | 12 | 13 |
-| Sampling | 15 | 16 |
-| Confidence Intervals & Hypothesis Testing | 18 | 19 |
-| Regression Inference | 21 | 22 |
-| Regression Discontinuity | 24 | 25 |
-| Difference-in-Differences | 27 | 28 |
-| Panel Data | 30 | 31 |
-
----
-
 class: center, middle, inverse
 
 # ── Chapter: Simple Linear Regression ──
@@ -55,7 +36,7 @@ a) What is the average income of Clemson graduates?
 
 b) What will the unemployment rate be next quarter?
 
-c) Does attending a smaller class cause higher test scores?
+c) Does attending a smaller class produce higher test scores?
 
 d) How many students are enrolled in ECON 4050 this semester?
 
@@ -215,13 +196,13 @@ class: center, middle, inverse
 
 **Q1.** In a **log-linear** model $\ln(Y) = \beta_0 + \beta_1 X + \varepsilon$, how is $\hat\beta_1$ interpreted?
 
-a) A 1-unit increase in X leads to a $\hat\beta_1$-unit increase in Y
+a) A 1-unit increase in X leads to a $\hat\beta_1$-unit change in Y
 
-b) A 1% increase in X leads to a $\hat\beta_1$% increase in Y
+b) A 1% increase in X leads to a $\hat\beta_1$% change in Y
 
-c) A 1-unit increase in X leads to approximately a $100 \cdot \hat\beta_1$% increase in Y
+c) A 1-unit increase in X leads to approximately a $100 \cdot \hat\beta_1$% change in Y
 
-d) A 1-unit increase in X leads to a $\hat\beta_1$% decrease in Y
+d) A 1-unit increase in X leads to a $\hat\beta_1$% change in Y
 
 **Q2.** In a **log-log** model $\ln(Y) = \beta_0 + \beta_1 \ln(X) + \varepsilon$, $\hat\beta_1$ represents:
 
@@ -231,7 +212,7 @@ b) The percentage change in X for a 1% change in Y
 
 c) The sample correlation between $\ln(Y)$ and $\ln(X)$
 
-d) The elasticity of Y w.r.t. X: a 1% increase in X gives a $\hat\beta_1$% change in Y
+d) A 1% increase in X gives a $\hat\beta_1$% change in Y
 
 ---
 

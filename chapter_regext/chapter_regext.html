@@ -39,8 +39,6 @@ class: center, middle, inverse, title-slide
 
 Depending on the data and the relationships between the variables of interest, you may need to move away from the baseline model.
 
---
-
 We will focus on 3 important variations:
   
   1. ***Non-linear relationships***
@@ -49,11 +47,7 @@ We will focus on 3 important variations:
 
   1. ***Standardized*** regression 
 
---
-
 In each case, the way we estimate these coefficients does not change (i.e OLS).
-
---
 
 Empirical applications:
 
@@ -74,20 +68,15 @@ class: title-slide-section-red, middle
 
 There are two main "methods":
 
---
-
 1. ***Log*** models
 
 1. ***Polynomial*** models (not the focus of lecture)
 
 ---
 
-
 # Log Models
 
 * The models we have seen so far can be called ***level-level*** specifications. Both the dependent and the independent variables have been measured in levels.
-
---
 
   * The *level* can be dollars, years, number of students...even a percentage.
   
@@ -103,27 +92,19 @@ There are two main "methods":
   
 ---
 
-# The (natural) log Function: A Primer 😉
+# The (natural) log Function: A Primer
 
 &lt;img src="chapter_regext_files/figure-html/unnamed-chunk-1-1.svg" style="display: block; margin: auto;" /&gt;
 
----
-
-# The (natural) log Function: A Primer 😉
-
 * The [natural log function](https://en.wikipedia.org/wiki/Natural_logarithm) is the inverse function of the exponential function, i.e. `\(\log(\exp(x))=x\)`
 
-* Since for all `\(x\)`, `\(\exp(x)&gt;0 \implies\)` natural log function is only defined for ***strictly positive values***! (It is not defined in 0!)
-
-⚠️ Note you can only log your variables if they don't take 0 or negative values! Always think about this when taking the log of your dependent or independent variable(s)
+* Since for all `\(x\)`, `\(\exp(x)&gt;0\)`, the natural log function is only defined for ***strictly positive values***! ⚠️ Put another way, you can only log your variables if they don't take 0 or negative values! Always think about this when taking the log of your dependent or independent variable(s)
 
 ---
 
-# The (natural) log Function: A Primer 😉
+# The (natural) log Function: A Primer
 
 If you have very ***skewed distributions*** taking the log will render it more ***normally distributed***
-
---
 
 .pull-left[
 &lt;img src="chapter_regext_files/figure-html/unnamed-chunk-2-1.svg" style="display: block; margin: auto;" /&gt;
@@ -215,17 +196,40 @@ For ***any increase in `\(x\)`, `\(\Delta x,\)` and any `\(b_1\)`*** `\((\Delta 
 
 ---
 
-# An example of interpretation of a log model
+# An example of interpretation of a log-log model
 
-- We estimate the effect of fertility on GDP using the **Gapminder** dataset using 
-$$ \log(\text{gdp}) = \beta_0 + \beta_1 \cdot \text{fertility} + \epsilon $$
+We estimate the effect of fertility on GDP using the **Gapminder** dataset using 
+$$ \log(\text{gdp}) = \beta_0 + \beta_1 \cdot \log(\text{fertility}) + \epsilon $$
 
 --
 
 
 ``` r
-model &lt;- lm(log(gdp) ~ fertility, gapminder)
-model
+lm(log(gdp) ~ log(fertility), gapminder)
+```
+
+```
+## 
+## Call:
+## lm(formula = log(gdp) ~ log(fertility), data = gapminder)
+## 
+## Coefficients:
+##    (Intercept)  log(fertility)  
+##         25.816          -2.227
+```
+--
+
+Approximate interpretation for the slope, which works for small changes: A **1% increase in the fertility rate** is associated with approximately a **2.23% decrease in GDP**, on average.
+
+---
+
+# How would you interpret the slope coefficient on this log-level model? 
+
+$$ \log(\text{gdp}) = \beta_0 + \beta_1 \cdot \text{fertility} + \epsilon $$
+
+
+``` r
+lm(log(gdp) ~ fertility, gapminder)
 ```
 
 ```
@@ -238,32 +242,9 @@ model
 ##     25.4027      -0.5899
 ```
 
-- Approximate interpretation for slope, which works for small changes: A one-unit increase in the fertility rate is associated with an approximately 100×(−0.5899)=−58.99% decrease in GDP
-
-- Exact value for slope change: `\((e^{\beta_1}−1)×100 = (e^{−0.5899}−1)×100 = −44.53\%\)`
-
-- The intercept (25.4027) represents log(gdp) when the fertility rate is 0. This doesn't have a meaningful real-world interpretation, but you would exponentiate it to get the value, so exp(25.4027)
 
 ---
 
-# Task 1: Non-linear relationships
-
-1. Load the data [here](https://www.dropbox.com/scl/fi/68taafng8vjpzmub6q1xj/college_tuition_income.csv?rlkey=0c59a2kj0cwmcecjbg20jrkva&amp;dl=0) and call the object `college`. This dataset contains information about tuition and estimated incomes of graduates for universities in the US.  
-
-2. Create a scatter plot of estimated mid-career pay (`mid_career_pay`) `\((y-axis)\)` as a function of out-of-state tuition (`out_of_state_tuition`) `\((x-axis)\)`. Would you say the relationship is broadly linear or rather non-linear?  
-
-3. Filter the variable `type` to keep only the values of ("For Profit", "Private", "Public"). Call this object `college_clean`. USE THIS DATA OBJECT FROM NOW ON!  
-
-4. Regress mid-career pay on university type. Interpret each coefficient. What is the reference category?  
-
-5. Regress mid-career pay on the logarithm of out-of-state tuition. You can either create a new variable using `mutate`, or incorporate the logarithm directly into the regression. Interpret the slope coefficient.  
-
-6. Regress the logarithm of mid-career pay on the variable you created in #3 (`out_state`). Interpret the slope coefficient.  
-
-7. Regress the logarithm of mid-career pay on the logarithm of out-of-state tuition. Interpret the slope coefficient.
-
-
----
 
 # Teaser for the Next Few Topics
 
@@ -281,6 +262,28 @@ model
   * We'll present the notion of **sampling**, and
   
   * Understand what **statistical inference** is and how to do it. 
+---
+
+# Out-of-Class Tasks
+
+**Submit your answers to Canvas before the next class.** Work through these tasks on your own time — you may use any tools or resources. Be prepared to present your approach and answers.
+
+---
+
+# Task 1: Non-Linear Relationships
+
+1. Load the data [here](https://github.com/adamsoliman/IntroEconometrics/blob/master/data_for_tasks/college_tuition_income.csv) and call the object `college`. This dataset contains information about tuition and estimated incomes of graduates for universities in the US.
+
+2. Create a scatter plot of estimated mid-career pay (`mid_career_pay`) `\((y-axis)\)` as a function of out-of-state tuition (`out_of_state_tuition`) `\((x-axis)\)`. Would you say the relationship is broadly linear or rather non-linear?
+
+3. Filter the variable `type` to keep only the values of ("For Profit", "Private", "Public"). Call this object `college_clean`. **Use this object from now on.**
+
+4. Regress mid-career pay on university type. Interpret each coefficient. What is the reference category?
+
+5. Regress mid-career pay on the logarithm of out-of-state tuition. You can either create a new variable using `mutate`, or incorporate the logarithm directly into the regression. Interpret the slope coefficient.
+
+6. Regress the logarithm of mid-career pay on the logarithm of out-of-state tuition. Interpret the slope coefficient.
+
 ---
 
 # On the way to causality
@@ -312,11 +315,11 @@ What if the relationship between `\(x\)` and `\(y\)` is not exponential/log?
 # Polynomial Wut? 😟
 
 .pull-left[
-&lt;img src="chapter_regext_files/figure-html/unnamed-chunk-9-1.svg" style="display: block; margin: auto;" /&gt;
+&lt;img src="chapter_regext_files/figure-html/unnamed-chunk-10-1.svg" alt="" style="display: block; margin: auto;" /&gt;
 ]
 
 .pull-right[
-&lt;img src="chapter_regext_files/figure-html/unnamed-chunk-10-1.svg" style="display: block; margin: auto;" /&gt;
+&lt;img src="chapter_regext_files/figure-html/unnamed-chunk-11-1.svg" alt="" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
@@ -354,7 +357,7 @@ lm(y ~ poly(x, 3, raw = TRUE), data)
 
 ***2nd order:***
 
-&lt;img src="chapter_regext_files/figure-html/unnamed-chunk-13-1.svg" style="display: block; margin: auto;" /&gt;
+&lt;img src="chapter_regext_files/figure-html/unnamed-chunk-14-1.svg" alt="" style="display: block; margin: auto;" /&gt;
 ]
 
 --
@@ -363,12 +366,12 @@ lm(y ~ poly(x, 3, raw = TRUE), data)
 
 ***3rd order:***
 
-&lt;img src="chapter_regext_files/figure-html/unnamed-chunk-14-1.svg" style="display: block; margin: auto;" /&gt;
+&lt;img src="chapter_regext_files/figure-html/unnamed-chunk-15-1.svg" alt="" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
 
-&lt;img src="chapter_regext_files/figure-html/curve_fitting.png" width="378px" height="600px" style="display: block; margin: auto;" /&gt;
+&lt;img src="chapter_regext_files/figure-html/curve_fitting.png" alt="" width="378px" height="600px" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -545,7 +548,7 @@ $$ \textrm{score}_i = \color{#d96502}{b_0} + \color{#027D83}{b_1} \textrm{small}
 
 
 
-&lt;img src="chapter_regext_files/figure-html/graph_base.png" width="90%" style="display: block; margin: auto;" /&gt;
+&lt;img src="chapter_regext_files/figure-html/graph_base.png" alt="" width="90%" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -555,7 +558,7 @@ $$ \textrm{score}_i = \color{#d96502}{b_0} + \color{#027D83}{b_1} \textrm{small}
 
 
 
-&lt;img src="chapter_regext_files/figure-html/graph_reg.png" width="90%" style="display: block; margin: auto;" /&gt;
+&lt;img src="chapter_regext_files/figure-html/graph_reg.png" alt="" width="90%" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -565,7 +568,7 @@ $$ \textrm{score}_i = \color{#d96502}{b_0} + \color{#027D83}{b_1} \textrm{small}
 
 
 
-&lt;img src="chapter_regext_files/figure-html/graph_reg_b0.png" width="90%" style="display: block; margin: auto;" /&gt;
+&lt;img src="chapter_regext_files/figure-html/graph_reg_b0.png" alt="" width="90%" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -575,7 +578,7 @@ $$ \textrm{score}_i = \color{#d96502}{b_0} + \color{#027D83}{b_1} \textrm{small}
 
 
 
-&lt;img src="chapter_regext_files/figure-html/graph_reg_b0_b1.png" width="90%" style="display: block; margin: auto;" /&gt;
+&lt;img src="chapter_regext_files/figure-html/graph_reg_b0_b1.png" alt="" width="90%" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -585,7 +588,7 @@ $$ \textrm{score}_i = \color{#d96502}{b_0} + \color{#027D83}{b_1} \textrm{small}
 
 
 
-&lt;img src="chapter_regext_files/figure-html/graph_reg_b0_b1_b2.png" width="90%" style="display: block; margin: auto;" /&gt;
+&lt;img src="chapter_regext_files/figure-html/graph_reg_b0_b1_b2.png" alt="" width="90%" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -595,7 +598,7 @@ $$ \textrm{score}_i = \color{#d96502}{b_0} + \color{#027D83}{b_1} \textrm{small}
 
 
 
-&lt;img src="chapter_regext_files/figure-html/graph_reg_b0_b1_b2_b3.png" width="90%" style="display: block; margin: auto;" /&gt;
+&lt;img src="chapter_regext_files/figure-html/graph_reg_b0_b1_b2_b3.png" alt="" width="90%" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -715,13 +718,13 @@ In our class size and student performance example, it will help to interpret:
 
 
 .pull-left[
-&lt;img src="chapter_regext_files/figure-html/graph_before.png" width="3200" style="display: block; margin: auto;" /&gt;
+&lt;img src="chapter_regext_files/figure-html/graph_before.png" alt="" width="3200" style="display: block; margin: auto;" /&gt;
 ]
 
 --
 
 .pull-right[
-&lt;img src="chapter_regext_files/figure-html/graph_after.png" width="3200" style="display: block; margin: auto;" /&gt;
+&lt;img src="chapter_regext_files/figure-html/graph_after.png" alt="" width="3200" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
@@ -750,7 +753,7 @@ If the ***regressor*** `\(x_k\)` is standardized, i.e. the model is `\(y = b_0 +
 
 # Task 3: Standardized regression
 
-Let's go back our [grades](https://www.dropbox.com/scl/fi/77u2r8xznh63jg7aisq4f/grade5_isl.csv?rlkey=uclo7ng24so9fct41kcjm8k0l&amp;dl=0) dataset. Please download it from the previous link and read it in using the appropriate function. Below are the estimates we got from regressing average math test scores on the full set of regressors.
+Let's go back our [grades](https://github.com/adamsoliman/IntroEconometrics/blob/master/data_for_tasks/grade5_isl.csv) dataset. Please download it from the previous link and read it in using the appropriate function. Below are the estimates we got from regressing average math test scores on the full set of regressors.
 
 
 ```

@@ -318,41 +318,6 @@ $$ \delta_i = Y_i^1 - Y_i^0$$
 
 ---
 
-# Sidenote: Expectation and Conditional Expectation
-
-Let's say you have a fair die and you roll it an infinite number of times. What is the average number rolled?
-
-* If $X$ is a random variable containing the number rolled, we write:
-
-$$
-\mathop{\mathbb{E}}(X) = \frac{1}{6} \times 1 + \frac{1}{6} \times 2 + \frac{1}{6} \times 3 + \frac{1}{6} \times 4 + \frac{1}{6} \times 5 + \frac{1}{6} \times 6 = 3.5
-$$
-
-* The $\mathop{\mathbb{E}}(.)$ operator stands for **expectation** or *population mean*.
-
-* The $\mathop{\mathbb{E}}(.)$ operator is linear, in other words, $\mathop{\mathbb{E}}(X+Y) = \mathop{\mathbb{E}}(X) + \mathop{\mathbb{E}}(Y)$ with $X$ and $Y$ being two random variables.
-
----
-
-# Sidenote: Expectation and Conditional Expectation
-
-Now, let's say you have two fair dice and you roll them an infinite number of times. What is the average sum of numbers rolled, conditional on one of them being always equal to 5?
-
-* If $X$ is a random variable containing the number rolled of die 1 and $Y$ a random variable containing the number rolled of die 2, we write:
-
-$$
-\begin{align}
-\mathop{\mathbb{E}}(X+Y|Y = 5) &= \mathop{\mathbb{E}}(X|Y = 5) + \mathop{\mathbb{E}}(Y|Y = 5) \\
-&= \mathop{\mathbb{E}}(X) + 5 \\
-&= 3.5 + 5 \\
-&= 8.5
-\end{align}
-$$
-
-* The $\mathop{\mathbb{E}}(.|D = x)$ operator stands for **conditional expectation**. It refers to the expectation over a subcategory of the entire population, namely people who satisfy the condition $D = x$.
-
----
-
 name: ate
 
 # Average Treatment Effect (ATE)
@@ -366,6 +331,8 @@ ATE &= \mathop{\mathbb{E}}(\delta_i) \\
 \end{align}
   
 * The ATE simply measures the ***average of individual treatment effects over the whole population***.
+
+([*Appendix:*](#expcond) Conditional Expectation Review)
 
 ([*Appendix:*](#attandatu) Average Treatment on the Treated and Average Treatment on the Untreated)
 
@@ -738,8 +705,8 @@ $$
 star_df_k_small <- star_df_complete %>%
   filter(grade == "k") %>% # keep only kindergarten
   filter(star != "regular+aide") %>% # remove regular+aide group
-  mutate(small = (star == "small"), # create binary T/F
-         smalldummy = ifelse(star == "small", 1, 0)) # alternative
+  mutate(smallbinary = (star == "small"), # create binary T/F
+         small = ifelse(star == "small", 1, 0)) # alternative
 ```
 
 ```{r, eval = F}
@@ -767,7 +734,7 @@ star_df_k_small %>%
 Regression model we want to estimate: $\text{math score}_i = b_0 + \delta \text{small}_i + e_i$
 
 ```{r, echo = TRUE, eval = TRUE}
-lm(math ~ small, star_df_k_small) # equivalent if lm(math ~ smalldummy, star_df_k_small) 
+lm(math ~ small, star_df_k_small) # equivalent if lm(math ~ smallbinary, star_df_k_small) 
 ```
 
 --
@@ -777,9 +744,9 @@ Recall that: $b_0 = \mathbb{E}[Y_i^0]$ and $\delta = \mathbb{E}[Y_i | D_i = 1] -
 .pull-left[
 ```{r}
 b_0 = mean(star_df_k_small$math[
-  star_df_k_small$small == FALSE])
+  star_df_k_small$smallbinary == FALSE])
 b_0 <- mean((star_df_k_small %>% # same as above
-               filter(small == FALSE))$math)
+               filter(smallbinary == FALSE))$math)
 b_0
 ```
 ]
@@ -787,95 +754,12 @@ b_0
 .pull-right[
 ```{r}
 delta = mean((star_df_k_small %>% 
-               filter(smalldummy == 1))$math) - 
+               filter(small == 1))$math) - 
   mean((star_df_k_small %>% 
-               filter(smalldummy == 1))$math)
-delta # equivalent if use small and TRUE/FALSE
+               filter(small == 0))$math)
+delta # equivalent if use smallbinary and TRUE/FALSE
 ```
 ]
-
----
-
-# Regression with a Dummy Variable: Graphically
-
-Contrary to last week, the regressor in our regression is a ***dummy variable***, i.e. a variable that takes the values TRUE or FALSE (1 or 0).
-
-```{r, echo = F, fig.height=4.75, fig.width = 8}
-baseline_graph <- star_df_k_small %>%
-    mutate(small = ifelse(small == "TRUE",1,0)) %>%
-    ggplot(aes(x = small, y = math)) +
-    geom_count(alpha = .7) +
-    labs(x = "Assigned to a small class", y = "Math score", size = "Number of students") +
-    scale_x_continuous(lim = c(-.5,1.5), breaks = c(0,1), labels = c("0\nFALSE","1\nTRUE")) +
-    theme_bw(base_size = 20) +
-    theme(legend.position = c(0,1),
-          legend.justification = c(0,1),
-          legend.background = element_blank(),
-          legend.key=element_blank(),
-          legend.text = element_text(size = 12),
-          legend.title = element_text(size = 12, face = "italic")) 
-baseline_graph
-```
-
----
-
-# Regression with a Dummy Variable: Graphically
-
-Contrary to last week, the regressor in our regression is a ***dummy variable***, i.e. a variable that takes the values TRUE or FALSE (1 or 0).
-
-```{r, echo = F, fig.height=4.75, fig.width = 8}
-baseline_graph_mean = baseline_graph + 
-    stat_summary(fun = mean, colour = c("#d90502","#DE9854"), size = .75, alpha = 0.9) +
-    annotate("text", x = 0.04, y = b_0 - 12, hjust = 0, label = "E(Y | small = 0)", size = 5, colour = "#d90502") +
-    annotate("text", x = 0.04 + 1, y = b_0 + delta + 16, hjust = 0, label = "E(Y | small = 1)", size = 5, colour = "#DE9854")
-baseline_graph_mean
-```
-
----
-
-# Regression with a Dummy Variable: Graphically
-
-Contrary to last week, the regressor in our regression is a ***dummy variable***, i.e. a variable that takes the values TRUE or FALSE (1 or 0).
-
-```{r, echo = F, fig.height=4.75, fig.width = 8}
-baseline_graph_mean + 
-    geom_abline(slope = delta, intercept = b_0) +
-    geom_curve(aes(x = -0.3, xend = -0.2, y = 425 , yend = b_0 - .5*delta - 5), size = .5, linetype = 1, colour = "black", arrow = arrow(length = unit(0.3, "cm"))) +
-    annotate("text", x = -0.5, y = 415, hjust = 0, label = "Regression line", size = 5)
-```
-
-
----
-
-# Regression with a Dummy Variable: Graphically
-
-Contrary to last week, the regressor in our regression is a ***dummy variable***, i.e. a variable that takes the values TRUE or FALSE (1 or 0).
-
-```{r, echo = FALSE, fig.height=4.75, fig.width = 8}
-star_df_k_small %>%
-    mutate(small = ifelse(small == "TRUE",1,0)) %>%
-    filter(math >= 475 & math <= 500) %>%
-    ggplot(aes(x = small, y = math)) +
-    geom_segment(aes(x = 0, xend = 1.25, y = b_0, yend = b_0), size = .5, linetype = 2, colour = "grey") +
-    geom_segment(aes(x = 1, xend = 1.25, y = b_0 + delta, yend = b_0 + delta), size = .5, linetype = 2, colour = "grey") +
-    geom_count(alpha = .7) +
-    stat_summary(data = star_df_k_small %>%
-                     mutate(small = ifelse(small == "TRUE",1,0)), fun = mean, colour = c("#d90502","#DE9854"), size = .75, alpha = 0.9) +
-    geom_abline(slope = delta, intercept = b_0) +
-    geom_segment(aes(x = 1.25, xend = 1.25, y = b_0, yend = b_0 + delta), size = .5, linetype = 1, colour = "black", arrow = arrow(length = unit(0.3, "cm"), ends = "both")) +
-    annotate("text", x = 0.06, y = b_0 - 1, hjust = 0, label = "E(Y | small = 0)", col = "#d90502", size = 5) +
-    annotate("text", x = 0.5, y = b_0 + delta + .5, hjust = 0, label = "E(Y | small = 1)", col = "#DE9854", size = 5) +
-    annotate("text", x = 1.28, y = b_0 + (delta/2), hjust = 0, parse = TRUE, label = "delta", col = "black", size = 8) +
-    labs(x = "Assigned to a small class", y = "Math score", size = "Number of students") +
-    scale_x_continuous(lim = c(-.5,1.5), breaks = c(0,1), labels = c("0\nFALSE","1\nTRUE")) +
-    theme_bw(base_size = 20) +
-    theme(legend.position = c(0,1),
-          legend.justification = c(0,1),
-          legend.background = element_blank(),
-          legend.key=element_blank(),
-          legend.text = element_text(size = 12),
-          legend.title = element_text(size = 12, face = "italic"))
-```
 
 ---
 
@@ -923,15 +807,49 @@ However, they have some shortcomings:
 
 ---
 
+# What comes next? 
+
+* So if we cannot rely on RCTs to make our life easy, it means we have to find a way to make causal inference from ***observational data*** (as opposed to ***experimental data***).
+
+2 broad cases:
+
+* ***selection occurs on observable characteristics***: *multiple regression* (next class!)
+
+* ***selection occurs on unobservable characteristics***: *regression discontinuity design* or  *difference-in-differences* (at the end of the semester)
+
+.center[
+```{r, echo = FALSE, out.width = "700px"}
+knitr::include_graphics("../img/photos/correlation_funny.png")
+```
+]
+
+---
+
+# On the way to causality
+
+`r emo::ji("white heavy check mark")` How to manage data? Read it, tidy it, visualise it...
+
+`r emo::ji("construction")`  How to summarise relationships between variables? Simple linear regression... to be continued
+
+`r emo::ji("white heavy check mark")` **What is causality?**
+
+`r emo::ji("cross mark")` What if we don't observe an entire population?
+
+`r emo::ji("cross mark")`  Are our findings just due to randomness?
+
+`r emo::ji("cross mark")` How to find exogeneity in practice?
+
+---
+
 # Out-of-Class Tasks
 
-**Submit your answers to Canvas before the next class.** Work through these tasks on your own time — you may use any tools or resources. Be prepared to present your approach and answers.
+**Submit your answers to Canvas before the next class.** Work through these tasks on your own time. Be prepared to present your approach and answers.
 
 ---
 
 # Task: STAR data
 
-1. Load the *STAR* data from [here](https://github.com/adamsoliman/IntroEconometrics/blob/master/data%20for%20tasks/star_data.csv) and assign it to an object called `star_df`. Read the help for the data [here](https://rdrr.io/cran/AER/man/STAR.html) to understand what the variables correspond to. (Note: the data has been *reshaped* so don't mind the "k", "1", etc. in the variable names in the help.)
+1. Load the *STAR* data from [here](https://github.com/adamsoliman/IntroEconometrics/blob/master/data_for_tasks/star_data.csv) and assign it to an object called `star_df`. Read the help for the data [here](https://rdrr.io/cran/AER/man/STAR.html) to understand what the variables correspond to. (Note: the data has been *reshaped* so don't mind the "k", "1", etc. in the variable names in the help.)
 
 1. What's the unit of observation? Which variable contains: (i) the (random) class assignment, (ii) the student's class grade, (iii) the outcomes of interest?
 
@@ -983,7 +901,7 @@ toy_data_random <- toy_data_random %>%
 # fwrite(toy_data_random, here::here("../ScPoEconometrics/introduction/pierre_gustave/toy_data_random.csv"))
 ```
 
-1. Load the data [here](https://github.com/adamsoliman/IntroEconometrics/blob/master/data%20for%20tasks/toy_data_2.csv) using `read.csv`. The `group` variable corresponds to whether the individual has been treated or not, `Y0` to the potential outcome if the individual does not receive the treatment $(Y_i^0)$ while `Y1` to the potential outcome if the individual receives the treatment $(Y_i^1)$. Create a new variable containing the observed outcome $(Y_i)$ and the individual treatment effect $(\delta_i)$. Recall $Y_i = D_i \times Y_i^1 + (1 - D_i) \times Y_i^0$, $\delta_i = Y_i^1 - Y_i^0$.
+1. Load the data [here](https://github.com/adamsoliman/IntroEconometrics/blob/master/data_for_tasks/toy_data_2.csv) using `read.csv`. The `group` variable corresponds to whether the individual has been treated or not, `Y0` to the potential outcome if the individual does not receive the treatment $(Y_i^0)$ while `Y1` to the potential outcome if the individual receives the treatment $(Y_i^1)$. Create a new variable containing the observed outcome $(Y_i)$ and the individual treatment effect $(\delta_i)$. Recall $Y_i = D_i \times Y_i^1 + (1 - D_i) \times Y_i^0$, $\delta_i = Y_i^1 - Y_i^0$.
 
 1. Compute the ***ATE*** and the ***SDO***. Is there is any *bias*? Is it large in magnitude?
 
@@ -993,52 +911,50 @@ toy_data_random <- toy_data_random %>%
 
 ---
 
-
-# What comes next? 
-
-* So if we cannot rely on RCTs to make our life easy, it means we have to find a way to make causal inference from ***observational data*** (as opposed to ***experimental data***).
-
-2 broad cases:
-
-* ***selection occurs on observable characteristics***: *multiple regression* (next class!)
-
-* ***selection occurs on unobservable characteristics***: *regression discontinuity design* or  *difference-in-differences* (at the end of the semester)
-
-
----
-
-# On the way to causality
-
-`r emo::ji("white heavy check mark")` How to manage data? Read it, tidy it, visualise it...
-
-`r emo::ji("construction")`  How to summarise relationships between variables? Simple linear regression... to be continued
-
-`r emo::ji("white heavy check mark")` **What is causality?**
-
-`r emo::ji("cross mark")` What if we don't observe an entire population?
-
-`r emo::ji("cross mark")`  Are our findings just due to randomness?
-
-`r emo::ji("cross mark")` How to find exogeneity in practice?
-
-
----
-
-<br>
-<br>
-
-.center[
-```{r, echo = FALSE, out.width = "700px"}
-knitr::include_graphics("../img/photos/correlation_funny.png")
-```
-]
-
----
-
 layout: false
 class: title-slide-section-red, middle
 
 # Appendix
+
+
+---
+
+name: expcond
+
+# Expectation and Conditional Expectation
+
+Let's say you have a fair die and you roll it an infinite number of times. What is the average number rolled?
+
+* If $X$ is a random variable containing the number rolled, we write:
+
+$$
+\mathop{\mathbb{E}}(X) = \frac{1}{6} \times 1 + \frac{1}{6} \times 2 + \frac{1}{6} \times 3 + \frac{1}{6} \times 4 + \frac{1}{6} \times 5 + \frac{1}{6} \times 6 = 3.5
+$$
+
+* The $\mathop{\mathbb{E}}(.)$ operator stands for **expectation** or *population mean*.
+
+* The $\mathop{\mathbb{E}}(.)$ operator is linear, in other words, $\mathop{\mathbb{E}}(X+Y) = \mathop{\mathbb{E}}(X) + \mathop{\mathbb{E}}(Y)$ with $X$ and $Y$ being two random variables.
+
+---
+
+# Expectation and Conditional Expectation (continued)
+
+Now, let's say you have two fair dice and you roll them an infinite number of times. What is the average sum of numbers rolled, conditional on one of them being always equal to 5?
+
+* If $X$ is a random variable containing the number rolled of die 1 and $Y$ a random variable containing the number rolled of die 2, we write:
+
+$$
+\begin{align}
+\mathop{\mathbb{E}}(X+Y|Y = 5) &= \mathop{\mathbb{E}}(X|Y = 5) + \mathop{\mathbb{E}}(Y|Y = 5) \\
+&= \mathop{\mathbb{E}}(X) + 5 \\
+&= 3.5 + 5 \\
+&= 8.5
+\end{align}
+$$
+
+* The $\mathop{\mathbb{E}}(.|D = x)$ operator stands for **conditional expectation**. It refers to the expectation over a subcategory of the entire population, namely people who satisfy the condition $D = x$.
+
+[*back*](#ate)
 
 ---
 

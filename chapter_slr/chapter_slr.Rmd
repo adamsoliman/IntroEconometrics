@@ -764,7 +764,7 @@ $$
 
 # Out-of-Class Tasks
 
-**Submit your answers to Canvas before the next class.** Work through these tasks on your own time — you may use any tools or resources. Be prepared to present your approach and answers.
+**Submit your answers to Canvas before the next class.** Work through these tasks on your own time. Be prepared to present your approach and answers.
 
 ---
 
@@ -805,20 +805,6 @@ grades_avg_cs <- grades %>%
 1. What is the predicted average verbal score when the class size is equal to 30 students?
 
 1. Bonus: Compute the OLS coefficients $b_0$ and $b_1$ using the formulas from class. (*Hint:* use the `cov`, `var`, and `mean` functions.)
-
----
-
-# Task 3: $R^2$ and Goodness of Fit
-
-1. Regress `avgmath_cs` on `classize`. Assign to an object `math_reg`.
-
-1. Pass `math_reg` in the `summary()` function. What is the (multiple) $R^2$ for this regression? How can you interpret it?
-
-1. Compute the squared correlation between `classize` and `avgmath_cs`. What does this tell you about the relationship between $R^2$ and the correlation in a regression with only one regressor?
-
-1. Repeat steps 1 and 2 for `avgverb_cs`. For which exam does the variance in class size explain more of the variance in students' scores?
-
-1. (Optional) Install and load the `broom` package. Pass `math_reg` in the `augment()` function and assign it to a new object. Use the variance in `avgmath_cs` (SST) and the variance in `.fitted` (predicted values; SSE) to find the $R^2$ using the formula from class.
 
 ---
 

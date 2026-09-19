@@ -159,7 +159,7 @@ g_verb_cs
 
 * We'll first focus on the mathematics scores and for visual simplicity we'll zoom in
 
-```{r, echo=FALSE,fig.height=5, fig.width = 8}
+```{r, echo=FALSE,fig.height=4, fig.width = 8}
 g_math_cs +
     ylim(50, 80) +
     theme_bw(base_size = 14)
@@ -171,7 +171,7 @@ g_math_cs +
 
 How to visually summarize the relationship: **a line through the scatter plot**
 
-```{r,echo=FALSE,fig.align='center',fig.height=5,fig.width=8}
+```{r,echo=FALSE,fig.align='center',fig.height=4,fig.width=8}
 g_math_cs +
     ylim(50, 80) +
     theme_bw(base_size = 14) +
@@ -190,7 +190,7 @@ g_math_cs +
 
 How to visually summarize the relationship: **a line through the scatter plot**
 
-```{r,echo=FALSE,fig.align='center',fig.height=5,fig.width=8}
+```{r,echo=FALSE,fig.align='center',fig.height=4,fig.width=8}
 g_math_cs +
   ylim(50, 80) +
   theme_bw(base_size = 14) +
@@ -209,28 +209,20 @@ Let's formalise a bit what we are doing so far.
 
 * We are interested in the relationship between two variables:
 
---
-
   * an __outcome variable__ (also called __dependent variable__):  
   *average mathematics score* $(y)$
   
---
-  
   * an __explanatory variable__ (also called __independent variable__ or __regressor__):  
   *class size* $(x)$
-  
+
 --
 
 * For each class $i$ we observe both $x_i$ and $y_i$, and therefore we can plot the *joint distribution* of class size and average mathematics score.
-
---
 
 * We summarise this relationship with a line (for now). The equation for such a line with an intercept $b_0$ and a slope $b_1$ is:
     $$
     \widehat{y}_i = b\_0 + b\_1 x\_i
     $$
-
---
 
 * $\widehat{y}_i$ is our *prediction* for $y$ at observation $i$ $(y_i)$ given our model (i.e. the line).
 
@@ -292,8 +284,6 @@ plot_b_0 +
 
 * If all the data points were __on__ the line then $\widehat{y}_i = y_i$.
 
---
-
 ```{r, echo = FALSE, fig.height = 5,fig.width=8}
 x <- runif(50, min  = 0, max = 1)
 y <- 1 * x
@@ -308,19 +298,8 @@ plot_ex <- data %>% ggplot(aes(x = x, y = y)) +
   labs(x = "x",
        y = "y") +
   theme_bw(base_size = 14)
-plot_ex
-```
-
----
-
-# Simple Linear Regression: Residual
-
-* If all the data points were __on__ the line then $\widehat{y}_i = y_i$.
-
-```{r, echo = FALSE, fig.height = 5,fig.width=8}
 plot_ex + geom_line(color = "#d90502")
 ```
-
 ---
 
 # Simple Linear Regression: Residual
@@ -333,8 +312,6 @@ This __error__ is called the __residual__.
 --
 
 * At point $(x_i,y_i)$, we note this residual $e_i$.
-
---
 
 * The *actual data* $(x_i,y_i)$ can thus be written as *prediction + residual*:
 
@@ -350,14 +327,7 @@ This __error__ is called the __residual__.
 plot_1 <- g_math_cs +
     ylim(50, 80) +
     theme_bw(base_size = 14)
-plot_1
-```
 
----
-
-# Simple Linear Regression: Graphically
-
-```{r, echo = F, fig.width = 10, fig.height = 5}
 plot_2 <- plot_1 +
   stat_smooth(data = grades_avg_cs, method = "lm", se = FALSE, colour = "#d90502") +
   annotate("text", x = 6.5, y = 64, label = "hat(y)", parse = TRUE, colour = "#d90502", size = 6)
@@ -414,53 +384,18 @@ g_math_cs +
 
 ---
 
-# Simple Linear Regression: Graphically
+# Which "minimization" criterion should (can) be used? 
 
-.left-wide[
-```{r, echo = F, fig.width = 10, fig.height = 5}
-g_math_cs +
-    ylim(50, 80) +
-    theme_bw(base_size = 14) +
-  stat_smooth(method = "lm", se = FALSE, colour = "#d90502") +
-  annotate("text", x = 6.5, y = 64, label = "hat(y)", parse = TRUE, colour = "#d90502", size = 6) +
-  geom_segment(data = math_class_reg,
-               aes(xend = classize, yend = .fitted), color = "#d90502", size = 0.5)
-```
-]
-
-.right-thin[
-<br>
-<br>
-<p style="text-align: center; font-weight: bold; font-size: 35px; color: #d90502;">Which "minimization" criterion should (can) be used?</strong>
-]
----
-
-# **O**rdinary **L**east **S**quares (OLS) Estimation
+## **O**rdinary **L**east **S**quares (OLS) Estimation
 
 * Errors of different sign $(+/-)$ cancel out, so we consider **squared residuals** 
 $$\forall i \in [1,N], e_i^2 = (y_i - \widehat y_i)^2 = (y_i - b_0 - b_1 x_i)^2$$
 
 * Choose $(b_0,b_1)$ such that $\sum_{i = 1}^N e_1^2 + \dots + e_N^2$ is **as small as possible**.
 
---
-
-```{r, echo=FALSE, message=FALSE, warning=FALSE,fig.width=8,fig.height = 6}
-g_math_cs +
-    ylim(50, 80) +
-    xlim(0, 50) +
-    theme_bw(base_size = 14) +
-    stat_smooth(method = "lm", se = FALSE, colour = "darkgreen") +
-  coord_fixed(ratio = 0.65)
-```
-
 ---
 
-# **O**rdinary **L**east **S**quares (OLS) Estimation
-
-* Errors of different sign $(+/-)$ cancel out, so we consider **squared residuals** 
-$$\forall i \in [1,N], e_i^2 = (y_i - \widehat y_i)^2 = (y_i - b_0 - b_1 x_i)^2$$
-
-* Choose $(b_0,b_1)$ such that $\sum_{i = 1}^N e_1^2 + \dots + e_N^2$ is **as small as possible**.
+# **O**rdinary **L**east **S**quares (OLS) Estimation: Graphically
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE,fig.width=8,fig.height = 6}
 g_math_cs +
@@ -505,14 +440,9 @@ knitr::include_url("https://gustavek.shinyapps.io/SSR_cone/")
 
 * So what are the formulas for $b_0$ (intercept) and $b_1$ (slope)?
 
---
-
 * In our single independent variable case:
 
 >   ### __Slope: $b_1^{OLS} = \frac{cov(x,y)}{var(x)}$ $\hspace{2cm}$ Intercept: $b_0^{OLS} = \bar{y} - b_1\bar{x}$__
-
---
-
 
 * These formulas do not appear from magic. They can be found by solving the minimization of squared errors. The math can be found [here](https://www.youtube.com/watch?v=Hi5EJnBHFB4) for those who are interested.
 
@@ -520,25 +450,17 @@ knitr::include_url("https://gustavek.shinyapps.io/SSR_cone/")
 
 # **O**rdinary **L**east **S**quares (OLS): Interpretation
 
-For now assume both the dependent variable $(y)$ and the independent variable $(x)$ are numeric.
-
---
+For now assume both the dependent variable $(y)$ and the independent variable $(x)$ are numeric, then:
 
 > Intercept $(b_0)$: **The predicted value of $y$ $(\widehat{y})$ if $x = 0$.**
-
---
 
 > Slope $(b_1)$: **The predicted change, on average, in the value of $y$ *associated* to a one-unit increase in $x$.**
 
 --
 
 * `r emo::ji("warning")` Note that we use the term *associated*, **avoiding interpreting $b_1$ as the causal impact of $x$ on $y$**. To make such a claim, we need some specific conditions to be met. (To be discussed soon!)
-
---
  
 * Also notice that the units of $x$ will matter for the interpretation (and magnitude!) of $b_1$.
-
---
 
 * **You need to be explicit about what the unit of $x$ is!**
 
@@ -583,8 +505,6 @@ lm(avgmath_cs ~ classize, grades_avg_cs)
 lm(avgmath_cs~classize, data = grades_avg_cs)
 ```
 
---
-
 This implies (abstracting the $_i$ subscript for simplicity):
 
 
@@ -595,8 +515,6 @@ $$
 \widehat {\text{average math score}} &= 61.11 + 0.19 \cdot \text{class size}
 \end{aligned}
 $$
-
---
 
 What's the predicted average score for a class of 26 students? (Using the *exact* coefficients.)
 
@@ -619,12 +537,10 @@ $$
 
 ---
 
-# Linearity Assumption: Anscombe
-
-* Francis Anscombe (1973) came up with 4 datasets with identical stats. But look!
+### Francis Anscombe (1973) came up with 4 datasets with identical stats...remember to visualize!
 
 .left-wide[
-```{r,echo=FALSE,fig.height = 4}
+```{r,echo=FALSE,fig.height = 3.8, fig.width=5}
 ##-- now some "magic" to do the 4 regressions in a loop:
 ff <- y ~ x
 mods <- setNames(as.list(1:4), paste0("lm", 1:4))
@@ -743,18 +659,12 @@ Remember that covariance measures the degree to which two variables move togethe
 $$
 R^2 = \frac{\text{variance explained}}{\text{total variance}} =     \frac{SSE}{SST} = 1 - \frac{SSR}{SST}\in[0,1]
 $$
-
---
     
 * $R^2$ close to $1$ indicates a __very ***high*** explanatory power__ of the model.
 
 * $R^2$ close to $0$ indicates a __very ***low*** explanatory power__ of the model.
 
---
-
 * *Interpretation:* an $R^2$ of 0.5, for example, means that the variation in $x$ "explains" 50% of the variation in $y$.
-
---
     
 * `r emo::ji("warning")` Low $R^2$ does __NOT__ mean it's a useless model! Remember that econometrics is interested in causal mechanisms, not prediction!
     

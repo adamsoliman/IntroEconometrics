@@ -50,8 +50,6 @@ countdown(
 )
 ```
 
-___
-
 ## What is `R`?
 
 `R` is a __programming language__ with powerful statistical and graphic capabilities.
@@ -99,15 +97,11 @@ class: title-slide-section-red, middle
 
 * You will spend a lot of time preparing data for further analysis.
 
---
-
 * The `gapminder` dataset contains data on life expectancy, GDP per capita and population by country between 1952 and 2007.
 
 * Suppose we want to know the average life expectancy and average GDP per capita for each continent in each year.
 
 * We need to group the data by continent *and* year, then compute the average life expectancy and average GDP per capita
-
---
 
 .pull-left[
 ```{r, gapminder, echo = T, eval = F}
@@ -167,8 +161,6 @@ ggplot(data = gapminder_dplyr,
   theme_bw()
 ```
 ]
-
---
 
 .pull-right[
 ```{r gampminder_plot, echo = FALSE}
@@ -294,12 +286,12 @@ knitr::include_graphics("chapter_intro_files/figure-html/rstudio.png")
 
 * Installing packages is easy! Just use the `install.packages` function:
     ```{r, eval = FALSE}
-    install.packages("ggplot2")
+    install.packages("tidyverse")
     ```
 
 * To *use* the contents of a package, we must load it from our library using `library`:
     ```{r, message = FALSE, warning = FALSE,eval=FALSE}
-    library(ggplot2)
+    library(tidyverse)
     ```
 
 ---
@@ -309,7 +301,7 @@ knitr::include_graphics("chapter_intro_files/figure-html/rstudio.png")
 `data.frame`s represent **tabular data**. Like spreadsheets.
 
 ```{r}
-murders <- read.csv("https://www.dropbox.com/s/zuk0qcfm3kyzs4e/gun_murders.csv?dl=1")
+murders <- read.csv("/Users/adamsoliman/Documents/GitHub/Econometrics-Slides/data_for_tasks/gun_murders.csv")
 str(murders) # `str` describes structure of any R object
 ```
 
@@ -364,8 +356,6 @@ Congratulations, you have created your first `R` "object"! Everything is an obje
 
 1\. Find out (using `help()` or google) how to import a .csv file. Do NOT use the "Import Dataset" button, nor install a package. 
 
---
-
 2\. First, download [clemsonFBSfinances.csv](https://github.com/adamsoliman/IntroEconometrics/blob/master/data_for_tasks/clemsonFBSfinances.csv) from Github (click download raw file in the top right of the webpage). Then, in the same script used in the previous task, import it into R in a new object and call it `clemsonfootballdata`. This file contains data on Clemson football finances. It should look something like:
  
 ```{r}
@@ -373,8 +363,6 @@ Congratulations, you have created your first `R` "object"! Everything is an obje
 clemsonfootballdata <- read.csv("../data_for_tasks/clemsonFBSfinances.csv")
 ```
 
-
---
 
 3\. Type in `class(clemsonfootball)` in your script and run the code. What happened and why? Then try with `class(clemsonfootballdata)`. Did that work?
 

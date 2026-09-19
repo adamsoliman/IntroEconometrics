@@ -131,28 +131,20 @@ Let's formalise a bit what we are doing so far.
 
 * We are interested in the relationship between two variables:
 
---
-
   * an __outcome variable__ (also called __dependent variable__):  
   *average mathematics score* `\((y)\)`
   
---
-  
   * an __explanatory variable__ (also called __independent variable__ or __regressor__):  
   *class size* `\((x)\)`
-  
+
 --
 
 * For each class `\(i\)` we observe both `\(x_i\)` and `\(y_i\)`, and therefore we can plot the *joint distribution* of class size and average mathematics score.
-
---
 
 * We summarise this relationship with a line (for now). The equation for such a line with an intercept `\(b_0\)` and a slope `\(b_1\)` is:
     $$
     \widehat{y}_i = b\_0 + b\_1 x\_i
     $$
-
---
 
 * `\(\widehat{y}_i\)` is our *prediction* for `\(y\)` at observation `\(i\)` `\((y_i)\)` given our model (i.e. the line).
 
@@ -180,18 +172,7 @@ Let's formalise a bit what we are doing so far.
 
 * If all the data points were __on__ the line then `\(\widehat{y}_i = y_i\)`.
 
---
-
 &lt;img src="chapter_slr_files/figure-html/unnamed-chunk-11-1.svg" alt="" style="display: block; margin: auto;" /&gt;
-
----
-
-# Simple Linear Regression: Residual
-
-* If all the data points were __on__ the line then `\(\widehat{y}_i = y_i\)`.
-
-&lt;img src="chapter_slr_files/figure-html/unnamed-chunk-12-1.svg" alt="" style="display: block; margin: auto;" /&gt;
-
 ---
 
 # Simple Linear Regression: Residual
@@ -205,13 +186,17 @@ This __error__ is called the __residual__.
 
 * At point `\((x_i,y_i)\)`, we note this residual `\(e_i\)`.
 
---
-
 * The *actual data* `\((x_i,y_i)\)` can thus be written as *prediction + residual*:
 
   $$
   y_i = \widehat y_i + e_i = b_0 + b_1 x_i + e_i
   $$
+
+---
+
+# Simple Linear Regression: Graphically
+
+&lt;img src="chapter_slr_files/figure-html/unnamed-chunk-12-1.svg" alt="" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -233,52 +218,20 @@ This __error__ is called the __residual__.
 
 ---
 
-# Simple Linear Regression: Graphically
+# Which "minimization" criterion should (can) be used? 
+
+## **O**rdinary **L**east **S**quares (OLS) Estimation
+
+* Errors of different sign `\((+/-)\)` cancel out, so we consider **squared residuals** 
+`$$\forall i \in [1,N], e_i^2 = (y_i - \widehat y_i)^2 = (y_i - b_0 - b_1 x_i)^2$$`
+
+* Choose `\((b_0,b_1)\)` such that `\(\sum_{i = 1}^N e_1^2 + \dots + e_N^2\)` is **as small as possible**.
+
+---
+
+# **O**rdinary **L**east **S**quares (OLS) Estimation: Graphically
 
 &lt;img src="chapter_slr_files/figure-html/unnamed-chunk-16-1.svg" alt="" style="display: block; margin: auto;" /&gt;
-
----
-
-# Simple Linear Regression: Graphically
-
-&lt;img src="chapter_slr_files/figure-html/unnamed-chunk-17-1.svg" alt="" style="display: block; margin: auto;" /&gt;
-
----
-
-# Simple Linear Regression: Graphically
-
-.left-wide[
-&lt;img src="chapter_slr_files/figure-html/unnamed-chunk-18-1.svg" style="display: block; margin: auto;" /&gt;
-]
-
-.right-thin[
-&lt;br&gt;
-&lt;br&gt;
-&lt;p style="text-align: center; font-weight: bold; font-size: 35px; color: #d90502;"&gt;Which "minimization" criterion should (can) be used?&lt;/strong&gt;
-]
----
-
-# **O**rdinary **L**east **S**quares (OLS) Estimation
-
-* Errors of different sign `\((+/-)\)` cancel out, so we consider **squared residuals** 
-`$$\forall i \in [1,N], e_i^2 = (y_i - \widehat y_i)^2 = (y_i - b_0 - b_1 x_i)^2$$`
-
-* Choose `\((b_0,b_1)\)` such that `\(\sum_{i = 1}^N e_1^2 + \dots + e_N^2\)` is **as small as possible**.
-
---
-
-&lt;img src="chapter_slr_files/figure-html/unnamed-chunk-19-1.svg" alt="" style="display: block; margin: auto;" /&gt;
-
----
-
-# **O**rdinary **L**east **S**quares (OLS) Estimation
-
-* Errors of different sign `\((+/-)\)` cancel out, so we consider **squared residuals** 
-`$$\forall i \in [1,N], e_i^2 = (y_i - \widehat y_i)^2 = (y_i - b_0 - b_1 x_i)^2$$`
-
-* Choose `\((b_0,b_1)\)` such that `\(\sum_{i = 1}^N e_1^2 + \dots + e_N^2\)` is **as small as possible**.
-
-&lt;img src="chapter_slr_files/figure-html/unnamed-chunk-20-1.svg" alt="" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -302,14 +255,9 @@ This __error__ is called the __residual__.
 
 * So what are the formulas for `\(b_0\)` (intercept) and `\(b_1\)` (slope)?
 
---
-
 * In our single independent variable case:
 
 &gt;   ### __Slope: `\(b_1^{OLS} = \frac{cov(x,y)}{var(x)}\)` `\(\hspace{2cm}\)` Intercept: `\(b_0^{OLS} = \bar{y} - b_1\bar{x}\)`__
-
---
-
 
 * These formulas do not appear from magic. They can be found by solving the minimization of squared errors. The math can be found [here](https://www.youtube.com/watch?v=Hi5EJnBHFB4) for those who are interested.
 
@@ -317,25 +265,17 @@ This __error__ is called the __residual__.
 
 # **O**rdinary **L**east **S**quares (OLS): Interpretation
 
-For now assume both the dependent variable `\((y)\)` and the independent variable `\((x)\)` are numeric.
-
---
+For now assume both the dependent variable `\((y)\)` and the independent variable `\((x)\)` are numeric, then:
 
 &gt; Intercept `\((b_0)\)`: **The predicted value of `\(y\)` `\((\widehat{y})\)` if `\(x = 0\)`.**
-
---
 
 &gt; Slope `\((b_1)\)`: **The predicted change, on average, in the value of `\(y\)` *associated* to a one-unit increase in `\(x\)`.**
 
 --
 
 * ⚠️ Note that we use the term *associated*, **avoiding interpreting `\(b_1\)` as the causal impact of `\(x\)` on `\(y\)`**. To make such a claim, we need some specific conditions to be met. (To be discussed soon!)
-
---
  
 * Also notice that the units of `\(x\)` will matter for the interpretation (and magnitude!) of `\(b_1\)`.
-
---
 
 * **You need to be explicit about what the unit of `\(x\)` is!**
 
@@ -394,8 +334,6 @@ lm(avgmath_cs ~ classize, grades_avg_cs)
 ##     61.2104       0.1876
 ```
 
---
-
 This implies (abstracting the `\(_i\)` subscript for simplicity):
 
 
@@ -406,8 +344,6 @@ $$
 \widehat {\text{average math score}} &amp;= 61.11 + 0.19 \cdot \text{class size}
 \end{aligned}`
 $$
-
---
 
 What's the predicted average score for a class of 26 students? (Using the *exact* coefficients.)
 
@@ -430,12 +366,10 @@ $$
 
 ---
 
-# Linearity Assumption: Anscombe
-
-* Francis Anscombe (1973) came up with 4 datasets with identical stats. But look!
+### Francis Anscombe (1973) came up with 4 datasets with identical stats...remember to visualize!
 
 .left-wide[
-&lt;img src="chapter_slr_files/figure-html/unnamed-chunk-27-1.svg" alt="" style="display: block; margin: auto;" /&gt;
+&lt;img src="chapter_slr_files/figure-html/unnamed-chunk-23-1.svg" alt="" style="display: block; margin: auto;" /&gt;
 ]
 
 .right-thin[
@@ -548,18 +482,12 @@ Remember that covariance measures the degree to which two variables move togethe
 $$
 R^2 = \frac{\text{variance explained}}{\text{total variance}} =     \frac{SSE}{SST} = 1 - \frac{SSR}{SST}\in[0,1]
 $$
-
---
     
 * `\(R^2\)` close to `\(1\)` indicates a __very ***high*** explanatory power__ of the model.
 
 * `\(R^2\)` close to `\(0\)` indicates a __very ***low*** explanatory power__ of the model.
 
---
-
 * *Interpretation:* an `\(R^2\)` of 0.5, for example, means that the variation in `\(x\)` "explains" 50% of the variation in `\(y\)`.
-
---
     
 * ⚠️ Low `\(R^2\)` does __NOT__ mean it's a useless model! Remember that econometrics is interested in causal mechanisms, not prediction!
     

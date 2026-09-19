@@ -92,8 +92,6 @@ Yellow   |  1    |     0.05
 
 * Probably not. The samples will vary from draw to draw.
 
---
-
 * Key to this observation: these are *randomly* drawn samples.
 
 ---
@@ -101,8 +99,6 @@ Yellow   |  1    |     0.05
 # Taking 18 Samples
 
 * Because we don't have pasta with us in class, he drew 18 samples of 20 pasta (with replacement) at home.
-
---
 
 * This is what each looked like:
 
@@ -175,10 +171,8 @@ Sample # | Count | Proportion
   
   1. **Sampling**: extract a *sample* of 20 pasta from the bowl to obtain an ***estimate***.  
   Out first ***estimate*** of the proportion of green pasta was 0.70, but it was actually larger than most other ***estimates***.
-  
---
 
-* *Important*: each *sample* was drawn ***randomly*** `\(\rightarrow\)` samples are different from each other! `\(\rightarrow\)` different proportions 👉 ***sampling variation***
+      * *Important*: each *sample* was drawn ***randomly*** `\(\rightarrow\)` samples are different from each other! `\(\rightarrow\)` different proportions 👉 ***sampling variation***
 
 ---
 
@@ -414,8 +408,6 @@ ggplot(virtual_prop_green, aes(x = prop_green)) +
 ```
 ]
 
---
-
 .pull-right[
 &lt;img src="chapter_sampling_files/figure-html/unnamed-chunk-13-1.svg" style="display: block; margin: auto;" /&gt;
 ]
@@ -446,11 +438,7 @@ If your goal is still to estimate the proportion of the bowl’s pasta that are 
 
 * Let's take 1000 samples each for `\(n=25,n=50,n=100\)`.
 
---
-
 * We will use `rep_sample_n()` again.
-
---
 
 .pull-left[
 
@@ -471,8 +459,6 @@ virtual_samples_100 &lt;- bowl %&gt;%
   rep_sample_n(size = 100, reps = 1000)
 ```
 ]
-
---
 
 .pull-right[
 
@@ -517,8 +503,6 @@ Sample Size | Standard Deviation
 25          | 0.10
 50          | 0.07
 100         |0.05
-
---
 
 * Remember that the ***standard deviation*** measures the *spread* of a variable around its mean.
 
@@ -597,11 +581,7 @@ Sample Size `\((n)\)` | Standard Error of `\(\hat{p}\)`
 
 * ***Point estimates*** from ***random samples*** provide a *good guess* of the true unknown ***population parameter***.
 
---
-
 * How good? Sometimes `\(\hat{p}\)` will be far from `\(p\)`, sometimes close. There's ***sampling variation***.
-
---
 
 * ***On average***, our estimates will be correct. This is because of random sampling. We say that: 
 &gt; ### `\(\hat{p}\)` is an ***unbiased estimator*** of `\(p\)`, i.e. `\(\mathop{\mathbb{E}}[\hat{p}] = p\)`
@@ -609,8 +589,6 @@ Sample Size `\((n)\)` | Standard Error of `\(\hat{p}\)`
 --
 
 * What is the true population proportion `\(p\)` of green pasta in the population of `\(N=713\)` pasta?
-
---
 
 
 ``` r
@@ -620,8 +598,6 @@ sum(bowl$color == "green")/nrow(bowl)
 ```
 ## [1] 0.4936886
 ```
-
---
 
 * Let's insert the ***true population proportion*** `\(p=0.49\)` into our previous plots!
 
@@ -653,8 +629,6 @@ Scenario | Population parameter | Notation | Point estimate | Symbol(s)
 --
 
 * It's due to a famous result known as the ***central limit theorem***.
-
---
 
 &gt; ### *Central Limit Theorem:* regardless of how the underlying population distribution looks like, **when sample *means* are based on larger and larger sample sizes, the sampling distribution of these sample *means* becomes both more and more normally shaped and more and more narrow**.
 

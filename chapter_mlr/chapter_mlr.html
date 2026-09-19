@@ -52,24 +52,14 @@ class: center, middle, inverse, title-slide
 
 ---
 
-# Class size and student performance
+# Class size and student performance: Raw relationship
 
-* Let's go back to Angrist and Lavy's (1999)'s analysis of the effect of class size on student performance in Israel.
+* Let's go back to Angrist and Lavy's (1999)'s analysis of the effect of class size on student performance.
 
 * With a **simple linear regression**, we found that class size was positively ***associated*** with students' scores in maths and reading.
 
----
-
-# Class size and student performance: Raw relationship
-
-&lt;img src="chapter_mlr_files/figure-html/unnamed-chunk-1-1.svg" alt="" style="display: block; margin: auto;" /&gt;
-
----
-
-# Class size and student performance: Raw relationship
-
 .pull-left[
-&lt;img src="chapter_mlr_files/figure-html/unnamed-chunk-2-1.svg" style="display: block; margin: auto;" /&gt;
+&lt;img src="chapter_mlr_files/figure-html/unnamed-chunk-1-1.svg" alt="" style="display: block; margin: auto;" /&gt;
 ]
 
 .pull-right[
@@ -86,7 +76,7 @@ lm(avgmath ~ classize, grades)
 ## 
 ## Coefficients:
 ## (Intercept)     classize  
-##     57.7939       0.3175
+##     57.8329       0.3163
 ```
 ]
 
@@ -94,19 +84,11 @@ lm(avgmath ~ classize, grades)
 
 # Class size and student performance
 
-* Let's go back to Angrist and Lavy's (1999)'s analysis of the effect of class size on student performance in Israel.
-
-* With a **simple linear regression**, we found that class size was positively ***associated*** with students' scores in maths and reading.
-
-* This is intuitively unexpected, and contrasts with the simple results from the *STAR* randomized experiment.
-
---
+* That class size was positively ***associated*** with students' scores in maths and reading is intuitively unexpected, and contrasts with the simple results from the *STAR* randomized experiment.
 
 * Could it be that some other variable may be related to class size ***as well as*** students' performance?
 
 * In particular, we mentioned the **location effect**: large classes may be more common in wealthier and bigger cities, while small classes may be more likely in poorer rural areas.
-
---
 
 * Let's investigate this hypothesis.
 
@@ -117,7 +99,7 @@ lm(avgmath ~ classize, grades)
 .pull-left[
 Link between **class size** and **the share of students who come from `disadvantaged` backgrounds** in the class.
 
-&lt;img src="chapter_mlr_files/figure-html/unnamed-chunk-4-1.svg" style="display: block; margin: auto;" /&gt;
+&lt;img src="chapter_mlr_files/figure-html/unnamed-chunk-3-1.svg" alt="" style="display: block; margin: auto;" /&gt;
 
 👉 On average, there is a greater % of disadvantaged students in smaller classes.
 ]
@@ -127,7 +109,7 @@ Link between **class size** and **the share of students who come from `disadvant
 .pull-right[
 Link between **average math score** and **the share of students who come from `disadvantaged` backgrounds** in the class.
 
-&lt;img src="chapter_mlr_files/figure-html/unnamed-chunk-5-1.svg" style="display: block; margin: auto;" /&gt;
+&lt;img src="chapter_mlr_files/figure-html/unnamed-chunk-4-1.svg" alt="" style="display: block; margin: auto;" /&gt;
 
 👉 On average, the greater the % of students coming from a disadvantaged background, the lower the average math score.
 
@@ -141,11 +123,7 @@ Link between **average math score** and **the share of students who come from `d
 
 --
 
-* To do so, we have to include both `classize` and `disadvantaged` variables as *regressors* in the regression.
-
---
-
-* As such we can obtain an estimate of the effect of class size on average math score, ** *purged* of the effect of the disadvantaged variable**.
+* To do so, we have to include both `classize` and `disadvantaged` variables as *regressors* in the regression. As such, we can obtain an estimate of the effect of class size on average math score, ** *purged* of the effect of the disadvantaged variable**.
 
 --
 
@@ -154,7 +132,6 @@ Link between **average math score** and **the share of students who come from `d
 $$
  \textrm{average math score}_i = b_0 + b_1 \textrm{class size}_i + b_2 \textrm{% disadvantaged}_i + e_i
 $$
---
 
 * This is ***multiple regression***! We will estimate this model in a few slides. Let's formalize what we have seen so far.
 
@@ -162,7 +139,7 @@ $$
 
 # Multiple Regression's Purpose
 
-* Recall from two weeks ago, the **Simple Linear Model** can be written as
+* Recall from a few weeks ago, the **Simple Linear Model** can be written as
 
 `$$y_i = b_0 + b_1 x_i + e_i,$$`
 
@@ -172,11 +149,7 @@ where `\(y_i\)` is the ***dependent variable*** and `\(x_i\)` is the ***independ
 
 * Remember: We say that `X` *causes* `Y` when if we were to intervene and change the value of `X` ***without changing anything else*** then `Y` would also change as a result.
 
---
-
 ⚠️ Unless all other factors affecting `\(y_i\)` are uncorrelated with `\(x_i\)`, `\(b_1\)` **cannot be interpreted as a causal effect**.
-
---
 
 We need to **enrich the model** and take into account factors that are simultaneously related to `\(y_i\)` **and** `\(x_i\)`.
 
@@ -212,12 +185,8 @@ For now assume both the dependent variable `\((y_i)\)` and the independent varia
 
 &gt; Intercept `\((b_0)\)`: **The predicted value of `\(y\)` `\((\widehat{y})\)` if all the regressors `\((x_1, x_2, x_3,...)\)` are equal to 0.**
 
---
-
 &gt; Slope `\((b_k)\)`: **The predicted change, on average, in the value of `\(y\)` *associated* to a one-unit increase in `\(x_k\)`...** &lt;br/&gt;
 &gt; `\(\quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad\)` **... keeping all the other regressors constant!**
-
---
 
 * Notice that the *keeping all the other regressors constant* is the only part that changes compared to SLM.
 
@@ -231,15 +200,13 @@ For now assume both the dependent variable `\((y_i)\)` and the independent varia
 
 # Multiple Regression with `R`
 
-* Very similar to simple linear regression:
+Very similar to simple linear regression:
 
 
 ``` r
 lm(dependent variable ~  independent variable 1 + independent variable 2 + ...,
    data = data.frame containing the data)
 ```
-
---
 
 ## Class size and student performance: Multiple regression
 
@@ -257,7 +224,7 @@ lm(avgmath ~ classize + disadvantaged, grades)
 ## 
 ## Coefficients:
 ##   (Intercept)       classize  disadvantaged  
-##      69.94438        0.07168       -0.33958
+##      69.97975        0.07055       -0.33948
 ```
 
 ---
@@ -272,7 +239,7 @@ lm(avgmath ~ classize + disadvantaged, grades)
 ## 
 ## Coefficients:
 ##   (Intercept)       classize  disadvantaged  
-##      69.94438        0.07168       -0.33958
+##      69.97975        0.07055       -0.33948
 ```
 
 ***Questions***
@@ -321,7 +288,7 @@ lm(avgmath ~ classize + disadvantaged, grades)
 ## 
 ## Coefficients:
 ## (Intercept)     classize  
-##     57.7939       0.3175
+##     57.8329       0.3163
 ```
 
 ```
@@ -331,7 +298,7 @@ lm(avgmath ~ classize + disadvantaged, grades)
 ## 
 ## Coefficients:
 ##   (Intercept)       classize  disadvantaged  
-##      69.94438        0.07168       -0.33958
+##      69.97975        0.07055       -0.33948
 ```
 
 ***Answers***
@@ -348,13 +315,11 @@ lm(avgmath ~ classize + disadvantaged, grades)
 
 Example: % of disadvantaged students in class increases from 10 to 25 %?
 
---
-
 ***Questions:***
 
 1. What's the *percentage point* change?
 
-1. What's the *percentage* change?
+2. What's the *percentage* change?
 
 ---
 
@@ -366,11 +331,7 @@ Example: % of disadvantaged students in class increases from 10 to 25 %?
 
 1. This is a `\(25-10=15\)` ***percentage points*** increase.
 
---
-
-1. This is a `\(\frac{25-10}{10} \%= 150\)` ***percent*** increase.
-
---
+2. This is a `\(\frac{25-10}{10} \%= 150\)` ***percent*** increase.
 
 You ***need*** to pay attention to whether you are talking about ***percentage points*** or ***percentage*** changes! They imply drastically different magnitudes!
 
@@ -551,47 +512,7 @@ $$
 \text{average math score}_i = \color{#d96502}{b_0} + \color{#d90502}{b_1}\text{class size}_i + \color{#027D83}{b_2}\text{religious}_i +e_i
 $$
 
-&lt;img src="chapter_mlr_files/figure-html/unnamed-chunk-14-1.svg" alt="" style="display: block; margin: auto;" /&gt;
-
----
-
-# A Numeric and a Dummy Regressor: Visually
-
-$$
-\text{average math score}_i = \color{#d96502}{b_0} + \color{#d90502}{b_1}\text{class size}_i + \color{#027D83}{b_2}\text{religious}_i +e_i
-$$
-
-&lt;img src="chapter_mlr_files/figure-html/unnamed-chunk-15-1.svg" alt="" style="display: block; margin: auto;" /&gt;
-
----
-
-# A Numeric and a Dummy Regressor: Visually
-
-$$
-\text{average math score}_i = \color{#d96502}{b_0} + \color{#d90502}{b_1}\text{class size}_i + \color{#027D83}{b_2}\text{religious}_i +e_i
-$$
-
-&lt;img src="chapter_mlr_files/figure-html/unnamed-chunk-16-1.svg" alt="" style="display: block; margin: auto;" /&gt;
-
----
-
-# A Numeric and a Dummy Regressor: Visually
-
-$$
-\text{average math score}_i = \color{#d96502}{b_0} + \color{#d90502}{b_1}\text{class size}_i + \color{#027D83}{b_2}\text{religious}_i +e_i
-$$
-
-&lt;img src="chapter_mlr_files/figure-html/unnamed-chunk-17-1.svg" alt="" style="display: block; margin: auto;" /&gt;
-
----
-
-# A Numeric and a Dummy Regressor: Visually
-
-$$
-\text{average math score}_i = \color{#d96502}{b_0} + \color{#d90502}{b_1}\text{class size}_i + \color{#027D83}{b_2}\text{religious}_i +e_i
-$$
-
-&lt;img src="chapter_mlr_files/figure-html/unnamed-chunk-18-1.svg" alt="" style="display: block; margin: auto;" /&gt;
+&lt;img src="chapter_mlr_files/figure-html/unnamed-chunk-13-1.svg" alt="" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -617,8 +538,6 @@ Note that this implies that the number of observations has to be greater than th
 
 This condition is particularly relevant for ***categorical variables***, i.e. variables that take a limited of possible "levels" (e.g. gender, seasons, race, education levels, etc.)
 
---
-
 Let's go back to our `religious` school regression:
 
 
@@ -631,8 +550,6 @@ Let's go back to our `religious` school regression:
 ## (Intercept)     classize    religious  
 ##     61.3558       0.2297      -3.7882
 ```
-
---
 
 What if I create a `is_religious` and a `is_notreligious` variable and regress `avgmath` on both (and `classize`)? *WE WILL FALL INTO THE DUMMY VARIABLE TRAP*. Let's see why. 
 
@@ -687,8 +604,6 @@ grades %&gt;% count(is_religious == 1 - is_notreligious)
 
 `\(\rightarrow\)` `R` automatically detects perfect collinearity between variables and drops one of them
 
---
-
 ⚠️ That said, you *MUST* to pay attention to the ***omitted/reference category***: the "baseline" category from which the coefficients are interpreted. Remember:
 
 `\begin{multline}
@@ -696,8 +611,6 @@ grades %&gt;% count(is_religious == 1 - is_notreligious)
 \end{multline}`
 
 This applies to cases when you have more than 2 categories. You don't need to create a dummy variable for each possibility, `R` will detect the categorical variable(s) (as long as they are stored as `character` or `factor`) and do that for you.
-
---
 
 ***But*** you have to look which category has been chosen as the ***omitted category***.
 
@@ -733,7 +646,7 @@ $$
 
 # Omitted Variable Bias (OVB): The Intuition
 
-Because \(x\) is correlated with the omitted variable \(z\), a change in \(x\) is also associated with a change in \(z\). The simple regression therefore attributes both the relationship of \(x\) with \(y\) and the indirect relationship operating through \(z\) to \(x\), so `\(b_1 = c_1 + \text{OVB}\)`.
+Because \(x\) is correlated with the omitted variable \(z\), a change in \(x\) is also associated with a change in \(z\). The simple regression therefore attributes both the relationship of \(x\) with \(y\) and the indirect relationship operating through \(z\) to \(x\) `\(\implies b_1 = c_1 + \text{OVB}\)`.
 
 Recall:
 
@@ -763,15 +676,8 @@ $$
 
 # Omitted Variable Bias (OVB): Which Direction?
 
-Since
-
-$$
-b_1 = c_1 + \text{OVB},
-$$
-
-the sign of the OVB tells us whether `\(b_1\)` is ***too high*** or ***too low***.
-
---
+Since `\(b_1 = c_1 + \text{OVB},\)` the sign of the OVB tells us whether `\(b_1\)` is ***too high*** or ***too low***.
+___
 
 If `\(c_2\)` and `\(d_1\)` have the ***same sign***:
 
@@ -787,9 +693,9 @@ $$
 b_1 &gt; c_1
 $$
 
-We call this ***upward bias***.
+We call this ***upward bias***, since the SLR coefficient `\(b_1\)` is larger than the true effect `\(c_1\)`.
 
---
+___
 
 If `\(c_2\)` and `\(d_1\)` have ***opposite signs***:
 
@@ -805,7 +711,7 @@ $$
 b_1 &lt; c_1
 $$
 
-We call this ***downward bias***.
+We call this ***downward bias***, since the SLR coefficient `\(b_1\)` is smaller than the true effect `\(c_1\)`.
 
 ---
 
@@ -846,8 +752,6 @@ $$
 Usually, if we actually observed `\(z\)`, we could simply include it in our regression.
 
 So why is the OVB formula useful?
-
---
 
 Most importantly, it lets us use economic reasoning to predict the ***direction*** of the bias.
 
@@ -893,11 +797,7 @@ Ask our two questions:
 
 1. Is ability related to income, holding education fixed?
 
-   We might expect: `\(\color{#d90502}{c_2 &gt; 0}\)`
-
 2. Is ability correlated with years of education?
-
-   We might expect: `\(\color{#d96502}{d_1 &gt; 0}\)`
 
 --
 
@@ -937,8 +837,6 @@ $$
 ##  57.8328853   0.3162944
 ```
 
---
-
 ***Multiple linear model:***
 
 $$
@@ -950,8 +848,6 @@ $$
 ##   (Intercept)      classize disadvantaged 
 ##   69.97975279    0.07055483   -0.33947815
 ```
-
---
 
 ***Omitted variable on regressor:***
 
@@ -977,8 +873,6 @@ $$
 
 A higher percentage of disadvantaged students is associated with ***lower math scores***.
 
---
-
 And:
 
 $$
@@ -986,8 +880,6 @@ $$
 $$
 
 Larger classes are associated with a ***lower percentage of disadvantaged students***.
-
---
 
 Therefore:
 
@@ -1002,8 +894,6 @@ $$
 $$
 
 So we expect ***upward bias***.
-
---
 
 And that is exactly what we find:
 
@@ -1036,8 +926,6 @@ $$
 \times
 (-0.724)
 $$
-
---
 
 Therefore:
 

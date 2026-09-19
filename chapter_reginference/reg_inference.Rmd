@@ -750,8 +750,6 @@ The CRM assumption #1 is also know as the (strict) **exogeneity assumption**.
   
   * Under the exogeneity assumption $\beta_1$ denotes the causal effect of education in the population.
 
---
-
 * Suppose there is *unobserved* ability $a_i$. 
   * High ability means higher wage.
   * It *also* means school is easier, and so $i$ selects into more schooling.
@@ -762,21 +760,13 @@ The CRM assumption #1 is also know as the (strict) **exogeneity assumption**.
 
 * Given ability is *unobserved*,  $a_i$ goes into the error $\varepsilon_i$
 
---
-
 * Our *ceteris paribus* assumption (all else equal) does not hold. 
 
---
-
 * Then regressing the wage on education we will attribute to `education` part of the effect on wages that is actually *caused* by ability $a_i$!
-
---
 
   * Remember the formula of the **omitted variable bias**:
   
   $$\text{OVB} = \text{multiple regression coefficient on omitted variable} \times \frac{Cov(x,z)}{Var(x)}$$
-
---
 
   * Thus, we have:
   
@@ -845,8 +835,6 @@ ggplot(data=cps,aes(y = log_wage, x = education, colour = gender)) +
   theme_bw(base_size = 20)
 ```
 ]
-
---
 
 .pull-right[
 

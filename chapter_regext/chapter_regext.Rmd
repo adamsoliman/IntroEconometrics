@@ -198,8 +198,6 @@ For ***any increase in $x$, $\Delta x,$ and any $b_1$*** $(\Delta x = 5\% = 0.05
 
 1. If the relationship betwen $x$ and $y$ looks like a log or exponential function
 
---
-
 .pull-left[
 ```{r, echo = FALSE, fig.height = 6}
 gapminder <- dslabs::gapminder
@@ -306,7 +304,7 @@ lm(log(gdp) ~ log(fertility), gapminder)
 ```
 --
 
-Approximate interpretation for the slope, which works for small changes: A **1% increase in the fertility rate** is associated with approximately a **2.23% decrease in GDP**, on average.
+Approximate interpretation for the slope, which works for small changes: A **1% increase in the fertility rate** is associated with approximately a **2.23% decrease in GDP**, on average. THIS IS AN ELASTICITY!
 
 ---
 
@@ -342,7 +340,7 @@ lm(log(gdp) ~ fertility, gapminder)
 
 # Out-of-Class Tasks
 
-**Submit your answers to Canvas before the next class.** Work through these tasks on your own time — you may use any tools or resources. Be prepared to present your approach and answers.
+**Submit your answers to Canvas before the next class.** Work through these tasks on your own time. Be prepared to present your approach and answers.
 
 ---
 

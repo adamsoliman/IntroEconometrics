@@ -119,7 +119,7 @@ In practice, you ***don't*** need to compute your confidence intervals using *bo
 
 ``` r
 library(tidyverse)
-bowl &lt;- read.csv("~/Library/CloudStorage/Dropbox/Clemson/Econometrics Course/data for tasks/pasta.csv")
+bowl &lt;- read.csv("../data_for_tasks/pasta.csv")
 my_sample = bowl %&gt;% mutate(color = ifelse(color == "green","green","non-green")) %&gt;%
   rep_sample_n(size = 50) %&gt;% ungroup() %&gt;% select(pasta_ID, color)
 ```

@@ -739,8 +739,6 @@ $$
 
 So the estimate is ***upward biased*** even though both coefficients are negative.
 
---
-
 Likewise, ***downward bias*** means $b_1$ is more negative than $c_1$.
 
 The key question is always:
@@ -795,8 +793,6 @@ $$
 
 Suppose we omit ***ability***.
 
---
-
 Ask our two questions:
 
 1. Is ability related to income, holding education fixed?
@@ -822,6 +818,27 @@ So the simple regression coefficient would be ***upward biased***:
 $$
 b_1 > c_1
 $$
+---
+
+# Omitted Variable Bias (OVB): Additional Example
+
+Imagine we want to estimate the same relationship between ***income*** and ***years of education***, but suppose this time, we omit ***work experience*** instead. We then ask our two questions:
+
+1. Is work experience related to income, holding education fixed?
+
+   **Yes.** More work experience tends to increase income. $(+)$
+
+2. Is work experience correlated with years of education?
+
+   **Negatively.** Among people of the same age, more years spent in school generally means fewer years of work experience. $(-)$
+
+Therefore: $\text{OVB} = \color{#d90502}{c_2}(+) \times \color{#d96502}{d_1}(-) = (-)$
+
+Given that $b_1 = c_1 + \text{OVB},$ the simple regression coefficient would be ***downward biased***, or $b_1 < c_1$.
+
+--
+
+**NOTE:** When we say “suppose we omit work experience,” we are implicitly holding the rest of the model fixed and asking about the bias attributable to that particular omission. If both ability and experience are omitted, then both contribute to the bias, and the overall bias is ambiguous, as the upward bias from omitted ability and the downward bias from omitted experience may partially offset each other. Which effect dominates is an empirical question.
 
 ---
 

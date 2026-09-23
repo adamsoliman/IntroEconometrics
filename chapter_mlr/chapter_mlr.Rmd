@@ -813,7 +813,7 @@ $$
 (+)
 $$
 
-So the simple regression coefficient would be ***upward biased***:
+Given that $b_1 = c_1 + \text{OVB},$ the simple regression coefficient would be ***upward biased***:
 
 $$
 b_1 > c_1

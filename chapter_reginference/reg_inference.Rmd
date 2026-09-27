@@ -28,6 +28,7 @@ knitr::opts_chunk$set(
   warning = FALSE,
   dev = "svg",
   cache = TRUE,
+  autodep = TRUE,
   fig.align = "center"
   #fig.width = 11,
   #fig.height = 5
@@ -58,6 +59,7 @@ countdown(
 )
 
 library(jtools)
+library(tidyverse)
 ```
 
 # Today - Statistical inference in the regression framework
@@ -93,7 +95,7 @@ star_df <- star_df %>%
   filter(complete.cases(.)) %>%
   filter(star %in% c("small","regular") &
            grade == "k") %>% 
-  mutate(small = (star == "small"))
+  mutate(small = ifelse(star == "small", 1, 0))
 ```
 ]
 
@@ -205,12 +207,14 @@ bootstrap_distrib = star_df %>%
     generate(reps = 1000, type = "bootstrap") %>%
     calculate(stat = "slope")
 se_simul = round(sd(bootstrap_distrib$stat),3)
+se_simul
 
 # ggplot(bootstrap_distrib, aes(x = stat)) +
-# geom_histogram(boundary = 9, binwidth = 0.5, 
+# geom_histogram(boundary = 9, binwidth = 0.5,
 # col = "white", fill = "#d90502") +
-# labs(x = "Bootstrap sample slope estimate", 
-# y = "Frequency") + theme_bw(base_size = 14)
+# labs(x = "Bootstrap sample slope estimate",
+#      y = "Frequency",
+#      title = "Bootstrap Distribution") + theme_bw(base_size = 14)
 
 ```
 ]
@@ -219,7 +223,8 @@ se_simul = round(sd(bootstrap_distrib$stat),3)
 ```{r, echo=FALSE, fig.height = 5.5, fig.width = 9.5}
     ggplot(bootstrap_distrib, aes(x = stat)) +
     geom_histogram(boundary = 9, binwidth = 0.5, col = "white", fill = "#d90502") +
-    labs(x = "Bootstrap sample slope estimate", y = "Frequency") + theme_bw(base_size = 14)
+    labs(x = "Bootstrap sample slope estimate", y = "Frequency",
+         title = "Bootstrap Distribution") + theme_bw(base_size = 14)
 ```
 
 ***standard error:*** `r round(se_simul,2)` $\rightarrow$ very close to the one in the table (`r reg_summary_star_df[2,2]`)!
@@ -334,7 +339,7 @@ null_distribution <- null_distribution %>%
 # Testing $\beta_\textrm{small} = 0$ vs $\beta_\textrm{small} \neq 0$
 
 
-```{r echo=FALSE, fig.height = 6, fig.width = 10}
+```{r echo=FALSE, fig.height = 4, fig.width = 8}
 plot_null_distrib = null_distribution %>%
   ggplot(aes(x = test_stat)) +
   geom_histogram(binwidth = 0.2, col = "white", fill = "#d90502") +
@@ -350,7 +355,7 @@ plot_null_distrib
 # Testing $\beta_\textrm{small} = 0$ vs $\beta_\textrm{small} \neq 0$
 
 
-```{r echo=FALSE, fig.height = 6, fig.width = 10}
+```{r echo=FALSE, fig.height = 4, fig.width = 8}
 plot_null_distrib +
   geom_vline(xintercept = observed_stat, size = 1.25) +
   annotate("text", x = 4.1, y = 75, label = "observed test statistic", size = 4)
@@ -365,7 +370,7 @@ Unlikely to obtain $b_\textrm{small}$ = 8.9 if $H_0$ is true, as the associated 
 
 * To decide if we reject $H_0$, recall we are considering a **two-sided test** here: *more extreme* means inferior to `r round(-observed_stat,3)` **or** superior to `r round(observed_stat,3)`. 
 
-```{r echo=FALSE, fig.height = 6, fig.width = 10}
+```{r echo=FALSE, fig.height = 4, fig.width = 8}
 plot_null_distrib +
   geom_vline(xintercept = observed_stat, size = 1.25) +
   geom_vline(xintercept = -observed_stat, size = 1.25)
@@ -418,9 +423,9 @@ p_value
 
 | Term      | Estimate | P-value    | Interpretation                                            |
 |-----------|----------|------------|-----------------------------------------------------------|
-| smallTRUE | 8.90     | 0.000000123 | **Reject the null hypothesis**; the effect is very unlikely due to chance/random variation. Put another way, the p-value suggests that the probability of observing an effect as extreme (or more extreme) as the one found in the data, assuming the null hypothesis is true, is essentially zero. |
-| smallTRUE | 8.90     | 0.25       | **Fail to reject the null hypothesis**; there’s a 25% chance the observed effect is due to random variation. Put another way, the p-value suggests weak evidence against the null hypothesis, meaning we do not have enough evidence to confidently assert that the effect is real.
-| smallTRUE | 8.90     | 0.57       | **Fail to reject the null hypothesis**; The p-value suggests that the probability of observing an effect as extreme (or more extreme) as the one found in the data, assuming the null hypothesis is true, is relatively high (57%), indicating that the data do not provide strong enough evidence to rule out the null hypothesis. |
+| small     | 8.90     | 0.000000123 | **Reject the null hypothesis**; the effect is very unlikely due to chance/random variation. Put another way, the p-value suggests that the probability of observing an effect as extreme (or more extreme) as the one found in the data, assuming the null hypothesis is true, is essentially zero. |
+| small     | 8.90     | 0.25       | **Fail to reject the null hypothesis**; there’s a 25% chance the observed effect is due to random variation. Put another way, the p-value suggests weak evidence against the null hypothesis, meaning we do not have enough evidence to confidently assert that the effect is real.
+| small     | 8.90     | 0.57       | **Fail to reject the null hypothesis**; The p-value suggests that the probability of observing an effect as extreme (or more extreme) as the one found in the data, assuming the null hypothesis is true, is relatively high (57%), indicating that the data do not provide strong enough evidence to rule out the null hypothesis. |
 
 ---
 
@@ -485,7 +490,7 @@ knitr::include_graphics("../img/photos/standard_normal_distrib.png")
 ```{r}
 tidy(lm(math ~ small, star_df),
      conf.int = TRUE, conf.level = 0.95) %>%
-  filter(term == "smallTRUE") %>%
+  filter(term == "small") %>%
   select(term, conf.low, conf.high)
 ```
 ]
@@ -505,7 +510,7 @@ bootstrap_distrib %>%
 
 # Confidence Intervals: Visually
 
-```{r, echo = FALSE, fig.width = 10, fig.height =6}
+```{r, echo = FALSE, fig.width = 9, fig.height =5}
 ci_pctile = bootstrap_distrib %>%
     summarise(
         lower = quantile(stat, 0.025),
@@ -519,7 +524,7 @@ ci_stderror <- bootstrap_distrib %>%
 
 ci_theory <- tidy(lm(math ~ small, star_df),
      conf.int = TRUE, conf.level = 0.95) %>%
-  filter(term == "smallTRUE") %>%
+  filter(term == "small") %>%
   select(term, conf.low, conf.high)
 
 bootstrap_distrib %>%
@@ -574,7 +579,7 @@ export_summs(reg_simple_math, reg_gender_math, reg_simple_read, reg_gender_read,
              model.names = c("Math score", "Math Score",
                              "Reading score", "Reading score"),
              coefs=c("Intercept" = "(Intercept)",
-                     "Small class" = "smallTRUE",
+                     "Small class" = "small",
                      "Male gender" = "gendermale"))
 ```
 
@@ -592,7 +597,7 @@ export_summs(reg_simple_math, reg_gender_math, reg_simple_read, reg_gender_read,
              model.names = c("Math score", "Math Score",
                              "Reading score", "Reading score"),
              coefs=c("Intercept" = "(Intercept)",
-                     "Small class" = "smallTRUE",
+                     "Small class" = "small",
                      "Male gender" = "gendermale"))
 ```
 

@@ -4,7 +4,6 @@
     <title>ECON 4050: Introduction to Econometrics</title>
     <meta charset="utf-8" />
     <meta name="author" content="Adam Soliman, PhD" />
-    <script src="libs/header-attrs/header-attrs.js"></script>
     <link href="libs/remark-css/default.css" rel="stylesheet" />
     <link href="libs/countdown/countdown.css" rel="stylesheet" />
     <script src="libs/countdown/countdown.js"></script>
@@ -50,7 +49,7 @@ class: center, middle, inverse, title-slide
 # What's the proportion of green pasta?
 
 .center[
-&lt;img src="../img/photos/pasta/pasta_bowl.JPG" width="600px" style="display: block; margin: auto;" /&gt;
+&lt;img src="../img/photos/pasta/pasta_bowl.JPG" alt="" width="600px" style="display: block; margin: auto;" /&gt;
 ]
 
 We could count every green pasta but that would be tedious! 😩 What else could we do?
@@ -85,8 +84,6 @@ Yellow   |  1    |     0.05
 
 
 * What would happen if we took a *new* sample (putting the 20 previous pasta back in the bowl)? Would we also get 14 *greens* as before?
-
---
 
 * What if we repeated this activity multiple times?
 
@@ -148,11 +145,11 @@ Sample # | Count | Proportion
 # Sample Distribution: Histogram
 
 .pull-left[
-&lt;img src="../img/photos/hist_building.gif" style="display: block; margin: auto;" /&gt;
+&lt;img src="../img/photos/hist_building.gif" alt="" style="display: block; margin: auto;" /&gt;
 ]
 
 .pull-right[
-&lt;img src="chapter_sampling_files/figure-html/unnamed-chunk-3-1.svg" style="display: block; margin: auto;" /&gt;
+&lt;img src="chapter_sampling_files/figure-html/unnamed-chunk-3-1.svg" alt="" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
@@ -160,8 +157,6 @@ Sample # | Count | Proportion
 # What Did We Just Do?
 
 * Demonstrated the statistical concept of ***sampling***.
-
---
 
 * *Objective*: know the proportion of green pasta
 
@@ -201,8 +196,6 @@ head(bowl, 6)
 ```
 ]
 
---
-
 .pull-right[
 * `pasta_ID`: pasta identifier
 
@@ -219,23 +212,21 @@ nrow(bowl)
 
 * Instead of selecting pasta with our hands, we'll take *virtual* draws from the bowl.
 
-* We'll use the *virtual shovel* to take a sample of 50 pasta from our virtual bowl.
+* Let's stick with the same sample size as before: we'll use the *virtual shovel* to take a sample of 20 pasta from our virtual bowl.
 ]
 
 ---
 
 # Using A Virtual Shovel Once
 
-* We will take a first sample of size 50, using the `moderndive` function `rep_sample_n`.
-
---
+* We will take a first sample of size 20, using the `moderndive` function `rep_sample_n`.
 
 
 ``` r
 #load moderndive package
 library(moderndive)
 virtual_shovel &lt;- bowl %&gt;% # notice that moderndive functions can be "pipped"
-  rep_sample_n(size = 50) # take a sample of 50 pasta
+  rep_sample_n(size = 20) # take a sample of 20 pasta
 ```
 
 .pull-left[
@@ -269,7 +260,7 @@ nrow(virtual_shovel)
 ```
 
 ```
-## [1] 50
+## [1] 20
 ```
 ]
 
@@ -296,58 +287,56 @@ sample_1
 ## # A tibble: 1 × 4
 ##   replicate num_green sample_n prop_green
 ##       &lt;int&gt;     &lt;int&gt;    &lt;int&gt;      &lt;dbl&gt;
-## 1         1        23       50       0.46
+## 1         1        11       20       0.55
 ```
 ]
 
 .pull-right[
 1. Compute:
   * sum of green pasta in sample,
-  * number of observations in sample (i.e. 50 in this case)
+  * number of observations in sample (i.e. 20 in this case)
 
 1. Compute proportion of green pasta
 
-👉 0.46 are green! This is an ***estimate*** of the proportion of green pasta in the bowl. What if we try again?
+👉 0.55 are green! This is an ***estimate*** of the proportion of green pasta in the bowl. What if we try again?
 
-What if we try many times, like, 33 times?
+What if we try many times, like, 50 times?
 ]
 
 ---
 
-# Using The Virtual Shovel 33 Times
+# Using The Virtual Shovel 50 Times
 
 .pull-left[
 
-33 samples (*replicates*) of size 50.
+50 samples (*replicates*) of size 20.
 
 
 ``` r
 virtual_samples &lt;- bowl %&gt;%
-  # get 33 samples of size 50
-  rep_sample_n(size = 50, reps = 33)
+  # get 50 samples of size 20
+  rep_sample_n(size = 20, reps = 50)
 virtual_samples
 ```
 
 ```
-## # A tibble: 1,650 × 3
-## # Groups:   replicate [33]
+## # A tibble: 1,000 × 3
+## # Groups:   replicate [50]
 ##    replicate pasta_ID color 
 ##        &lt;int&gt;    &lt;int&gt; &lt;chr&gt; 
-##  1         1      495 yellow
-##  2         1      534 green 
-##  3         1      297 yellow
-##  4         1      208 green 
-##  5         1      131 green 
-##  6         1      569 red   
-##  7         1      522 yellow
-##  8         1      248 green 
-##  9         1      365 red   
-## 10         1      665 yellow
-## # ℹ 1,640 more rows
+##  1         1      479 red   
+##  2         1      605 yellow
+##  3         1      634 green 
+##  4         1      578 red   
+##  5         1      510 green 
+##  6         1      687 yellow
+##  7         1      424 green 
+##  8         1      379 red   
+##  9         1      108 green 
+## 10         1      131 green 
+## # ℹ 990 more rows
 ```
 ]
-
---
 
 .pull-right[
 
@@ -364,20 +353,20 @@ virtual_prop_green
 ```
 
 ```
-## # A tibble: 33 × 4
+## # A tibble: 50 × 4
 ##    replicate num_green sample_n prop_green
 ##        &lt;int&gt;     &lt;int&gt;    &lt;int&gt;      &lt;dbl&gt;
-##  1         1        24       50       0.48
-##  2         2        25       50       0.5 
-##  3         3        27       50       0.54
-##  4         4        23       50       0.46
-##  5         5        25       50       0.5 
-##  6         6        22       50       0.44
-##  7         7        18       50       0.36
-##  8         8        30       50       0.6 
-##  9         9        29       50       0.58
-## 10        10        18       50       0.36
-## # ℹ 23 more rows
+##  1         1         7       20       0.35
+##  2         2         8       20       0.4 
+##  3         3        11       20       0.55
+##  4         4         9       20       0.45
+##  5         5         9       20       0.45
+##  6         6        12       20       0.6 
+##  7         7        11       20       0.55
+##  8         8        10       20       0.5 
+##  9         9        11       20       0.55
+## 10        10        10       20       0.5 
+## # ℹ 40 more rows
 ```
 ]
 
@@ -396,29 +385,27 @@ virtual_prop_green
 
 ``` r
 ggplot(virtual_prop_green, aes(x = prop_green)) +
-  geom_histogram(binwidth = 0.02, 
-                 boundary = 0.51,
+  geom_histogram(binwidth = 0.05,
+                 boundary = 0.025,
                  color = "white",
                  fill = "darkgreen") +
   scale_y_continuous(breaks = seq(0, 12, by = 2)) +
-  labs(x = "Proportion of 50 pasta that were green",
+  labs(x = "Proportion of 20 pasta that were green",
        y = "Frequency",
-       title = "Distribution of 33 samples of size 50") +
+       title = "Distribution of 50 samples of size 20") +
   theme_bw(base_size = 20)
 ```
 ]
 
 .pull-right[
-&lt;img src="chapter_sampling_files/figure-html/unnamed-chunk-13-1.svg" style="display: block; margin: auto;" /&gt;
+&lt;img src="chapter_sampling_files/figure-html/unnamed-chunk-13-1.svg" alt="" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
 
 # Sampling Distribution of 1000 Samples
 
-&lt;img src="chapter_sampling_files/figure-html/unnamed-chunk-14-1.svg" style="display: block; margin: auto;" /&gt;
-
---
+&lt;img src="chapter_sampling_files/figure-html/unnamed-chunk-14-1.svg" alt="" style="display: block; margin: auto;" /&gt;
 
 Looks remarkably close to a ***normal distribution*** `\(\rightarrow\)` the more samples we take, the more their ***sampling distribution*** will resemble a ***normal distribution***.
 
@@ -426,17 +413,13 @@ Looks remarkably close to a ***normal distribution*** `\(\rightarrow\)` the more
 
 # Role of Sample Size
 
-Imagine you could change the size of your samples and had the option of the following sizes: 25, 50 and 100.
+Imagine you could change the size of your samples and had the option of the following sizes: 20, 50 and 100.
 
 If your goal is still to estimate the proportion of the bowl’s pasta that are green, which shovel would you choose?
 
----
-
-# Role of Sample Size
-
 * Let's repeat what we did previously but for different sample sizes.
 
-* Let's take 1000 samples each for `\(n=25,n=50,n=100\)`.
+* Let's take 1000 samples each for `\(n=20,n=50,n=100\)`.
 
 * We will use `rep_sample_n()` again.
 
@@ -446,16 +429,16 @@ Generate all samples of different sizes:
 
 
 ``` r
-# Sample size: 25
-virtual_samples_25 &lt;- bowl %&gt;% 
-  rep_sample_n(size = 25, reps = 1000)
+# Sample size: 20
+virtual_samples_20 &lt;- bowl %&gt;%
+  rep_sample_n(size = 20, reps = 1000)
 
 # Sample size: 50
-virtual_samples_50 &lt;- bowl %&gt;% 
+virtual_samples_50 &lt;- bowl %&gt;%
   rep_sample_n(size = 50, reps = 1000)
 
 # Sample size: 100
-virtual_samples_100 &lt;- bowl %&gt;% 
+virtual_samples_100 &lt;- bowl %&gt;%
   rep_sample_n(size = 100, reps = 1000)
 ```
 ]
@@ -466,13 +449,13 @@ Compute proportion of green pasta:
 
 
 ``` r
-# Sample size: 25
+# Sample size: 20
 # The same code is used for the other sample sizes
-virtual_prop_green_25 &lt;- virtual_samples_25 %&gt;% 
-  group_by(replicate) %&gt;% 
+virtual_prop_green_20 &lt;- virtual_samples_20 %&gt;%
+  group_by(replicate) %&gt;%
   summarize(
     num_green = sum(color == "green"),
-    sample_n = n()) %&gt;% 
+    sample_n = n()) %&gt;%
   mutate(prop_green = num_green / sample_n)
 ```
 ]
@@ -481,7 +464,7 @@ virtual_prop_green_25 &lt;- virtual_samples_25 %&gt;%
 
 # Role of Sample Size
 
-&lt;img src="chapter_sampling_files/figure-html/unnamed-chunk-17-1.svg" style="display: block; margin: auto;" /&gt;
+&lt;img src="chapter_sampling_files/figure-html/unnamed-chunk-17-1.svg" alt="" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -496,17 +479,49 @@ virtual_prop_green_25 &lt;- virtual_samples_25 %&gt;%
 
 * Holding constant the number of replicates (i.e. 1000 in our case), ***bigger samples*** will yield *normal distributions* with ***smaller standard deviations***.
 
+  * *To be precise*: not the standard deviation of the *pasta colors* — it's the standard deviation of the 1000 `\(\hat{p}\)`'s themselves, i.e. of the ***sampling distribution***. More on this distinction very soon.
 
 
-Sample Size | Standard Deviation
+
+Sample Size | Standard Deviation of `\(\hat{p}\)`
 :---------:|:--------------:
-25          | 0.10
+20          | 0.11
 50          | 0.07
 100         |0.05
 
-* Remember that the ***standard deviation*** measures the *spread* of a variable around its mean.
+* Remember that the ***standard deviation*** measures the *spread* of a variable around its mean — here, the variable being spread out is the *estimate* `\(\hat{p}\)` itself, across our 1000 samples.
 
 * So as the sample size increases, our ***estimates*** of the true proportion of the bowl's green pasta get more *precise*.
+
+---
+
+# Wait — Standard Deviation, or Standard Error?
+
+You will hear ***both*** terms. They are not competitors — one is a special case of the other.
+
+.pull-left[
+***Standard deviation (SD)***
+
+* A general measure of *spread* of **any** variable around its mean.
+
+* *Example*: the SD of pasta colors (coded 0/1) in one bowl, or in one sample.
+
+* Answers: *"how spread out are individual observations?"*
+]
+
+.pull-right[
+***Standard error (SE)***
+
+* The standard deviation, specifically ***of a sampling distribution*** — i.e. of a *point estimate* like `\(\hat{p}\)`, across repeated samples.
+
+* *Example*: the SD of our 1000 `\(\hat{p}\)`'s in the table above.
+
+* Answers: *"how spread out would my **estimate** be, if I resampled?"*
+]
+
+* **In short**: *standard error* = *standard deviation of a point estimate's sampling distribution*. It's the same math (`sd()`), just applied to *estimates* rather than to raw data.
+
+* We will use this "special" standard deviation — the standard error — constantly from now on, since it tells us *how much to trust* a point estimate.
 
 ---
 
@@ -515,8 +530,6 @@ Sample Size | Standard Deviation
 * We used sampling for the purpose of ***estimation***.
 
 * We extracted samples in order to ***estimate*** the proportion of the bowl's pasta that are green.
-
---
 
 * 2 key concepts relating to sampling for estimation:
 
@@ -569,7 +582,7 @@ Sample Size | Standard Deviation
 
 Sample Size `\((n)\)` | Standard Error of `\(\hat{p}\)`
 :---------:|:--------------:
-25          | 0.10
+20          | 0.11
 50          | 0.07
 100         |0.05
 
@@ -605,7 +618,7 @@ sum(bowl$color == "green")/nrow(bowl)
 
 # Visualizing Unbiasedness and Sampling Variation
 
-&lt;img src="chapter_sampling_files/figure-html/unnamed-chunk-20-1.svg" style="display: block; margin: auto;" /&gt;
+&lt;img src="chapter_sampling_files/figure-html/unnamed-chunk-20-1.svg" alt="" style="display: block; margin: auto;" /&gt;
 
 ---
 # Some Sampling Scenarios
@@ -626,13 +639,17 @@ Scenario | Population parameter | Notation | Point estimate | Symbol(s)
 
 * The fact that our sample statistics ***converge*** to a *central limit* is well known in statistics.
 
---
-
 * It's due to a famous result known as the ***central limit theorem***.
 
-&gt; ### *Central Limit Theorem:* regardless of how the underlying population distribution looks like, **when sample *means* are based on larger and larger sample sizes, the sampling distribution of these sample *means* becomes both more and more normally shaped and more and more narrow**.
+&gt; #### *Central Limit Theorem:* regardless of how the underlying population distribution looks like, **when sample *means* are based on larger and larger sample sizes, the sampling distribution of these sample *means* becomes both more and more normally shaped and more and more narrow**.
 
 --
+
+* Wait — our entire pasta activity was about a *sample proportion* `\(\hat{p}\)`, not a sample *mean*. Does the CLT even apply?
+
+  * Yes! A ***proportion is just a mean***: code each pasta as `\(1\)` (green) or `\(0\)` (not green), and `\(\hat{p} = \bar{x}\)`, the sample mean of these 0/1 values.
+
+  * That's exactly why our 1000-sample histograms looked increasingly ***normal and narrow*** as `\(n\)` grew: we were watching the CLT happen, in real time, for a proportion.
 
 * In other words, their sampling distribution increasingly follows a ***normal distribution*** and the *variation of these sampling distributions gets smaller*, as quantified by their ***standard errors***.
 

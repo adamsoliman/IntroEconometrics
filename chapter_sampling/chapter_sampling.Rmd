@@ -25,6 +25,7 @@ knitr::opts_chunk$set(
   warning = FALSE,
   dev = "svg",
   cache = TRUE,
+  autodep = TRUE,
   fig.align = "center"
   #fig.width = 11,
   #fig.height = 5
@@ -104,8 +105,6 @@ Yellow   |  1    |     `r format(round(1/20,2), nsmall = 2)`
 
 
 * What would happen if we took a *new* sample (putting the 20 previous pasta back in the bowl)? Would we also get 14 *greens* as before?
-
---
 
 * What if we repeated this activity multiple times?
 
@@ -223,8 +222,6 @@ pasta_samples %>%
 
 * Demonstrated the statistical concept of ***sampling***.
 
---
-
 * *Objective*: know the proportion of green pasta
 
 * *Methods*:
@@ -252,8 +249,6 @@ head(bowl, 6)
 ```
 ]
 
---
-
 .pull-right[
 * `pasta_ID`: pasta identifier
 
@@ -265,22 +260,20 @@ nrow(bowl)
 
 * Instead of selecting pasta with our hands, we'll take *virtual* draws from the bowl.
 
-* We'll use the *virtual shovel* to take a sample of 50 pasta from our virtual bowl.
+* Let's stick with the same sample size as before: we'll use the *virtual shovel* to take a sample of 20 pasta from our virtual bowl.
 ]
 
 ---
 
 # Using A Virtual Shovel Once
 
-* We will take a first sample of size 50, using the `moderndive` function `rep_sample_n`.
-
---
+* We will take a first sample of size 20, using the `moderndive` function `rep_sample_n`.
 
 ```{r}
 #load moderndive package
 library(moderndive)
 virtual_shovel <- bowl %>% # notice that moderndive functions can be "pipped"
-  rep_sample_n(size = 50) # take a sample of 50 pasta
+  rep_sample_n(size = 20) # take a sample of 20 pasta
 ```
 
 .pull-left[
@@ -321,32 +314,30 @@ sample_1
 .pull-right[
 1. Compute:
   * sum of green pasta in sample,
-  * number of observations in sample (i.e. 50 in this case)
+  * number of observations in sample (i.e. 20 in this case)
 
 1. Compute proportion of green pasta
 
 `r emo::ji("point_right")` `r sample_1$prop_green` are green! This is an ***estimate*** of the proportion of green pasta in the bowl. What if we try again?
 
-What if we try many times, like, 33 times?
+What if we try many times, like, 50 times?
 ]
 
 ---
 
-# Using The Virtual Shovel 33 Times
+# Using The Virtual Shovel 50 Times
 
 .pull-left[
 
-33 samples (*replicates*) of size 50.
+50 samples (*replicates*) of size 20.
 
 ```{r}
 virtual_samples <- bowl %>%
-  # get 33 samples of size 50
-  rep_sample_n(size = 50, reps = 33)
+  # get 50 samples of size 20
+  rep_sample_n(size = 20, reps = 50)
 virtual_samples
 ```
 ]
-
---
 
 .pull-right[
 
@@ -376,14 +367,14 @@ virtual_prop_green
 
 ```{r,eval=FALSE}
 ggplot(virtual_prop_green, aes(x = prop_green)) +
-  geom_histogram(binwidth = 0.02, 
-                 boundary = 0.51,
+  geom_histogram(binwidth = 0.05,
+                 boundary = 0.025,
                  color = "white",
                  fill = "darkgreen") +
   scale_y_continuous(breaks = seq(0, 12, by = 2)) +
-  labs(x = "Proportion of 50 pasta that were green",
+  labs(x = "Proportion of 20 pasta that were green",
        y = "Frequency",
-       title = "Distribution of 33 samples of size 50") +
+       title = "Distribution of 50 samples of size 20") +
   theme_bw(base_size = 20)
 ```
 ]
@@ -391,14 +382,14 @@ ggplot(virtual_prop_green, aes(x = prop_green)) +
 .pull-right[
 ```{r,echo = FALSE,fig.height=6}
 ggplot(virtual_prop_green, aes(x = prop_green)) +
-  geom_histogram(binwidth = 0.02, 
-                 boundary = 0.51,
+  geom_histogram(binwidth = 0.05,
+                 boundary = 0.025,
                  color = "white",
                  fill = "darkgreen") +
   scale_y_continuous(breaks = seq(0, 12, by = 2)) +
-  labs(x = "Proportion of 50 pasta that were green",
+  labs(x = "Proportion of 20 pasta that were green",
        y = "Frequency",
-       title = "Distribution of 33 samples of size 50") +
+       title = "Distribution of 50 samples of size 20") +
   theme_bw(base_size = 20)
 ```
 ]
@@ -407,31 +398,28 @@ ggplot(virtual_prop_green, aes(x = prop_green)) +
 
 # Sampling Distribution of 1000 Samples
 
-```{r, echo = FALSE, eval = TRUE, fig.height = 6, fig.width = 8}
-virtual_samples <- bowl %>% 
-  rep_sample_n(size = 50, reps = 1000)
+```{r, echo = FALSE, eval = TRUE, fig.height = 4.5, fig.width = 6.5}
+virtual_samples <- bowl %>%
+  rep_sample_n(size = 20, reps = 1000)
 
-virtual_prop_green <- virtual_samples %>% 
-  group_by(replicate) %>% 
+virtual_prop_green <- virtual_samples %>%
+  group_by(replicate) %>%
   summarize(
     num_green = sum(color == "green"),
-    sample_n = n()) %>% 
+    sample_n = n()) %>%
   mutate(prop_green = num_green / sample_n)
 
 virtual_prop_green %>% ggplot(
   aes(x = prop_green)) +
-  geom_histogram(
-    binwidth = 0.02,
-    boundary = 0.41,
-    color = "white",
-    fill = "darkgreen") +
+  geom_histogram(binwidth = 0.05,
+                 boundary = 0.025,
+                 color = "white",
+                 fill = "darkgreen") +
   labs(x = "Proportion of green pasta in sample",
        y = "Frequency",
-       title = "Distribution of 1000 samples of size 50") +
+       title = "Distribution of 1000 samples of size 20") +
   theme_bw(base_size = 14)
 ```
-
---
 
 Looks remarkably close to a ***normal distribution*** $\rightarrow$ the more samples we take, the more their ***sampling distribution*** will resemble a ***normal distribution***.
 
@@ -439,17 +427,13 @@ Looks remarkably close to a ***normal distribution*** $\rightarrow$ the more sam
 
 # Role of Sample Size
 
-Imagine you could change the size of your samples and had the option of the following sizes: 25, 50 and 100.
+Imagine you could change the size of your samples and had the option of the following sizes: 20, 50 and 100.
 
 If your goal is still to estimate the proportion of the bowl’s pasta that are green, which shovel would you choose?
 
----
-
-# Role of Sample Size
-
 * Let's repeat what we did previously but for different sample sizes.
 
-* Let's take 1000 samples each for $n=25,n=50,n=100$.
+* Let's take 1000 samples each for $n=20,n=50,n=100$.
 
 * We will use `rep_sample_n()` again.
 
@@ -458,16 +442,16 @@ If your goal is still to estimate the proportion of the bowl’s pasta that are 
 Generate all samples of different sizes:
 
 ```{r}
-# Sample size: 25
-virtual_samples_25 <- bowl %>% 
-  rep_sample_n(size = 25, reps = 1000)
+# Sample size: 20
+virtual_samples_20 <- bowl %>%
+  rep_sample_n(size = 20, reps = 1000)
 
 # Sample size: 50
-virtual_samples_50 <- bowl %>% 
+virtual_samples_50 <- bowl %>%
   rep_sample_n(size = 50, reps = 1000)
 
 # Sample size: 100
-virtual_samples_100 <- bowl %>% 
+virtual_samples_100 <- bowl %>%
   rep_sample_n(size = 100, reps = 1000)
 ```
 ]
@@ -477,13 +461,13 @@ virtual_samples_100 <- bowl %>%
 Compute proportion of green pasta:
 
 ```{r}
-# Sample size: 25
+# Sample size: 20
 # The same code is used for the other sample sizes
-virtual_prop_green_25 <- virtual_samples_25 %>% 
-  group_by(replicate) %>% 
+virtual_prop_green_20 <- virtual_samples_20 %>%
+  group_by(replicate) %>%
   summarize(
     num_green = sum(color == "green"),
-    sample_n = n()) %>% 
+    sample_n = n()) %>%
   mutate(prop_green = num_green / sample_n)
 ```
 ]
@@ -492,7 +476,7 @@ virtual_prop_green_25 <- virtual_samples_25 %>%
 
 # Role of Sample Size
 
-```{r, echo = FALSE, fig.height=7, fig.width=13}
+```{r, echo = FALSE, fig.height=6, fig.width=12}
 
 # Sample size: 50
 virtual_prop_green_50 <- virtual_samples_50 %>% 
@@ -510,21 +494,21 @@ virtual_prop_green_100 <- virtual_samples_100 %>%
     sample_n = n()) %>% 
   mutate(prop_green = num_green / sample_n)
 
-df = rbind(virtual_prop_green_25,virtual_prop_green_50,virtual_prop_green_100)
+df = rbind(virtual_prop_green_20,virtual_prop_green_50,virtual_prop_green_100)
 
-df %>% 
+df %>%
   ggplot(aes(x = prop_green)) +
-    geom_histogram(data = df %>% filter(sample_n == 25), binwidth = 0.04, boundary = 0.42, color = "white", fill = "darkgreen") +
+    geom_histogram(data = df %>% filter(sample_n == 20), binwidth = 0.05, boundary = 0.025, color = "white", fill = "darkgreen") +
   geom_histogram(data = df %>% filter(sample_n == 50), binwidth = 0.02, boundary = 0.41, color = "white", fill = "darkgreen") +
   geom_histogram(data = df %>% filter(sample_n == 100), binwidth = 0.01, boundary = 0.405, color = "white", fill = "darkgreen") +
-  scale_x_continuous(breaks = round(seq(0, 1, by = 0.2),1), limits = c(0.2,0.8)) +
+  scale_x_continuous(breaks = round(seq(0, 1, by = 0.2),1), limits = c(0.1,0.9)) +
   labs(
     x = "Proportion of green pasta in sample",
     y = "Frequency",
     title = "Comparing distributions of proportions of green pasta for different sample sizes"
   ) +
     facet_wrap(~sample_n, scales = "free_y", labeller = as_labeller(
-        c(`25` = "1000 samples of size 25",
+        c(`20` = "1000 samples of size 20",
           `50` = "1000 samples of size 50",
           `100` = "1000 samples of size 100"))) +
     theme_bw(base_size = 14)
@@ -543,29 +527,61 @@ df %>%
 
 * Holding constant the number of replicates (i.e. 1000 in our case), ***bigger samples*** will yield *normal distributions* with ***smaller standard deviations***.
 
+  * *To be precise*: not the standard deviation of the *pasta colors* — it's the standard deviation of the 1000 $\hat{p}$'s themselves, i.e. of the ***sampling distribution***. More on this distinction very soon.
+
 ```{r, echo = FALSE}
-# n = 25
-sd25 = virtual_prop_green_25 %>% 
+# n = 20
+sd20 = virtual_prop_green_20 %>%
   summarize(sd = sd(prop_green))
 
 # n = 50
-sd50 = virtual_prop_green_50 %>% 
+sd50 = virtual_prop_green_50 %>%
   summarize(sd = sd(prop_green))
 
 # n = 100
-sd100 = virtual_prop_green_100 %>% 
+sd100 = virtual_prop_green_100 %>%
   summarize(sd = sd(prop_green))
 ```
 
-Sample Size | Standard Deviation
+Sample Size | Standard Deviation of $\hat{p}$
 :---------:|:--------------:
-25          | `r format(round(sd25$sd,2), nsmall = 2)`
+20          | `r format(round(sd20$sd,2), nsmall = 2)`
 50          | `r format(round(sd50$sd,2), nsmall = 2)`
 100         |`r format(round(sd100$sd,2), nsmall = 2)`
 
-* Remember that the ***standard deviation*** measures the *spread* of a variable around its mean.
+* Remember that the ***standard deviation*** measures the *spread* of a variable around its mean — here, the variable being spread out is the *estimate* $\hat{p}$ itself, across our 1000 samples.
 
 * So as the sample size increases, our ***estimates*** of the true proportion of the bowl's green pasta get more *precise*.
+
+---
+
+# Wait — Standard Deviation, or Standard Error?
+
+You will hear ***both*** terms. They are not competitors — one is a special case of the other.
+
+.pull-left[
+***Standard deviation (SD)***
+
+* A general measure of *spread* of **any** variable around its mean.
+
+* *Example*: the SD of pasta colors (coded 0/1) in one bowl, or in one sample.
+
+* Answers: *"how spread out are individual observations?"*
+]
+
+.pull-right[
+***Standard error (SE)***
+
+* The standard deviation, specifically ***of a sampling distribution*** — i.e. of a *point estimate* like $\hat{p}$, across repeated samples.
+
+* *Example*: the SD of our 1000 $\hat{p}$'s in the table above.
+
+* Answers: *"how spread out would my **estimate** be, if I resampled?"*
+]
+
+* **In short**: *standard error* = *standard deviation of a point estimate's sampling distribution*. It's the same math (`sd()`), just applied to *estimates* rather than to raw data.
+
+* We will use this "special" standard deviation — the standard error — constantly from now on, since it tells us *how much to trust* a point estimate.
 
 ---
 
@@ -574,8 +590,6 @@ Sample Size | Standard Deviation
 * We used sampling for the purpose of ***estimation***.
 
 * We extracted samples in order to ***estimate*** the proportion of the bowl's pasta that are green.
-
---
 
 * 2 key concepts relating to sampling for estimation:
 
@@ -628,7 +642,7 @@ $N = 713$ pasta.
 
 Sample Size $(n)$ | Standard Error of $\hat{p}$
 :---------:|:--------------:
-25          | `r format(round(sd25$sd,2), nsmall = 2)`
+20          | `r format(round(sd20$sd,2), nsmall = 2)`
 50          | `r format(round(sd50$sd,2), nsmall = 2)`
 100         |`r format(round(sd100$sd,2), nsmall = 2)`
 
@@ -665,25 +679,25 @@ p <- bowl %>%
   pull(p)
 
 dat_text <- data.frame(
-  sample_n   = c(25, 50, 100),
+  sample_n   = c(20, 50, 100),
   # x     = c(0.655, 0.655, 0.655),
   # y     = c(175, 95, 45),
   label = rep("True population proportion", 3)
 )
 
-df %>% 
+df %>%
   ggplot(aes(x = prop_green)) +
-    geom_histogram(data = df %>% filter(sample_n == 25), binwidth = 0.04, boundary = 0.42, color = "white", fill = "darkgreen") +
+    geom_histogram(data = df %>% filter(sample_n == 20), binwidth = 0.05, boundary = 0.025, color = "white", fill = "darkgreen") +
   geom_histogram(data = df %>% filter(sample_n == 50), binwidth = 0.02, boundary = 0.41, color = "white", fill = "darkgreen") +
   geom_histogram(data = df %>% filter(sample_n == 100), binwidth = 0.01, boundary = 0.405, color = "white", fill = "darkgreen") +
-  scale_x_continuous(breaks = round(seq(0, 1, by = 0.2),1), limits = c(0.2,0.8)) +
+  scale_x_continuous(breaks = round(seq(0, 1, by = 0.2),1), limits = c(0.1,0.9)) +
   labs(
     x = "Proportion of green pasta in sample",
     y = "Frequency",
     title = "Comparing distributions of proportions of green pasta for different sample sizes"
   ) +
     facet_wrap(~sample_n, scales = "free_y", labeller = as_labeller(
-        c(`25` = "1000 samples of size 25",
+        c(`20` = "1000 samples of size 20",
           `50` = "1000 samples of size 50",
           `100` = "1000 samples of size 100"))) +
     theme_bw(base_size = 14) +
@@ -710,13 +724,17 @@ Scenario | Population parameter | Notation | Point estimate | Symbol(s)
 
 * The fact that our sample statistics ***converge*** to a *central limit* is well known in statistics.
 
---
-
 * It's due to a famous result known as the ***central limit theorem***.
 
-> ### *Central Limit Theorem:* regardless of how the underlying population distribution looks like, **when sample *means* are based on larger and larger sample sizes, the sampling distribution of these sample *means* becomes both more and more normally shaped and more and more narrow**.
+> #### *Central Limit Theorem:* regardless of how the underlying population distribution looks like, **when sample *means* are based on larger and larger sample sizes, the sampling distribution of these sample *means* becomes both more and more normally shaped and more and more narrow**.
 
 --
+
+* Wait — our entire pasta activity was about a *sample proportion* $\hat{p}$, not a sample *mean*. Does the CLT even apply?
+
+  * Yes! A ***proportion is just a mean***: code each pasta as $1$ (green) or $0$ (not green), and $\hat{p} = \bar{x}$, the sample mean of these 0/1 values.
+
+  * That's exactly why our 1000-sample histograms looked increasingly ***normal and narrow*** as $n$ grew: we were watching the CLT happen, in real time, for a proportion.
 
 * In other words, their sampling distribution increasingly follows a ***normal distribution*** and the *variation of these sampling distributions gets smaller*, as quantified by their ***standard errors***.
 

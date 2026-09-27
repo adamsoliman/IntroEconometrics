@@ -24,6 +24,7 @@ knitr::opts_chunk$set(
   warning = FALSE,
   dev = "svg",
   cache = TRUE,
+  autodep = TRUE,
   fig.align = "center"
   #fig.width = 11,
   #fig.height = 5
@@ -79,7 +80,7 @@ crime4 %>%
          CrimeRate = crmrte,
          ProbofArrest = prbarr) %>%
   slice(1:5) %>%
-  knitr::kable(align = "ccc")
+  knitr::kable(align = "ccc", format = "html")
 ```
 ]
 
@@ -113,7 +114,7 @@ crime4 %>%
          CrimeRate = crmrte,
          ProbofArrest = prbarr) %>%
   slice(1:9) %>%
-  knitr::kable(align = "ccc")
+  knitr::kable(align = "ccc", format = "html")
 ```
 ]
 
@@ -770,7 +771,7 @@ lpm <- feols(overdosedeaths ~ percapitapills, data = countyopioids) # this is th
 # the new stuff, various fixed effects
 fe_year <- feols(overdosedeaths ~ percapitapills | year, data = countyopioids, cluster = ~county)
 fe_yearstate <- feols(overdosedeaths ~ percapitapills | state + year, data = countyopioids, cluster = ~county)
-fe_yearcounty <- feols(overdosedeaths ~ percapitapills | county + year, data = countyopioids)
+fe_yearcounty <- feols(overdosedeaths ~ percapitapills | county + year, data = countyopioids, cluster = ~county)
 
 ## the below is the best way to generate tables with multiple fixest objects, output is on the next slide
 # etable(lpm, fe_year, fe_yearstate, fe_yearcounty)

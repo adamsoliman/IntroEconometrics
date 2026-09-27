@@ -25,6 +25,7 @@ knitr::opts_chunk$set(
   warning = FALSE,
   dev = "svg",
   cache = TRUE,
+  autodep = TRUE,
   fig.align = "center"
   #fig.width = 11,
   #fig.height = 5
@@ -105,7 +106,7 @@ class: title-slide-section-red, middle
 
 # Constructing Confidence Intervals 
 
-There are several approaches to constructing confidence intervals:
+There are two main approaches to constructing confidence intervals:
     
   1. *Theory*: use mathematical formulas (***Central Limit Theorem***) to derive the sampling distribution of our point estimate under certain conditions $\rightarrow$ ***what `R` does under the hood!***
 
@@ -125,12 +126,12 @@ In practice, you ***don't*** need to compute your confidence intervals using *bo
 
 --
 
-* Let's start by drawing one random sample of size $n = 50$ from our bowl.
+* Let's start by drawing one random sample of size $n = 20$ from our bowl — the same sample size as last lecture.
 
 ```{r, echo = FALSE}
 bowl <- read.csv("../data_for_tasks/pasta.csv")
 set.seed(1234)
-sample_size = 50
+sample_size = 20
 my_sample = bowl %>% mutate(color = as.factor(ifelse(color == "green","green","non-green"))) %>%
   rep_sample_n(size = sample_size) %>% ungroup() %>% select(pasta_ID, color) %>% arrange(pasta_ID)
 ```
@@ -139,7 +140,7 @@ my_sample = bowl %>% mutate(color = as.factor(ifelse(color == "green","green","n
 library(tidyverse)
 bowl <- read.csv("../data_for_tasks/pasta.csv")
 my_sample = bowl %>% mutate(color = ifelse(color == "green","green","non-green")) %>%
-  rep_sample_n(size = 50) %>% ungroup() %>% select(pasta_ID, color)
+  rep_sample_n(size = 20) %>% ungroup() %>% select(pasta_ID, color)
 ```
 
 .pull-left[
@@ -173,7 +174,7 @@ How do we obtain a ***bootstrap sample***?
   
 --
   
-  1. Repeat steps 1 and 2 49 times, i.e. ***until the new sample is of the same size as the original sample***.
+  1. Repeat steps 1 and 2 19 times, i.e. ***until the new sample is of the same size as the original sample***.
 
 --
 
@@ -196,7 +197,7 @@ Here is one bootstrap sample:
 
 ```{r}
 one_bootstrap = my_sample %>%
-  rep_sample_n(size = 50, replace = TRUE) %>% 
+  rep_sample_n(size = 20, replace = TRUE) %>%
   arrange(pasta_ID)
 head(one_bootstrap, 8)
 nrow(one_bootstrap)
@@ -226,8 +227,6 @@ What if we repeated this resampling procedure many times? Would the proportion b
 # Obtaining the Bootstrap Distribution
 
 * Let's repeat the resampling procedure 1,000 times: there will be 1,000 bootstrap samples and 1,000 bootstrap estimates!
-
---
 
 .pull-left[
 We use the `infer` package to ease the bootstrapping procedure.
@@ -275,10 +274,10 @@ Let's visualize this sampling variation!
 
 # Bootstrap Distribution
 
-```{r,echo = FALSE,fig.height = 6, fig.width = 10}
+```{r,echo = FALSE,fig.height = 5, fig.width = 9}
 boot_distrib_plot = bootstrap_distrib %>%
   ggplot(aes(x = stat)) +
-  geom_histogram(boundary = 0.39, binwidth = 0.02, col = "white", fill = "darkgreen") +
+  geom_histogram(boundary = 0.025, binwidth = 0.05, col = "white", fill = "darkgreen") +
   labs(x = "Proportion of green pasta",
        y = "Frequency") +
   theme_bw(base_size = 14)
@@ -291,25 +290,13 @@ The ***bootstrap distribution*** is an approximation of the ***sampling distribu
 
 # Bootstrap Distribution with Mean
 
-```{r,echo = FALSE,fig.height = 6, fig.width = 10}
+```{r,echo = FALSE,fig.height = 5, fig.width = 9}
 boot_distrib_plot +
   geom_vline(xintercept = mean(bootstrap_distrib$stat), linetype = "dashed", size = 1) +
-  annotate("text", x = 0.375, y = 127, label = "bootstrap distribution mean", size = 4)
+  annotate("text", x = 0.3, y = 100, label = "bootstrap distribution mean", size = 4)
 ```
 
-The ***bootstrap distribution*** mean is very close to the original sample proportion.
-
----
-
-# Bootstrap Distribution with Mean
-
-```{r,echo = FALSE,fig.height = 6, fig.width = 10}
-boot_distrib_plot +
-  geom_vline(xintercept = mean(bootstrap_distrib$stat), linetype = "dashed", size = 1) +
-  annotate("text", x = 0.375, y = 127, label = "bootstrap distribution mean", size = 4)
-```
-
-Let's use this ***bootstrap distribution*** to construct confidence intervals!
+Bootstrap dist. mean $\approx$ original sample proportion $\implies$ use ***bootstrap dist.*** to construct confidence intervals!
 
 ---
 
@@ -360,8 +347,6 @@ quantile(bootstrap_distrib$stat,0.975)
 
 * It is a ***range*** of values.
 
---
-
 * Let's see this confidence interval on the sampling distribution.
 
 ---
@@ -390,7 +375,7 @@ p = mean(bowl$color == "green")
 
 boot_distrib_plot_ci +
   geom_vline(xintercept = p, col = "black", size = 1.25) +
-  annotate("text", x = 0.56, y = 125, label = "population proportion", size = 4)
+  annotate("text", x = 0.56, y = Inf, vjust = 2, label = "population proportion", size = 4)
 ```
 
 True population parameter is indeed in our 95% interval! Will it always be?
@@ -401,7 +386,7 @@ True population parameter is indeed in our 95% interval! Will it always be?
 
 Let's repeatedly draw 100 different samples from our `bowl` and for each sample compute the associated 95% CI using the percentile method.
 
-```{r, echo=FALSE, fig.width=10, fig.height = 4}
+```{r, echo=FALSE, fig.width=12, fig.height = 4}
 library(purrr)
 library(tidyr)
 if(!file.exists("../rds/pasta_percentile_cis.rds")){
@@ -417,9 +402,9 @@ if(!file.exists("../rds/pasta_percentile_cis.rds")){
     
     # Compute nested data frame with sampled data, sample proportions, all 
     # bootstrap replicates, and percentile_ci
-    pasta_percentile_cis <- bowl %>% 
+    pasta_percentile_cis <- bowl %>%
         mutate(color = as.factor(ifelse(color == "green","green","non-green"))) %>%
-        rep_sample_n(size = 40, reps = 100, replace = FALSE) %>% 
+        rep_sample_n(size = 20, reps = 100, replace = FALSE) %>%
         group_by(replicate) %>% 
         nest() %>% 
         mutate(sample_prop = map_dbl(data, ~mean(.x$color == "green"))) %>%
@@ -430,20 +415,22 @@ if(!file.exists("../rds/pasta_percentile_cis.rds")){
         mutate(percentile_ci = map(bootstraps, get_ci, type = "percentile", level = 0.95))
     
     # Save output to rds object
+    dir.create("../rds", showWarnings = FALSE)
     saveRDS(object = pasta_percentile_cis, "../rds/pasta_percentile_cis.rds")
 } else {
     pasta_percentile_cis <- readRDS("../rds/pasta_percentile_cis.rds")
 }
 
 # Identify if confidence interval captured true p
-percentile_cis <- pasta_percentile_cis %>% 
-    unnest(percentile_ci) %>% 
-    mutate(captured = `2.5%` <= p & p <= `97.5%`)
+# (column names follow the installed infer package's get_ci() output)
+percentile_cis <- pasta_percentile_cis %>%
+    unnest(percentile_ci) %>%
+    mutate(captured = lower_ci <= p & p <= upper_ci)
 
 # Plot them!
 ggplot(percentile_cis) +
     geom_segment(aes(
-        y = replicate, yend = replicate, x = `2.5%`, xend = `97.5%`, 
+        y = replicate, yend = replicate, x = lower_ci, xend = upper_ci,
         alpha = factor(captured, levels = c("TRUE", "FALSE"))
     )) +
     # Removed point estimates since it doesn't necessarily act as center for 
@@ -452,7 +439,7 @@ ggplot(percentile_cis) +
     labs(x = expression("Proportion of green pasta"), y = "Confidence interval number", 
          alpha = "Contains Truth") +
     geom_vline(xintercept = p, color = "#d90502", size = 1, linetype = "dashed") +
-  annotate("text", x = 0.47, y = 5, label = "population proportion", col = "#d90502") +
+  annotate("text", x = 0.47, y = 8, label = "true population proportion", col = "#d90502") +
     geom_point(aes(y = replicate, x = sample_prop ,alpha = factor(captured, levels = c("TRUE", "FALSE")))) +
     coord_cartesian(xlim = c(0.2, 0.8)) + 
   coord_flip() +
@@ -471,8 +458,6 @@ How many confidence intervals contain the true parameter? Why?
 > *Precise interpretation:* If we repeated our sampling procedure ***a large number of times***, we ***expect about 95%*** of the resulting confidence intervals to capture the value of the population parameter.
 
 In other words, 95% of the time, the 95% confidence interval will contain the true population parameter.
-
---
 
 > *Short-hand interpretation:* We are ***95% “confident”*** that a 95% confidence interval captures the value of the population parameter.
 
@@ -513,23 +498,54 @@ Goal: Estimate the true proportion of green pasta, *p*, in the population (in ou
 
 | World/ Setting                                         | What We Do                                              | What We See                       | What We Learn                                                           |
 | --------------------------------------------- | ------------------------------------------------------- | --------------------------------- | ----------------------------------------------------------------------- |
-| **1. Repeated Sampling** (thought experiment) | Draw many samples of 50 from the 713                    | Each sample’s  $\hat{p}$  differs | The sampling distribution shows natural variability                     |
-| **2. Real Data** (one sample)                 | Observe one sample of 50 and compute one  $\hat{p}$     | Only a single estimate            | We need a way to quantify unseen variability (for confidence intervals) |
-| **3. Bootstrap**                              | Resample *with replacement* from the 50 observed pieces | Bootstrap  $\hat{p}$’s differ    | Approximates the sampling distribution                                  |
+| **1. Repeated Sampling** (thought experiment) | Draw many samples of 20 from the 713                    | Each sample’s  $\hat{p}$  differs | The sampling distribution shows natural variability                     |
+| **2. Real Data** (one sample)                 | Observe one sample of 20 and compute one  $\hat{p}$     | Only a single estimate            | We need a way to quantify unseen variability (for confidence intervals) |
+| **3. Bootstrap**                              | Resample *with replacement* from the 20 observed pieces | Bootstrap  $\hat{p}$’s differ    | Approximates the sampling distribution                                  |
 
 
 **Key Idea**: *the bootstrap mimics the repeated-sampling experiment, using the sample as our best estimate of the population.* Put another way:
 
   - A single $\hat{p}$ answers: *what is our estimate?*
-  - Bootstrapping helps answer: *how much should we trust that estimate/ what is the uncertainty around it?* 
-  - Confidence intervals can also be derived analytically from the Central Limit Theorem (as is done in R)
+  - Bootstrapping helps answer: *how much should we trust that estimate/ what is the uncertainty around it?*
+  - Confidence intervals can also be derived analytically from the Central Limit Theorem (as is done in R) $\rightarrow$ let's see what that formula looks like.
+
+---
+
+# From Bootstrap to Formula
+
+* The ***bootstrap*** approximates the standard error *numerically*: it's just `sd()` applied to 1,000 resampled $\hat{p}$'s.
+
+* The ***CLT*** gives us a *formula* for that same standard error, no resampling needed:
+
+$$SE(\hat{p}) \; \approx \; \sqrt{\dfrac{\hat{p}(1-\hat{p})}{n}}$$
+
+* Do the two roads lead to the same place? Let's check, using our original sample ( $\hat{p} = `r round(p_hat,2)`$, $n = `r sample_size`$):
+
+.pull-left[
+```{r}
+# "empirical" SE: sd of bootstrap distribution
+se_bootstrap <- sd(bootstrap_distrib$stat)
+se_bootstrap
+```
+]
+
+.pull-right[
+```{r}
+# "theoretical" SE: the CLT formula
+se_formula <- sqrt(p_hat * (1 - p_hat) / sample_size)
+se_formula
+```
+]
+
+* Nearly identical `r emo::ji("point_right")` bootstrapping and the CLT-based formula are two different roads to the ***same*** standard error.
+
+* This is what `R` does under the hood in `lm()`: no resampling, just a formula like this one (adapted to whichever statistic is being estimated) to get the standard error, and then the confidence interval $\hat{p} \pm 1.96 \times SE(\hat{p})$.
+
 ---
 
 # From Confidence Intervals to Hypothesis Testing
 
 * *Confidence intervals* can be thought of as an extension of *point estimation*.
-
---
 
 * What if we want to ***compare*** a sample statistic for two groups?
   
@@ -701,7 +717,7 @@ cowplot::plot_grid(p1,p2,rel_widths = c(1.3,1.3))
 
 # Sampling Distribution with 1000 Reshufflings
 
-```{r,echo = FALSE, fig.height = 6, fig.width = 10}
+```{r,echo = FALSE, fig.height = 5, fig.width = 9}
 set.seed(2)
 null_distribution <- promotions %>% 
   # takes formula, defines success
@@ -715,23 +731,27 @@ null_distribution <- promotions %>%
   calculate(stat = "diff in props",
             order = c("male", "female"))
 
-visualize(null_distribution, bins = 10, fill = "darkred") + 
-  labs(title = "Sampling Distribution", x = "Difference in promotion rates (male - female)", y = "Frequency") +
-  xlim(-0.4, 0.4)+
+## note: infer::visualize()'s `binwidth`/`boundary` args are silently ignored —
+## it always recomputes its own bin breaks from `bins` (default 15). Since our
+## statistic can only take values spaced 1/12 apart (24 men, 24 women), we build
+## the histogram directly with ggplot2 so the bins line up with the true spacing.
+null_distrib_plot <- ggplot(null_distribution, aes(x = stat)) +
+  geom_histogram(binwidth = 1/12, boundary = 1/24, color = "white", fill = "darkred") +
+  labs(x = "Difference in promotion rates (male - female)", y = "Frequency") +
+  xlim(-0.4, 0.4) +
   theme_bw(base_size = 14)
+
+null_distrib_plot
 ```
 
 ---
 
 # Sampling Distribution with 1000 Reshufflings
 
-```{r,echo = FALSE, fig.height = 6, fig.width = 10}
-visualize(null_distribution, bins = 10, fill = "darkred") + 
+```{r,echo = FALSE, fig.height = 5, fig.width = 9}
+null_distrib_plot +
   geom_vline(xintercept = 0.292, size =1.25) +
-  labs(x = "Difference in promotion rates (male - female)", y = "Frequency") +
-  xlim(-0.4, 0.4)+
-  theme_bw(base_size = 14) +
-  annotate("text", x = 0.17, y = 485, label = "observed sample difference", size = 4)
+  annotate("text", x = 0.17, y = 250, label = "observed sample difference", size = 4)
 ```
 
 How ***likely*** is it to observe a 0.292 difference in a world with no discrimination?
@@ -792,13 +812,14 @@ where $p_m =$ promotion rate of men, and $p_f =$ promotion rate of women.
 
 # Null Distribution
 
-```{r,echo = FALSE, fig.height = 6, fig.width = 10}
-visualize(null_distribution, bins = 10, fill = "red") + 
+```{r,echo = FALSE, fig.height = 5, fig.width = 9}
+ggplot(null_distribution, aes(x = stat)) +
+  geom_histogram(binwidth = 1/12, boundary = 1/24, color = "white", fill = "red") +
   geom_vline(xintercept = 0.292, size =1.25) +
   labs(x = "Difference in sample proportions (male - female)", y = "Frequency") +
   xlim(-0.4, 0.4)+
   theme_bw(base_size = 14) +
-  annotate("text", x = 0.19, y = 485, label = "observed test statistic", size = 4)
+  annotate("text", x = 0.19, y = 250, label = "observed test statistic", size = 4)
 ```
 
 ---
@@ -986,11 +1007,13 @@ null_distribution <- promotions %>%
   calculate(stat = "diff in props",
             order = c("male", "female"))
 
-visualize(null_distribution,
-          bins = 10,
-          fill = "#d90502") + 
-  labs(title = "Sampling distribution",
-       x = "Difference in promotion rates (male - female)",
+# our statistic can only take values spaced 1/12 apart (24 men, 24 women),
+# so we build the histogram directly with ggplot2 rather than visualize(),
+# whose `bins` argument doesn't let us align breaks to that spacing
+ggplot(null_distribution, aes(x = stat)) +
+  geom_histogram(binwidth = 1/12, boundary = 1/24,
+                 color = "white", fill = "#d90502") +
+  labs(x = "Difference in promotion rates (male - female)",
        y = "Frequency") +
   xlim(-0.4, 0.4) +
   theme_bw(base_size = 14)
@@ -999,8 +1022,9 @@ visualize(null_distribution,
 
 .pull-right[
 ```{r,echo = FALSE, fig.height=6}
-visualize(null_distribution, bins = 10, fill = "#d90502") + 
-  labs(title = "Sampling distribution", x = "Difference in promotion rates (male - female)", y = "Frequency") +
+ggplot(null_distribution, aes(x = stat)) +
+  geom_histogram(binwidth = 1/12, boundary = 1/24, color = "white", fill = "#d90502") +
+  labs(x = "Difference in promotion rates (male - female)", y = "Frequency") +
   xlim(-0.4, 0.4)+
   theme_bw(base_size = 14)
 ```

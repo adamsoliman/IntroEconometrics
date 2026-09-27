@@ -4,7 +4,6 @@
     <title>ECON 4050: Introduction to Econometrics</title>
     <meta charset="utf-8" />
     <meta name="author" content="Adam Soliman, PhD" />
-    <script src="libs/header-attrs/header-attrs.js"></script>
     <link href="libs/remark-css/default.css" rel="stylesheet" />
     <script src="https://use.fontawesome.com/5235085b15.js"></script>
     <link rel="stylesheet" href="../css/scpo-fonts.css" type="text/css" />
@@ -92,7 +91,7 @@ class: title-slide-section-red, middle
 
 # Constructing Confidence Intervals 
 
-There are several approaches to constructing confidence intervals:
+There are two main approaches to constructing confidence intervals:
     
   1. *Theory*: use mathematical formulas (***Central Limit Theorem***) to derive the sampling distribution of our point estimate under certain conditions `\(\rightarrow\)` ***what `R` does under the hood!***
 
@@ -112,7 +111,7 @@ In practice, you ***don't*** need to compute your confidence intervals using *bo
 
 --
 
-* Let's start by drawing one random sample of size `\(n = 50\)` from our bowl.
+* Let's start by drawing one random sample of size `\(n = 20\)` from our bowl — the same sample size as last lecture.
 
 
 
@@ -121,12 +120,12 @@ In practice, you ***don't*** need to compute your confidence intervals using *bo
 library(tidyverse)
 bowl &lt;- read.csv("../data_for_tasks/pasta.csv")
 my_sample = bowl %&gt;% mutate(color = ifelse(color == "green","green","non-green")) %&gt;%
-  rep_sample_n(size = 50) %&gt;% ungroup() %&gt;% select(pasta_ID, color)
+  rep_sample_n(size = 20) %&gt;% ungroup() %&gt;% select(pasta_ID, color)
 ```
 
 .pull-left[
 
-```r
+``` r
 head(my_sample,3)
 ```
 
@@ -135,23 +134,23 @@ head(my_sample,3)
 ##   pasta_ID color    
 ##      &lt;int&gt; &lt;fct&gt;    
 ## 1        4 non-green
-## 2       41 non-green
-## 3       79 non-green
+## 2       79 non-green
+## 3       98 non-green
 ```
 ]
 
 .pull-right[
 
-```r
+``` r
 p_hat = mean(my_sample$color == "green")
 p_hat
 ```
 
 ```
-## [1] 0.46
+## [1] 0.55
 ```
 
-The proportion of green pasta in this sample is: `\(\hat{p} = 0.46\)`.
+The proportion of green pasta in this sample is: `\(\hat{p} = 0.55\)`.
 ]
 
 ---
@@ -170,7 +169,7 @@ How do we obtain a ***bootstrap sample***?
   
 --
   
-  1. Repeat steps 1 and 2 49 times, i.e. ***until the new sample is of the same size as the original sample***.
+  1. Repeat steps 1 and 2 19 times, i.e. ***until the new sample is of the same size as the original sample***.
 
 --
 
@@ -192,9 +191,9 @@ This procedure is called ***resampling with replacement***:
 Here is one bootstrap sample: 
 
 
-```r
+``` r
 one_bootstrap = my_sample %&gt;%
-  rep_sample_n(size = 50, replace = TRUE) %&gt;% 
+  rep_sample_n(size = 20, replace = TRUE) %&gt;%
   arrange(pasta_ID)
 head(one_bootstrap, 8)
 ```
@@ -204,22 +203,22 @@ head(one_bootstrap, 8)
 ## # Groups:   replicate [1]
 ##   replicate pasta_ID color    
 ##       &lt;int&gt;    &lt;int&gt; &lt;fct&gt;    
-## 1         1        4 non-green
-## 2         1       41 non-green
-## 3         1       41 non-green
-## 4         1       79 non-green
-## 5         1       79 non-green
-## 6         1      103 non-green
-## 7         1      103 non-green
-## 8         1      103 non-green
+## 1         1       79 non-green
+## 2         1       79 non-green
+## 3         1       98 non-green
+## 4         1      101 green    
+## 5         1      103 non-green
+## 6         1      184 green    
+## 7         1      184 green    
+## 8         1      212 green
 ```
 
-```r
+``` r
 nrow(one_bootstrap)
 ```
 
 ```
-## [1] 50
+## [1] 20
 ```
 ]
 
@@ -232,12 +231,12 @@ Several pasta have been drawn multiple times. How come?
 What's the proportion of green pasta in this bootstrap sample?
 
 
-```r
+``` r
 mean(one_bootstrap$color == "green")
 ```
 
 ```
-## [1] 0.4
+## [1] 0.7
 ```
 
 The proportion is different than that in our sample! This is due to resampling ***with replacement***.
@@ -252,8 +251,6 @@ What if we repeated this resampling procedure many times? Would the proportion b
 
 * Let's repeat the resampling procedure 1,000 times: there will be 1,000 bootstrap samples and 1,000 bootstrap estimates!
 
---
-
 .pull-left[
 We use the `infer` package to ease the bootstrapping procedure.
 
@@ -261,7 +258,7 @@ We use the `infer` package to ease the bootstrapping procedure.
 
 
 
-```r
+``` r
 library(infer)
 
 bootstrap_distrib = my_sample %&gt;%
@@ -287,11 +284,11 @@ head(bootstrap_distrib, 5)
 ## # A tibble: 5 × 2
 ##   replicate  stat
 ##       &lt;int&gt; &lt;dbl&gt;
-## 1         1  0.44
-## 2         2  0.36
-## 3         3  0.46
-## 4         4  0.46
-## 5         5  0.52
+## 1         1  0.65
+## 2         2  0.6 
+## 3         3  0.75
+## 4         4  0.55
+## 5         5  0.55
 ```
 
 ``` r
@@ -310,7 +307,7 @@ Let's visualize this sampling variation!
 
 # Bootstrap Distribution
 
-&lt;img src="chapter_ci_hyptest_files/figure-html/unnamed-chunk-10-1.svg" style="display: block; margin: auto;" /&gt;
+&lt;img src="chapter_ci_hyptest_files/figure-html/unnamed-chunk-10-1.svg" alt="" style="display: block; margin: auto;" /&gt;
 
 The ***bootstrap distribution*** is an approximation of the ***sampling distribution***.
 
@@ -318,17 +315,9 @@ The ***bootstrap distribution*** is an approximation of the ***sampling distribu
 
 # Bootstrap Distribution with Mean
 
-&lt;img src="chapter_ci_hyptest_files/figure-html/unnamed-chunk-11-1.svg" style="display: block; margin: auto;" /&gt;
+&lt;img src="chapter_ci_hyptest_files/figure-html/unnamed-chunk-11-1.svg" alt="" style="display: block; margin: auto;" /&gt;
 
-The ***bootstrap distribution*** mean is very close to the original sample proportion.
-
----
-
-# Bootstrap Distribution with Mean
-
-&lt;img src="chapter_ci_hyptest_files/figure-html/unnamed-chunk-12-1.svg" style="display: block; margin: auto;" /&gt;
-
-Let's use this ***bootstrap distribution*** to construct confidence intervals!
+Bootstrap dist. mean `\(\approx\)` original sample proportion `\(\implies\)` use ***bootstrap dist.*** to construct confidence intervals!
 
 ---
 
@@ -366,32 +355,30 @@ Let's use this ***bootstrap distribution*** to construct confidence intervals!
 
 .pull-left[
 
-```r
+``` r
 quantile(bootstrap_distrib$stat,0.025)
 ```
 
 ```
 ## 2.5% 
-## 0.32
+## 0.35
 ```
 ]
 .pull-right[
 
-```r
+``` r
 quantile(bootstrap_distrib$stat,0.975)
 ```
 
 ```
 ## 97.5% 
-##   0.6
+##  0.75
 ```
 ]
 
-* Therefore the 95% confidence interval is `\([0.32 ; 0.6]\)`.
+* Therefore the 95% confidence interval is `\([0.35 ; 0.75]\)`.
 
 * It is a ***range*** of values.
-
---
 
 * Let's see this confidence interval on the sampling distribution.
 
@@ -399,7 +386,7 @@ quantile(bootstrap_distrib$stat,0.975)
 
 # Percentile Method: 95% Confidence Interval Visually
 
-&lt;img src="chapter_ci_hyptest_files/figure-html/unnamed-chunk-15-1.svg" style="display: block; margin: auto;" /&gt;
+&lt;img src="chapter_ci_hyptest_files/figure-html/unnamed-chunk-14-1.svg" alt="" style="display: block; margin: auto;" /&gt;
 
 Does the interval contain the true population proportion?
 
@@ -407,7 +394,7 @@ Does the interval contain the true population proportion?
 
 # Percentile Method: 95% Confidence Interval Visually
 
-&lt;img src="chapter_ci_hyptest_files/figure-html/unnamed-chunk-16-1.svg" style="display: block; margin: auto;" /&gt;
+&lt;img src="chapter_ci_hyptest_files/figure-html/unnamed-chunk-15-1.svg" alt="" style="display: block; margin: auto;" /&gt;
 
 True population parameter is indeed in our 95% interval! Will it always be?
 
@@ -417,7 +404,7 @@ True population parameter is indeed in our 95% interval! Will it always be?
 
 Let's repeatedly draw 100 different samples from our `bowl` and for each sample compute the associated 95% CI using the percentile method.
 
-&lt;img src="chapter_ci_hyptest_files/figure-html/unnamed-chunk-17-1.svg" style="display: block; margin: auto;" /&gt;
+&lt;img src="chapter_ci_hyptest_files/figure-html/unnamed-chunk-16-1.svg" alt="" style="display: block; margin: auto;" /&gt;
 
 How many confidence intervals contain the true parameter? Why?
 
@@ -428,8 +415,6 @@ How many confidence intervals contain the true parameter? Why?
 &gt; *Precise interpretation:* If we repeated our sampling procedure ***a large number of times***, we ***expect about 95%*** of the resulting confidence intervals to capture the value of the population parameter.
 
 In other words, 95% of the time, the 95% confidence interval will contain the true population parameter.
-
---
 
 &gt; *Short-hand interpretation:* We are ***95% “confident”*** that a 95% confidence interval captures the value of the population parameter.
 
@@ -470,23 +455,64 @@ Goal: Estimate the true proportion of green pasta, *p*, in the population (in ou
 
 | World/ Setting                                         | What We Do                                              | What We See                       | What We Learn                                                           |
 | --------------------------------------------- | ------------------------------------------------------- | --------------------------------- | ----------------------------------------------------------------------- |
-| **1. Repeated Sampling** (thought experiment) | Draw many samples of 50 from the 713                    | Each sample’s  `\(\hat{p}\)`  differs | The sampling distribution shows natural variability                     |
-| **2. Real Data** (one sample)                 | Observe one sample of 50 and compute one  `\(\hat{p}\)`     | Only a single estimate            | We need a way to quantify unseen variability (for confidence intervals) |
-| **3. Bootstrap**                              | Resample *with replacement* from the 50 observed pieces | Bootstrap  `\(\hat{p}\)`’s differ    | Approximates the sampling distribution                                  |
+| **1. Repeated Sampling** (thought experiment) | Draw many samples of 20 from the 713                    | Each sample’s  `\(\hat{p}\)`  differs | The sampling distribution shows natural variability                     |
+| **2. Real Data** (one sample)                 | Observe one sample of 20 and compute one  `\(\hat{p}\)`     | Only a single estimate            | We need a way to quantify unseen variability (for confidence intervals) |
+| **3. Bootstrap**                              | Resample *with replacement* from the 20 observed pieces | Bootstrap  `\(\hat{p}\)`’s differ    | Approximates the sampling distribution                                  |
 
 
 **Key Idea**: *the bootstrap mimics the repeated-sampling experiment, using the sample as our best estimate of the population.* Put another way:
 
   - A single `\(\hat{p}\)` answers: *what is our estimate?*
-  - Bootstrapping helps answer: *how much should we trust that estimate/ what is the uncertainty around it?* 
-  - Confidence intervals can also be derived analytically from the Central Limit Theorem (as is done in R)
+  - Bootstrapping helps answer: *how much should we trust that estimate/ what is the uncertainty around it?*
+  - Confidence intervals can also be derived analytically from the Central Limit Theorem (as is done in R) `\(\rightarrow\)` let's see what that formula looks like.
+
+---
+
+# From Bootstrap to Formula
+
+* The ***bootstrap*** approximates the standard error *numerically*: it's just `sd()` applied to 1,000 resampled `\(\hat{p}\)`'s.
+
+* The ***CLT*** gives us a *formula* for that same standard error, no resampling needed:
+
+`$$SE(\hat{p}) \; \approx \; \sqrt{\dfrac{\hat{p}(1-\hat{p})}{n}}$$`
+
+* Do the two roads lead to the same place? Let's check, using our original sample ( `\(\hat{p} = 0.55\)`, `\(n = 20\)`):
+
+.pull-left[
+
+``` r
+# "empirical" SE: sd of bootstrap distribution
+se_bootstrap &lt;- sd(bootstrap_distrib$stat)
+se_bootstrap
+```
+
+```
+## [1] 0.1076384
+```
+]
+
+.pull-right[
+
+``` r
+# "theoretical" SE: the CLT formula
+se_formula &lt;- sqrt(p_hat * (1 - p_hat) / sample_size)
+se_formula
+```
+
+```
+## [1] 0.111243
+```
+]
+
+* Nearly identical 👉 bootstrapping and the CLT-based formula are two different roads to the ***same*** standard error.
+
+* This is what `R` does under the hood in `lm()`: no resampling, just a formula like this one (adapted to whichever statistic is being estimated) to get the standard error, and then the confidence interval `\(\hat{p} \pm 1.96 \times SE(\hat{p})\)`.
+
 ---
 
 # From Confidence Intervals to Hypothesis Testing
 
 * *Confidence intervals* can be thought of as an extension of *point estimation*.
-
---
 
 * What if we want to ***compare*** a sample statistic for two groups?
   
@@ -551,7 +577,7 @@ head(promotions, 5)
 How many men and women were offered a promotion (and not)?
 
 
-```r
+``` r
 promotions %&gt;% 
   group_by(gender, decision) %&gt;% 
   tally() %&gt;%
@@ -573,7 +599,7 @@ There is a ***29.2 percentage points difference*** in promotions between men and
 ]
 
 .pull-right[
-&lt;img src="chapter_ci_hyptest_files/figure-html/unnamed-chunk-20-1.svg" style="display: block; margin: auto;" /&gt;
+&lt;img src="chapter_ci_hyptest_files/figure-html/unnamed-chunk-21-1.svg" alt="" style="display: block; margin: auto;" /&gt;
 ]
 
 ***Question***: Is this difference ***conclusive evidence*** of differences in promotion rates between men and women? Could such a difference have been observed ***by chance***?
@@ -615,7 +641,7 @@ How do the promotion rates look like in our reshuffled sample?
 .pull-right[
 
 
-```r
+``` r
 promotions_shuffled %&gt;% 
   group_by(gender, decision) %&gt;% 
   tally() %&gt;%
@@ -670,7 +696,7 @@ How do the promotion rates look like in our reshuffled sample?
 
 .pull-right[
 
-&lt;img src="chapter_ci_hyptest_files/figure-html/unnamed-chunk-24-1.svg" style="display: block; margin: auto;" /&gt;
+&lt;img src="chapter_ci_hyptest_files/figure-html/unnamed-chunk-25-1.svg" alt="" style="display: block; margin: auto;" /&gt;
 
 ]
 
@@ -700,13 +726,13 @@ How do the promotion rates look like in our reshuffled sample?
 
 # Sampling Distribution with 1000 Reshufflings
 
-&lt;img src="chapter_ci_hyptest_files/figure-html/unnamed-chunk-25-1.svg" style="display: block; margin: auto;" /&gt;
+&lt;img src="chapter_ci_hyptest_files/figure-html/unnamed-chunk-26-1.svg" alt="" style="display: block; margin: auto;" /&gt;
 
 ---
 
 # Sampling Distribution with 1000 Reshufflings
 
-&lt;img src="chapter_ci_hyptest_files/figure-html/unnamed-chunk-26-1.svg" style="display: block; margin: auto;" /&gt;
+&lt;img src="chapter_ci_hyptest_files/figure-html/unnamed-chunk-27-1.svg" alt="" style="display: block; margin: auto;" /&gt;
 
 How ***likely*** is it to observe a 0.292 difference in a world with no discrimination?
 
@@ -766,7 +792,7 @@ where `\(p_m =\)` promotion rate of men, and `\(p_f =\)` promotion rate of women
 
 # Null Distribution
 
-&lt;img src="chapter_ci_hyptest_files/figure-html/unnamed-chunk-27-1.svg" style="display: block; margin: auto;" /&gt;
+&lt;img src="chapter_ci_hyptest_files/figure-html/unnamed-chunk-28-1.svg" alt="" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -959,11 +985,13 @@ null_distribution &lt;- promotions %&gt;%
   calculate(stat = "diff in props",
             order = c("male", "female"))
 
-visualize(null_distribution,
-          bins = 10,
-          fill = "#d90502") + 
-  labs(title = "Sampling distribution",
-       x = "Difference in promotion rates (male - female)",
+# our statistic can only take values spaced 1/12 apart (24 men, 24 women),
+# so we build the histogram directly with ggplot2 rather than visualize(),
+# whose `bins` argument doesn't let us align breaks to that spacing
+ggplot(null_distribution, aes(x = stat)) +
+  geom_histogram(binwidth = 1/12, boundary = 1/24,
+                 color = "white", fill = "#d90502") +
+  labs(x = "Difference in promotion rates (male - female)",
        y = "Frequency") +
   xlim(-0.4, 0.4) +
   theme_bw(base_size = 14)
@@ -971,7 +999,7 @@ visualize(null_distribution,
 ]
 
 .pull-right[
-&lt;img src="chapter_ci_hyptest_files/figure-html/unnamed-chunk-30-1.svg" style="display: block; margin: auto;" /&gt;
+&lt;img src="chapter_ci_hyptest_files/figure-html/unnamed-chunk-31-1.svg" alt="" style="display: block; margin: auto;" /&gt;
 ]
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>

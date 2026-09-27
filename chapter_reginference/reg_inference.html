@@ -4,7 +4,6 @@
     <title>ECON 4050: Introduction to Econometrics</title>
     <meta charset="utf-8" />
     <meta name="author" content="Adam Soliman, PhD" />
-    <script src="libs/header-attrs/header-attrs.js"></script>
     <link href="libs/remark-css/default.css" rel="stylesheet" />
     <link href="libs/countdown/countdown.css" rel="stylesheet" />
     <script src="libs/countdown/countdown.js"></script>
@@ -67,13 +66,13 @@ star_df &lt;- star_df %&gt;%
   filter(complete.cases(.)) %&gt;%
   filter(star %in% c("small","regular") &amp;
            grade == "k") %&gt;% 
-  mutate(small = (star == "small"))
+  mutate(small = ifelse(star == "small", 1, 0))
 ```
 ]
 
 .pull-right[
 
-```r
+``` r
 reg_star = lm(math ~ small, star_df)
 reg_star
 ```
@@ -84,7 +83,7 @@ reg_star
 ## lm(formula = math ~ small, data = star_df)
 ## 
 ## Coefficients:
-## (Intercept)    smallTRUE  
+## (Intercept)        small  
 ##     484.446        8.895
 ```
 ]
@@ -143,7 +142,7 @@ summary(lm(math ~ small, star_df))
 ## Coefficients:
 ##             Estimate Std. Error t value Pr(&gt;|t|)    
 ## (Intercept)  484.446      1.150   421.1  &lt; 2e-16 ***
-## smallTRUE      8.895      1.678     5.3 1.23e-07 ***
+## small          8.895      1.678     5.3 1.23e-07 ***
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
@@ -173,7 +172,7 @@ tidy(lm(math ~ small, star_df))
 ##   term        estimate std.error statistic     p.value
 ##   &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;       &lt;dbl&gt;
 ## 1 (Intercept)   484.        1.15    421.   0          
-## 2 smallTRUE       8.90      1.68      5.30 0.000000123
+## 2 small           8.90      1.68      5.30 0.000000123
 ```
 
 Entry | Meaning
@@ -219,19 +218,27 @@ bootstrap_distrib = star_df %&gt;%
     generate(reps = 1000, type = "bootstrap") %&gt;%
     calculate(stat = "slope")
 se_simul = round(sd(bootstrap_distrib$stat),3)
+se_simul
+```
 
+```
+## [1] 1.643
+```
+
+``` r
 # ggplot(bootstrap_distrib, aes(x = stat)) +
-# geom_histogram(boundary = 9, binwidth = 0.5, 
+# geom_histogram(boundary = 9, binwidth = 0.5,
 # col = "white", fill = "#d90502") +
-# labs(x = "Bootstrap sample slope estimate", 
-# y = "Frequency") + theme_bw(base_size = 14)
+# labs(x = "Bootstrap sample slope estimate",
+#      y = "Frequency",
+#      title = "Bootstrap Distribution") + theme_bw(base_size = 14)
 ```
 ]
 
 .pull-right[
-&lt;img src="reg_inference_files/figure-html/unnamed-chunk-7-1.svg" style="display: block; margin: auto;" /&gt;
+&lt;img src="reg_inference_files/figure-html/unnamed-chunk-7-1.svg" alt="" style="display: block; margin: auto;" /&gt;
 
-***standard error:*** 1.72 `\(\rightarrow\)` very close to the one in the table (1.68)!
+***standard error:*** 1.64 `\(\rightarrow\)` very close to the one in the table (1.68)!
 
 Not exactly equal, because we used bootstrapping instead of the theory approach used by `R`.
 ]
@@ -250,7 +257,7 @@ tidy(lm(math ~ small, star_df))
 ##   term        estimate std.error statistic     p.value
 ##   &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;       &lt;dbl&gt;
 ## 1 (Intercept)   484.        1.15    421.   0          
-## 2 smallTRUE       8.90      1.68      5.30 0.000000123
+## 2 small           8.90      1.68      5.30 0.000000123
 ```
 
   * We have made sense of the `std.error` column.
@@ -302,8 +309,8 @@ round(observed_stat,2)
 ```
 
 ```
-## smallTRUE 
-##      5.34
+## small 
+##  5.41
 ```
 ]
 
@@ -349,7 +356,7 @@ null_distribution &lt;- null_distribution %&gt;%
   mutate(test_stat = stat/sd(bootstrap_distrib$stat))
 ```
 
-* Remember we got `\(\hat{SE}(b_\textrm{small})\)` = 1.72 from our bootstrap distribution.
+* Remember we got `\(\hat{SE}(b_\textrm{small})\)` = 1.64 from our bootstrap distribution.
 ]
 
   
@@ -360,14 +367,14 @@ null_distribution &lt;- null_distribution %&gt;%
 # Testing `\(\beta_\textrm{small} = 0\)` vs `\(\beta_\textrm{small} \neq 0\)`
 
 
-&lt;img src="reg_inference_files/figure-html/unnamed-chunk-12-1.svg" style="display: block; margin: auto;" /&gt;
+&lt;img src="reg_inference_files/figure-html/unnamed-chunk-12-1.svg" alt="" style="display: block; margin: auto;" /&gt;
 
 ---
 
 # Testing `\(\beta_\textrm{small} = 0\)` vs `\(\beta_\textrm{small} \neq 0\)`
 
 
-&lt;img src="reg_inference_files/figure-html/unnamed-chunk-13-1.svg" style="display: block; margin: auto;" /&gt;
+&lt;img src="reg_inference_files/figure-html/unnamed-chunk-13-1.svg" alt="" style="display: block; margin: auto;" /&gt;
 
 Unlikely to obtain `\(b_\textrm{small}\)` = 8.9 if `\(H_0\)` is true, as the associated test statistic (5.3) is far in the null distribution's tail. This comes from 8.9/1.68=5.3, meaning the effect on small classes (8.9) is 5.3 standard errors from 0.
 
@@ -375,9 +382,9 @@ Unlikely to obtain `\(b_\textrm{small}\)` = 8.9 if `\(H_0\)` is true, as the ass
 
 # Testing `\(\beta_\textrm{small} = 0\)` vs `\(\beta_\textrm{small} \neq 0\)`
 
-* To decide if we reject `\(H_0\)`, recall we are considering a **two-sided test** here: *more extreme* means inferior to -5.335 **or** superior to 5.335. 
+* To decide if we reject `\(H_0\)`, recall we are considering a **two-sided test** here: *more extreme* means inferior to -5.415 **or** superior to 5.415. 
 
-&lt;img src="reg_inference_files/figure-html/unnamed-chunk-14-1.svg" style="display: block; margin: auto;" /&gt;
+&lt;img src="reg_inference_files/figure-html/unnamed-chunk-14-1.svg" alt="" style="display: block; margin: auto;" /&gt;
 
 What does the p-value correspond to?
 
@@ -385,12 +392,12 @@ What does the p-value correspond to?
 
 # Testing `\(\beta_\textrm{small} = 0\)` vs `\(\beta_\textrm{small} \neq 0\)`
 
-* To decide if we reject `\(H_0\)`, recall we are considering a **two-sided test** here: *more extreme* means inferior to -5.34 **or** superior to 5.34. 
+* To decide if we reject `\(H_0\)`, recall we are considering a **two-sided test** here: *more extreme* means inferior to -5.41 **or** superior to 5.41. 
 
 * Computing the *p-value* we get:
 
 
-```r
+``` r
 p_value = mean(abs(null_distribution$test_stat) &gt;= observed_stat)
 p_value
 ```
@@ -407,7 +414,7 @@ p_value
 
 # Testing `\(\beta_\textrm{small} = 0\)` vs `\(\beta_\textrm{small} \neq 0\)`
 
-* To decide if we reject `\(H_0\)`, recall we are considering a **two-sided test** here: *more extreme* means inferior to -5.34 **or** superior to 5.34. 
+* To decide if we reject `\(H_0\)`, recall we are considering a **two-sided test** here: *more extreme* means inferior to -5.41 **or** superior to 5.41. 
 
 * Computing the *p-value* we get:
 
@@ -435,9 +442,9 @@ p_value
 
 | Term      | Estimate | P-value    | Interpretation                                            |
 |-----------|----------|------------|-----------------------------------------------------------|
-| smallTRUE | 8.90     | 0.000000123 | **Reject the null hypothesis**; the effect is very unlikely due to chance/random variation. Put another way, the p-value suggests that the probability of observing an effect as extreme (or more extreme) as the one found in the data, assuming the null hypothesis is true, is essentially zero. |
-| smallTRUE | 8.90     | 0.25       | **Fail to reject the null hypothesis**; there’s a 25% chance the observed effect is due to random variation. Put another way, the p-value suggests weak evidence against the null hypothesis, meaning we do not have enough evidence to confidently assert that the effect is real.
-| smallTRUE | 8.90     | 0.57       | **Fail to reject the null hypothesis**; The p-value suggests that the probability of observing an effect as extreme (or more extreme) as the one found in the data, assuming the null hypothesis is true, is relatively high (57%), indicating that the data do not provide strong enough evidence to rule out the null hypothesis. |
+| small     | 8.90     | 0.000000123 | **Reject the null hypothesis**; the effect is very unlikely due to chance/random variation. Put another way, the p-value suggests that the probability of observing an effect as extreme (or more extreme) as the one found in the data, assuming the null hypothesis is true, is essentially zero. |
+| small     | 8.90     | 0.25       | **Fail to reject the null hypothesis**; there’s a 25% chance the observed effect is due to random variation. Put another way, the p-value suggests weak evidence against the null hypothesis, meaning we do not have enough evidence to confidently assert that the effect is real.
+| small     | 8.90     | 0.57       | **Fail to reject the null hypothesis**; The p-value suggests that the probability of observing an effect as extreme (or more extreme) as the one found in the data, assuming the null hypothesis is true, is relatively high (57%), indicating that the data do not provide strong enough evidence to rule out the null hypothesis. |
 
 ---
 
@@ -479,7 +486,7 @@ class: title-slide-section-red, middle
 # Normal Distribution: A Refresher
 
 .center[
-&lt;img src="../img/photos/standard_normal_distrib.png" width="850px" style="display: block; margin: auto;" /&gt;
+&lt;img src="../img/photos/standard_normal_distrib.png" alt="" width="850px" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
@@ -501,15 +508,15 @@ class: title-slide-section-red, middle
 ``` r
 tidy(lm(math ~ small, star_df),
      conf.int = TRUE, conf.level = 0.95) %&gt;%
-  filter(term == "smallTRUE") %&gt;%
+  filter(term == "small") %&gt;%
   select(term, conf.low, conf.high)
 ```
 
 ```
 ## # A tibble: 1 × 3
-##   term      conf.low conf.high
-##   &lt;chr&gt;        &lt;dbl&gt;     &lt;dbl&gt;
-## 1 smallTRUE     5.60      12.2
+##   term  conf.low conf.high
+##   &lt;chr&gt;    &lt;dbl&gt;     &lt;dbl&gt;
+## 1 small     5.60      12.2
 ```
 ]
 
@@ -526,7 +533,7 @@ bootstrap_distrib %&gt;%
 ## # A tibble: 1 × 2
 ##   lower_bound upper_bound
 ##         &lt;dbl&gt;       &lt;dbl&gt;
-## 1        5.63        12.2
+## 1        5.68        12.1
 ```
 ]
 
@@ -536,7 +543,7 @@ bootstrap_distrib %&gt;%
 
 # Confidence Intervals: Visually
 
-&lt;img src="reg_inference_files/figure-html/unnamed-chunk-20-1.svg" style="display: block; margin: auto;" /&gt;
+&lt;img src="reg_inference_files/figure-html/unnamed-chunk-20-1.svg" alt="" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -576,7 +583,7 @@ export_summs(reg_simple_math, reg_gender_math, reg_simple_read, reg_gender_read,
              model.names = c("Math score", "Math Score",
                              "Reading score", "Reading score"),
              coefs=c("Intercept" = "(Intercept)",
-                     "Small class" = "smallTRUE",
+                     "Small class" = "small",
                      "Male gender" = "gendermale"))
 ```
 
@@ -584,27 +591,31 @@ export_summs(reg_simple_math, reg_gender_math, reg_simple_read, reg_gender_read,
 
 # Formatting a regression table
 
-<table class="huxtable" data-quarto-disable-processing="true" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  ">
-<col><col><col><col><col><tr>
-<th style="vertical-align: top; text-align: center; white-space: normal; border-style: solid solid solid solid; border-width: 0.8pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;"></th><th style="vertical-align: top; text-align: center; white-space: normal; border-style: solid solid solid solid; border-width: 0.8pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">Math score</th><th style="vertical-align: top; text-align: center; white-space: normal; border-style: solid solid solid solid; border-width: 0.8pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">Math Score</th><th style="vertical-align: top; text-align: center; white-space: normal; border-style: solid solid solid solid; border-width: 0.8pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">Reading score</th><th style="vertical-align: top; text-align: center; white-space: normal; border-style: solid solid solid solid; border-width: 0.8pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">Reading score</th></tr>
+<table class="huxtable" data-quarto-disable-processing="true"  style="margin-left: auto; margin-right: auto;">
+<col><col><col><col><col><thead>
 <tr>
-<th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">Intercept</th><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">484.45 ***</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">488.85 ***</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">435.76 ***</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">439.62 ***</td></tr>
+<th class="huxtable-cell huxtable-header" style="text-align: center;  border-style: solid solid solid solid; border-width: 0.8pt 0pt 0pt 0pt;      font-weight: normal;"></th><th class="huxtable-cell huxtable-header" style="text-align: center;  border-style: solid solid solid solid; border-width: 0.8pt 0pt 0.4pt 0pt;      font-weight: normal;">Math score</th><th class="huxtable-cell huxtable-header" style="text-align: center;  border-style: solid solid solid solid; border-width: 0.8pt 0pt 0.4pt 0pt;      font-weight: normal;">Math Score</th><th class="huxtable-cell huxtable-header" style="text-align: center;  border-style: solid solid solid solid; border-width: 0.8pt 0pt 0.4pt 0pt;      font-weight: normal;">Reading score</th><th class="huxtable-cell huxtable-header" style="text-align: center;  border-style: solid solid solid solid; border-width: 0.8pt 0pt 0.4pt 0pt;      font-weight: normal;">Reading score</th></tr>
+</thead>
+<tbody>
 <tr>
-<th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;"></th><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">(1.15)&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">(1.43)&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">(0.75)&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">(0.93)&nbsp;&nbsp;&nbsp;</td></tr>
+<th class="huxtable-cell huxtable-header" style="border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;      font-weight: normal;">Intercept</th><td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;">484.45 ***</td><td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;">488.85 ***</td><td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;">435.76 ***</td><td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;">439.62 ***</td></tr>
 <tr>
-<th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">Small class</th><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">8.90 ***</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">8.94 ***</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">5.37 ***</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">5.41 ***</td></tr>
+<th class="huxtable-cell huxtable-header" style="border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;      font-weight: normal;"></th><td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;">(1.15)&nbsp;&nbsp;&nbsp;</td><td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;">(1.43)&nbsp;&nbsp;&nbsp;</td><td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;">(0.75)&nbsp;&nbsp;&nbsp;</td><td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;">(0.93)&nbsp;&nbsp;&nbsp;</td></tr>
 <tr>
-<th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;"></th><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">(1.68)&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">(1.67)&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">(1.09)&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">(1.09)&nbsp;&nbsp;&nbsp;</td></tr>
+<th class="huxtable-cell huxtable-header" style="border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;      font-weight: normal;">Small class</th><td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;">8.90 ***</td><td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;">8.94 ***</td><td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;">5.37 ***</td><td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;">5.41 ***</td></tr>
 <tr>
-<th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">Male gender</th><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">-8.56 ***</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">-7.49 ***</td></tr>
+<th class="huxtable-cell huxtable-header" style="border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;      font-weight: normal;"></th><td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;">(1.68)&nbsp;&nbsp;&nbsp;</td><td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;">(1.67)&nbsp;&nbsp;&nbsp;</td><td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;">(1.09)&nbsp;&nbsp;&nbsp;</td><td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;">(1.09)&nbsp;&nbsp;&nbsp;</td></tr>
 <tr>
-<th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;"></th><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">(1.67)&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">(1.09)&nbsp;&nbsp;&nbsp;</td></tr>
+<th class="huxtable-cell huxtable-header" style="border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;      font-weight: normal;">Male gender</th><td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;">-8.56 ***</td><td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;">-7.49 ***</td></tr>
 <tr>
-<th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">N</th><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">3359&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">3359&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">3359&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">3359&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td></tr>
+<th class="huxtable-cell huxtable-header" style="border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;      font-weight: normal;"></th><td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;">(1.67)&nbsp;&nbsp;&nbsp;</td><td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;">(1.09)&nbsp;&nbsp;&nbsp;</td></tr>
 <tr>
-<th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.8pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">R2</th><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.8pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.01&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.8pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.02&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.8pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.01&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.8pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.02&nbsp;&nbsp;&nbsp;&nbsp;</td></tr>
+<th class="huxtable-cell huxtable-header" style="border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;      font-weight: normal;">N</th><td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;">3359&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;">3359&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;">3359&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;">3359&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td></tr>
 <tr>
-<th colspan="5" style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.8pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;"> *** p &lt; 0.001;  ** p &lt; 0.01;  * p &lt; 0.05.</th></tr>
+<th class="huxtable-cell huxtable-header" style="border-style: solid solid solid solid; border-width: 0pt 0pt 0.8pt 0pt;      font-weight: normal;">R2</th><td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0pt 0pt 0.8pt 0pt;">0.01&nbsp;&nbsp;&nbsp;&nbsp;</td><td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0pt 0pt 0.8pt 0pt;">0.02&nbsp;&nbsp;&nbsp;&nbsp;</td><td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0pt 0pt 0.8pt 0pt;">0.01&nbsp;&nbsp;&nbsp;&nbsp;</td><td class="huxtable-cell" style="text-align: right;  border-style: solid solid solid solid; border-width: 0pt 0pt 0.8pt 0pt;">0.02&nbsp;&nbsp;&nbsp;&nbsp;</td></tr>
+<tr>
+<th class="huxtable-cell huxtable-header" colspan="5" style="border-style: solid solid solid solid; border-width: 0.8pt 0pt 0pt 0pt;      font-weight: normal;">*** p &lt; 0.001; ** p &lt; 0.01; * p &lt; 0.05.</th></tr>
+</tbody>
 </table>
 
 
@@ -613,7 +624,7 @@ export_summs(reg_simple_math, reg_gender_math, reg_simple_read, reg_gender_read,
 # Reading a regression table
 
 .center[
-&lt;img src="reg_inference_files/figure-html/reg_table.png" width="500px" style="display: block; margin: auto;" /&gt;
+&lt;img src="reg_inference_files/figure-html/reg_table.png" alt="" width="500px" style="display: block; margin: auto;" /&gt;
 ]
 
 * Each column corresponds to a regression. For the first regression we have: 
@@ -665,14 +676,14 @@ class: title-slide-section-red, middle
 
 # Mean Independence of Error: E[u | small] = ?
 
-&lt;img src="reg_inference_files/figure-html/unnamed-chunk-24-1.svg" style="display: block; margin: auto;" /&gt;
+&lt;img src="reg_inference_files/figure-html/unnamed-chunk-24-1.svg" alt="" style="display: block; margin: auto;" /&gt;
 
 
 ---
 
 # Mean Independence of Error: E[u | small] = ?
 
-&lt;img src="reg_inference_files/figure-html/unnamed-chunk-25-1.svg" style="display: block; margin: auto;" /&gt;
+&lt;img src="reg_inference_files/figure-html/unnamed-chunk-25-1.svg" alt="" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -779,7 +790,7 @@ ggplot(data=cps,aes(y = log_wage, x = education, colour = gender)) +
 
 .pull-right[
 
-&lt;img src="reg_inference_files/figure-html/unnamed-chunk-27-1.svg" style="display: block; margin: auto;" /&gt;
+&lt;img src="reg_inference_files/figure-html/unnamed-chunk-27-1.svg" alt="" style="display: block; margin: auto;" /&gt;
 
 ]
 
@@ -837,7 +848,6 @@ class: title-slide-final, middle
 To the amazing [moderndive](https://moderndive.com/) team!
 
 Big Thanks 🎉 to [ungeviz](https://github.com/wilkelab/ungeviz) and 🎊 [gganimate](https://github.com/thomasp85/gganimate) for their awesome packages!
-
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>

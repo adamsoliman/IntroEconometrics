@@ -25,6 +25,7 @@ knitr::opts_chunk$set(
   warning = FALSE,
   dev = "svg",
   cache = TRUE,
+  autodep = TRUE,
   fig.align = "center"
   #fig.width = 11,
   #fig.height = 5
@@ -587,8 +588,6 @@ lm(avgmath ~ classize + is_religious + is_notreligious, grades)
 
 Only one of two has a coefficient! Why?
 
---
-
 .pull-left[
 ```{r, eval = FALSE}
 grades %>% count(is_religious == 1 - is_notreligious)
@@ -650,7 +649,7 @@ $$
 
 # Omitted Variable Bias (OVB): The Intuition
 
-Because \(x\) is correlated with the omitted variable \(z\), a change in \(x\) is also associated with a change in \(z\). The simple regression therefore attributes both the relationship of \(x\) with \(y\) and the indirect relationship operating through \(z\) to \(x\) $\implies b_1 = c_1 + \text{OVB}$.
+Because \(x\) is correlated with the omitted variable \(z\), a change in \(x\) is also associated with a change in \(z\). The simple regression therefore contains both the relationship of \(x\) with \(y\) and the indirect relationship operating through \(z\) to \(x\) $\implies b_1 = c_1 + \text{OVB}$.
 
 Recall:
 
@@ -663,8 +662,6 @@ What do these two pieces tell us?
 * $\color{#d90502}{c_2}$: How is the omitted variable $z$ related to the outcome $y$, holding $x$ fixed?
 
 * $\color{#d96502}{d_1}$: How is the omitted variable $z$ related to our regressor $x$?
-
---
 
 For omitting $z$ to bias the coefficient on $x$, ***both relationships must exist.***
 
@@ -773,8 +770,6 @@ $$
 \text{sign of }d_1
 $$
 
---
-
 If we observe $z$, we can also calculate the ***magnitude*** of the bias:
 
 $$
@@ -824,23 +819,17 @@ $$
 
 Imagine we want to estimate the same relationship between ***income*** and ***years of education***, but suppose this time, we omit ***work experience*** instead. We then ask our two questions:
 
-1. Is work experience related to income, holding education fixed?
+1. Is work experience related to income, holding education fixed? **Yes.** More work experience tends to increase income. $(+)$
 
-   **Yes.** More work experience tends to increase income. $(+)$
-
-2. Is work experience correlated with years of education?
-
-   **Negatively.** Among people of the same age, more years spent in school generally means fewer years of work experience. $(-)$
+2. Is work experience correlated with years of education? **Negatively.** Among people of the same age, more years spent in school generally means fewer years of work experience. $(-)$
 
 Therefore: $\text{OVB} = \color{#d90502}{c_2}(+) \times \color{#d96502}{d_1}(-) = (-)$
 
 Given that $b_1 = c_1 + \text{OVB},$ the simple regression coefficient would be ***downward biased***, or $b_1 < c_1$.
 
---
+*Ability*: Educated people have more of something that raises wages, so education gets too much credit: upward bias.
 
-Ability: Educated people have more of something that raises wages, so education gets too much credit: upward bias.
-
-Experience: Educated people have less of something that raises wages, so education gets too little credit: downward bias.
+*Experience*: Educated folks have less of something that raises wages, so education gets too little credit: downward bias.
 
 **NOTE:** When we say “suppose we omit work experience,” we are implicitly holding the rest of the model fixed and asking about the bias attributable to that particular omission. If both ability and experience are omitted, the overall bias is ambiguous because their effects work in opposite directions.
 

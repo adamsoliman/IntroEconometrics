@@ -306,8 +306,6 @@ murders <- read.csv("/Users/adamsoliman/Documents/GitHub/Econometrics-Slides/dat
 str(murders) # `str` describes structure of any R object
 ```
 
---
-
 ```{r}
 variable.names(murders) # column names
 ```

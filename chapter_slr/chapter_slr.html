@@ -4,6 +4,7 @@
     <title>ECON 4050: Introduction to Econometrics</title>
     <meta charset="utf-8" />
     <meta name="author" content="Adam Soliman, PhD" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
     <link href="libs/remark-css/default.css" rel="stylesheet" />
     <link href="libs/countdown/countdown.css" rel="stylesheet" />
     <script src="libs/countdown/countdown.js"></script>
@@ -155,23 +156,11 @@ Let's formalise a bit what we are doing so far.
 
 ---
 
-# What's A Line: A Refresher
-
-&lt;img src="chapter_slr_files/figure-html/unnamed-chunk-9-1.svg" alt="" style="display: block; margin: auto;" /&gt;
-
----
-
-# What's A Line: A Refresher
-
-&lt;img src="chapter_slr_files/figure-html/unnamed-chunk-10-1.svg" alt="" style="display: block; margin: auto;" /&gt;
-
----
-
 # Simple Linear Regression: Residual
 
 * If all the data points were __on__ the line then `\(\widehat{y}_i = y_i\)`.
 
-&lt;img src="chapter_slr_files/figure-html/unnamed-chunk-11-1.svg" alt="" style="display: block; margin: auto;" /&gt;
+&lt;img src="chapter_slr_files/figure-html/unnamed-chunk-9-1.svg" alt="" style="display: block; margin: auto;" /&gt;
 ---
 
 # Simple Linear Regression: Residual
@@ -195,6 +184,18 @@ This __error__ is called the __residual__.
 
 # Simple Linear Regression: Graphically
 
+&lt;img src="chapter_slr_files/figure-html/unnamed-chunk-10-1.svg" alt="" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Simple Linear Regression: Graphically
+
+&lt;img src="chapter_slr_files/figure-html/unnamed-chunk-11-1.svg" alt="" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Simple Linear Regression: Graphically
+
 &lt;img src="chapter_slr_files/figure-html/unnamed-chunk-12-1.svg" alt="" style="display: block; margin: auto;" /&gt;
 
 ---
@@ -202,18 +203,6 @@ This __error__ is called the __residual__.
 # Simple Linear Regression: Graphically
 
 &lt;img src="chapter_slr_files/figure-html/unnamed-chunk-13-1.svg" alt="" style="display: block; margin: auto;" /&gt;
-
----
-
-# Simple Linear Regression: Graphically
-
-&lt;img src="chapter_slr_files/figure-html/unnamed-chunk-14-1.svg" alt="" style="display: block; margin: auto;" /&gt;
-
----
-
-# Simple Linear Regression: Graphically
-
-&lt;img src="chapter_slr_files/figure-html/unnamed-chunk-15-1.svg" alt="" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -230,7 +219,7 @@ This __error__ is called the __residual__.
 
 # **O**rdinary **L**east **S**quares (OLS) Estimation: Graphically
 
-&lt;img src="chapter_slr_files/figure-html/unnamed-chunk-16-1.svg" alt="" style="display: block; margin: auto;" /&gt;
+&lt;img src="chapter_slr_files/figure-html/unnamed-chunk-14-1.svg" alt="" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -368,11 +357,11 @@ $$
 ### Francis Anscombe (1973) came up with 4 datasets with identical stats...remember to visualize!
 
 .left-wide[
-&lt;img src="chapter_slr_files/figure-html/unnamed-chunk-23-1.svg" alt="" style="display: block; margin: auto;" /&gt;
+&lt;img src="chapter_slr_files/figure-html/unnamed-chunk-21-1.svg" alt="" style="display: block; margin: auto;" /&gt;
 ]
 
 .right-thin[
-&lt;table class="table table-striped" style="font-size: 15px; margin-left: auto; margin-right: auto;"&gt;
+&lt;table class="table table-striped" style="font-size: 15px; color: black; margin-left: auto; margin-right: auto;"&gt;
  &lt;thead&gt;
   &lt;tr&gt;
    &lt;th style="text-align:right;"&gt; dataset &lt;/th&gt;
@@ -554,6 +543,8 @@ grades_avg_cs &lt;- grades %&gt;%
 ❌  Are our findings just due to randomness?
 
 ❌ How to find exogeneity in practice?
+
+
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/remark/0.14.0/remark.min.js"></script>

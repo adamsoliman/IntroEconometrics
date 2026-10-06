@@ -376,7 +376,7 @@ coef(pooled_fit)[2]  # gets slope coef
 
 ---
 
-# Crime in a DAG
+# Crime in a DAG (Directed Acyclic Graph)
 
 &lt;img src="06-panel_files/figure-html/cri-dag-1.svg" alt="" style="display: block; margin: auto;" /&gt;
 
@@ -737,28 +737,9 @@ mod$demeaned &lt;- lm(demeaned_crime ~ demeaned_prob, data = cdata)
 
 * We look at a single unit `\(i\)` and ask:
 
-&gt; if the arrest probability in `\(i\)` increases by 10 percentage points (i.e. from 0.2 to 0.3) from year `\(t\)` to `\(t+1\)`, we expect crimes per person to fall from 0.039 to 0.036, or by -7.69 percent (in the reference county number 1).
+&gt; if the arrest probability in `\(i\)` increases by 10 percentage points (i.e. from 0.2 to 0.3) from year `\(t\)` to `\(t+1\)`, we expect crimes per person to fall from 0.039 to 0.036.
 
 &lt;img src="06-panel_files/figure-html/unnamed-chunk-18-1.svg" alt="" style="display: block; margin: auto;" /&gt;
-
-
----
-
-# A Reality Check on Our Toy Example
-
-
-
-* We used just 4 counties to make the pictures readable. With **all** 90 counties:
-
-    * Pooled OLS: -0.038 (clustered s.e. 0.0104)
-
-    * County fixed effects: -0.002 (clustered s.e. 0.0026)
-
-* Moving from pooled to fixed effects shifts the estimate **a lot**, and here the within estimate is **statistically indistinguishable from zero**.
-
-* This is typical: fixed effects estimates are often **smaller and noisier**, because we throw away the between variation and rely only on changes within units.
-
-* Always report results using the **full sample**, and read the plots for intuition, not as the finding.
 
 ---
 
@@ -954,12 +935,8 @@ pooled_iid &lt;- feols(
     - Each county has its own intercept (and each year its own shift), so a single global intercept is redundant
     - `fixest` *absorbs* the fixed effects instead of reporting thousands of dummy coefficients. If you want them: `fixef(fe_county_year)`
 
-2. `\(R^2\)` vs. Within `\(R^2\)`
 
-    - `\(R^2\)` jumps from 0.0003 to 0.93 when we add county and year effects: that is the fixed effects explaining *levels* (some counties just have high death rates)
-    - **Within `\(R^2\)`** (0.0014) is what the regressor explains of the *within* variation: the part that identifies `\(\beta\)`
-
-3. Why does N drop from 26,970 to 26,955?
+2. Why does N drop from 26,970 to 26,955?
 
     - A county observed only **once** has no within variation (a "singleton"): `fixest` drops them
 
@@ -1004,7 +981,7 @@ Instead, we are asking:
 
 ## Cannot
 
-* **Time-varying confounders**: e.g. `PDMP_LAW`, a state prescription-monitoring law that switches on in a few states in 2013-14. County and state FE do not absorb it: control for it.
+* **Time-varying confounders**: e.g. a state prescription-monitoring law that switches on in a few states in 2013-14. County and state FE do not absorb it: control for it.
 
 * **Reverse causality**: if counties respond to rising deaths by cutting prescriptions, FE does not fix it.
 
@@ -1047,8 +1024,6 @@ Instead, we are asking:
 * Three routes to the same estimate: **dummy variables**, **first differences**, **within transformation**. In practice, `feols(y ~ x | unit + time, cluster = ~unit)`.
 
 * FE are powerful but **not magic**: time-varying confounders and reverse causality remain.
-
---
 
 ## Up next
 

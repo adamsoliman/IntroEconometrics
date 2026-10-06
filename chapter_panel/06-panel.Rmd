@@ -324,7 +324,7 @@ pooled_p = round(predict(pooled_fit,newdata = data.frame(prbarr = c(0.2,0.3))),3
 
 ---
 
-# Crime in a DAG
+# Crime in a DAG (Directed Acyclic Graph)
 
 ```{r cri-dag,echo = FALSE,message = FALSE,fig.height=5.1}
 library(ggdag)
@@ -790,34 +790,11 @@ panel_p = round(predict(mod$dummy,newdata = data.frame(prbarr = c(0.2,0.3), coun
 
 * We look at a single unit $i$ and ask:
 
-> if the arrest probability in $i$ increases by 10 percentage points (i.e. from 0.2 to 0.3) from year $t$ to $t+1$, we expect crimes per person to fall from `r panel_p[1]` to `r panel_p[2]`, or by `r round(100 * diff(panel_p) / panel_p[1],2)` percent (in the reference county number 1).
+> if the arrest probability in $i$ increases by 10 percentage points (i.e. from 0.2 to 0.3) from year $t$ to $t+1$, we expect crimes per person to fall from `r panel_p[1]` to `r panel_p[2]`.
 
 ```{r,echo = FALSE,fig.height = 3.2}
 pcolor
 ```
-
-
----
-
-# A Reality Check on Our Toy Example
-
-```{r, include = FALSE}
-library(fixest)
-full_pooled = feols(crmrte ~ prbarr, crime4, cluster = ~county)
-full_fe = feols(crmrte ~ prbarr | county, crime4, cluster = ~county)
-```
-
-* We used just 4 counties to make the pictures readable. With **all** `r n_cty` counties:
-
-    * Pooled OLS: `r round(coef(full_pooled)[["prbarr"]], 4)` (clustered s.e. `r round(se(full_pooled)[["prbarr"]], 4)`)
-
-    * County fixed effects: `r round(coef(full_fe)[["prbarr"]], 4)` (clustered s.e. `r round(se(full_fe)[["prbarr"]], 4)`)
-
-* Moving from pooled to fixed effects shifts the estimate **a lot**, and here the within estimate is **statistically indistinguishable from zero**.
-
-* This is typical: fixed effects estimates are often **smaller and noisier**, because we throw away the between variation and rely only on changes within units.
-
-* Always report results using the **full sample**, and read the plots for intuition, not as the finding.
 
 ---
 
@@ -980,12 +957,8 @@ pooled_iid <- feols(
     - Each county has its own intercept (and each year its own shift), so a single global intercept is redundant
     - `fixest` *absorbs* the fixed effects instead of reporting thousands of dummy coefficients. If you want them: `fixef(fe_county_year)`
 
-2. $R^2$ vs. Within $R^2$
 
-    - $R^2$ jumps from `r format(round(r2(pooled, "r2"), 4), scientific = FALSE)` to `r round(r2(fe_county_year, "r2"), 2)` when we add county and year effects: that is the fixed effects explaining *levels* (some counties just have high death rates)
-    - **Within $R^2$** (`r round(r2(fe_county_year, "wr2"), 4)`) is what the regressor explains of the *within* variation: the part that identifies $\beta$
-
-3. Why does N drop from `r format(nobs(fe_year), big.mark = ",")` to `r format(nobs(fe_county_year), big.mark = ",")`?
+2. Why does N drop from `r format(nobs(fe_year), big.mark = ",")` to `r format(nobs(fe_county_year), big.mark = ",")`?
 
     - A county observed only **once** has no within variation (a "singleton"): `fixest` drops them
 
@@ -1030,7 +1003,7 @@ Instead, we are asking:
 
 ## Cannot
 
-* **Time-varying confounders**: e.g. `PDMP_LAW`, a state prescription-monitoring law that switches on in a few states in 2013-14. County and state FE do not absorb it: control for it.
+* **Time-varying confounders**: e.g. a state prescription-monitoring law that switches on in a few states in 2013-14. County and state FE do not absorb it: control for it.
 
 * **Reverse causality**: if counties respond to rising deaths by cutting prescriptions, FE does not fix it.
 
@@ -1073,8 +1046,6 @@ Instead, we are asking:
 * Three routes to the same estimate: **dummy variables**, **first differences**, **within transformation**. In practice, `feols(y ~ x | unit + time, cluster = ~unit)`.
 
 * FE are powerful but **not magic**: time-varying confounders and reverse causality remain.
-
---
 
 ## Up next
 

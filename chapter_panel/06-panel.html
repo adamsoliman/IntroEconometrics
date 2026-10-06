@@ -4,6 +4,7 @@
     <title>ECON 4050: Introduction to Econometrics</title>
     <meta charset="utf-8" />
     <meta name="author" content="Adam Soliman, PhD" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
     <link href="libs/remark-css/default.css" rel="stylesheet" />
     <script src="https://use.fontawesome.com/5235085b15.js"></script>
     <link rel="stylesheet" href="../css/scpo-fonts.css" type="text/css" />
@@ -30,24 +31,61 @@ class: center, middle, inverse, title-slide
 
 
 
+&lt;style type="text/css"&gt;
+/* two-column helpers: these live in css/scpo.css, which this deck does not load */
+.left-wide  { width: 70%; float: left; }
+.right-thin { width: 25%; float: right; }
+.right-wide { width: 70%; float: right; }
+.left-thin  { width: 25%; float: left; }
+.smaller    { font-size: 85%; }
+&lt;/style&gt;
 
-# Overview and Today's Lecture
 
-Thus far, for causality, we've learned:
+# Where We Are, and Why Panel Data
 
-    Randomized Control Trials (RCTs) → Gold standard, but often impractical
+.pull-left[
 
-    Regression Discontinuity Designs → Leverages cutoffs for causal inference
+## Where we are
 
-    Difference-in-Differences → Exploits policy changes for causal effects
+* We can now estimate regressions **and** quantify their uncertainty: standard errors, confidence intervals, p-values.
 
-We now turn to panel data techniques:
+* But a very *precise* estimate of a *biased* coefficient is still biased. The big threat is **omitted variable bias**.
 
-    Panel Data = Repeated observations of the same units over time
+* Controlling for observed variables only gets us so far. What about **unobserved** confounders?
 
-    Fixed Effects = Controlling for time-invariant differences across units
+]
 
-    Helps eliminate omitted variable bias by comparing each unit to itself over time
+.pull-right[
+
+## Today
+
+* **Panel data**: the *same units* observed *repeatedly over time*.
+
+* If the unobserved confounder **does not change over time**, we can difference it out by comparing each unit **to itself**.
+
+* This is the idea behind **fixed effects**.
+
+]
+
+---
+
+# Today's Lecture
+
+1. What is panel data? Cross-section vs. panel
+
+1. Why it helps: *within* vs. *between* variation
+
+1. Fixed effects, three equivalent ways: dummies, first differences, within transformation
+
+1. Fixed effects in `R` with `fixest`: unit and time effects, clustered standard errors
+
+1. What fixed effects can **and cannot** do
+
+## Why this matters
+
+* Panel data and fixed effects are the workhorse of applied micro: many of your **final projects** will use them.
+
+* They are the building block of **Difference-in-Differences**, which comes up after RDD: in its simplest form, DiD is a regression with unit and time fixed effects plus a treatment indicator.
 
 ---
 
@@ -96,7 +134,7 @@ So far, we have generally dealt with data that looks like this:
 
 .pull-right[
 
-* We have a unit identifier (like `County` here), 
+* We have a unit identifier (like `County` here),
 
 * Observables on each unit.
 
@@ -111,6 +149,8 @@ So far, we have generally dealt with data that looks like this:
 ---
 
 # Type of Data #2: Panel
+
+
 
 .pull-left[
 Now, let's add a `time` index: `Year`.
@@ -185,13 +225,15 @@ Now, let's add a `time` index: `Year`.
 
 .pull-right[
 
-* Next to the unit identifier (`County`) we now have `Year` 
+* Next to the unit identifier (`County`, `\(i\)`) we now have `Year` (`\(t\)`)
 
-* Now a pair (`County`,`Year`) indexes one observation.
+* A pair (`County`,`Year`) indexes one observation: we write `\(y_{it}\)`
 
 * We call this a **panel** or **longitudinal** dataset
 
 * We can track units *over time*.
+
+* Our data: 90 counties `\(\times\)` 7 years = 630 county-years. Every county is observed in every year: a **balanced** panel.
 
 ]
 
@@ -206,13 +248,13 @@ Now, let's add a `time` index: `Year`.
     data(crime4,package = "wooldridge")
     ```
 
-* They are from [C. Cornwell and W. Trumball (1994), “Estimating the Economic Model of Crime with Panel Data”](https://www.amherst.edu/media/view/121570/original/CornwellTrumbullCrime%2BElasticities.pdf). 
+* They are from [C. Cornwell and W. Trumbull (1994), “Estimating the Economic Model of Crime with Panel Data”](https://www.amherst.edu/media/view/121570/original/CornwellTrumbullCrime%2BElasticities.pdf).
 
 * One question here: *how big is the deterrent effect of law enforcement*? If you know you are more likely to get arrested, will you be less likely to commit a crime?
 
 --
 
-* This is tricky: Does high crime *cause* stronger police response, which acts as a deterrent, or is crime low because deterrent is strong to start with?
+* This is tricky, for two different reasons. **Challenge 1: reverse causality.** Does high crime *cause* stronger police response, which acts as a deterrent, or is crime low because deterrent is strong to start with?
 
 * This is sometimes called a *simultaneous equation model* situation: police response impacts crime, but crime impacts police response
 
@@ -221,6 +263,8 @@ police &amp;= \alpha_0 + \alpha_1 crime \\
 crime &amp;= \beta_0 + \beta_1 police
 \end{align}`
 
+* Panel data will **not** solve this one (we come back to this at the end of the lecture). Today we focus on a second challenge.
+
 
 ---
 
@@ -228,9 +272,11 @@ crime &amp;= \beta_0 + \beta_1 police
 
 .pull-left[
 
+**Challenge 2: unobserved heterogeneity.**
+
 * Most literature prior to that paper estimated simultaneous equations off cross sectional data
 
-* Cornwell and Trumball are worried about **unobserved heterogeneity** between jurisdictions.
+* Cornwell and Trumbull are worried about **unobserved heterogeneity** between jurisdictions: counties differ in many persistent ways we cannot measure.
 
 * Why? What could possibly go wrong?
 
@@ -242,7 +288,7 @@ crime &amp;= \beta_0 + \beta_1 police
 
 * Let's look at the crime rate vs probability of arrest relationship
 
-* First for all of them together as a single cross section
+* First *pooling* all county-years together, ignoring which county they come from
 
 * Then taking advantage of the panel structure (i.e. each county over time).
 
@@ -251,27 +297,35 @@ crime &amp;= \beta_0 + \beta_1 police
 
 ---
 
-# Crime vs Arrest in Cross Section
+# Crime vs Arrest: Pooling All County-Years
 
-.left-thin[
+.pull-left[
 
-*What to do*: subset data to 4 counties, then plot probability of arrest vs crime rate
+*What to do*: subset data to 4 counties (7 years each = 28 observations), then plot probability of arrest vs crime rate.
+
+*Pooled OLS* stacks all county-years together as if they were 28 unrelated observations.
 
 
 ``` r
-css = crime4 %&gt;% filter(county %in%  c(1,3,145, 23))  
-ggplot(css, aes(x = prbarr, y = crmrte)) + geom_point() + geom_smooth(method="lm", se=FALSE) + 
-  theme_bw() + labs(x = 'Probability of Arrest', y = 'Crime Rate')
+css = crime4 %&gt;%
+  filter(county %in% c(1,3,145,23))
+
+ggplot(css, aes(x = prbarr, y = crmrte)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE) +
+  theme_bw() +
+  labs(x = "Probability of Arrest",
+       y = "Crime Rate")
 ```
 ]
 
-.right-wide[
-&lt;img src="06-panel_files/figure-html/unnamed-chunk-4-1.svg" alt="" style="display: block; margin: auto;" /&gt;
+.pull-right[
+&lt;img src="06-panel_files/figure-html/unnamed-chunk-6-1.svg" alt="" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
 
-# Crime vs Arrest in Cross Section: Positive Relationship!
+# Pooled OLS: A Positive Relationship!
 
 .pull-left[
 
@@ -282,13 +336,11 @@ ggplot(css, aes(x = prbarr, y = crmrte)) + geom_point() + geom_smooth(method="lm
 * How strong is the effect?
 ]
 
---
-
 .pull-right[
 
 ``` r
-xsection = lm(crmrte ~ prbarr, css)
-coef(xsection)[2]  # gets slope coef
+pooled_fit = lm(crmrte ~ prbarr, css)
+coef(pooled_fit)[2]  # gets slope coef
 ```
 
 ```
@@ -298,9 +350,9 @@ coef(xsection)[2]  # gets slope coef
 
 
 
-* Increasing probability of arrest by 1 unit (i.e. 100 percentage point), increases the crime rate by 0.064801. So, if we double the probability of arrest, crime would increase by 0.064 crimes per person.
+* Increasing the probability of arrest by 1 unit (i.e. 100 percentage points) is associated with a 0.065 higher crime rate (crimes per person).
 
-* Increase of 10 percentage points in the probability of arrest (e.g. `prbarr` goes from 0.2 to 0.3) is associated with an increase in crime rate from 0.021 to 0.028, or a 33.33 percent increase in the crime rate.
+* A more realistic change: an increase of 10 percentage points in the probability of arrest (e.g. `prbarr` goes from 0.2 to 0.3) is associated with an increase in crime rate from 0.021 to 0.028, or a 33.33 percent increase in the crime rate.
 
 ]
 
@@ -309,17 +361,17 @@ coef(xsection)[2]  # gets slope coef
 # Ok, but what does that *mean*?
 
 
-* Literally: counties with a higher probability of being arrested also have a higher crime rate. 
+* Literally: counties with a higher probability of being arrested also have a higher crime rate.
 
 * So, does it mean that as there is more crime in certain areas, the police become more efficient at arresting criminals, and so the probability of getting arrested on any committed crime goes up?
 
-* What does police efficiency depend on? 
+* What does police efficiency depend on?
 
-* Does the poverty level in a county matter for this? 
+* Does the poverty level in a county matter for this?
 
 * The local laws?
 
-* 🤯 wow, there seem to be too many things left out of this simple picture. 
+* 🤯 wow, there seem to be too many things left out of this simple picture.
 
 
 ---
@@ -335,15 +387,11 @@ coef(xsection)[2]  # gets slope coef
 &lt;/style&gt;
 
 ---
-background-image: url(../img/crime-dag.png)
-background-size: 400px
-background-position: 50% 100%
-
 
 # Crime in a DAG
 
 .left-wide[
-**Fixed Characteristics**: vary by county
+**Fixed Characteristics**: vary by county, but *not* over time
 * `LocalStuff` are things that describe the County, like geography, and other persistent features.
 * `LawAndOrder`: commitment to *law and order politics* of local politicians
 * `CivilRights`: how many civil rights you have
@@ -352,13 +400,7 @@ background-position: 50% 100%
 **Time-varying Characteristics**: vary by county and by year
 * `Police` budget: an elected politician has some discretion over police spending
 * `Poverty` varies with economy
-] 
-
-.right-thin[
-
-
 ]
-
 
 ---
 
@@ -370,11 +412,9 @@ You will often hear the terms *within* and *between* variation in panel data con
 
 ## Within Variation
 
-* things that change *within each group* over time: 
+* How a unit's values change **relative to its own average**, over time
 
-* here we said police budgets
-
-* and poverty levels would change within each group and over time. 
+* Here: police budgets and poverty levels move up and down *within* each county from year to year.
 
 ]
 
@@ -382,18 +422,15 @@ You will often hear the terms *within* and *between* variation in panel data con
 
 ## Between Variation
 
-* Things that are **fixed** for each group over time:
+* How units differ **from each other**, in their averages
 
-* `LocalStuff`
-
-* `LawAndOrder` and 
-
-* `CivilRights` 
-
-* differ only across or **between** groups
-
+* Things that are **fixed** over time (`LocalStuff`, `LawAndOrder`, `CivilRights`) can *only* vary between counties.
 
 ]
+
+Every observation splits into a *between* part and a *within* part:
+
+`$$x_{it} = \underbrace{\bar{x}_i}_{\text{between: unit's average}} + \underbrace{(x_{it} - \bar{x}_i)}_{\text{within: deviation from own average}}$$`
 
 ---
 background-image: url("https://media.giphy.com/media/3oKIPlLZEbEbacWqOc/giphy.gif")
@@ -403,25 +440,39 @@ background-size: 300px
 # Within and Between Variation: Give us a Plot.
 
 .left-wide[
-&lt;img src="06-panel_files/figure-html/unnamed-chunk-8-1.svg" alt="" style="display: block; margin: auto;" /&gt;
+&lt;img src="06-panel_files/figure-html/unnamed-chunk-10-1.svg" alt="" style="display: block; margin: auto;" /&gt;
 ]
 
 
 ---
 
-# Pooled OLS recovers *between* variation
-
-
+# Between Variation: Regressing the County Means
 
 * Let's add the mean of `prbarr` and `crmrte` for each of those counties to the scatter plot!
 
-* And then a regression through those 4 points!
+* And then a regression through those 4 points: this uses *only* between variation.
 
 
---
+
+&lt;img src="06-panel_files/figure-html/unnamed-chunk-11-1.svg" alt="" style="display: block; margin: auto;" /&gt;
+
+---
 
 
-&lt;img src="06-panel_files/figure-html/unnamed-chunk-9-1.svg" alt="" style="display: block; margin: auto;" /&gt;
+
+# Same Data, Different Variation, Different Answers
+
+| Estimator                               | Variation it uses         | Slope on `prbarr`                   |
+|:----------------------------------------|:--------------------------|:-----------------------------------:|
+| Pooled OLS                              | between **and** within    | 0.065   |
+| Between: regress the 4 county means     | between only              | 0.099  |
+| Within: compare each county to itself   | within only               | -0.028   |
+
+* Pooled and between slopes are **positive**: counties with a higher arrest probability *tend to have* more crime.
+
+* The within slope is **negative**: *when a given county's* arrest probability rises, its crime rate falls.
+
+* Pooled OLS blends the two. Panel data lets us **isolate the within variation**: that is what *fixed effects* do.
 
 ---
 
@@ -435,7 +486,7 @@ background-size: 300px
 
 * Collect all group-specific time-invariant features in the factor `County`.
 
-* Takes care of all factors which do *not* vary over time within each unit. 
+* Takes care of all factors which do *not* vary over time within each unit: **observed or not**.
 
 * We can **net out** the group effect!
 
@@ -447,55 +498,54 @@ background-size: 300px
 ---
 class: separator, middle
 
-# Fixed Effects Estimation in `R`
+# Estimating Fixed Effects: Three Equivalent Routes
 
 
 ---
 
-# OVB, IV and Panel Data
+# The Panel Data Model
 
-We've seen *unobserved variable bias* (OVB). For example, if the true model read:
+`$$y_{it} = \beta_1 x_{it} + c_i + u_{it},\quad i = 1,...,N,\quad t=1,2,...T$$`
 
-$$
-y_i = \beta_0 + \beta_1 x_i + c_i + u_i
-$$
-if `\(c_i\)` unobservable and `\(Cov(x_i,c_i)\neq0 \Rightarrow E[u_i+c_i|x_i]\neq 0,\text{ with }u_i + c_i\)` total unobserved component. 
+* `\(c_i\)`: the *unit fixed effect*, *unobserved effect* or *unobserved heterogeneity*. Fixed over time (a county's geography, a person's ability), but can be **correlated with** `\(x_{it}\)`!
+
+* `\(u_{it}\)`: the *idiosyncratic* error, which varies over time.
+
+* If we ignore `\(c_i\)`, it sits in the error and `\(Cov(x_{it}, c_i)\neq0 \Rightarrow E[u_{it}+c_i|x_{it}]\neq 0\)`: **omitted variable bias**.
 
 --
 
 .pull-left[
 
-## Cross-Sectional Solution
+## One cross-section
 
-* where `\(c=A_i\)` and `\(x=s\)` was schooling.
+* One observation per unit.
 
-* *ability bias*. 
+* `\(c_i\)` and `\(u_i\)` **cannot be told apart**.
 
-* Find IV correlated with schooling but not ability
 ]
 
 .pull-right[
 
-## Panel Data
+## Panel
 
-`$$y_{it} = \beta_1 x_{it} + c_i + u_{it},\quad t=1,2,...T$$`
-* `\(c_i\)`: *individual fixed effect*, *unobserved effect* or *unobserved heterogeneity*. 
+* We see each unit `\(T\)` times, and `\(c_i\)` is the **same** every time.
 
-* `\(c_i\)`: is fixed over time (ability `\(A_i\)` for example), but can be correlated with `\(x_{it}\)`!
+* So we can remove it by comparing a unit **to itself**.
+
 ]
-
 
 
 ---
 
-# Dummy Variable Regression
+# Route 1: Dummy Variable Regression
 
 
 .pull-left[
 &lt;br&gt;
 &lt;br&gt;
 
-* Simplest approach: include a dummy variable for each group `\(i\)`. 
+* Simplest approach: include a dummy variable for each group `\(i\)`.
 
 * This is literally *controlling for county* i
 
@@ -513,35 +563,37 @@ if `\(c_i\)` unobservable and `\(Cov(x_i,c_i)\neq0 \Rightarrow E[u_i+c_i|x_i]\ne
 
 ``` r
 mod = list()
-mod$dummy &lt;- lm(crmrte ~ prbarr + factor(county), css)  # i is the unit ID
-broom::tidy(mod$dummy)
+# factor(county) adds one dummy per county
+mod$dummy &lt;- lm(crmrte ~ prbarr + factor(county), css)
+broom::tidy(mod$dummy) %&gt;%
+  select(term, estimate, std.error)
 ```
 
 ```
-## # A tibble: 5 × 5
-##   term              estimate std.error statistic  p.value
-##   &lt;chr&gt;                &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
-## 1 (Intercept)        0.0449    0.00456      9.87 9.85e-10
-## 2 prbarr            -0.0284    0.0136      -2.08 4.86e- 2
-## 3 factor(county)3   -0.0250    0.00254     -9.82 1.07e- 9
-## 4 factor(county)23  -0.00850   0.00166     -5.13 3.41e- 5
-## 5 factor(county)145 -0.00650   0.00160     -4.07 4.70e- 4
+## # A tibble: 5 × 3
+##   term              estimate std.error
+##   &lt;chr&gt;                &lt;dbl&gt;     &lt;dbl&gt;
+## 1 (Intercept)        0.0449    0.00456
+## 2 prbarr            -0.0284    0.0136 
+## 3 factor(county)3   -0.0250    0.00254
+## 4 factor(county)23  -0.00850   0.00166
+## 5 factor(county)145 -0.00650   0.00160
 ```
 
 ]
 
 ---
 
-# Dummy Variable Regression
+# Route 1: Dummy Variable Regression
 
 .left-wide[
 &lt;img src="06-panel_files/figure-html/dummy-1.svg" alt="" style="display: block; margin: auto;" /&gt;
 ]
 
 .right-thin[
-* *Within* each county, now is a **negative** relationship!! 
+* *Within* each county, now is a **negative** relationship!!
 
-* Different intercepts (county 1 is the reference group), 
+* Different intercepts (county 1 is the reference group),
 
 * Unique slope coefficient `\(\beta\)`. (you observe that the lines are parallel).
 
@@ -550,36 +602,39 @@ broom::tidy(mod$dummy)
 
 ---
 
-# First Differencing Solution
+# Route 2: First Differencing (T = 2)
 
 If we only had `\(T=2\)` periods, we could just difference both periods, basically leaving us with
-    
+
 `$$\begin{align}y_{i1} &amp;= \beta_1 x_{i1} + c_i + u_{i1} \\y_{i2} &amp;= \beta_1 x_{i2} + c_i + u_{i2} \\&amp; \Rightarrow \\
 y_{i1}-y_{i2} &amp;= \beta_1 (x_{i1} - x_{i2}) + c_i-c_i + u_{i1}-u_{i2} \\\Delta y_{i} &amp;= \beta_1 \Delta x_{i} + \Delta u_{i}\end{align}$$`
 
-where `\(\Delta\)` means *difference over time of* and to recover the parameter of interest `\(\beta_1\)` we would run
+where `\(\Delta\)` means *difference over time of*, and to recover the parameter of interest `\(\beta_1\)` we would run
 
 
 ``` r
-lm(deltay ~ deltax, diff_data) 
+lm(deltay ~ deltax, diff_data)
 ```
-    
-    
-    
+
+* The unobserved `\(c_i\)` **cancels**: whatever its value for unit `\(i\)`, it is the same in both periods.
+
+* With `\(T&gt;2\)` we can difference consecutive periods, but the *within transformation* (next) is more common.
+
+
 ---
 background-image: url(../img/crime-dag2.png)
 background-size: 300px
 background-position: 20% 99%
 
 
-# The Within Transformation
+# Route 3: The Within Transformation
 
 .pull-left[
 * With `\(T&gt;2\)` we need a different approach
 
 * One important concept is called the *within* transformation
 
-* So, *controlling for group identity and only looking at time variation* 
+* So, *controlling for group identity and only looking at time variation*
 
 * Remember DAG!
 
@@ -592,8 +647,8 @@ background-position: 20% 99%
 `$$\bar{x}_i = \frac{1}{T} \sum_{t=1}^T x_{it}$$`
 
 1. for all variables compute their time-mean for each unit `\(i\)`: `\(\bar{x}_i,\bar{y}_i\)` etc
-1. for each observation, substract that time mean from the actual value and define `\((x_{it} - \bar{x}_i),(y_{it}-\bar{y}_i)\)`
-1. Finally, regress `\((x_{it} - \bar{x}_i)\)` on `\((y_{it}-\bar{y}_i)\)`
+1. for each observation, subtract that time mean from the actual value and define `\((x_{it} - \bar{x}_i),(y_{it}-\bar{y}_i)\)`
+1. Finally, regress `\((y_{it} - \bar{y}_i)\)` on `\((x_{it}-\bar{x}_i)\)`
 
 ]
 
@@ -601,7 +656,7 @@ background-position: 20% 99%
 
 # The Within Transformation in `R`: Manual Solution
 
-This *works* for our problem with fixed effect `\(c_i\)` because `\(c_i\)` is not time varying by assumption! hence it drops out: 
+This *works* for our problem with fixed effect `\(c_i\)` because `\(c_i\)` is not time varying by assumption! hence it drops out:
 
 `$$y_{it}-\bar{y}_i = \beta_1 (x_{it} - \bar{x}_i) + c_i - c_i + u_{it}-\bar{u}_i$$`
 
@@ -622,7 +677,7 @@ Then, run both models with simple OLS:
 
 
 ``` r
-mod$xsect &lt;- lm(crmrte ~ prbarr, data = cdata)
+mod$pooled &lt;- lm(crmrte ~ prbarr, data = cdata)
 mod$demeaned &lt;- lm(demeaned_crime ~ demeaned_prob, data = cdata)
 ```
 
@@ -635,7 +690,7 @@ mod$demeaned &lt;- lm(demeaned_crime ~ demeaned_prob, data = cdata)
 <table class="huxtable" data-quarto-disable-processing="true"  style="margin-left: auto; margin-right: auto;" id="tab:tab1">
 <col><col><col><col><thead>
 <tr>
-<th class="huxtable-cell huxtable-header" style="border-style: solid solid solid solid; border-width: 1pt 0pt 1pt 0pt;      font-weight: normal;"> </th><th class="huxtable-cell huxtable-header" style="border-style: solid solid solid solid; border-width: 1pt 0pt 1pt 0pt;      font-weight: normal;">xsect</th><th class="huxtable-cell huxtable-header" style="border-style: solid solid solid solid; border-width: 1pt 0pt 1pt 0pt;      font-weight: normal;">dummy</th><th class="huxtable-cell huxtable-header" style="border-style: solid solid solid solid; border-width: 1pt 0pt 1pt 0pt;      font-weight: normal;">demeaned</th></tr>
+<th class="huxtable-cell huxtable-header" style="border-style: solid solid solid solid; border-width: 1pt 0pt 1pt 0pt;      font-weight: normal;"> </th><th class="huxtable-cell huxtable-header" style="border-style: solid solid solid solid; border-width: 1pt 0pt 1pt 0pt;      font-weight: normal;">Pooled</th><th class="huxtable-cell huxtable-header" style="border-style: solid solid solid solid; border-width: 1pt 0pt 1pt 0pt;      font-weight: normal;">Dummies</th><th class="huxtable-cell huxtable-header" style="border-style: solid solid solid solid; border-width: 1pt 0pt 1pt 0pt;      font-weight: normal;">Demeaned</th></tr>
 </thead>
 <tbody>
 <tr>
@@ -657,16 +712,18 @@ mod$demeaned &lt;- lm(demeaned_crime ~ demeaned_prob, data = cdata)
 
 ]
 
-.left-thin[
+.right-thin[
+.smaller[
 
-* Estimate for `prbarr` is positive in the cross-section
+* `prbarr` is positive when pooling
 
-* Taking care of the unobservered heterogeneity `\(c_i\)`...
+* Handling the unobserved `\(c_i\)` with a dummy per county *or* by demeaning...
 
-* ...either by including an intercept for each `\(i\)` or by time-demeaning the data
+* ...gives the **same slope**: -0.028
 
-* we obtain: -0.028
+* Standard errors differ a bit: the manual version ignores the 4 degrees of freedom used to estimate the county means. Packages get this right.
 
+]
 ]
 
 ---
@@ -678,12 +735,30 @@ mod$demeaned &lt;- lm(demeaned_crime ~ demeaned_prob, data = cdata)
 
 * How to interpret those negative slopes?
 
-* We look at a single unit `\(i\)` and ask: 
+* We look at a single unit `\(i\)` and ask:
 
 &gt; if the arrest probability in `\(i\)` increases by 10 percentage points (i.e. from 0.2 to 0.3) from year `\(t\)` to `\(t+1\)`, we expect crimes per person to fall from 0.039 to 0.036, or by -7.69 percent (in the reference county number 1).
 
-&lt;img src="06-panel_files/figure-html/unnamed-chunk-15-1.svg" alt="" style="display: block; margin: auto;" /&gt;
+&lt;img src="06-panel_files/figure-html/unnamed-chunk-18-1.svg" alt="" style="display: block; margin: auto;" /&gt;
 
+
+---
+
+# A Reality Check on Our Toy Example
+
+
+
+* We used just 4 counties to make the pictures readable. With **all** 90 counties:
+
+    * Pooled OLS: -0.038 (clustered s.e. 0.0104)
+
+    * County fixed effects: -0.002 (clustered s.e. 0.0026)
+
+* Moving from pooled to fixed effects shifts the estimate **a lot**, and here the within estimate is **statistically indistinguishable from zero**.
+
+* This is typical: fixed effects estimates are often **smaller and noisier**, because we throw away the between variation and rely only on changes within units.
+
+* Always report results using the **full sample**, and read the plots for intuition, not as the finding.
 
 ---
 
@@ -694,65 +769,108 @@ mod$demeaned &lt;- lm(demeaned_crime ~ demeaned_prob, data = cdata)
 &lt;img src="../img/gifs/panel.gif" alt="" style="display: block; margin: auto;" /&gt;
 ]
 
----
-
-# Within Transformation Animated
-
 .right-thin[
+&lt;br&gt;
+&lt;br&gt;
+
 * The within transformation **centers** the data!
+
 * By time-demeaning `\(y\)` and `\(x\)`, we *project out* the fixed factors related to *county*
+
 * Only *within* county variation is left.
 ]
 
 
 ---
+class: separator, middle
 
-# Fixed Effects Estimation in `R`: use a Package!
+# Fixed Effects in Practice
+
+
+---
+
+# Fixed Effects in `R`: Use a Package!
 
 * In real life you will hardly ever perform the within-transformation by yourself and will use a package instead! There are several options, but [`fixest` is fastest](https://github.com/lrberge/fixest).
 
-* Also, we can have *more than one fixed effect*! For a cool example with *three* fixed effects see the package [vignette](https://cran.r-project.org/web/packages/fixest/vignettes/fixest_walkthrough.html)
-
---
-
-* Let's go over an example with real data:
+* The syntax for `feols()`:
 
 
 ``` r
-# load package and bring in data
+feols(outcome ~ regressors | unit_fixed_effect + time_fixed_effect, data = df, cluster = ~unit)
+```
+
+    * Left of the `|`: the regressors whose coefficients we want to report
+    * Right of the `|`: the fixed effects to absorb (as many as you like!)
+    * `cluster`: how to compute standard errors (more on this soon)
+
+* Your data must be in **long format**: one row per unit-time (as in our `crime4` table).
+
+* We can have *more than one fixed effect*! For a cool example with *three* fixed effects see the package [vignette](https://cran.r-project.org/web/packages/fixest/vignettes/fixest_walkthrough.html)
+
+
+---
+
+# Example 2: Prescription Opioids and Overdose Deaths
+
+
+``` r
 library(fixest)
 countyopioids &lt;- read.csv("../data_for_tasks/countyleveldataonopioids.csv")
+```
 
-# what we did before (pooled OLS)
-lpm &lt;- lm(overdosedeaths ~ percapitapills, data = countyopioids) 
-lpm &lt;- feols(overdosedeaths ~ percapitapills, data = countyopioids) # this is the same as above, but cleaner for output
+* **Question:** is more opioid prescribing associated with more overdose deaths?
 
-# the new stuff, various fixed effects
-fe_year &lt;- feols(overdosedeaths ~ percapitapills | year, data = countyopioids, cluster = ~county)
-fe_yearstate &lt;- feols(overdosedeaths ~ percapitapills | state + year, data = countyopioids, cluster = ~county)
-fe_yearcounty &lt;- feols(overdosedeaths ~ percapitapills | county + year, data = countyopioids, cluster = ~county)
+* **Unit** `\(i\)`: a county. **Time** `\(t\)`: a year. 3035 counties `\(\times\)` years 2006-2014: 26,970 county-years.
+
+* **Outcome:** `overdosedeaths`. **Regressor of interest:** `percapitapills` (opioid pills per capita).
+
+--
+
+* Why might the pooled relationship be biased? Counties differ in ways that affect *both* prescribing and overdose deaths: rural vs. urban, health infrastructure, local economic conditions, culture...
+
+* Some of these are **time-invariant** (county FE can absorb them), some are **common shocks** hitting all counties in a given year (year FE can absorb them).
+
+
+---
+
+# Example 2: Adding Fixed Effects Step by Step
+
+
+``` r
+# what we did before: pooled OLS, no fixed effects
+# (we cluster by county in every column so the standard errors are comparable)
+pooled &lt;- feols(overdosedeaths ~ percapitapills, data = countyopioids, cluster = ~county)
+
+# the new stuff: everything to the right of `|` is a fixed effect
+fe_year        &lt;- feols(overdosedeaths ~ percapitapills | year,          data = countyopioids, cluster = ~county)
+fe_state_year  &lt;- feols(overdosedeaths ~ percapitapills | state + year,  data = countyopioids, cluster = ~county)
+fe_county_year &lt;- feols(overdosedeaths ~ percapitapills | county + year, data = countyopioids, cluster = ~county)
 
 ## the below is the best way to generate tables with multiple fixest objects, output is on the next slide
-# etable(lpm, fe_year, fe_yearstate, fe_yearcounty)
+# etable(pooled, fe_year, fe_state_year, fe_county_year)
 ```
+
 ---
+
+# Opioids and Overdose Deaths: Adding Fixed Effects
 
 <table class="huxtable" data-quarto-disable-processing="true"  style="margin-left: auto; margin-right: auto;">
 <col><col><col><col><col><thead>
 <tr>
-<th class="huxtable-cell huxtable-header" style="border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0.4pt;"></th><th class="huxtable-cell huxtable-header" style="border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;">lpm</th><th class="huxtable-cell huxtable-header" style="border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;">fe_year</th><th class="huxtable-cell huxtable-header" style="border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;">fe_yearstate</th><th class="huxtable-cell huxtable-header" style="border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0.4pt 0pt;">fe_yearcounty</th></tr>
+<th class="huxtable-cell huxtable-header" style="border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0.4pt;"></th><th class="huxtable-cell huxtable-header" style="border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;">pooled</th><th class="huxtable-cell huxtable-header" style="border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;">fe_year</th><th class="huxtable-cell huxtable-header" style="border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;">fe_state_year</th><th class="huxtable-cell huxtable-header" style="border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0.4pt 0pt;">fe_county_year</th></tr>
 </thead>
 <tbody>
 <tr>
-<td class="huxtable-cell" style="border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0.4pt;     background-color: rgb(242, 242, 242);">Dependent Var.:</td><td class="huxtable-cell" style="border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;     background-color: rgb(242, 242, 242);">overdosedeaths</td><td class="huxtable-cell" style="border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;     background-color: rgb(242, 242, 242);">overdosedeaths</td><td class="huxtable-cell" style="border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;     background-color: rgb(242, 242, 242);">overdosedeaths</td><td class="huxtable-cell" style="border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0pt 0pt;     background-color: rgb(242, 242, 242);">overdosedeaths</td></tr>
+<td class="huxtable-cell" style="border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0.4pt;     background-color: rgb(242, 242, 242);">Dependent Var.:</td><td class="huxtable-cell" style="border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;     background-color: rgb(242, 242, 242);">Overdose deaths</td><td class="huxtable-cell" style="border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;     background-color: rgb(242, 242, 242);">Overdose deaths</td><td class="huxtable-cell" style="border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;     background-color: rgb(242, 242, 242);">Overdose deaths</td><td class="huxtable-cell" style="border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0pt 0pt;     background-color: rgb(242, 242, 242);">Overdose deaths</td></tr>
 <tr>
 <td class="huxtable-cell" style="border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0.4pt;"> </td><td class="huxtable-cell" style="border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;"> </td><td class="huxtable-cell" style="border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;"> </td><td class="huxtable-cell" style="border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;"> </td><td class="huxtable-cell" style="border-style: solid solid solid solid; border-width: 0pt 0.4pt 0pt 0pt;"> </td></tr>
 <tr>
-<td class="huxtable-cell" style="border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0.4pt;     background-color: rgb(242, 242, 242);">Constant</td><td class="huxtable-cell" style="border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;     background-color: rgb(242, 242, 242);">24.39*** (0.8332)</td><td class="huxtable-cell" style="border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;     background-color: rgb(242, 242, 242);">  </td><td class="huxtable-cell" style="border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;     background-color: rgb(242, 242, 242);">  </td><td class="huxtable-cell" style="border-style: solid solid solid solid; border-width: 0pt 0.4pt 0pt 0pt;     background-color: rgb(242, 242, 242);">  </td></tr>
+<td class="huxtable-cell" style="border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0.4pt;     background-color: rgb(242, 242, 242);">Constant</td><td class="huxtable-cell" style="border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;     background-color: rgb(242, 242, 242);">24.39*** (2.127)</td><td class="huxtable-cell" style="border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;     background-color: rgb(242, 242, 242);">  </td><td class="huxtable-cell" style="border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;     background-color: rgb(242, 242, 242);">  </td><td class="huxtable-cell" style="border-style: solid solid solid solid; border-width: 0pt 0.4pt 0pt 0pt;     background-color: rgb(242, 242, 242);">  </td></tr>
 <tr>
-<td class="huxtable-cell" style="border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0.4pt;">percapitapills</td><td class="huxtable-cell" style="border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;">0.0505** (0.0180)</td><td class="huxtable-cell" style="border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;">0.0182 (0.0357)</td><td class="huxtable-cell" style="border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;">-0.0117 (0.0387)</td><td class="huxtable-cell" style="border-style: solid solid solid solid; border-width: 0pt 0.4pt 0pt 0pt;">-0.1184*** (0.0340)</td></tr>
+<td class="huxtable-cell" style="border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0.4pt;">Pills per capita</td><td class="huxtable-cell" style="border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;">0.0505 (0.0333)</td><td class="huxtable-cell" style="border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;">0.0182 (0.0357)</td><td class="huxtable-cell" style="border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;">-0.0117 (0.0387)</td><td class="huxtable-cell" style="border-style: solid solid solid solid; border-width: 0pt 0.4pt 0pt 0pt;">-0.1184*** (0.0340)</td></tr>
 <tr>
-<td class="huxtable-cell" style="border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0.4pt;     background-color: rgb(242, 242, 242);">Fixed-Effects:</td><td class="huxtable-cell" style="border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;     background-color: rgb(242, 242, 242);">-----------------</td><td class="huxtable-cell" style="border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;     background-color: rgb(242, 242, 242);">---------------</td><td class="huxtable-cell" style="border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;     background-color: rgb(242, 242, 242);">----------------</td><td class="huxtable-cell" style="border-style: solid solid solid solid; border-width: 0pt 0.4pt 0pt 0pt;     background-color: rgb(242, 242, 242);">-------------------</td></tr>
+<td class="huxtable-cell" style="border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0.4pt;     background-color: rgb(242, 242, 242);">Fixed-Effects:</td><td class="huxtable-cell" style="border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;     background-color: rgb(242, 242, 242);">----------------</td><td class="huxtable-cell" style="border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;     background-color: rgb(242, 242, 242);">---------------</td><td class="huxtable-cell" style="border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;     background-color: rgb(242, 242, 242);">----------------</td><td class="huxtable-cell" style="border-style: solid solid solid solid; border-width: 0pt 0.4pt 0pt 0pt;     background-color: rgb(242, 242, 242);">-------------------</td></tr>
 <tr>
 <td class="huxtable-cell" style="border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0.4pt;">year</td><td class="huxtable-cell" style="border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;">No</td><td class="huxtable-cell" style="border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;">Yes</td><td class="huxtable-cell" style="border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;">Yes</td><td class="huxtable-cell" style="border-style: solid solid solid solid; border-width: 0pt 0.4pt 0pt 0pt;">Yes</td></tr>
 <tr>
@@ -760,9 +878,9 @@ fe_yearcounty &lt;- feols(overdosedeaths ~ percapitapills | county + year, data 
 <tr>
 <td class="huxtable-cell" style="border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0.4pt;">county</td><td class="huxtable-cell" style="border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;">No</td><td class="huxtable-cell" style="border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;">No</td><td class="huxtable-cell" style="border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;">No</td><td class="huxtable-cell" style="border-style: solid solid solid solid; border-width: 0pt 0.4pt 0pt 0pt;">Yes</td></tr>
 <tr>
-<td class="huxtable-cell" style="border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0.4pt;     background-color: rgb(242, 242, 242);">_______________</td><td class="huxtable-cell" style="border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;     background-color: rgb(242, 242, 242);">_________________</td><td class="huxtable-cell" style="border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;     background-color: rgb(242, 242, 242);">_______________</td><td class="huxtable-cell" style="border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;     background-color: rgb(242, 242, 242);">________________</td><td class="huxtable-cell" style="border-style: solid solid solid solid; border-width: 0pt 0.4pt 0pt 0pt;     background-color: rgb(242, 242, 242);">___________________</td></tr>
+<td class="huxtable-cell" style="border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0.4pt;     background-color: rgb(242, 242, 242);">________________</td><td class="huxtable-cell" style="border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;     background-color: rgb(242, 242, 242);">________________</td><td class="huxtable-cell" style="border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;     background-color: rgb(242, 242, 242);">_______________</td><td class="huxtable-cell" style="border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;     background-color: rgb(242, 242, 242);">________________</td><td class="huxtable-cell" style="border-style: solid solid solid solid; border-width: 0pt 0.4pt 0pt 0pt;     background-color: rgb(242, 242, 242);">___________________</td></tr>
 <tr>
-<td class="huxtable-cell" style="border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0.4pt;">S.E. type</td><td class="huxtable-cell" style="border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;">IID</td><td class="huxtable-cell" style="border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;">by: county</td><td class="huxtable-cell" style="border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;">by: county</td><td class="huxtable-cell" style="border-style: solid solid solid solid; border-width: 0pt 0.4pt 0pt 0pt;">by: county</td></tr>
+<td class="huxtable-cell" style="border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0.4pt;">S.E.: Clustered</td><td class="huxtable-cell" style="border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;">by: county</td><td class="huxtable-cell" style="border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;">by: county</td><td class="huxtable-cell" style="border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;">by: county</td><td class="huxtable-cell" style="border-style: solid solid solid solid; border-width: 0pt 0.4pt 0pt 0pt;">by: county</td></tr>
 <tr>
 <td class="huxtable-cell" style="border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0.4pt;     background-color: rgb(242, 242, 242);">Observations</td><td class="huxtable-cell" style="border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;     background-color: rgb(242, 242, 242);">26,970</td><td class="huxtable-cell" style="border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;     background-color: rgb(242, 242, 242);">26,970</td><td class="huxtable-cell" style="border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;     background-color: rgb(242, 242, 242);">26,970</td><td class="huxtable-cell" style="border-style: solid solid solid solid; border-width: 0pt 0.4pt 0pt 0pt;     background-color: rgb(242, 242, 242);">26,955</td></tr>
 <tr>
@@ -775,77 +893,76 @@ fe_yearcounty &lt;- feols(overdosedeaths ~ percapitapills | county + year, data 
 
 ---
 
-# What is happening?! 
+# What is happening?!
 
-1. Leftmost column (OLS, no FE) → Captures both true effects + confounding factors
+1. **Pooled (no FE)** → positive estimate, but with standard errors clustered by county it is *not* statistically different from zero
 
-2. Adding Year FE → Controls for national trends; effect weakens
+2. **+ Year FE** → controls for shocks common to all counties in a year (national trends in prescribing and overdoses); the estimate shrinks
 
-3. Adding State FE → Controls for state-level policies/ time-invariant characteristics; effect further weakens
+3. **+ State FE** → also controls for *time-invariant* state differences; the estimate is now slightly negative, still imprecise
 
-4. Adding County FE → Controls for more local, time-invariant characteristics; effect reverses, suggesting omitted variable bias in earlier models
+4. **County + Year FE** → compares each county to itself over time; the estimate turns **negative and statistically significant**
 
-Potential explanation for findings: after controlling for state policies and local conditions, we might realize that counties with more overdose deaths actually received fewer pills over time (policy response)
+* The sign flips as we soak up more unobserved heterogeneity: part of the earlier positive association reflected *differences between counties*, not what happens within a county as prescribing changes.
 
----
+* **Careful:** this does *not* mean pills reduce overdose deaths! Maybe counties with rising deaths *cut* prescribing in response (reverse causality), or something else changed over time. FE cannot rule these out (see the end of the lecture).
 
-# Another Way to Think of Fixed Effects
-
-1. Their Role
-
-    - Fixed effects work by introducing dummy variables for each firm and each year
-    - The model estimates separate intercepts for each firm and each year but does not report them explicitly
-    - Since every observation belongs to exactly one firm and one year, these fixed effects fully absorb the intercept
-    
-2. Why No Intercept is Reported?
-
-    - In a typical OLS regression, the intercept represents the expected value of the dependent variable when all explanatory variables are zero
-    - With fixed effects, each firm has its own intercept, meaning the model does not need a single, global intercept
-    - The mean differences across firms and years are captured by the fixed effects instead of a single intercept
 
 ---
 
-# Fixed Effects: Key Idea (Conceptual Review)
+# Standard Errors: Why Cluster?
 
-* Goal: estimate causal effect when there are **unobserved, time-invariant differences** across units
+* In panel data, the errors of the *same unit* across time are typically **correlated**: a county with high overdose deaths this year likely has high deaths next year, for reasons not in our model.
 
-* Model: `\(y_{it} = \beta x_{it} + c_i + u_{it}\)`
+* Treating 26,970 county-years as independent overstates how much information we have: we really have about 3035 independent counties.
 
-* Problem:
-    - `\(c_i\)` (e.g. county characteristics) is **unobserved**
-    - and may be **correlated with `\(x_{it}\)`** → OVB
+* **Clustered standard errors** allow arbitrary correlation of the errors *within* a cluster (here: county): `cluster = ~county`.
 
 --
 
-## Solution: Fixed Effects
+.pull-left[
 
-* Compare each unit **to itself over time**
 
-* Remove `\(c_i\)` by focusing on **within-unit variation**
+``` r
+pooled_iid &lt;- feols(
+  overdosedeaths ~ percapitapills,
+  data = countyopioids)
+```
 
-* Interpretation:
-    &gt; How do changes in `\(x\)` within the same unit affect `\(y\)`?
+]
+
+.pull-right[
+
+* Pooled estimate: 0.0505
+
+* IID s.e. = 0.018 `\(\Rightarrow\)` looks significant
+
+* Clustered s.e. = 0.033 `\(\Rightarrow\)` not significant
+
+]
+
+* Rule of thumb: cluster at the level of the **unit** (or at a higher level, e.g. state, if the variable of interest varies at that level).
+
 
 ---
 
-# What Variation Are We Using? Between vs Within
+# Reading the Output: Where Did the Intercept Go?
 
-* **Between variation**:
-    - Differences *across* units (e.g. high-crime vs low-crime counties)
+1. No intercept in the fixed effects columns
 
-* **Within variation**:
-    - Changes *within* a unit over time
+    - In the pooled column there is a constant; in the FE columns there is none
+    - Each county has its own intercept (and each year its own shift), so a single global intercept is redundant
+    - `fixest` *absorbs* the fixed effects instead of reporting thousands of dummy coefficients. If you want them: `fixef(fe_county_year)`
 
---
+2. `\(R^2\)` vs. Within `\(R^2\)`
 
-## Key Insight
+    - `\(R^2\)` jumps from 0.0003 to 0.93 when we add county and year effects: that is the fixed effects explaining *levels* (some counties just have high death rates)
+    - **Within `\(R^2\)`** (0.0014) is what the regressor explains of the *within* variation: the part that identifies `\(\beta\)`
 
-* Pooled OLS mixes both → biased if `\(c_i\)` matters
+3. Why does N drop from 26,970 to 26,955?
 
-* Fixed effects uses **only within variation**
+    - A county observed only **once** has no within variation (a "singleton"): `fixest` drops them
 
-* So we are estimating:
-    &gt; If a county’s arrest probability increases, what happens to crime in that same county?
 
 ---
 
@@ -860,11 +977,99 @@ Important:
 - All time-invariant differences across units are already accounted for
 
 
-So we are not asking: 
+So we are not asking:
     Do units with higher `\(x\)` have higher or lower `\(y\)`?
 
-Instead, we are asking: 
+Instead, we are asking:
     When this same unit’s `\(x\)` changes, how does `\(y\)` change?
+
+
+---
+
+# What Fixed Effects Can and Cannot Do
+
+.pull-left[
+
+## Can
+
+* Remove **all time-invariant** differences across units, **observed or not**
+
+* With *year* effects: remove shocks **common to all units** in a given year (national trends, recessions)
+
+* Turn "units that differ" into "same unit, before vs. after"
+
+]
+
+.pull-right[
+
+## Cannot
+
+* **Time-varying confounders**: e.g. `PDMP_LAW`, a state prescription-monitoring law that switches on in a few states in 2013-14. County and state FE do not absorb it: control for it.
+
+* **Reverse causality**: if counties respond to rising deaths by cutting prescriptions, FE does not fix it.
+
+* **Effects of time-invariant variables**: a county's geography is absorbed by `\(c_i\)`, so its coefficient cannot be estimated.
+
+* **Units with no variation** in `\(x\)` (or observed once): they contribute nothing.
+
+]
+
+
+---
+
+# Using Fixed Effects in Your Project: A Checklist
+
+1. **Define** the unit `\(i\)` and the time period `\(t\)`. Is your data in long format, one row per unit-time?
+
+1. **Check there is within variation** in your key variable: does `\(x\)` actually change over time within units?
+
+1. **Choose the fixed effects**: unit, time, or both. What do you want to hold fixed?
+
+1. **Cluster** your standard errors (usually at the unit level, or the level at which treatment varies).
+
+1. **Interpret within**: "when the *same* unit's `\(x\)` increases by...".
+
+1. **Ask what is left**: which *time-varying* confounder or reverse causality could still bias the estimate?
+
+1. **Show pooled and FE columns side by side** (like our `etable`) so readers see how the estimate moves.
+
+
+---
+
+# Summary
+
+* **Panel data**: the same units observed over time, indexed by `\((i,t)\)`.
+
+* Variation splits into **between** units (differences in averages) and **within** units (changes over time). Pooled OLS blends them.
+
+* **Fixed effects** use only the *within* variation, so they remove everything about a unit that does not change over time: a unit is compared **to itself**.
+
+* Three routes to the same estimate: **dummy variables**, **first differences**, **within transformation**. In practice, `feols(y ~ x | unit + time, cluster = ~unit)`.
+
+* FE are powerful but **not magic**: time-varying confounders and reverse causality remain.
+
+--
+
+## Up next
+
+* **RDD** and **Difference-in-Differences**: DiD is, in its simplest form, a fixed effects regression (unit and time effects) with a treatment indicator. What you learned today is the engine behind it.
+
+
+---
+
+# On the way to causality
+
+✅ How to manage data? Read it, tidy it, visualise it!
+
+✅  How to summarise relationships between variables? Simple and multiple linear regression, non-linear regressions, interactions...
+
+✅ What is causality?
+
+✅ What if we don't observe an entire population? Sampling!
+
+✅  Are our findings just due to randomness? Confidence intervals and hypothesis testing, regression inference.
+
+🚧 **How to find exogeneity in practice?** Fixed effects with panel data (today), RDD and DiD (next).
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>

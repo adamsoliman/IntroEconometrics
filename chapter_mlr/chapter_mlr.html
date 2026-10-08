@@ -4,6 +4,7 @@
     <title>ECON 4050: Introduction to Econometrics</title>
     <meta charset="utf-8" />
     <meta name="author" content="Adam Soliman, PhD" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
     <link href="libs/remark-css/default.css" rel="stylesheet" />
     <link href="libs/countdown/countdown.css" rel="stylesheet" />
     <script src="libs/countdown/countdown.js"></script>
@@ -1014,6 +1015,39 @@ Let's run a regression where there is perfect linear dependence between regresso
 .center[
 &lt;img src="../img/photos/confounding_variables_funny.png" alt="" width="1000px" style="display: block; margin: auto;" /&gt;
 ]
+
+---
+
+
+### Midterm Review: Multiple Linear Regression
+
+Using the built-in `mtcars` dataset, consider the following equation:
+
+\[
+mpg_i = \beta_0 + \beta_1 wt_i + \beta_2 am_i + \epsilon_i
+\]
+
+where:
+- `mpg`: miles per gallon
+- `wt`: vehicle weight (in 1,000 lbs)
+- `am`: transmission type (0 = automatic, 1 = manual)
+
+**(a)** Estimate the regression using `lm()` and display the results.
+
+
+``` r
+# Your code here
+data = mtcars # start with this in your script
+```
+
+**(b)** Interpret the intercept and both slope coefficients.
+
+**(c)** Is the coefficient on `am` statistically significant at the 5% level? Explain.
+
+**(d)** Can we interpret the coefficients causally? Why or why not?
+
+
+
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/remark/0.14.0/remark.min.js"></script>

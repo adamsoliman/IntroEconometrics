@@ -58,6 +58,10 @@ Note: each reading below has an associated link, so click on it to access it.
 
 - [**Chapter 10, ModernDive**](https://moderndive.com/10-inference-for-regression.html)
 
+## Lectures on Panel Data
+
+- [**Chapter 8, Causal Inference: The Mixtape**](https://mixtape.scunning.com/08-panel_data)
+
 ## Lectures on Regression Discontinuity
 
 - [**Chapter 6, Causal Inference: The Mixtape**](https://mixtape.scunning.com/06-regression_discontinuity)
@@ -78,13 +82,7 @@ Note: each reading below has an associated link, so click on it to access it.
 
 ## Lectures on Differences-in-Differences
 
-- [**Chapter 6, Causal Inference: The Mixtape**](https://mixtape.scunning.com/09-difference_in_differences)
+- [**Chapter 9, Causal Inference: The Mixtape**](https://mixtape.scunning.com/09-difference_in_differences)
 
 
 - [Card and Krueger (1994 AER), "Minimum Wages and Employment: A Case Study of the Fast-Food Industry in New Jersey and Pennsylvania"](http://davidcard.berkeley.edu/papers/njmin-aer.pdf)
-
-
-## Lectures on Panel Data
-
-- [**Chapter 6, Causal Inference: The Mixtape**](https://mixtape.scunning.com/08-panel_data)
-

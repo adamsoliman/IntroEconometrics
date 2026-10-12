@@ -30,13 +30,20 @@ class: center, middle, inverse, title-slide
 
 
 
+&lt;style type="text/css"&gt;
+.left-thin { width: 28%; float: left; }
+.right-wide { width: 68%; float: right; }
+.left-wide { width: 68%; float: left; }
+.right-thin { width: 28%; float: right; }
+&lt;/style&gt;
+
 ## Today
 
-* We will introduce *instrumental variables* (IV)
+* We introduce *instrumental variables* (IV), a third way to get at causal effects with observational data (after RDD and DiD). *Bonus lecture: not formally assessed.*
 
-* To motivate IV, we will look back to London in 1850 and learn about John Snow.
+* To motivate IV, we look back to London in 1850 and learn about John Snow.
 
-* We will finally introduce the IV estimator formally.
+* We then define the IV estimator formally, apply it to returns to schooling (Angrist and Krueger, 1991), and discuss inference and weak instruments.
 
 
 ---
@@ -47,13 +54,12 @@ class: center, middle, inverse, title-slide
 
 * In chapters [7](https://scpoecon.github.io/ScPoEconometrics/causality.html), [8](https://scpoecon.github.io/ScPoEconometrics/STAR.html) and [9](https://scpoecon.github.io/ScPoEconometrics/RDD.html) of the book (and the intro course) we talk about the merits of _experimental methods_.
 
-* Randomized Control Trials (RCTs) or _Quasiexperimental_ (as good as random) settings allow us to estimate **causal** effects. 
+* Randomized Control Trials (RCTs) or _quasi-experimental_ (as good as random) settings, like RDD and DiD, allow us to estimate **causal** effects.
 
 * In particular the [RCT](https://scpoecon.github.io/ScPoEconometrics/causality.html#rct) should be familiar to you.
 
 ]
 
---
 
 .pull-right[
 
@@ -86,7 +92,6 @@ class: center, middle, inverse, title-slide
 &lt;img src="04-IV_files/figure-html/dag1-1.svg" alt="" style="display: block; margin: auto;" /&gt;
 ]
 
---
 
 .center[**IV** provides a solution to OVB.]
 
@@ -114,10 +119,6 @@ class: middle
 .pull-right[
 &lt;img src="../img/father-thames.jpg" alt="" style="display: block; margin: auto;" /&gt;
 ]
-
----
-background-image: url(../img/slum.jpg)
-background-size: cover
 
 ---
 background-image: url(../img/slum.jpg)
@@ -192,34 +193,13 @@ background-size: 800px
 # The `cholera` package
 
 .pull-left[
-* The `cholera` package has some interesting features.
-
-* For example an R version of Snow's map:
-]
-
-.pull-right[
-
-``` r
-cholera::snowMap()
-```
-
-&lt;img src="04-IV_files/figure-html/unnamed-chunk-2-1.svg" alt="" style="display: block; margin: auto;" /&gt;
-]
-
----
-
-# `cholera`
-
-.pull-left[
-...or the walking path of case number 15 in Snow's data:
+The `cholera` package has some interesting features. For example, the walking path of case number 15 in Snow's data:
 
 &lt;img src="04-IV_files/figure-html/unnamed-chunk-3-1.svg" alt="" style="display: block; margin: auto;" /&gt;
 ]
 
---
-
 .pull-right[
-...or estimate Voronoi Polygons for pump neighborhoods:
+...or Voronoi polygons for pump neighborhoods:
 &lt;img src="04-IV_files/figure-html/unnamed-chunk-4-1.svg" alt="" style="display: block; margin: auto;" /&gt;
 ]
 
@@ -257,14 +237,14 @@ cholera::snowMap()
 
 # Snow's conclusion
 
-* Snow collected the following data: 
+* Snow collected the following data (cholera deaths by water supplier): 
 
 
-|area                   | numhouses| deaths| death1000|
-|:----------------------|---------:|------:|---------:|
-|Southwark and Vauxhall |     40046|   1263|       315|
-|Lambeth                |     26107|     98|        37|
-|Rest of London         |    256423|   1422|        59|
+|area                   | numhouses| deaths| deaths_per_10k_houses|
+|:----------------------|---------:|------:|---------------------:|
+|Southwark and Vauxhall |     40046|   1263|                   315|
+|Lambeth                |     26107|     98|                    37|
+|Rest of London         |    256423|   1422|                    59|
 
 * And concluded
 
@@ -290,9 +270,8 @@ class: separator, middle
 
 * Let `\(w_i = 1\)` mean that `\(i\)`'s water supply is impure and `\(w_i = 0\)` vice versa. Water purity is assessed with a technology that cannot detect small microbes.
 
-* Collect in `\(u_i\)` all unobservable factors that impact `\(i\)`'s likelihood of dying from the disease: whether `\(i\)` is poor, where exactly they reside, whether there is bad air quality in `\(i\)`'s surrounding, and other invidivual characteristics which impact the outcome (like genetic setup of `\(i\)`).
+* Collect in `\(u_i\)` all unobservable factors that impact `\(i\)`'s likelihood of dying from the disease: whether `\(i\)` is poor, where exactly they reside, whether there is bad air quality in `\(i\)`'s surrounding, and other individual characteristics which impact the outcome (like genetic setup of `\(i\)`).
 
---
 
 We can write:
 
@@ -302,7 +281,7 @@ $$
 
 ---
 
-# Doing the Simple Thing is always right?
+# Is the Simple Thing Good Enough?
 
 .pull-left[
 
@@ -313,10 +292,9 @@ $$
 * Suppose `\(Cor(c_i,w_i) \approx 0.5\)`. Does that prove the infection theory?
 ]
 
---
 
 .pull-right[
-Note quite. Angus Deaton says:
+Not quite. Angus Deaton says:
 
 &gt; The people who drank impure water were also more likely to be poor, and to live in an environment contaminated in many ways, not least by the ‘poison miasmas’ that were then thought to be the cause of cholera.
 
@@ -347,9 +325,8 @@ E[c_i | w_i = 1] &amp;= \alpha + \delta + E[u_i | w_i = 1] \\
 E[c_i | w_i = 0] &amp;= \alpha + \phantom{\delta} + E[u_i | w_i = 0]
 \end{align}`
 
---
 
-Now substract one line from the other:
+Now subtract one line from the other:
 
 `\begin{equation}
 E[c_i | w_i = 1] - E[c_i | w_i = 0] = \delta + \left\{ E[u_i | w_i = 1] - E[u_i | w_i = 0]\right\}
@@ -414,16 +391,11 @@ background-position: 60% 50%
 
 Here are the conditions for a valid instrument:
 
-1. **Relevance** or **First Stage**: Water purity is indeed a function of supplier identity. We want that `$$E[w_i | z_i = 1] \neq E[w_i | z_i = 0]$$` i.e. the average water purity differs across suppliers. We can *verify* this condition with observational data. We want this effect to be reliably causal.
+1. **Relevance** or **First Stage**: Water purity is indeed a function of supplier identity. We want that `$$E[w_i | z_i = 1] \neq E[w_i | z_i = 0]$$` i.e. the average water purity differs across suppliers. We can *verify* this condition with observational data.
 
---
+2. **Independence**: Whether a household has `\(z_i = 1\)` or `\(z_i = 0\)` is unrelated to `\(u\)`, hence *as good as random*. Whether we condition `\(u\)` on certain values of `\(z\)` does not change the result: `$$E[u_i | z_i = 1] = E[u_i | z_i = 0].$$`
 
-2. **Independence**: Whether a household has `\(z_i = 1\)` or `\(z_i = 0\)` is unrelated to `\(u\)`, hence *as good as random*. Whether we condition `\(u\)` on certain values of `\(z\)` does not change the result - we want `$$E[u_i | z_i = 1] = E[u_i | z_i = 0].$$`
-
---
-
-3. **Excludability** the instrument should affect the outcome `\(c\)` *only* through the specified channel (i.e. via water purity `\(w\)`), and nothing else.
-
+3. **Exclusion restriction**: the instrument should affect the outcome `\(c\)` *only* through the specified channel (i.e. via water purity `\(w\)`), and nothing else.
 
 ---
 
@@ -440,10 +412,9 @@ which upon differencing both lines gives
 
 `\begin{align}
 E[c_i | z_i = 1] - E[c_i | z_i = 0] &amp;= \delta  \left\{ E[w_i | z_i = 1] - E[w_i | z_i = 0]\right\} \\
-&amp;+ \underbrace{\left\{ E[u_i | z_i = 1] - E[u_i | z_i = 0] \right\}}_{=0 \text{ by Exogeneity Assumption}}
+&amp;+ \underbrace{\left\{ E[u_i | z_i = 1] - E[u_i | z_i = 0] \right\}}_{=0 \text{ by Independence and Exclusion}}
 \end{align}`
 
---
 
 * Finally, if the IV is *relevant*, i.e. `\(E[w_i | z_i = 1] - E[w_i | z_i = 0] \neq 0\)`:
 
@@ -456,7 +427,7 @@ E[c_i | z_i = 1] - E[c_i | z_i = 0] &amp;= \delta  \left\{ E[w_i | z_i = 1] - E[
 
 # Special Case: Wald Estimator
 
-Let's say that `\(x \mapsto y\)` means that `\(x\)` is an estimate for `\(y\)`:
+We write `\(x \mapsto y\)` to say that `\(x\)` is a sample estimate of `\(y\)`:
 
 1. `\(\overline{c}_1 \mapsto E[c_i | z_i = 1]\)`: the proportion of households supplied by Lambeth with cholera.
 1. `\(\overline{w}_1 \mapsto E[w_i | z_i = 1]\)`: the proportion of households supplied by Lambeth with bad water.
@@ -470,13 +441,6 @@ The estimator would then be
 \end{equation}`
 
 In this special case where all involved variables `\(c,w,z\)` are binary, the estimator is called the *Wald estimator*.
-
----
-
-**Summary**: IVs are a powerful tool to establish causality in contexts with observational data only and where we are concerned that the conditional mean assumption `\(E[u_i | x_i]=0\)` is violated, hence, we cannot say *all else equal, as `\(x\)` changes, `\(y\)` changes like this and that*. Then we say that `\(x\)` is *endogenous*. The key features of IV `\(z\)` are that 
-
-1. `\(z\)` is *relevant* for `\(x\)`. For example, in a simple regression of `\(z\)` on `\(x\)`, we want `\(z\)` to have considerable predictive power. We can *test* this condition in data.
-2. We need a theory according to which is *reasonable* to assume that `\(z\)` is *unrelated* to other unobservable factors that might impact the outcome. Hence, `\(z\)` is *exogenous* to `\(u\)`, or `\(E[u | z] = 0\)`. This is an **assumption** (i.e. we can not test this with data).
 
 ---
 
@@ -513,38 +477,6 @@ layout: false
 
 ---
 
-# [`Rayshader`](https://www.rayshader.com)
-
-* This is all it takes:
-
-
-``` r
-library(ggplot2)
-library(rayshader)
-#Data from Social Security administration
-death = read_csv("https://www.tylermw.com/data/death.csv", skip = 1)
-meltdeath = reshape2::melt(death, id.vars = "Year")
-
-meltdeath$age = as.numeric(meltdeath$variable)
-
-# make a ggplot
-deathgg = ggplot(meltdeath) + geom_raster(aes(x=Year,y=age,fill=value)) +
-  scale_x_continuous("Year",expand=c(0,0),breaks=seq(1900,2010,10)) +
-  scale_y_continuous("Age",expand=c(0,0),breaks=seq(0,100,10),limits=c(0,100)) +
-  scale_fill_viridis("Death\nProbability\nPer Year",
-       trans = "log10",breaks=c(1,0.1,0.01,0.001,0.0001), 
-       labels = c("1","1/10","1/100","1/1000","1/10000")) +
-  ggtitle("Death Probability vs Age and Year for the USA") +
-  labs(caption = "Data Source: US Dept. of Social Security")
-
-# give it to rayshader
-plot_gg(deathgg, multicore=TRUE,height=5,width=6,scale=500)
-```
-
-* Amazing, right? 🎉 🎊
-
----
-
 layout: false
 class: separator, middle
 
@@ -555,43 +487,19 @@ class: separator, middle
 # Returns To Schooling
 
 .pull-left[
-* What's the causal impact of schooling on earnings?
-
-* [Jacob Mincer](https://en.wikipedia.org/wiki/Jacob_Mincer) was interested in this important question.
+* What's the causal impact of schooling on earnings? [Jacob Mincer](https://en.wikipedia.org/wiki/Jacob_Mincer) was interested in this important question.
 
 * Here's his model:
-
-$$
-\log Y_i = \alpha + \rho S_i + \beta_1 X_i + \beta_2 X_i^2 + e_i,
-$$
+`$$\log Y_i = \alpha + \rho S_i + \beta_1 X_i + \beta_2 X_i^2 + e_i,$$`
 where Y is income, S is years of schooling, and X is years of potential labor market experience
+
+* He found an estimate for `\(\rho\)` of about 0.11: an 11% earnings advantage for each additional year of education.
+
+* Look at the DAG. Is that a good model? Well, why would it not be?
 ]
-
-
 
 .pull-right[
 &lt;img src="04-IV_files/figure-html/mincer-1.svg" alt="" style="display: block; margin: auto;" /&gt;
-]
-
----
-
-# Returns To Schooling
-
-.pull-left[
-$$
-\log Y_i = \alpha + \rho S_i + \beta_1 X_i + \beta_2 X_i^2 + e_i
-$$
-
-* He found an estimate for `\(\rho\)` of about 0.11, 
-
-* 11% earnings advantage for each additional year of education
-
-* Look at the DAG. Is that a good model? Well, why would it not be? 
-]
-
-
-.pull-right[
-&lt;img src="04-IV_files/figure-html/mincer2-1.svg" alt="" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
@@ -609,15 +517,14 @@ $$
     * Do family connections of workers vary?
 ]
 
---
 
 .pull-right[
 * Yes, of course. So, *all else* is not equal at all.
 
 * That's an issue, because for OLS consistency we require the orthogonality assumption (exogeneity)
-`$$E[e_i | S_i, X_i] \neq 0$$`
+`$$E[e_i | S_i, X_i] = 0$$`
 
-* More formally, ability bias arises when more able individuals both obtain more schooling and earn higher wages. This creates an endogeneity problem if ability is unobserved and omitted, as it can bias estimates of the true effect of schooling on wages.
+* Ability bias arises when more able individuals both obtain more schooling and earn higher wages. If ability is unobserved and omitted, it sits in the error term and is correlated with `\(S_i\)`, so OLS is biased (typically upward).
 
 * Therefore, let's introduce **ability** `\(A_i\)` explicitly.
 ]
@@ -628,45 +535,22 @@ $$
 # Mincer with Unobserved Ability
 
 .pull-left[
-* In fact we have *two* unobservables: `\(e\)` and `\(A\)`.
-
-* Of course we can't tell them apart.
-
-* So we defined a new unobservable factor 
+* In fact we have *two* unobservables: `\(e\)` and `\(A\)`. Of course we can't tell them apart, so we define a new unobservable factor 
 `$$u_i = e_i + A_i$$`
 
+* In terms of an equation:
+`$$\log Y_i = \alpha + \rho S_i + \beta_1 X_i + \beta_2 X_i^2 + \underbrace{u_i}_{A_i + e_i}$$`
+
+* Sometimes, this does not matter, and the OLS bias is small. But sometimes it does and we get it totally wrong!
 ]
 
---
-
 .pull-right[
-
 &lt;img src="04-IV_files/figure-html/mincer3-1.svg" alt="" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
 
-# Mincer with Unobserved Ability
-
-.pull-left[
-* In terms of an equation:
-`$$\log Y_i = \alpha + \rho S_i + \beta_1 X_i + \beta_2 X_i^2 + \underbrace{u_i}_{A_i + e_i}$$`
-
-* Sometimes, this does not matter, and the OLS bias is small.
-
-* But sometimes it does and we get it totally wrong! Example.
-
-]
-
-
-.pull-right[
-
-&lt;img src="04-IV_files/figure-html/mincer4-1.svg" alt="" style="display: block; margin: auto;" /&gt;
-]
-
----
-
-# Angrist and Krueger (1991): Birthdate is as good as Random
+# Angrist and Krueger (1991): Quarter of Birth as an IV
 
 
 .pull-left[
@@ -678,8 +562,6 @@ $$
     
 * Suppose all children who reach the age of 6 by 31st of december 2021 are required to enroll in the first grade of school in september of that year (2021).
 ]
-
---
 
 .pull-right[
 * If born on 31/12/2015, they will be 5 years and 3/4 by the time they start school (in September 2021).
@@ -708,46 +590,23 @@ school1 = as.Date("2021-09-01")
 school2 = as.Date("2022-09-01")
 ```
 
-How much days of school if they drop out on their 16th birthday?
-
-
-
----
-
-# Birthdate Setup
-
-Let's set up 2 children:
-
-
-``` r
-library(lubridate)
-born1 = as.Date("2015-12-31")
-born2 = as.Date("2016-01-01")
-school1 = as.Date("2021-09-01")
-school2 = as.Date("2022-09-01")
-```
-
-How much days of school if they drop out on their 16th birthday?
+How many days of school if they drop out on their 16th birthday?
 
 
 
 ``` r
 dropout1 = born1 %m+% years(16)
 dropout2 = born2 %m+% years(16)
-(schooldays1 = dropout1 - school1)
+c(child1 = as.numeric(dropout1 - school1),
+  child2 = as.numeric(dropout2 - school2))
 ```
 
 ```
-## Time difference of 3773 days
+## child1 child2 
+##   3773   3409
 ```
 
-``` r
-(schooldays2 = dropout2 - school2)
-```
-
-```
-## Time difference of 3409 days
-```
+The child born one day earlier gets about a full extra year of schooling before the dropout age.
 
 ---
 
@@ -772,22 +631,19 @@ dropout2 = born2 %m+% years(16)
 
 AK91 allow us to introduce a widely used variation of our simple IV estimator: **2SLS**
 
-1. We estimate a **first stage model** which uses only exogenous variables (like `\(z\)`) to explain our endgenous regressor `\(s\)`.
+1. We estimate a **first stage** model which uses only exogenous variables (like `\(z\)`) to explain our endogenous regressor `\(s\)`.
 
-2. We then use the first stage model to *predict* values of `\(s\)` in what is called the **second stage** or the **reduced form** model. Performing this procedure is supposed to take out any impact of `\(A\)` in the correlation we observe in our data between `\(s\)` and `\(y\)`.
+2. We then use the first stage to *predict* values `\(\hat{s}\)`, and use them in the **second stage**. `\(\hat{s}\)` only contains the variation in schooling driven by `\(z\)`, so it is purged of the impact of `\(A\)`. (Regressing `\(y\)` directly on `\(z\)` is called the *reduced form*.)
 
 `\begin{align}
 \text{1st Stage: }s_i &amp;= \alpha_0 + \alpha_1 z_i + \eta_i \\ 
 \text{2nd Stage: }y_i &amp;= \beta_0 + \beta_1 \hat{s}_i + u_i 
 \end{align}`
 
-**Conditions:**
+**Conditions** (the same as for Snow):
 
-1. Relevance of the IV: `\(\alpha_1 \neq 0\)` (only Testable one)
-1. Independence (IV assignment as good as random): `\(E[\eta | z] = 0\)` 
- * Assumption. Argue based on contextual evidence or plausibility of instrument’s randomness
-1. Exogeneity (our exclusion restriction): `\(E[u | z] = 0\)` 
- * Assumption. Argue using theory/sound argument, asserting that any correlation between instrument and dependent variable is solely through instrument’s effect on schooling, not other pathways
+1. Relevance: `\(\alpha_1 \neq 0\)`. This is the only condition we can test with data.
+1. Independence and exclusion: `\(E[u | z] = 0\)`. These are assumptions: argue with context and theory that `\(z\)` is as good as random, and that any correlation between `\(z\)` and wages runs solely through schooling.
 
 ---
 layout: false
@@ -831,26 +687,8 @@ ak91_age &lt;- ak91 %&gt;%
 
 # AK91 Figure 1: First Stage!
 
-Let's reproduce AK91's first figure now on education as a function of quarter of birth!
-
-
-``` r
-ggplot(ak91_age, aes(x = yob + (qob - 1) / 4, y = s )) +
-  geom_line() + 
-  geom_label(mapping = aes(label = qob, color = q4)) +
-  guides(label = FALSE, color = FALSE) +
-  scale_x_continuous("Year of birth", breaks = 1930:1940) +
-  scale_y_continuous("Years of Education", breaks = seq(12.2, 13.2, by = 0.2),
-                     limits = c(12.2, 13.2)) +
-  theme_bw()
-```
-
----
-
-# AK91 Figure 1: First Stage!
-
 .left-thin[
-1. The numbers label mean education *by* quarter of birth groups.
+1. Mean education *by* year and quarter of birth. The numbers label mean education *by* quarter of birth groups.
 
 1. The 4-th quarters **did** get more education in most years!
 
@@ -866,27 +704,9 @@ ggplot(ak91_age, aes(x = yob + (qob - 1) / 4, y = s )) +
 
 # AK91 Figure 2: Impact of IV on outcome
 
-What about earnings for those groups?
-
-
-
-``` r
-ggplot(ak91_age, aes(x = yob + (qob - 1) / 4, y = lnw)) +
-  geom_line() +
-  geom_label(mapping = aes(label = qob, color = q4)) +
-  scale_x_continuous("Year of birth", breaks = 1930:1940) +
-  scale_y_continuous("Log weekly wages") +
-  guides(label = FALSE, color = FALSE) +  
-  theme_bw()
-```
-
----
-
-# AK91 Figure 2: Impact of IV on outcome
-
 
 .left-thin[
-1. The 4-th quarters are among the high-earners by birth year.
+1. What about earnings for those groups? The 4-th quarters are among the high-earners by birth year.
 
 1. In general, weekly wages seem to decline somewhat over time.
 
@@ -898,49 +718,6 @@ ggplot(ak91_age, aes(x = yob + (qob - 1) / 4, y = lnw)) +
 ]
 
 ---
-
-# Running IV estimation in `R`
-
-&lt;br&gt;
-&lt;br&gt;
-
-.pull-left[
-* Several options (like always with `R`! 😉)
-
-* Will use the [`iv_robust`](https://declaredesign.org/r/estimatr/reference/iv_robust.html) function from the `estimatr` package.
-
-* *Robust*? Computes standard errors which are correcting for heteroskedasticity. [Details here.](https://declaredesign.org/r/estimatr/articles/mathematical-notes.html)
-]
-
-
-.pull-right[
-
-``` r
-library(estimatr)
-# create a list of models
-mod &lt;- list()
-
-# standard (biased!) OLS
-mod$ols &lt;- lm(lnw ~ s, data = ak91)
-
-# IV: born in q4 is TRUE?
-# doing IV manually in 2 stages.
-mod[["1. stage"]] &lt;- lm(s ~ q4, data = ak91)
-ak91$shat         &lt;- predict(mod[["1. stage"]])  
-mod[["2. stage"]] &lt;- lm(lnw ~ shat, data = ak91)
-
-# run 2SLS
-# doing IV all in one go
-# notice the formula!
-# formula = y ~ x | z
-mod$`2SLS`  &lt;- iv_robust(lnw ~ s | q4,
-                                   data = ak91,
-                         diagnostics = TRUE)
-```
-]
-
----
-count: false
 
 # Running IV estimation in `R`
 
@@ -979,7 +756,7 @@ mod[["2. stage"]] &lt;- lm(lnw ~ shat, data = ak91)
 # notice the formula!
 # formula = y ~ x | z
 mod$`2SLS`  &lt;- iv_robust(lnw ~ s | q4,
-                         data = ak91,
+                                   data = ak91,
                          diagnostics = TRUE)
 ```
 ]
@@ -1015,7 +792,7 @@ mod$`2SLS`  &lt;- iv_robust(lnw ~ s | q4,
 <tr>
 <td class="huxtable-cell" style="border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 3.5pt 6pt 3.5pt 6pt;">RMSE</td><td class="huxtable-cell" style="border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 3.5pt 6pt 3.5pt 6pt;">0.64</td><td class="huxtable-cell" style="border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 3.5pt 6pt 3.5pt 6pt;">3.28</td><td class="huxtable-cell" style="border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 3.5pt 6pt 3.5pt 6pt;">0.68</td><td class="huxtable-cell" style="border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0pt;    padding: 3.5pt 6pt 3.5pt 6pt;">0.64</td></tr>
 <tr>
-<td class="huxtable-cell" style="border-style: solid solid solid solid; border-width: 0pt 0pt 0.8pt 0pt;    padding: 3.5pt 6pt 3.5pt 6pt;">1. Stage F:</td><td class="huxtable-cell" style="border-style: solid solid solid solid; border-width: 0pt 0pt 0.8pt 0pt;    padding: 3.5pt 6pt 3.5pt 6pt;"></td><td class="huxtable-cell" style="border-style: solid solid solid solid; border-width: 0pt 0pt 0.8pt 0pt;    padding: 3.5pt 6pt 3.5pt 6pt;"></td><td class="huxtable-cell" style="border-style: solid solid solid solid; border-width: 0pt 0pt 0.8pt 0pt;    padding: 3.5pt 6pt 3.5pt 6pt;"></td><td class="huxtable-cell" style="border-style: solid solid solid solid; border-width: 0pt 0pt 0.8pt 0pt;    padding: 3.5pt 6pt 3.5pt 6pt;">48.9904279637918</td></tr>
+<td class="huxtable-cell" style="border-style: solid solid solid solid; border-width: 0pt 0pt 0.8pt 0pt;    padding: 3.5pt 6pt 3.5pt 6pt;">1. Stage F:</td><td class="huxtable-cell" style="border-style: solid solid solid solid; border-width: 0pt 0pt 0.8pt 0pt;    padding: 3.5pt 6pt 3.5pt 6pt;"></td><td class="huxtable-cell" style="border-style: solid solid solid solid; border-width: 0pt 0pt 0.8pt 0pt;    padding: 3.5pt 6pt 3.5pt 6pt;"></td><td class="huxtable-cell" style="border-style: solid solid solid solid; border-width: 0pt 0pt 0.8pt 0pt;    padding: 3.5pt 6pt 3.5pt 6pt;"></td><td class="huxtable-cell" style="border-style: solid solid solid solid; border-width: 0pt 0pt 0.8pt 0pt;    padding: 3.5pt 6pt 3.5pt 6pt;">49</td></tr>
 <tr>
 <td class="huxtable-cell" colspan="5" style="border-style: solid solid solid solid; border-width: 0.8pt 0pt 1pt 0pt;    padding: 3.5pt 6pt 3.5pt 6pt;">+ p &lt; 0.1, * p &lt; 0.05, ** p &lt; 0.01, *** p &lt; 0.001</td></tr>
 </tbody>
@@ -1024,11 +801,13 @@ mod$`2SLS`  &lt;- iv_robust(lnw ~ s | q4,
 ]
 
 .pull-right[
-* OLS likely downward biased (measurement error in schooling)
+* OLS: an extra year of schooling goes with about 7.1% higher weekly wages.
 
-* First Stage: IV `q4` is statistically significant, but small effect: born in q4 has 0.092 years of educ. `\(R^2\)` is 0%! But F-stat is large. 😅
+* First Stage: IV `q4` is statistically significant, but the effect is small: born in q4 has 0.092 more years of educ. `\(R^2\)` is 0%! But the F-stat is large (about 49). 😅
 
-* Second stage has same point estimate as `2SLS` but different std error (2. stage one is wrong)
+* 2SLS with `q4` gives 0.074: close to OLS, but much less precise.
+
+* The manual second stage has the same point estimate as `2SLS` but the wrong std error (it ignores that `\(\hat{s}\)` is estimated).
 ]
 
 ---
@@ -1040,6 +819,8 @@ mod$`2SLS`  &lt;- iv_robust(lnw ~ s | q4,
 * Here, we are interested whether our instruments are *jointly* significant. Of course, with only one IV, that's not more informative than the t-stat of that IV.
 
 * This F-Stat compares the predictive power of the first stage with and without the IVs. If they have very similar predictive power, the F-stat will be low, and we will not be able to reject the H0 that our IVs are **jointly insignificant** in the first stage model. 😞
+
+* Rule of thumb (Staiger and Stock, 1997): a first-stage F-stat below about 10 signals a **weak instrument**.
 
 ---
 
@@ -1123,15 +904,14 @@ mod[["2SLS_all"]] &lt;- estimatr::iv_robust(lnw ~ s  + yob_fct | qob_fct + yob_f
 
 ]
 
---
 
 .pull-right[
 
 1. Plot of first stage and high F-stat offer compelling evidence for **relevance**. ✅
 
-2. Is QOB **independent** of, say, *maternal characteristics*? Birthdays are not really random - there are birth seasons for certain socioeconomic backgrounds. highest maternal schooling give birth in second quarter. (not in 4th! ✅)
+2. **Independence**: is QOB independent of, say, *maternal characteristics*? Birthdays are not really random: there are birth seasons for certain socioeconomic backgrounds. Mothers with the highest schooling tend to give birth in the second quarter (not in the 4th). ✅
 
-3. Exclusion: What if the youngest kids (born in Q4!) are the disadvantaged ones early on, which has long-term negative impacts? That would mean `\(E[u|z] \neq 0\)`! Well, with QOB the youngest ones actually do better (more schooling and higher wage)! ✅
+3. **Exclusion**: what if the youngest kids (born in Q4!) are the disadvantaged ones early on, which has long-term negative impacts? That would mean `\(E[u|z] \neq 0\)`! Well, with QOB the youngest ones actually do better (more schooling and higher wage)! ✅
 ]
 
 ---
@@ -1167,32 +947,13 @@ where we fear that `\(Cov(x,u) \neq 0\)`, `\(x\)` is *endogenous*.
 
 &lt;img src="04-IV_files/figure-html/IV-dag2-1.svg" alt="" style="display: block; margin: auto;" /&gt;
 
----
-
-# IV Identification
-
-.pull-left[
-
-&gt;## Conditions for IV
-
-&gt;1. **first stage** or **relevance**: `\(Cov(z,x) \neq 0\)`
-&gt;2. **IV exogeneity**: `\(Cov(z,u) = 0\)`: the IV is exogenous in the outcome equation.
-
-]
-
-.pull-right[
-
-* How does this *identify* `\(\beta_1\)`?
-
-* (How can we express `\(\beta_1\)` in terms of population moments to pin it's value down?)
-
-]
+**(A)** valid: `\(z\)` affects `\(y\)` only through `\(x\)` and is unrelated to `\(u\)`. **(B)** invalid: `\(z\)` is correlated with `\(u\)`, so `\(Cov(z,u) \neq 0\)`.
 
 ---
 
 # IV Identification
 
-
+How can we express `\(\beta_1\)` in terms of population moments, to pin its value down?
 
 `\begin{align}
 Cov(z,y) &amp;= Cov(z, \beta_0 + \beta_1 x + u) \\
@@ -1206,8 +967,6 @@ $$
 Cov(z,y) = \beta_1 Cov(z,x) 
 $$
 ]
-
---
 
 .pull-right[
 and under condition 1. (**relevance**), we have `\(Cov(z,x)\neq0\)`, so that we can divide the equation through to obtain
@@ -1229,8 +988,6 @@ Just plugging in for the population moments:
 `$$\hat{\beta}_1 = \frac{\sum_{i=1}^n (z_i - \bar{z})(y_i - \bar{y})}{\sum_{i=1}^n (z_i - \bar{z})(x_i - \bar{x})}$$`
 
 * The intercept estimate is `\(\hat{\beta}_0 = \bar{y} - \hat{\beta}_1 \bar{x}\)` 
-
---
 
 * Given both assumptions 1. and 2. are satisfied, we say that *the IV estimator is consistent for `\(\beta_1\)`*. We write
 
@@ -1256,8 +1013,6 @@ Assuming `\(E(u^2|z) = \sigma^2\)` the variance of the IV slope estimator is
 
 * `\(\rho_{x,z}\)` is the population correlation between `\(x\)` and `\(z\)`.
 
---
-
 You can see 2 important things here:
 
 1. Without the term `\(\rho_{x,z}^2\)`, this is **like OLS variance**.
@@ -1272,8 +1027,6 @@ You can see 2 important things here:
 `$$Var(\hat{\beta}_{1,IV}) = \frac{\sigma^2}{n \sigma_x^2 R_{x,z}^2}$$`
 
 1. Given `\(R_{x,z}^2 &lt; 1\)` in most real life situations, we have that `\(Var(\hat{\beta}_{1,IV}) &gt; Var(\hat{\beta}_{1,OLS})\)` almost certainly.
-
---
 
 1. The higher the correlation between `\(z\)` and `\(x\)`, the closer their `\(R_{x,z}^2\)` is to 1. With `\(R_{x,z}^2 = 1\)` we get back to the OLS variance. This is no surprise, because that implies that in fact `\(z = x\)`.
 
@@ -1292,6 +1045,8 @@ Let's run an OLS on this, and then compare it to an IV estimate using *father's 
 
 1. *fatheduc* and *educ* are correlated
 2. *fatheduc* and `\(u\)` are not correlated.
+
+Is condition 2 plausible? Keep this in mind for the results.
 
 ---
 
@@ -1339,15 +1094,15 @@ mods$IV  &lt;- estimatr::iv_robust(lwage ~ educ | fatheduc, data = mroz)
 
 &lt;img src="04-IV_files/figure-html/se-plot-1.svg" alt="" style="display: block; margin: auto;" /&gt;
 
+The IV estimate (0.059) is about half the OLS estimate (0.109), consistent with upward ability bias in OLS. But it is imprecise: the confidence interval includes zero. And father's education is probably not exogenous either: it likely correlates with the woman's ability and family background.
+
 ---
 
 # IV with a Weak Instrument
 
-* IV is consistent under given assumptions.
+* IV is consistent under the given assumptions.
 
-* However, *even if* we have only very small `\(Cor(z,u)\)`, we can get wrong-footed
-
-* Small corrleation between `\(x\)` and `\(z\)` can produce **inconsistent** estimates. 
+* However, even a very small `\(Cor(z,u)\)` can wrong-foot us if the instrument is weak, i.e. if `\(Cor(z,x)\)` is small.
 
 .pull-left[
 &lt;br&gt;
@@ -1358,18 +1113,16 @@ $$
 $$
 ]
 
---
-
 .pull-right[
-* Take `\(Cor(z,u)\)` is very small,
+* Suppose `\(Cor(z,u)\)` is very small.
 * A **weak instrument** is one with only a small absolute value for `\(Cor(z,x)\)` 
-* This will blow up this second term in the probability limit. 
-* Even with a very big sample size `\(n\)`, our estimator would *not* converge to the true population parameter `\(\beta_1\)`, because we are using a weak instrument.
+* Dividing by this small number blows up the second term in the probability limit. 
+* Even with a very big sample size `\(n\)`, our estimator would *not* converge to the true population parameter `\(\beta_1\)`.
 ]
 
 ---
 
-# Weak Stuff
+# Weak Instruments: An Example
 
 To illustrate this point, let's assume we want to look at the impact of number of packs of cigarettes smoked per day by pregnant women (*packs*) on the birthweight of their child (*bwght*):
 
@@ -1377,12 +1130,12 @@ $$
 \log(bwght) = \beta_0 + \beta_1 packs + u
 $$
 
-We are worried that smoking behavior is correlated with a range of other health-related variables which are in `\(u\)` and which could impact the birthweight of the child. So we look for an IV. Suppose we use the price of cigarettes (*cigprice*), assuming that the price of cigarettes is uncorrelated with factors in `\(u\)`. Let's run the first stage of *cigprice* on *packs* and then let's show the 2SLS estimates:
+We are worried that smoking behavior is correlated with a range of other health-related variables which are in `\(u\)` and which could impact the birthweight of the child. So we look for an IV. Suppose we use the price of cigarettes (*cigprice*), assuming that the price of cigarettes is uncorrelated with factors in `\(u\)`. Let's run the first stage of *packs* on *cigprice* and then show the 2SLS estimates:
 
 
 ---
 
-# Weak Stuff
+# Weak Instruments: Estimates
 
 
 
@@ -1414,7 +1167,7 @@ mods[["IV"]] &lt;- estimatr::iv_robust(log(bwght) ~  packs | cigprice, data = bw
 <tr>
 <td class="huxtable-cell" style="border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 5pt 6pt 5pt 6pt;">R2</td><td class="huxtable-cell" style="border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 5pt 6pt 5pt 6pt;">0.000</td><td class="huxtable-cell" style="border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 5pt 6pt 5pt 6pt;">-23.230</td></tr>
 <tr>
-<td class="huxtable-cell" style="border-style: solid solid solid solid; border-width: 0pt 0pt 1pt 0pt;    padding: 5pt 6pt 5pt 6pt;">1. Stage F:</td><td class="huxtable-cell" style="border-style: solid solid solid solid; border-width: 0pt 0pt 1pt 0pt;    padding: 5pt 6pt 5pt 6pt;"></td><td class="huxtable-cell" style="border-style: solid solid solid solid; border-width: 0pt 0pt 1pt 0pt;    padding: 5pt 6pt 5pt 6pt;">0.120905223674996</td></tr>
+<td class="huxtable-cell" style="border-style: solid solid solid solid; border-width: 0pt 0pt 1pt 0pt;    padding: 5pt 6pt 5pt 6pt;">1. Stage F:</td><td class="huxtable-cell" style="border-style: solid solid solid solid; border-width: 0pt 0pt 1pt 0pt;    padding: 5pt 6pt 5pt 6pt;"></td><td class="huxtable-cell" style="border-style: solid solid solid solid; border-width: 0pt 0pt 1pt 0pt;    padding: 5pt 6pt 5pt 6pt;">0.1</td></tr>
 </tbody>
 </table>
 
@@ -1422,11 +1175,11 @@ mods[["IV"]] &lt;- estimatr::iv_robust(log(bwght) ~  packs | cigprice, data = bw
 
 ---
 
-# Weak Stuff
+# Weak Instruments: Interpretation
 
 .pull-left[
 
-* The first columns shows: very weak first stage. *cigprice* has zero impact on packs it seems!
+* The first column shows: very weak first stage. *cigprice* has zero impact on packs it seems!
 
 * `\(R^2\)` is zero.
 
@@ -1448,33 +1201,37 @@ mods[["IV"]] &lt;- estimatr::iv_robust(log(bwght) ~  packs | cigprice, data = bw
 
 ---
 
-# Summary of IV conditions
+# Summary of IV
 
-1. **Relevance**: The instrument must be correlated with the endogenous explanatory variable it is instrumenting for. This is often tested using the first-stage regression, where a significant relationship indicates that the instrument has explanatory power over the endogenous variable.
+**IV** is a tool for causal inference with observational data when `\(x\)` is *endogenous*, i.e. `\(Cov(x,u) \neq 0\)`, so that "all else equal" comparisons fail. A valid instrument `\(z\)` satisfies:
 
-   * This is often written as `\({Cov}(Z, X) \neq 0\)`
+1. **Relevance**: `\(Cov(z,x) \neq 0\)`. Testable: check the first stage (F-stat; rule of thumb `\(F &gt; 10\)`).
 
-2. **Exogeneity**: The instrument must be uncorrelated with the error term in the outcome equation. This means that the instrument should not have a direct effect on the dependent variable except through the endogenous explanatory variable. 
+2. **Independence**: `\(z\)` is as good as random, i.e. unrelated to the unobservables in `\(u\)`. An assumption: argue with context.
 
-  * This condition is usually written as `\(Cov(Z, \varepsilon) = 0\)`
+3. **Exclusion restriction**: `\(z\)` affects `\(y\)` *only* through `\(x\)`, with no direct effect. An assumption: argue with theory.
 
-3. **Exclusion Restriction**: The instrument should only affect the outcome through its effect on the endogenous variable, not through any other channels. This condition requires a strong theoretical or empirical justification.
+(2 and 3 together mean `\(Cov(z,u) = 0\)` in the outcome equation.)
 
-   * Mathematically, this means that, conditional on X, the expected value of Y does not vary with Z, or `\(E[Y | X, Z] = E[Y | X]\)`. This condition is essential for isolating the effect of X on Y and ruling out any direct effect of Z on Y.
+* IV is less precise than OLS, and a weak instrument can be badly biased.
+
+* Like RDD, IV identifies a *local* effect: for those whose treatment is moved by the instrument ("compliers"), not necessarily for everyone.
 
 ---
 
-## Examples of Good Instrumental Variables
+# Examples of Instrumental Variables
 
-1. **Distance to the Nearest College as an Instrument for Education**: Used to study the impact of education on earnings. The idea is that distance affects the likelihood of attending college but isn't directly related to an individual's income, aside from its effect on education.
+Each needs an argument for relevance *and* for exclusion:
 
-2. **Weather as an Instrument for Agricultural Output**: For studying the effects of crop yields on income or consumption in farming communities. Weather can influence crop yield independently of the farmer's skill or economic environment, making it an external instrument.
+1. **Distance to the nearest college `\(\rightarrow\)` education** (outcome: earnings). Distance shifts college attendance, but is it unrelated to family background and local labor markets?
 
-3. **Random Assignment in Lottery Systems**: Often used in studies of educational or housing interventions. For example, in lottery-based school admissions, the lottery outcome can serve as an instrument for studying the effects of attending a particular school on later outcomes.
+2. **Weather `\(\rightarrow\)` agricultural output** (outcome: income or consumption in farming communities). Weather moves crop yields independently of the farmer's skill.
 
-4. **Military Draft Eligibility as an Instrument for Veteran Status**: Commonly applied in studies examining the effect of military service on earnings or health outcomes. Eligibility based on birth year influences the likelihood of serving but doesn’t directly affect outcomes like income, making it a strong instrument.
+3. **Admission lotteries `\(\rightarrow\)` school attended** (outcome: later outcomes). The lottery is random by design; exclusion requires that winning matters only through attending the school.
 
-5. **Rainfall for Studying the Impact of Agricultural Shocks on Migration or Labor**: Rainfall variability can be used to instrument for economic conditions in agriculture-dependent areas, allowing researchers to study the effect of shocks on migration or labor decisions.
+4. **Draft lottery number `\(\rightarrow\)` veteran status** (outcome: earnings or health). Numbers were assigned at random by birth date; exclusion requires that the draft number matters only through military service.
+
+5. **Rainfall `\(\rightarrow\)` agricultural shocks** (outcome: migration or labor). Rainfall variability instruments for economic conditions in agriculture-dependent areas.
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>

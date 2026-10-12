@@ -4,6 +4,7 @@
     <title>ECON 4050: Introduction to Econometrics</title>
     <meta charset="utf-8" />
     <meta name="author" content="Adam Soliman, PhD" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
     <link href="libs/remark-css/default.css" rel="stylesheet" />
     <script src="libs/kePrint/kePrint.js"></script>
     <link href="libs/lightable/lightable.css" rel="stylesheet" />
@@ -39,11 +40,11 @@ class: center, middle, inverse, title-slide
 
 * RCTs are one way to solve this problem but they are often impossible to do.
 
-* In this lecture, we will cover a popular and rigorous program evaluation method: __differences-in-differences__.
+* In this lecture, we will cover a popular and rigorous program evaluation method: __difference-in-differences__.
 
 --
 
-### ***Differences-in-differences***
+### ***Difference-in-differences***
 
 * Exploits changes in policy over time that don't affect everyone
 
@@ -55,9 +56,7 @@ class: center, middle, inverse, title-slide
 
 ---
 
-# Differences-in-Differences (DiD)
-
-* Usual starting point: subjects are not randomly allocated to treatment ⚠️
+# Difference-in-Differences (DiD): The Setup
 
 ## DiD Requirements:
 
@@ -69,7 +68,9 @@ class: center, middle, inverse, title-slide
 
   - ***treatment group:*** initially untreated and then fully treated.
 
-* Under certain assumptions, control group can be used as the counterfactual for treatment group  
+## Idea
+
+* Under certain assumptions, the control group's change over time tells us what *would have happened* to the treatment group without the policy: it is the counterfactual.
 
 ---
 
@@ -83,7 +84,7 @@ class: center, middle, inverse, title-slide
 
 * Seminal 1994 [paper](http://davidcard.berkeley.edu/papers/njmin-aer.pdf) by prominent labor economists David Card and Alan Krueger entitled "Minimum Wages and Employment: A Case Study of the Fast-Food Industry in New Jersey and Pennsylvania"
 
-* Estimates the effect of an increase in the minimum wage on the employment rate in the fast-food industry. Why this industry?
+* Estimates the effect of an increase in the minimum wage on employment in the fast-food industry. Why this industry? Because it employs many low-wage workers, so it is where a minimum wage increase should bite the most.
 
 ---
 
@@ -121,7 +122,7 @@ Pennsylvania and New Jersey are ***very similar***: similar institutions, simila
 --
 
 .pull-left[
-Let's take a closer at their data
+Let's take a closer look at their data
 
 
 
@@ -193,15 +194,11 @@ employment &lt;/td&gt;
 
 ## DiD Estimate
 
-Differences-in-differences causal estimate: `\(0.59 - (-2.17) = 2.76\)`
+Difference-in-differences causal estimate: `\(0.59 - (-2.17) \approx 2.75\)` (computed on unrounded means)
 
-Interpretation: the minimum wage increase led to an __increase__ in FTE employment per store of 2.76 on average.
+Interpretation: relative to Pennsylvania's trend, the minimum wage increase led to an __increase__ in FTE employment per store of 2.75 on average. This is the opposite of the textbook prediction for a competitive labor market!
 
---
-
-Yes the essence of differences-in-differences is _that_ simple! 😀
-
-Let's look at these results graphically.
+Yes, the essence of difference-in-differences is _that_ simple! 😀 Let's look at these results graphically.
 
 ---
 
@@ -229,39 +226,19 @@ Let's look at these results graphically.
 
 ---
 
-# DiD Graphically
+# What if we had done a naive after/before comparison?
 
 &lt;img src="chapter_did_files/figure-html/unnamed-chunk-10-1.svg" alt="" style="display: block; margin: auto;" /&gt;
 
+Naive: `\(0.59\)` vs. DiD: `\(2.75\)`. It ignores the time trend (employment fell by `\(2.17\)` in PA).
+
 ---
 
-# DiD Graphically
+# What if we had done a naive after NJ/PA comparison?
 
 &lt;img src="chapter_did_files/figure-html/unnamed-chunk-11-1.svg" alt="" style="display: block; margin: auto;" /&gt;
 
----
-
-# What if we had done a naive after/before comparison?
-
-&lt;img src="chapter_did_files/figure-html/unnamed-chunk-12-1.svg" alt="" style="display: block; margin: auto;" /&gt;
-
----
-
-# What if we had done a naive after/before comparison?
-
-&lt;img src="chapter_did_files/figure-html/unnamed-chunk-13-1.svg" alt="" style="display: block; margin: auto;" /&gt;
-
----
-
-# What if we had done a naive after NJ/PA comparison?
-
-&lt;img src="chapter_did_files/figure-html/unnamed-chunk-14-1.svg" alt="" style="display: block; margin: auto;" /&gt;
-
----
-
-# What if we had done a naive after NJ/PA comparison?
-
-&lt;img src="chapter_did_files/figure-html/unnamed-chunk-15-1.svg" alt="" style="display: block; margin: auto;" /&gt;
+Naive: `\(21.03 - 21.17 = -0.14\)` vs. DiD: `\(2.75\)`. It ignores that NJ started below PA.
 
 ---
 
@@ -310,10 +287,10 @@ __Which observations correspond to `\(TREAT_s \times POST_t = 1\)`?__
 
 --
 
-* Let's put all these ingredients together:
+New Jersey restaurants surveyed after the increase. Putting all the ingredients together:
 `$$EMP_{st} = \alpha + \beta TREAT_s + \gamma POST_t + \delta(TREAT_s \times POST_t) + \varepsilon_{st}$$`
 
-* `\(\delta\)`: causal effect of the minimum wage increase on employment
+`\(\delta\)`: causal effect of the minimum wage increase on employment
 
 ---
 
@@ -321,30 +298,7 @@ __Which observations correspond to `\(TREAT_s \times POST_t = 1\)`?__
 
 `$$EMP_{st} = \color{#d96502}\alpha + \color{#027D83}\beta TREAT_s + \color{#02AB0D}\gamma POST_t + \color{#d90502}\delta(TREAT_s \times POST_t) + \varepsilon_{st}$$`
 
-We have the following:
-
-
-`\(\mathbb{E}(EMP_{st} \; | \; TREAT_s = 0, POST_t = 0) = \color{#d96502}\alpha\)`
-
-`\(\mathbb{E}(EMP_{st} \; | \; TREAT_s = 0, POST_t = 1) = \color{#d96502}\alpha + \color{#02AB0D}\gamma\)`
-
-`\(\mathbb{E}(EMP_{st} \; | \; TREAT_s = 1, POST_t = 0) = \color{#d96502}\alpha + \color{#027D83}\beta\)`
-
-`\(\mathbb{E}(EMP_{st} \; | \; TREAT_s = 1, POST_t = 1) = \color{#d96502}\alpha + \color{#027D83}\beta + \color{#02AB0D}\gamma + \color{#d90502}\delta\)`
-
---
-
-`$$[\mathbb{E}(EMP_{st} \; | \; TREAT_s = 1, POST_t = 1)-\mathbb{E}(EMP_{st} \; | \; TREAT_s = 1, POST_t = 0)] - \\
-[\mathbb{E}(EMP_{st} \; | \; TREAT_s = 0, POST_t = 1)-\mathbb{E}(EMP_{st} \; | \; TREAT_s = 0, POST_t = 0)] = \color{#d90502}\delta$$`
-
----
-
-# Understanding the Regression
-
-`$$EMP_{st} = \color{#d96502}\alpha + \color{#027D83}\beta TREAT_s + \color{#02AB0D}\gamma POST_t + \color{#d90502}\delta(TREAT_s \times POST_t) + \varepsilon_{st}$$`
-
-In table form:
-
+Average employment in each cell:
 
    | Pre mean | Post mean | `\(\Delta\)`(post - pre)
 :-:|:--:|:--:|:--:
@@ -352,7 +306,9 @@ Pennsylvania (PA) | `\(\color{#d96502}\alpha\)` | `\(\color{#d96502}\alpha + \co
 New Jersey (NJ) | `\(\color{#d96502}\alpha + \color{#027D83}\beta\)` | `\(\color{#d96502}\alpha + \color{#027D83}\beta + \color{#02AB0D}\gamma + \color{#d90502}\delta\)` | `\(\color{#02AB0D}\gamma + \color{#d90502}\delta\)`
 `\(\Delta\)`(NJ - PA) | `\(\color{#027D83}\beta\)` | `\(\color{#027D83}\beta + \color{#d90502}\delta\)` | `\(\color{#d90502}\delta\)`
 
-This table generalizes to other settings by substituting *Pennsylvania* with *Control* and *New Jersey* with *Treatment*
+* The bottom-right cell is the difference-in-differences: `\((\color{#02AB0D}\gamma + \color{#d90502}\delta\color{black}) - \color{#02AB0D}\gamma \color{black}= \color{#d90502}\delta\)`
+
+* This table generalizes to other settings by substituting *Pennsylvania* with *Control* and *New Jersey* with *Treatment*
 
 ---
 
@@ -362,25 +318,29 @@ This table generalizes to other settings by substituting *Pennsylvania* with *Co
 ``` r
 regdata &lt;- njmin %&gt;% mutate(empfte = empft + 0.5*emppt + nmgrs,
                              treat = ifelse(state == "New Jersey", 1, 0),
-                             post = ifelse(observation == "February 1992", 0 , 1)) 
+                             post = ifelse(observation == "February 1992", 0 , 1))
 
-lm(empfte~treat + post + post:treat, data = regdata)
+did_reg &lt;- lm(empfte ~ treat + post + post:treat, data = regdata)
+
+tidy(did_reg)
 ```
 
 ```
-## 
-## Call:
-## lm(formula = empfte ~ treat + post + post:treat, data = regdata)
-## 
-## Coefficients:
-## (Intercept)        treat         post   treat:post  
-##      23.331       -2.892       -2.166        2.754
+## # A tibble: 4 × 5
+##   term        estimate std.error statistic  p.value
+##   &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
+## 1 (Intercept)    23.3       1.07     21.8  1.16e-82
+## 2 treat          -2.89      1.19     -2.42 1.56e- 2
+## 3 post           -2.17      1.52     -1.43 1.54e- 1
+## 4 treat:post      2.75      1.69      1.63 1.03e- 1
 ```
 
 ``` r
 ## alternative
-# lm(empfte~post*treat, data = regdata)
+# lm(empfte ~ post*treat, data = regdata)
 ```
+
+The coefficient on `treat:post` is `\(\hat\delta =\)` 2.75, the same as the table-based estimate. It is positive but imprecise (standard error 1.69, p-value 0.1): not statistically significant at the 5% level.
 
 ---
 
@@ -403,56 +363,45 @@ class: title-slide-section-red, middle
 
 ---
 
-#  Parallel Trends: Graphically
+# Checking the parallel trends assumption
+
+
+&lt;img src="chapter_did_files/figure-html/unnamed-chunk-13-1.svg" alt="" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Checking the parallel trends assumption
+
+&lt;img src="chapter_did_files/figure-html/unnamed-chunk-14-1.svg" alt="" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Pre-trends look parallel ✅ `\(\rightarrow\)` DiD works
+
+&lt;img src="chapter_did_files/figure-html/unnamed-chunk-15-1.svg" alt="" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Pre-trends not parallel ❌ `\(\rightarrow\)` DiD is biased
+
+&lt;img src="chapter_did_files/figure-html/unnamed-chunk-16-1.svg" alt="" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Pre-trends not parallel ❌ `\(\rightarrow\)` DiD is biased
 
 &lt;img src="chapter_did_files/figure-html/unnamed-chunk-17-1.svg" alt="" style="display: block; margin: auto;" /&gt;
 
 ---
 
-# Checking the parallel trends assumption
-
-
-&lt;img src="chapter_did_files/figure-html/unnamed-chunk-18-1.svg" alt="" style="display: block; margin: auto;" /&gt;
-
----
-
-# Checking the parallel trends assumption
-
-&lt;img src="chapter_did_files/figure-html/unnamed-chunk-19-1.svg" alt="" style="display: block; margin: auto;" /&gt;
-
----
-
-# Parallel trends assumption `\(\rightarrow\)` Verified ✅
-
-&lt;img src="chapter_did_files/figure-html/unnamed-chunk-20-1.svg" alt="" style="display: block; margin: auto;" /&gt;
-
----
-
-# Parallel trends assumption `\(\rightarrow\)` Verified ✅
-
-&lt;img src="chapter_did_files/figure-html/unnamed-chunk-21-1.svg" alt="" style="display: block; margin: auto;" /&gt;
-
----
-
-# Parallel trends assumption `\(\rightarrow\)` Not verified ❌
-
-&lt;img src="chapter_did_files/figure-html/unnamed-chunk-22-1.svg" alt="" style="display: block; margin: auto;" /&gt;
-
----
-
-# Parallel trends assumption `\(\rightarrow\)` Not verified ❌
-
-&lt;img src="chapter_did_files/figure-html/unnamed-chunk-23-1.svg" alt="" style="display: block; margin: auto;" /&gt;
-
----
-
 # Parallel Trends Assumption: [Card and Krueger (2000)](https://inequality.stanford.edu/sites/default/files/media/_media/pdf/Reference%20Media/Card%20and%20Krueger_2000_Policy.pdf)
 
-Here is the actual trends for Pennsylvania and New Jersey
+Here are the actual trends for Pennsylvania and New Jersey
 
 &lt;img src="../img/photos/min_wage_parallel_trends.png" alt="" width="600px" style="display: block; margin: auto;" /&gt;
 
-* Is the common trend assumption likely to be verified? 
+* Is the common trend assumption likely to be verified? (The debate continues: see also Neumark and Wascher (2000), who use payroll records.)
+
 ---
 
 # Parallel Trends Assumption: Formally
@@ -491,52 +440,11 @@ $$
 `\begin{align}
 \mathbb{E}[Y_{ist}&amp;|s = \text{Pennsylvania},t = \text{Nov}] - \mathbb{E}[Y_{ist}| s = \text{Pennsylvania},t = \text{Feb}] \\
 &amp;= \gamma_{PA} + \lambda_{Nov} - (\gamma_{PA} + \lambda_{Feb}) \\
-&amp;= \lambda_{Nov} - \lambda_{Feb}
-\end{align}`
-$$
-
----
-
-# Parallel Trends Assumption: Formally
-
-Outcomes in the comparison group:
-
-`$$\mathbb{E}[Y_{ist}| s = \text{Pennsylvania},t = \text{Feb}] = \gamma_{PA} + \lambda_{Feb}$$`
-
-`$$\mathbb{E}[Y_{ist}|s = \text{Pennsylvania},t = \text{Nov}] = \gamma_{PA} + \lambda_{Nov}$$`
-
-$$
-`\begin{align}
-\mathbb{E}[Y_{ist}&amp;|s = \text{Pennsylvania},t = \text{Nov}] - \mathbb{E}[Y_{ist}| s = \text{Pennsylvania},t = \text{Feb}] \\
-&amp;= \gamma_{PA} + \lambda_{Nov} - (\gamma_{PA} + \lambda_{Feb}) \\
 &amp;= \underbrace{\lambda_{Nov} - \lambda_{Feb}}_{\text{time trend}}
 \end{align}`
 $$
 
 `\(\rightarrow\)` the comparison group allows to estimate the ***time trend***.
-
----
-
-# Parallel Trends Assumption: Formally
-
-Let `\(\delta\)` denote the true impact of the minimum wage increase:
-
-`$$\mathbb{E}[Y_{ist}^1 - Y_{ist}^0|s,t] = \delta$$`
-
-Outcomes in the treatment group:
-
-`$$\mathbb{E}[Y_{ist}|s = \text{New Jersey}, t = \text{Feb}] = \gamma_{NJ} + \lambda_{Feb}$$`
-
-
-`$$\mathbb{E}[Y_{ist}|s = \text{New Jersey}, t = \text{Nov}] = \gamma_{NJ} + \delta + \lambda_{Nov}$$`
-
-$$
-`\begin{align}
-\mathbb{E}[Y_{ist}&amp;|s = \text{New Jersey}, t = \text{Nov}] - \mathbb{E}[Y_{ist}|s = \text{New Jersey}, t = \text{Feb}] \\
-&amp;= \gamma_{NJ} + \delta + \lambda_{Nov} - (\gamma_{NJ} + \lambda_{Feb}) \\
-&amp;= \delta + \lambda_{Nov} - \lambda_{Feb}
-\end{align}`
-$$
 
 ---
 
@@ -572,14 +480,11 @@ $$
 \end{align}`
 $$
 
-
-
 $$
 `\begin{align}
 \mathbb{E}[Y_{ist}&amp;|s = \text{NJ},t = \text{Nov}] - \mathbb{E}[Y_{ist}| s = \text{NJ},t = \text{Feb}] = \delta + \underbrace{\lambda_{Nov} - \lambda_{Feb}}_{\text{time trend}}
 \end{align}`
 $$
-
 
 $$
 `\begin{align}
@@ -592,33 +497,39 @@ $$
 
 ---
 
-# Out-of-Class Tasks
+# Threats to DiD and Wrap-Up
 
-**Submit your answers to Canvas before the next class.** Work through these tasks on your own time — you may use any tools or resources. Be prepared to present your approach and answers.
+* ***Parallel trends fails***: treatment and control were already on different paths. Always plot the pre-trends when you have multiple pre-periods.
+
+* ***Other shocks***: something else hits only the treatment group at the same time as the policy (e.g., a NJ-specific recession).
+
+* ***Spillovers or anticipation***: the control group is affected by the policy, or units change behavior before the policy starts.
+
+* ***Choice of control group matters***: different comparison groups can give different answers.
+
+**Remember**: DiD = (change in treatment group) `\(-\)` (change in control group). The change in the control group is the ***time trend*** we net out.
 
 ---
 
-# Task 1
+# Out-of-Class Tasks
 
-1. Take a look at the dataset (download [here](https://github.com/adamsoliman/IntroEconometrics/blob/master/data_for_tasks/ck1994.csv)) and list the variables. 
+**Submit your answers to Canvas before the next class.** Work through these tasks on your own time. Be prepared to present your approach and answers.
 
-1. Tabulate the number of stores by `state` and by survey wave (`observation`). Does it match what's in *Table 1* of the [paper](http://davidcard.berkeley.edu/papers/njmin-aer.pdf)?
+---
+
+# DID Task
+
+1. Take a look at the dataset (download [here](https://github.com/adamsoliman/IntroEconometrics/blob/master/data_for_tasks/ck1994.csv)) and list the variables. Tabulate the number of stores by `state` and by survey wave (`observation`). Does it match what's in *Table 1* of the [paper](http://davidcard.berkeley.edu/papers/njmin-aer.pdf)?
 
 1. Create a full-time equivalent (FTE) employees variable called `empfte` equal to `empft` + 0.5*`emppt` + `nmgrs`. `empft` and `emppt` correspond respectively to the number of full-time and part-time employees. `nmgrs` corresponds to the number of managers. This is how Card and Krueger compute their full-time equivalent (FTE) employment variable (p.775 of the paper).
 
-1. Compute the average number of FTE employment, average percentage of FT employees (out of the number of FTE employees), and average starting wage (`wage_st`) by state and by survey wave. Compare your results with *Table 2* of the paper.
+1. Compute the average number of FTE employment, average percentage of FT employees (out of the number of FTE employees), and average starting wage (`wage_st`) by state and by survey wave. 
 
-5. How different are New Jersey and Pennsylvania's fast-food restaurants before the minimum wage increase?
+1. How different are New Jersey and Pennsylvania's fast-food restaurants before the minimum wage increase?
 
----
+1. Create a dummy variable, `treat`, equal to 0 if `state` is Pennsylvania and 1 if New Jersey. Remember to use the mutate() function with ifelse(). Then, create a dummy variable, `post`, equal to 0 if `observation` is February 1992 and 1 otherwise.
 
-# Task 2 
-
-1. Create a dummy variable, `treat`, equal to 0 if `state` is Pennsylvania and 1 if New Jersey. Remember to use the mutate() function with ifelse()...
-
-1. Create a dummy variable, `post`, equal to 0 if `observation` is February 1992 and 1 otherwise.
-
-1. Estimate the following regression model. Do you obtain the same results as in slide 8?
+1. Estimate the following regression model. Do you obtain the same results as in the *Regression Results* slide?
 
 `$$empfte_{st} = \alpha + \beta treat_s + \gamma post_t + \delta(treat_s \times post_t) + \varepsilon_{st}$$`
     </textarea>

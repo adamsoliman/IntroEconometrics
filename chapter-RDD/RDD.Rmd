@@ -7,7 +7,7 @@ output:
   xaringan::moon_reader:
     chakra: "https://cdnjs.cloudflare.com/ajax/libs/remark/0.14.0/remark.min.js"
     lib_dir: libs
-    css: [default, "../css/scpo-fonts.css"] #"../css/scpo.css"   
+    css: [default, "../css/scpo-fonts.css"] #"../css/scpo.css"
     nature:
       beforeInit: ["../js/ru_xaringan.js"]
       highlightStyle: github
@@ -40,7 +40,7 @@ overwrite = FALSE
 library(tidyverse)
 library(ggplot2)
 library(grid)
-library(pBrackets) 
+library(pBrackets)
 library(emo)
 library(countdown)
 library(viridis)
@@ -53,54 +53,40 @@ set.seed(1234)
 
 ## Course Transition: ***Research Methods***
 
-* Three main causal evaluation methods used in economics:
-  
+* We cover two causal evaluation methods commonly used in economics:
+
   - ***regression discontinuity designs (RDD)***
   - ***differences-in-differences (DiD)***
-  - ***instrumental variables (IV)*** (not covered in this course)
 
+* A third workhorse, ***instrumental variables (IV)***, is not covered in this course.
 
-* These methods are used to identify __causal relationships__ between treatments and outcomes.
+* All of these methods are used to identify __causal relationships__ between treatments and outcomes when treatment is *not* randomly assigned.
 
 ---
 
 # Today: **Regression Discontinuity Design (RDD)**
 
-* Very common research design in applied research because it provides credible causal estimates
-
-* **Idea**: life is full of random rules which assign some to treatment and others to control, and we exploit knowledge of this assignment rule
-
-* **Empirical application:** effect of alcohol consumption on mortality
-
 * **Starting point**: subjects are ***not*** randomly allocated to treatment `r emo::ji("warning")`
 
-* RDD can be applied when we have specific information about the rules determining treatment
+* **Idea**: life is full of arbitrary rules that assign some to treatment and others to control. If we know the assignment rule, we can exploit it.
 
-* Key assumption: variable which assigns treatment cannot be manipulated by individuals
+* **Key assumption**: the variable that assigns treatment cannot be manipulated by individuals
+
+* **Empirical application:** effect of the legal drinking age on mortality
 
 ---
 
 # Discontinuities are Everywhere
 
 There are many arbitrary rules in life that determine assignment to some treatment:
-  
---
-  
+
 * In North Carolina, you used to have to have reached the age of five by October 16 in the relevant year to be eligible to enter kindergarten [(Cook and Kang, 2016)](https://pubs.aeaweb.org/doi/pdfplus/10.1257/app.20140323);
-  
---
-  
-* In the US, a new born baby weighing less than 1,500 grams is considered to be of "very low birth weight" and receive additional treatment [(Almond et al., 2010)](https://academic.oup.com/qje/article/125/2/591/1882183);
-  
---
+
+* In the US, a new born baby weighing less than 1,500 grams is considered to be of "very low birth weight" and receives additional treatment [(Almond et al., 2010)](https://academic.oup.com/qje/article/125/2/591/1882183);
 
 * Flagship state universities use a certain SAT cutoff level to select their students [(Hoekstra, 2009)](https://cdn.theatlantic.com/static/mt/assets/business/Hoekstra_Flagship.pdf);
 
---
-
 * In Italy, there are quotas of residence permits for illegal immigrants that are allocated on a first-come first-served basis until quota is exhausted [(Pinotti, 2017)](https://pubs.aeaweb.org/doi/pdfplus/10.1257/aer.20150355);
-
---
 
 We will focus our analysis on the following discontinuity:
 
@@ -112,17 +98,13 @@ We will focus our analysis on the following discontinuity:
 
 * Imagine you are interested in assessing the __causal__ impact of alcohol consumption by young adults on mortality.
 
-* Why is this not that straightforward? Why can't you just regress alcohol consumption on dying age and cause of death?
+* Why is this not that straightforward? Why can't you just compare the mortality of heavy and light drinkers?
 
 --
 
-  * Because there may be unobserved selection into alcohol consumption that may also be a determinant of mortality.
-  
---
+  * Because there may be unobserved selection into drinking that is also a determinant of mortality (e.g., risk-taking).
 
-* In the US, alcohol consumption is prohibited before the age of 21.
-
-* Debate on whether the minimum legal drinking age (MLDA) should be lowered to 18, as was the case in the Vietnam-era.
+* The minimum legal drinking age (MLDA) offers a way out, and it is policy relevant: there is an ongoing debate on whether the MLDA should be lowered to 18, as it was in the Vietnam era.
 
 ---
 
@@ -132,10 +114,7 @@ We will focus our analysis on the following discontinuity:
 
 $\rightarrow$ $a$ = age
 
---
-
 > ***Cutoff level:*** level of the ***running variable*** above (or below) which individuals are treated (or not).
-
 
 $\rightarrow$ $c = 21$ year old birthday
 
@@ -145,8 +124,6 @@ Causal intuition:
 
 * How different are individuals *just before* and *just after* their 21st birthday, other than legal access to alcohol?
 
---
-
 * Around the threshold, allocation to treatment is ***as good as random***.
 
 * `r emo::ji("point_right")` ***Regression discontinuity design*** exploits this allocation to treatment!
@@ -155,7 +132,7 @@ Causal intuition:
 
 # Carpenter and Dobkin's data
 
-* Let's take a closer at the data used in the paper
+* Let's take a closer look at the data used in the paper
 
 .pull-left[
 ```{r, echo = TRUE, eval = TRUE}
@@ -181,7 +158,7 @@ mlda %>%
 
 # Sharp Discontinuity at Cutoff
 
-```{r, echo = FALSE, eval = TRUE, fig.height = 6, fig.width = 10}
+```{r, echo = FALSE, eval = TRUE, fig.height = 4.7, fig.width = 10}
 mlda <- mlda %>%
   mutate(over21 = (agecell >= 21))
 
@@ -199,21 +176,9 @@ At the threshold, the probability of being treated jumps from 0 to 1.
 
 ---
 
-# Sharp Discontinuity at Cutoff
+# Sharp Discontinuity at Cutoff: Zooming In
 
-```{r, echo = FALSE, eval = TRUE, fig.height = 6, fig.width = 10}
-rdd_run +
-  annotate("rect", xmin = 20.5, xmax = 21.5, ymin = -Inf, ymax = Inf, alpha = .2) +
-  annotate("rect", xmin = 21 - 1/12, xmax = 21 + 1/12, ymin = -Inf, ymax = Inf, alpha = .4) +
-  geom_point(size = 4, alpha = 0.8) +
-  geom_vline(xintercept = 21, linetype = "longdash")
-```
-
----
-
-# Sharp Discontinuity at Cutoff
-
-```{r, echo = FALSE, eval = TRUE, fig.height = 6, fig.width = 10}
+```{r, echo = FALSE, eval = TRUE, fig.height = 4.7, fig.width = 10}
 rdd_run +
   annotate("rect", xmin = 20.5, xmax = 21.5, ymin = -Inf, ymax = Inf, alpha = .2) +
   annotate("rect", xmin = 21 - 1/12, xmax = 21 + 1/12, ymin = -Inf, ymax = Inf, alpha = .4) +
@@ -225,6 +190,8 @@ rdd_run +
                      lim = c(21 - 7/12, 21 + 7/12))
 ```
 
+People within a month or two of their 21st birthday are nearly identical, except that one group can legally drink.
+
 ---
 
 # RDD Framework
@@ -234,8 +201,6 @@ rdd_run +
   - $D_a$ = 1 if individual is over 21 years old, $D_a$ = 0 if not.
 
   - $D_a$ is a function of the individual's age, $a$, which is the ***running variable***.
-  
---
 
 * The ***cutoff*** age, 21, separates those who can drink legally and those who can't:
   $$
@@ -244,9 +209,7 @@ rdd_run +
   0 \quad \text{if } a < 21
   \end{array}\end{cases}
   $$
-  
---
-  
+
 ## Key features of RD designs
 
 1. Treatment status is a __deterministic__ function of $a$ $\rightarrow$ we know the assignment rule
@@ -257,7 +220,7 @@ rdd_run +
 
 # Graphical Results: All Death Rates
 
-```{r, echo = FALSE, eval = TRUE, fig.height = 6, fig.width = 10}
+```{r, echo = FALSE, eval = TRUE, fig.height = 4.7, fig.width = 10}
 rdd_plot <- mlda %>%
   ggplot(aes(x = agecell, y = all, color = over21)) +
   geom_point(size = 4) +
@@ -275,68 +238,29 @@ rdd_plot
 
 # Graphical Results: All Death Rates
 
-```{r, echo = FALSE, eval = TRUE, fig.height = 6, fig.width = 10}
+```{r, echo = FALSE, eval = TRUE, fig.height = 4.7, fig.width = 10}
+bracketsGrob <- function(...){
+l <- list(...)
+e <- new.env()
+e$l <- l
+  grid:::recordGrob(  {
+    do.call(grid.brackets, l)
+  }, e)
+}
+
 all_fit <- augment(lm(all ~ agecell + over21, mlda))
 
 rdd_plot_line <- rdd_plot +
   geom_line(data = all_fit %>% filter(agecell < 21), aes(x = agecell, y = .fitted), color = viridis_pal()(2)[1], size = 2) +
   geom_line(data = all_fit %>% filter(agecell >= 21), aes(x = agecell, y = .fitted), color = viridis_pal()(2)[2], size = 2) +
 labs(fill = NULL)
-rdd_plot_line
-```
-
----
-
-# Graphical Results: All Death Rates
-
-```{r, echo = FALSE, eval = TRUE, fig.height = 6, fig.width = 10}
-bracketsGrob <- function(...){
-l <- list(...)
-e <- new.env()
-e$l <- l
-  grid:::recordGrob(  {
-    do.call(grid.brackets, l)
-  }, e)
-}
 
 b1 <- bracketsGrob(21, all_fit$.fitted[all_fit$agecell < 21 & all_fit$agecell > 20.9], 21, all_fit$.fitted[all_fit$agecell > 21 & all_fit$agecell <= 21.1],
                    h = 0.75, lwd=1.5, col="black")
 
-rdd_plot_line_brack <- rdd_plot_line +
+rdd_plot_line +
   annotation_custom(b1,xmin= 0, xmax=1, ymin=0, ymax=1) +
   annotate("text", x = 20.65, y = 96, label = "Treatment\nEffect", colour = "black", size = 5)
-rdd_plot_line_brack
-```
-
----
-
-# Graphical Results: All Death Rates
-
-```{r, echo = FALSE, eval = TRUE, fig.height = 6, fig.width = 10}
-bracketsGrob <- function(...){
-l <- list(...)
-e <- new.env()
-e$l <- l
-  grid:::recordGrob(  {
-    do.call(grid.brackets, l)
-  }, e)
-}
-
-all_fit_2 <- augment(lm(all ~ agecell + over21, mlda %>% filter(agecell >= 20.4 & agecell <= 21.6)))
-
-b1 <- bracketsGrob(21, all_fit_2$.fitted[all_fit_2$agecell < 21 & all_fit_2$agecell > 20.9], 21, all_fit_2$.fitted[all_fit_2$agecell > 21 & all_fit_2$agecell <= 21.1],
-                   h = 0.75, lwd=1.5, col="black")
-
-rdd_plot +
-  geom_line(data = all_fit_2 %>% filter(agecell < 21), aes(x = agecell, y = .fitted), color = viridis_pal()(2)[1], size = 2) +
-  geom_line(data = all_fit_2 %>% filter(agecell >= 21), aes(x = agecell, y = .fitted), color = viridis_pal()(2)[2], size = 2) +
-  labs(fill = NULL) +
-  annotation_custom(b1,xmin= 0, xmax=1, ymin=0, ymax=1) +
-  annotate("text", x = 20.9, y = 97.2, label = "Treatment\nEffect", colour = "black", size = 5) +
-  scale_x_continuous(breaks = c(21 - 6/12, 21 - 3/12, 21, 21 + 3/12, 21 + 6/12),
-                     labels = c("- 6 months", "- 3 months", "21", "+ 3 montsh", "+ 6 months"),
-                     minor_breaks = seq(from = 21 - 7/12, to = 21 + 7/12, by = 1/12),
-                     lim = c(21 - 7/12, 21 + 7/12))
 ```
 
 ---
@@ -349,9 +273,7 @@ rdd_plot +
 
 * Limited ***external validity*** $\rightarrow$ you cannot extrapolate to the entire population.
 
-* Using the 21 year old alcohol restriction age in the RD context will only tell you the effect of this restriction on death rates but not the general effect of alcohol consumption.
-
-* One may easily argue that all results from quantitative empirical analyses have a local nature.
+* Using the 21 year old alcohol restriction age in the RD context will only tell you the effect of this restriction on death rates around age 21, not the general effect of alcohol consumption.
 
 ---
 
@@ -364,28 +286,20 @@ class: title-slide-section-red, middle
 
 # Estimation
 
-* *Objective:* measure ***gap*** between the two lines at the cutoff.
-
---
+* *Objective:* measure the ***gap*** between the two lines at the cutoff.
 
 * In its simplest form, we can write the following regression model:
-    $$DEATHRATE_a = \alpha + \delta D_a + \beta a + \varepsilon_i,$$
-  where $DEATHRATE_a$ is the death rate at age $a$, $D_a$ is the treatment dummy, and $a$ is age (defined in months relative to 21st birthday).
-
---
+    $$DEATHRATE_a = \alpha + \delta D_a + \beta a + \varepsilon_a,$$
+  where $DEATHRATE_a$ is the death rate at age $a$, $D_a$ is the treatment dummy, and $a$ is age (in years, centered at the 21st birthday so that $a = 0$ at the cutoff).
 
   $\rightarrow$ $\delta$ captures the **jump in death rate** between individuals above and below 21 years old.
 
---
-
-* The RDD estimator exploits a discontinuity at $a = 21$ in the conditional expectation function:
-$$\underbrace{\lim_{c \to 21^+} \mathbb{E}[DEATHRATE_a|a = c]}_{\alpha + \delta} - \underbrace{\lim_{c \to 21^-} \mathbb{E}[DEATHRATE_a|a = c]}_{\alpha} = \delta$$
+* Formally, the RDD estimator exploits a discontinuity at the cutoff in the conditional expectation function:
+$$\underbrace{\lim_{c \to 0^+} \mathbb{E}[DEATHRATE_a|a = c]}_{\alpha + \delta} - \underbrace{\lim_{c \to 0^-} \mathbb{E}[DEATHRATE_a|a = c]}_{\alpha} = \delta$$
 
 ---
 
-# Estimation #1: Simple Linear Model (all cause mortality)
-
-$$DEATHRATE_a = \alpha + \delta D_a + \beta a + \varepsilon_a,$$
+# Simple Linear Model Estimation: all cause mortality
 
 .pull-left[
 ```{r, eval = FALSE}
@@ -417,19 +331,45 @@ tidy(rdd)
 
 ***Interpretation:***
 
-On average, the MLDA increases deaths from all causes by 7.66 per 100,000, or put differently, turning 21 increases the mortality rate by approximately 8.35% relative to those just under 21 (7.66/91.8*100).
-
-This is a big effect considering the average death rate for individuals between 19 and 22 is:
-
-```{r}
-mean(mlda$all, na.rm = TRUE)
-```
+At the age-21 cutoff, gaining legal access to alcohol increases the mortality rate by an estimated 7.66 deaths per 100,000. Relative to the predicted mortality rate immediately below age 21 (91.8 deaths per 100,000), this represents an 8.3% increase. The intercept represents predicted mortality just below the cutoff because we centered age at 21. The negative age coefficient indicates a slight downward trend in mortality with age, although it is not statistically significant.
 
 ---
 
-# Estimation #1: Simple Linear Model (motor vehicle accidents)
+# Simple Linear Model Estimation: all cause mortality (continued)
 
-$$DEATHRATE_a = \alpha + \delta D_a + \beta a + \varepsilon_a,$$
+
+$$
+Y_i=\beta_0+\beta_1(\text{Age}_i-21)+\beta_2\text{Over21}_i+\varepsilon_i
+$$
+
+$$
+\widehat{\text{Mortality}}_i=91.8-0.975(\text{Age}_i-21)+7.66\text{Over21}_i
+$$
+
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+knitr::kable(
+  data.frame(
+    `Age` = c("20.9", "Approaching 21 from below", "At 21 (legal drinking age)", "21.1"),
+    `Predicted mortality (per 100,000)` = c(
+      "91.8 - 0.975(-0.1) = 91.90",
+      "91.8",
+      "91.8 + 7.66 = 99.46",
+      "91.8 - 0.975(0.1) + 7.66 = 99.36"
+    ), check.names = FALSE
+  ),
+  align = c("l", "l"),
+  caption = "Predicted mortality from the common-slope RD model"
+)
+```
+
+*Note:* The prediction just below age 21 is the left-hand limit; at age 21, `over21 = TRUE`.
+
+---
+
+# Simple Linear Model Estimation: motor vehicle accidents
+
+Same model, different outcome (`mva`):
 
 ```{r}
 mlda_alt <- mlda %>% mutate(over21_bin = ifelse(agecell >= 21, 1, 0),
@@ -439,7 +379,7 @@ tidy(lm(mva ~ agecell_21 + over21_bin, mlda_alt))
 
 ***Interpretation:***
 
-On average, the MLDA increases motor vehicle deaths by 4.53 per 100,000 relative to those just under the age of 21. We can also express this as a share: 4.53/29.4*100=15.4%. It appears, then, that a lot of the increase in all cause mortality is driven by changes in drunk driving.
+On average, the MLDA increases motor vehicle deaths by 4.53 per 100,000 relative to those just under the age of 21. As a share: 4.53/29.4*100 = 15.4%. A large part of the increase in all cause mortality (4.53 of 7.66) comes from motor vehicle accidents, consistent with an increase in drunk driving.
 
 ---
 
@@ -448,15 +388,16 @@ On average, the MLDA increases motor vehicle deaths by 4.53 per 100,000 relative
 * The ***functional form*** used to approximate the lines really matters!
 
    $\rightarrow$ an insufficiently flexible specification runs the risk of mistaking nonlinearity for treatment effect;
-   
+
    $\rightarrow$ an overly flexible specification reduces precision and runs the risk of overfitting.
 
+Let's see this with some simulated data.
 
 ---
 
 # Simulations - Linear Relationship and Clear Discontinuity
 
-```{r, echo = FALSE, fig.height = 6, fig.width = 10}
+```{r, echo = FALSE, fig.height = 4.7, fig.width = 10}
 set.seed(1234)
 
   # parameters
@@ -484,7 +425,7 @@ Y = alpha + beta * x + D*delta + u
 rdd_sim = tibble(running = x,
                  treatment_dum = D,
                  outcome = Y)
-  
+
   # plot
 rdd_lin <- ggplot(rdd_sim,
        aes(x = running, y = outcome, color = treatment_dum)) +
@@ -496,16 +437,7 @@ rdd_lin <- ggplot(rdd_sim,
        colour = NULL) +
   scale_colour_viridis_d(breaks=c("FALSE", "TRUE"), labels = c("Not Treated", "Treated")) +
   theme_bw(base_size = 14) + theme(legend.position="top")
-rdd_lin
-```
 
-$$outcome_i = \alpha + \delta treatment_i + \beta running_i + e_i,$$
-
----
-
-# Simulations - Linear Relationship and Clear Discontinuity
-
-```{r, echo = FALSE, fig.height = 6, fig.width = 10}
 bracketsGrob <- function(...){
 l <- list(...)
 e <- new.env()
@@ -528,7 +460,7 @@ $$outcome_i = \alpha + \color{#d90502}\delta treatment_i + \beta running_i + e_i
 
 # Simulations - Quadratic Relationship and Clear Discontinuity
 
-```{r, echo = FALSE, fig.height = 6, fig.width = 10}
+```{r, echo = FALSE, fig.height = 4.7, fig.width = 10}
 set.seed(1234)
 
   # parameters
@@ -571,16 +503,7 @@ rdd_quad <- ggplot(rdd_sim,
   labs(x = "Running variable", y = "Outcome variable", colour = "") +
   scale_colour_viridis_d(breaks=c("FALSE", "TRUE"), labels = c("Not Treated", "Treated")) +
   theme_bw(base_size = 14) + theme(legend.position="top")
-rdd_quad
-```
 
-$$outcome_i = \alpha + \delta treatment_i + \beta_1 running_i + \color{#d90502}{\beta_2 running_i^2} + e_i,$$
-
----
-
-# Simulations - Quadratic Relationship and Clear Discontinuity
-
-```{r, echo = FALSE, fig.height = 6, , fig.width = 10}
 bracketsGrob <- function(...){
 l <- list(...)
 e <- new.env()
@@ -597,13 +520,13 @@ rdd_quad +
   annotate("text", x = 0.46, y = 1.865, label = "delta", colour = "#d90502", parse = T, size = 8)
 ```
 
-$$outcome_i = \alpha + \color{#d90502}\delta treatment_i + \beta_1 running_i + \beta_2 running_i^2 + e_i,$$
+$$outcome_i = \alpha + \color{#d90502}\delta treatment_i + \beta_1 running_i + \color{#d90502}{\beta_2 running_i^2} + e_i,$$
 
 ---
 
-# Simulations - Linear Relationship but NO Discontinuity
+# Simulations - Nonlinear Relationship and NO Discontinuity
 
-```{r, echo = FALSE, fig.height = 6, fig.width = 10}
+```{r, echo = FALSE, fig.height = 4.7, fig.width = 10}
 set.seed(123)
 
   # parameters
@@ -653,6 +576,8 @@ rdd_nodisc <- ggplot(rdd_sim,
 rdd_nodisc
 ```
 
+The true relationship (dotted) is smooth through the cutoff, but the linear fits on each side show a jump: a ***spurious*** treatment effect.
+
 ---
 
 # How to Choose Appropriate Functional Form?
@@ -663,24 +588,14 @@ rdd_nodisc
 
 * Should we expect the relationship between the outcome variable and the running variable to be nonlinear? Should we expect it to differ around the cutoff?
 
-* [Gelman and Imbens (2019)](https://www.tandfonline.com/doi/abs/10.1080/07350015.2017.1366909), "Why High-Order Polynomials Should Not Be Used in Regression Discontinuity Designs":  
+* [Gelman and Imbens (2019)](https://www.tandfonline.com/doi/abs/10.1080/07350015.2017.1366909), "Why High-Order Polynomials Should Not Be Used in Regression Discontinuity Designs":
   *"We recommend researchers [...] use estimators based on local linear or quadratic polynomials or other smooth functions."*
 
 ---
 
 # Going Back to our Example: Nonlinearities / $\neq$ Slopes?
 
-```{r, echo = FALSE, eval = TRUE, fig.height = 6, fig.width = 10}
-all_nonlin_fit <- augment(lm(all ~ agecell_21*over21 + I(agecell_21^2)*over21, mlda))
-
-rdd_plot
-```
-
----
-
-# Going Back to our Example: Nonlinearities / $\neq$ Slopes?
-
-```{r, echo = FALSE, eval = TRUE, fig.height = 6, fig.width = 10}
+```{r, echo = FALSE, eval = TRUE, fig.height = 4.7, fig.width = 10}
 all_nonlin_fit <- augment(lm(all ~ agecell_21*over21 + I(agecell_21^2)*over21, mlda))
 
 rdd_plot_line +
@@ -688,15 +603,13 @@ rdd_plot_line +
   geom_line(data = all_nonlin_fit %>% filter(agecell_21 >= 0), aes(x = agecell_21 + 21, y = .fitted), color = viridis_pal()(2)[2], linetype = "dashed", size = 1.25)
 ```
 
---
-
-Gap between the lines is roughly the same for both specifications.
+Solid: linear fit. Dashed: quadratic fit, allowed to differ on each side of the cutoff. The gap is similar for both specifications (about 7.7 vs. 9.5 per 100,000).
 
 ---
 
-# Graphical Representation of the Regression Results
+# Jumps at 21 Across Causes of Death
 
-```{r, echo = FALSE, eval = TRUE, fig.height = 6, fig.width = 10}
+```{r, echo = FALSE, eval = TRUE, fig.height = 4.7, fig.width = 10}
 mlda_long <- mlda %>%
     select(-contains("fitted")) %>%        # drop "fitted" variables
     pivot_longer(cols = -c(agecell,over21),          # column to not reshape
@@ -704,7 +617,7 @@ mlda_long <- mlda %>%
                  values_to = "death_rate") %>% # new variable containing death rates by cause
   filter(death_cause %in% c("all","mva","internal"))
 
-rdd_plot <- mlda_long %>%
+rdd_plot_facet <- mlda_long %>%
   ggplot(aes(x = agecell, y = death_rate, color = over21)) + geom_point() +
     geom_smooth(mapping = aes(group = over21), se = FALSE, method = "lm",
               formula = y ~ x) +
@@ -713,8 +626,10 @@ rdd_plot <- mlda_long %>%
   scale_colour_viridis_d() +
   theme_bw(base_size = 16) + theme(legend.position="none") +
   facet_grid(rows = vars(death_cause), scales = "free_y")
-rdd_plot
+rdd_plot_facet
 ```
+
+`mva`: motor vehicle accidents. `internal`: deaths from internal causes (e.g., disease). The jump shows up for `all` and `mva`, but not for `internal`.
 
 ---
 
@@ -725,14 +640,49 @@ rdd_plot
 2 settings:
 
   * How much more weight?
-  
+
   $\rightarrow$ depends on the chosen ***kernel***.
 
   * How far away from the cutoff do observations need to be to be discarded?
 
   $\rightarrow$ depends on the chosen ***bandwidth***.
 
-Luckily there's an `R` package that chooses these settings optimally based on fancy algorythms: `rdrobust`.
+Luckily there's an `R` package that chooses these settings in a data-driven way: `rdrobust`.
+
+---
+
+# Nonparametric Estimation: A Narrow Bandwidth
+
+```{r, echo = FALSE, eval = TRUE, fig.height = 4.7, fig.width = 10}
+bracketsGrob <- function(...){
+l <- list(...)
+e <- new.env()
+e$l <- l
+  grid:::recordGrob(  {
+    do.call(grid.brackets, l)
+  }, e)
+}
+
+mlda_local <- mlda %>% filter(agecell >= 20.4 & agecell <= 21.6)
+local_lm <- lm(all ~ agecell + over21, mlda_local)
+all_fit_2 <- augment(local_lm)
+
+b1 <- bracketsGrob(21, all_fit_2$.fitted[all_fit_2$agecell < 21 & all_fit_2$agecell > 20.9], 21, all_fit_2$.fitted[all_fit_2$agecell > 21 & all_fit_2$agecell <= 21.1],
+                   h = 0.75, lwd=1.5, col="black")
+
+rdd_plot +
+  geom_line(data = all_fit_2 %>% filter(agecell < 21), aes(x = agecell, y = .fitted), color = viridis_pal()(2)[1], size = 2) +
+  geom_line(data = all_fit_2 %>% filter(agecell >= 21), aes(x = agecell, y = .fitted), color = viridis_pal()(2)[2], size = 2) +
+  labs(fill = NULL) +
+  annotation_custom(b1,xmin= 0, xmax=1, ymin=0, ymax=1) +
+  annotate("text", x = 20.9, y = 97.2, label = "Treatment\nEffect", colour = "black", size = 5) +
+  scale_x_continuous(breaks = c(21 - 6/12, 21 - 3/12, 21, 21 + 3/12, 21 + 6/12),
+                     labels = c("- 6 months", "- 3 months", "21", "+ 3 months", "+ 6 months"),
+                     minor_breaks = seq(from = 21 - 7/12, to = 21 + 7/12, by = 1/12),
+                     lim = c(21 - 7/12, 21 + 7/12))
+```
+
+Using only age cells within about 7 months of the cutoff (bandwidth), the estimated jump is `r sprintf("%.1f", coef(local_lm)["over21TRUE"])` per 100,000, similar to the full-sample estimates.
 
 ---
 
@@ -751,7 +701,7 @@ $\rightarrow$ assignment variable cannot be manipulated!
 
 Formally:
 
-$$\lim_{r \to c+} E[Y_i^d|r] = \lim_{r \to c-} E[Y_i^d|r], d \in \{0,1\}$$
+$$\lim_{r \to c^+} E[Y_i^d|R_i = r] = \lim_{r \to c^-} E[Y_i^d|R_i = r], \quad d \in \{0,1\}$$
 
 * The population just below must not be discretely different from the population just above the cutoff.
 
@@ -759,11 +709,11 @@ $$\lim_{r \to c+} E[Y_i^d|r] = \lim_{r \to c-} E[Y_i^d|r], d \in \{0,1\}$$
 
 * Knowing the cutoff value in itself does not violate the assumption, only ability to manipulate running variable does.
 
+* In our example: nobody can choose their date of birth, so nobody can sort around the 21st birthday.
+
 ---
 
-# RDD Assumptions
-
-> *Key assumption*: ***Potential outcomes are smooth at the threshold.***
+# Why Smoothness Identifies the Treatment Effect
 
 If the assumption holds, we have:
 
@@ -772,26 +722,13 @@ $$
 &\lim_{r \to c^+} \mathbb{E}[Y_i | R_i = r] - \lim_{r \to c^-} \mathbb{E}[Y_i | R_i = r] \\
 = &\lim_{r \to c^+} \mathbb{E}[Y_i^1 | R_i = r] - \lim_{r \to c^-} \mathbb{E}[Y_i^0 | R_i = r] \\
 = &\mathbb{E}[Y_i^1 | R_i = c] - \mathbb{E}[Y_i^0 | R_i = c] \\
-= &\mathbb{E}[Y_i^1 - Y_i^0 | R_i = c] \\
+= &\underbrace{\mathbb{E}[Y_i^1 - Y_i^0 | R_i = c]}_\text{average treatment effect at the cutoff} \\
 \end{align}
 $$
 
----
+* 1st to 2nd line: above the cutoff everyone is treated, below no one is (the assignment rule).
 
-# RDD Assumptions
-
-> *Key assumption*: ***Potential outcomes are smooth at the threshold.***
-
-If the assumption holds, we have:
-
-$$
-\begin{align}
-&\lim_{c \to 21^+} \mathbb{E}[Y_i | a_i = c] - \lim_{a \to 21^-} \mathbb{E}[Y_i | a_i = c] \\
-= &\lim_{c \to 21^+} \mathbb{E}[Y_i^1 | a_i = c] - \lim_{c \to 21^-} \mathbb{E}[Y_i^0 | a_i = c] \\
-= &\mathbb{E}[Y_i^1 | a_i = 21] - \mathbb{E}[Y_i^0 | a_i = 21] \\
-= &\underbrace{\mathbb{E}[Y_i^1 - Y_i^0}_\text{ATE} | a_i = 21] \\
-\end{align}
-$$
+* 2nd to 3rd line: smoothness of potential outcomes. In our example, $R_i = a_i$ and $c = 21$.
 
 ---
 
@@ -812,6 +749,7 @@ knitr::include_graphics("../img/photos/manip_1.png")
 knitr::include_graphics("../img/photos/manip_2.png")
 ```
 ]
+
 ---
 
 # Noncompliance
@@ -820,9 +758,9 @@ What if the running variable does not *fully* determine assignment to treatment?
 
 $\rightarrow$ ***Fuzzy RDD***
 
-* Even if all observations that satisfy the treatment condition are not treated, there is still a jump in the probability of being treated.
+* Even if not everyone who satisfies the treatment condition is treated, there is still a jump in the probability of being treated.
 
-* For you, just know that problem of imperfect determination of allocation to treatment can still be solved
+* For you, just know that the problem of imperfect determination of allocation to treatment can still be solved
 
 ---
 
@@ -836,9 +774,10 @@ $\rightarrow$ ***Fuzzy RDD***
 
 ### Step #2: ***Is design sharp or fuzzy?***
 
-### Step #3: ***Is there a discontinuity in running variable at cutoff?***
+### Step #3: ***Is there a discontinuity in the running variable at the cutoff?***
+(i.e., bunching: a sign of manipulation)
 
-### Step #4: ***Is there a discontinuity in outcome variable at cutoff in running variable?***
+### Step #4: ***Is there a discontinuity in the outcome variable at the cutoff?***
 
 ### Step #5: ***How big is the gap?***
 
@@ -846,11 +785,7 @@ $\rightarrow$ ***Fuzzy RDD***
 
 # Out-of-Class Tasks
 
-**Submit your answers to Canvas before the next class.** Work through these tasks on your own time — you may use any tools or resources. Be prepared to present your approach and answers.
-
----
-
-# Task
+**Submit your answers to Canvas before the next class.** Work through these tasks on your own time. Be prepared to present your approach and answers.
 
 1. Import the dataset after downloading it from [here](https://github.com/adamsoliman/IntroEconometrics/blob/master/data_for_tasks/mlda.csv). How many age cells are there?
 
@@ -863,11 +798,8 @@ $\rightarrow$ ***Fuzzy RDD***
 1. Do the same for motor vehicle-related causes (`mva`) and alcohol-related causes (`alcohol`) as a function of age.
 
 1. Estimate the following model on all death causes.
-$$DEATHRATE_a = \alpha + \delta D_a + \beta a + \varepsilon_i,$$
+$$DEATHRATE_a = \alpha + \delta D_a + \beta a + \varepsilon_a,$$
 
- Does the RDD coefficient correspond to the graphical illustration?
- 
-1. How do you interpret each coefficient?
+1. How do you interpret each coefficient? Does the RDD coefficient correspond to the graphical illustration?
 
 1. What is the causal effect of legal access to alcohol on death rates?
-
